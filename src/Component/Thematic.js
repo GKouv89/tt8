@@ -23,7 +23,7 @@ export default function Thematics(props){
     <Container>
       <Row>
           {props.thematics.map(function (thematic) {
-              return <Col>
+              return <Col key={thematic._id}>
                         <Thematic key={thematic._id} id={thematic._id} name={thematic.name} desc={thematic.desc} />                
                     </Col>
           })}

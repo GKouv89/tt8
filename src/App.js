@@ -7,10 +7,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {/* <Thematic id={thematics[0]._id}
-                  name={thematics[0].name}
-                  desc={thematics[0].desc}
-        /> */}
         <Thematics thematics={thematics}/>
       </div>
     );
