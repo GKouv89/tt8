@@ -1,17 +1,14 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-
+import CardGroup from 'react-bootstrap/CardGroup'
 
 function Thematic(props) {
     return (
-        <Card /*style={{ width: '33vw'}} */>
-        <Card.Header as="h2" /*style={{ "font-size": '3vw'}}*/>Θεματική Ενότητα {props.id}</Card.Header>
-        <Card.Img style={{ padding: '2.5%', border: '1px solid #999'}} variant="top" src={props.img_path} alt="This is where a picture will go."/>
+        <Card>
+        <Card.Header as="h2">Θεματική Ενότητα {props.id}</Card.Header>
+        <Card.Img style={{ padding: '2.5%', border: '1px solid #999', height: '75%', width: '75%', display: 'block', marginLeft: 'auto', marginRight: 'auto'}} variant="top" src={props.img_path} alt="This is where a picture will go."/>
           <Card.Body>
-            <Card.Title as="h3" /*style={{ "font-size": '3vw'}}*/>{props.name}</Card.Title>
+            <Card.Title as="h3">{props.name}</Card.Title>
             <Card.Text >{props.desc}</Card.Text>
           </Card.Body>
         </Card>
@@ -20,14 +17,10 @@ function Thematic(props) {
 
 export default function Thematics(props){
   return(
-    <Container style={{ paddingTop: '5vh'}} fluid>
-      <Row>
+    <CardGroup>
           {props.thematics.map(function (thematic) {
-              return <Col key={thematic._id}>
-                        <Thematic key={thematic._id} id={thematic._id} name={thematic.name} desc={thematic.desc} />                
-                    </Col>
+              return <Thematic key={thematic._id} id={thematic._id} name={thematic.name} desc={thematic.desc} img_path={thematic.img_path}/>                
           })}
-      </Row>
-    </Container>
+    </CardGroup>
   );
 }

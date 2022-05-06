@@ -18,8 +18,7 @@ export default function Header () {
                     <img src={logo} alt="Logo of Transition to 8" width="25%" height="25%" className="d-inline-block" style={{float: 'left'}}/>
                 </Navbar.Brand>                
                 {/* <Navbar.Toggle aria-controls="offcanvasNavbar-expand-false" /> */}
-                <Button variant="primary" onClick={handleShow}>
-                </Button>      
+                <Button variant="primary" onClick={handleShow}>Μενού</Button>      
                 <Offcanvas show={show} onHide={handleClose} placement='end'>
                     <Offcanvas.Header closeButton>
                         <Offcanvas.Title>Offcanvas</Offcanvas.Title>
