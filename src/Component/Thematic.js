@@ -20,7 +20,7 @@ function Thematic(props) {
 
 export default function Thematics(props){
   return(
-    <Container>
+    <Container style={{ paddingTop: '5vh'}} fluid>
       <Row>
           {props.thematics.map(function (thematic) {
               return <Col key={thematic._id}>

@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Thematics from './Component/Thematic';
+import Header from './Component/Header';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
+        <Header/>
         <Thematics thematics={thematics}/>
       </div>
     );
