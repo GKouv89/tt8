@@ -1,39 +1,32 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Thematics from './Component/Thematic';
+
 import Header from './Component/Header';
+import { 
+  BrowserRouter,
+  Routes,
+  Route } from 'react-router-dom';
+
+import ThematicScreen from './routes/ThematicScreen.js';
+import Thematics from './routes/Thematics.js';
+
+import { getThematics } from './data';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header/>
-        <Thematics thematics={thematics}/>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+              <Route path="/" element={<Thematics thematics={getThematics()}/>} />
+              <Route path=":thematicID" element={<ThematicScreen />} />
+          </Routes>
+        </BrowserRouter>
       </div>
     );
   }
 }
-
-const thematics = [
-  { 
-    _id: 1,
-    name: 'Περιβάλλον',
-    desc: 'Η πρώτη περιγραφή',
-    img_path: process.env.PUBLIC_URL + 'pubassets/environment.jpg'
-  },
-  { 
-    _id: 2,
-    name: 'Εργασία',
-    desc: 'Η 2η περιγραφή',
-    img_path: process.env.PUBLIC_URL + 'pubassets/jobs.jpg'
-  },
-  { 
-    _id: 3,
-    name: 'Μεταναστευτικό',
-    desc: 'Η 3η περιγραφή',
-    img_path: process.env.PUBLIC_URL + 'pubassets/immigration.jpg'
-  }
-];
 
 export default App;
