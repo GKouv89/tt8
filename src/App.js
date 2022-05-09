@@ -12,19 +12,22 @@ import ThematicScreen from './routes/ThematicScreen.js';
 import Thematics from './routes/Thematics.js';
 
 import { getThematics } from './data';
+import ThemeProvider from 'react-bootstrap/ThemeProvider';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <BrowserRouter>
-          <Header />
-          <Routes>
-              <Route path="/" element={<Thematics thematics={getThematics()}/>} />
-              <Route path=":thematicID" element={<ThematicScreen />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
+      <ThemeProvider breakpoints={['xxl']}>
+        <div className="App">
+          <BrowserRouter>
+            <Header />
+            <Routes>
+                <Route path="/" element={<Thematics thematics={getThematics()}/>} />
+                <Route path=":thematicID" element={<ThematicScreen />} />
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </ThemeProvider>
     );
   }
 }

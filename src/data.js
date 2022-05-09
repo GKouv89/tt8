@@ -19,23 +19,84 @@ let thematics = [
   }
 ];
 
-let colors = [
-  // {'name': '#9400D3'}, // Violet
-	// {'name': '#4B0082'}, // Indigo
-  
-  '#9400D3',
-  '#4B0082',
-  '#0000FF', // Blue	
-  '#00FF00', // Green
-	'#FFFF00', // Yellow
-	'#FF7F00', // Orange
-  '#FF0000', // Red
-];
-  
 export function getThematics() {
     return thematics;
 }
 
-export function getColors() {
-  return colors;
+let content = [
+  {
+    _id: 1,
+    _episode_id: 1, 
+    _axis_id: '#FF0000', // Red
+    name: 'Content 1',
+    desc: 'Some content',
+    type: 'text',
+    subtype: 'quote',
+    format: 'txt'
+  },
+  {
+    _id: 2,
+    _episode_id: 1, 
+    _axis_id: '#FF7F00', // Orange
+    name: 'Content 2',
+    desc: 'Some content',
+    type: 'text',
+    subtype: 'quote',
+    format: 'txt'
+  },
+  {
+    _id: 3,
+    _episode_id: 2, 
+    _axis_id: '#FFFF00', // Yellow
+    name: 'Content 3',
+    desc: 'Some content',
+    type: 'text',
+    subtype: 'quote',
+    format: 'txt'
+  },
+  {
+    _id: 4,
+    _episode_id: 2, 
+    _axis_id: '#00FF00', // Green
+    name: 'Content 4',
+    desc: 'Some content',
+    type: 'text',
+    subtype: 'quote',
+    format: 'txt'
+  },
+  {
+    _id: 5,
+    _episode_id: 3, 
+    _axis_id: '#0000FF', // Blue
+    name: 'Content 5',
+    desc: 'Some content',
+    type: 'text',
+    subtype: 'quote',
+    format: 'txt'
+  },
+  {
+    _id: 6,
+    _episode_id: 4, 
+    _axis_id: '#4B0082', // Indigo
+    name: 'Content 6',
+    desc: 'Some content',
+    type: 'text',
+    subtype: 'quote',
+    format: 'txt'
+  },
+  {
+    _id: 7,
+    _episode_id: 5, 
+    _axis_id: '#9400D3', // Violet
+    name: 'Content 7',
+    desc: 'Some content',
+    type: 'text',
+    subtype: 'quote',
+    format: 'txt'
+  }
+];
+
+export function getContentColors() {
+  const myColors = Array.from(content, x => x._axis_id);
+  return myColors;
 }
