@@ -49,42 +49,41 @@ export default class ThematicScreen extends Component{
             </Col>
           </Row>
         </Container>
-        <AnotherGrid colors={colors} enabledColor={this.state.enabledColor} handleClick={this.handleClick}/>
+        <CuratedContentGrid colors={colors} enabledColor={this.state.enabledColor} handleClick={this.handleClick}/>
       </>
     );
   }
 }
 
-function AnotherGrid(props) {
+function CuratedContentGrid(props) {
 
   return (
     <>
       <Container>
         <Row className="g-0">
-          {props.colors.map((color, idx) =>               
-            <Col key={idx}>
-              <Card key={idx}>
-                <Card.Body 
-                  style={{ backgroundColor: color, borderColor: color, visibility: (props.enabledColor === color) || (props.enabledColor === 'All') ? "visible" : "hidden" }} 
-                  as="button" 
-                  disabled={ (props.enabledColor === color) || (props.enabledColor === 'All') ? false : true }
-                  onClick={props.handleClick}>
-                </Card.Body>
-              </Card>
-            </Col>
-          )}
+          {props.colors.map((color, idx) => <GridElement key={idx} enabledColor={props.enabledColor} color={color} handleClick={props.handleClick}/> )}
         </Row>
       </Container>
     </>
   );
 }
 
-// function GridElement(props) {
-//   return(
-//     <>
-//     </>
-//   );
-// }
+function GridElement(props) {
+  return(
+    <>
+      <Col>
+        <Card>
+          <Card.Body 
+            style={{ backgroundColor: props.color, borderColor: props.color, visibility: (props.enabledColor === props.color) || (props.enabledColor === 'All') ? "visible" : "hidden" }} 
+            as="button" 
+            disabled={ (props.enabledColor === props.color) || (props.enabledColor === 'All') ? false : true }
+            onClick={props.handleClick}>
+          </Card.Body>
+        </Card>
+      </Col>
+    </>
+  );
+}
 
 function ABreadcrumb () {
   const {thematicID} = useParams();
