@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import { useParams } from 'react-router-dom'
 import LinkContainer from 'react-router-bootstrap/LinkContainer'
@@ -12,67 +12,57 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import { CardGroup } from 'react-bootstrap';
 
 
-export default function ThematicScreen () {
-  return (
-    <>
-      <Container fluid>
-        <Row>
-          <Col xxl="auto">
-            <ABreadcrumb />
-          </Col>
-          <Col xxl="auto">
-            <ColorFilter />
-          </Col>
-        </Row>
-      </Container>
-      {/* <AGrid /> */}
-      <AnotherGrid />
-    </>
-  );
-}
+export default class ThematicScreen extends Component{
+  constructor(props){
+    super(props);
+    this.state = { 
+      gridHeight: 1, // Number of rows to render
+      gridWidth: 7, // Number of columns to render
+      enabledColor: 'All'
+    };
+  }
 
-function AGrid () {
-  const colors = getContentColors();
-  
-  function handleClick() {
+  handleClick() {
     console.log('I clicked');
   }
 
-  return (
-    <>
-      <Container>
-        <Row>
-          {/* <Col> */}
-            <CardGroup> 
-              {colors.map((color, idx) =>               
-                <Card key={idx}>
-                  <Card.Body style={{ backgroundColor: color }} as="button" onClick={handleClick}>
-                  </Card.Body>
-                </Card>
-              )}
-            </CardGroup>
-          {/* </Col> */}
-        </Row>
-      </Container>
-    </>
-  )
+  handleFilter = (newColor) => {
+    let newState = {
+      enabledColor: newColor
+    }
+    this.setState(newState);
+  }
+  
+  render() {
+    const colors = getContentColors();
+    console.log('Selected axis is: ' + this.state.enabledColor);
+    return (
+      <>
+        <Container fluid>
+          <Row>
+            <Col xxl="auto">
+              <ABreadcrumb />
+            </Col>
+            <Col xxl="auto">
+              <ColorFilter filters={colors} callback={this.handleFilter.bind(this)}/>
+            </Col>
+          </Row>
+        </Container>
+        <AnotherGrid colors={colors} handleClick={this.handleClick}/>
+      </>
+    );
+  }
 }
 
-function AnotherGrid () {
-  const colors = getContentColors();
-  
-  function handleClick() {
-    console.log('I clicked');
-  }
-
+function AnotherGrid(props) {
   return (
     <>
       <Container>
         <Row className="g-0">
-          {colors.map((color, idx) =>               
+          {props.colors.map((color, idx) =>               
             <Col key={idx}>
               <Card key={idx}>
-                <Card.Body style={{ backgroundColor: color, borderColor: color }} as="button" onClick={handleClick}>
+                <Card.Body style={{ backgroundColor: color, borderColor: color }} as="button" onClick={props.handleClick}>
                 </Card.Body>
               </Card>
             </Col>
@@ -80,7 +70,7 @@ function AnotherGrid () {
         </Row>
       </Container>
     </>
-  )
+  );
 }
 
 function ABreadcrumb () {
@@ -97,15 +87,13 @@ function ABreadcrumb () {
   );
 }
 
-function ColorFilter () {
+function ColorFilter (props) {
   const [radioValue, setRadioValue] = useState('All');
-
-  let filters = getContentColors();
 
   return (
     <>
       <ButtonGroup>
-        {filters.map((color, idx) => 
+        {props.filters.map((color, idx) => 
           <ToggleButton key={idx} 
             id={`radio-${idx}`}
             type="radio"
@@ -113,22 +101,56 @@ function ColorFilter () {
             value={color}
             checked={radioValue === color}
             style={{backgroundColor: (radioValue === color) || (radioValue === 'All') ? color : "#FFFFFF", borderColor: color}}
-            onChange={(e) => setRadioValue(e.currentTarget.value)}
+            onChange={(e) => {
+              props.callback(e.currentTarget.value);
+              setRadioValue(e.currentTarget.value);
+            }}
           />                
         )}
       </ButtonGroup>
       <ToggleButton 
-          key={filters.length} 
-          id={`radio-${filters.length}`}
+          key={props.filters.length} 
+          id={`radio-${props.filters.length}`}
           type="radio"
           name="radio"
           value='All'
           checked={radioValue === 'All'}
           variant="light"
-          onChange={(e) => setRadioValue(e.currentTarget.value)}
+          onChange={(e) => 
+            {
+              props.callback(e.currentTarget.value);
+              setRadioValue(e.currentTarget.value);
+            }}
         >
           Καθαρισμός Φίλτρου
       </ToggleButton>
     </>
   );
+}
+
+function AGrid () {
+  const colors = getContentColors();
+  
+  function handleClick() {
+    console.log('I clicked');
+  }
+
+  return (
+    <>
+      <Container>
+        <Row>
+          <Col>
+            <CardGroup> 
+              {colors.map((color, idx) =>               
+                <Card key={idx}>
+                  <Card.Body style={{ backgroundColor: color }} as="button" onClick={handleClick}>
+                  </Card.Body>
+                </Card>
+              )}
+            </CardGroup>
+          </Col>
+        </Row>
+      </Container>
+    </>
+  )
 }
