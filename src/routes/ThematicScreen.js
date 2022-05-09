@@ -10,6 +10,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Card from 'react-bootstrap/Card';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import { CardGroup } from 'react-bootstrap';
+import Button  from 'react-bootstrap/Button';
 
 
 export default class ThematicScreen extends Component{
@@ -48,13 +49,14 @@ export default class ThematicScreen extends Component{
             </Col>
           </Row>
         </Container>
-        <AnotherGrid colors={colors} handleClick={this.handleClick}/>
+        <AnotherGrid colors={colors} enabledColor={this.state.enabledColor} handleClick={this.handleClick}/>
       </>
     );
   }
 }
 
 function AnotherGrid(props) {
+
   return (
     <>
       <Container>
@@ -62,7 +64,11 @@ function AnotherGrid(props) {
           {props.colors.map((color, idx) =>               
             <Col key={idx}>
               <Card key={idx}>
-                <Card.Body style={{ backgroundColor: color, borderColor: color }} as="button" onClick={props.handleClick}>
+                <Card.Body 
+                  style={{ backgroundColor: color, borderColor: color, visibility: (props.enabledColor === color) || (props.enabledColor === 'All') ? "visible" : "hidden" }} 
+                  as="button" 
+                  disabled={ (props.enabledColor === color) || (props.enabledColor === 'All') ? false : true }
+                  onClick={props.handleClick}>
                 </Card.Body>
               </Card>
             </Col>
@@ -72,6 +78,13 @@ function AnotherGrid(props) {
     </>
   );
 }
+
+// function GridElement(props) {
+//   return(
+//     <>
+//     </>
+//   );
+// }
 
 function ABreadcrumb () {
   const {thematicID} = useParams();
