@@ -10,8 +10,6 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Card from 'react-bootstrap/Card';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import { CardGroup } from 'react-bootstrap';
-import Button  from 'react-bootstrap/Button';
-
 
 export default class ThematicScreen extends Component{
   constructor(props){
@@ -45,7 +43,7 @@ export default class ThematicScreen extends Component{
               <ABreadcrumb />
             </Col>
             <Col xxl="auto">
-              <ColorFilter filters={colors} callback={this.handleFilter.bind(this)}/>
+              <ColorFilter filters={colors.filter((v, i, a) => a.indexOf(v) === i)} callback={this.handleFilter.bind(this)}/>
             </Col>
           </Row>
         </Container>
@@ -56,12 +54,21 @@ export default class ThematicScreen extends Component{
 }
 
 function CuratedContentGrid(props) {
+  
+  function createDuds(){
+    const duds = [];
+    for(let x = 0; x < 20 - (props.colors.length % 20); x++){
+      duds.push(<DudElement key={x}/>);
+    }
+    return duds;
+  }
 
   return (
     <>
       <Container>
-        <Row className="g-0">
-          {props.colors.map((color, idx) => <GridElement key={idx} enabledColor={props.enabledColor} color={color} handleClick={props.handleClick}/> )}
+        <Row className="g-0 justify-content-center" xxl={20}>
+          {props.colors.map((color, idx) => <GridElement key={idx} enabledColor={props.enabledColor} color={color} handleClick={props.handleClick} /*order={Math.floor(Math.random() * 20) + 1}*/ /> )}
+          {createDuds()}
         </Row>
       </Container>
     </>
@@ -71,13 +78,26 @@ function CuratedContentGrid(props) {
 function GridElement(props) {
   return(
     <>
-      <Col>
+      <Col xxl={{ order: props.order }}>
         <Card>
           <Card.Body 
             style={{ backgroundColor: props.color, borderColor: props.color, visibility: (props.enabledColor === props.color) || (props.enabledColor === 'All') ? "visible" : "hidden" }} 
             as="button" 
             disabled={ (props.enabledColor === props.color) || (props.enabledColor === 'All') ? false : true }
             onClick={props.handleClick}>
+          </Card.Body>
+        </Card>
+      </Col>
+    </>
+  );
+}
+
+function DudElement(props){
+  return(
+    <>
+      <Col>
+        <Card>
+          <Card.Body as="button" disabled={true}>
           </Card.Body>
         </Card>
       </Col>
