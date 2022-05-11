@@ -100,3 +100,7 @@ export function getContentColors() {
   const myColors = Array.from(content, x => x._axis_id);
   return myColors;
 }
+
+export function getContent() {
+  return content;
+}

@@ -23,7 +23,7 @@ class App extends Component {
             <Header />
             <Routes>
                 <Route path="/" element={<Thematics thematics={getThematics()}/>} />
-                <Route path=":thematicID" element={<ThematicScreen />} />
+                <Route path=":thematicID" element={<ThematicScreen colCount='20' gridSize='240'/>} />
             </Routes>
           </BrowserRouter>
         </div>
