@@ -15,9 +15,8 @@ export default class ThematicScreen extends Component{
     super(props);
     let contentSize = getContent().length;
     let padding = this.props.gridSize-contentSize;
-    console.log(contentSize);
-    console.log(padding);
-    let elemOrder = this.makeRandomGridOrder(4).slice(0, 5);
+    let elemOrder = this.makeRandomGridOrder(this.props.gridSize);
+    console.log(elemOrder);
     this.state = { 
       gridSize: this.props.gridSize,
       padding: padding,
@@ -38,7 +37,9 @@ export default class ThematicScreen extends Component{
   }
   
   makeRandomGridOrder(gridSize){
+    console.log(gridSize);
     let allMyIndices = [...Array(gridSize).keys()].map(i => i);
+    console.log(allMyIndices.length);
     var r, rand;
     r = [];
     while (allMyIndices.length){
@@ -48,15 +49,24 @@ export default class ThematicScreen extends Component{
     return r;
   }
 
+  addPadding(colors){
+    let paddedColors  = colors.slice();
+    for(let x = 0; x < this.state.padding; x++){
+      paddedColors.push("None");
+    }
+    return paddedColors;
+  }
+
   makeFilterColors(col){
     let colors = col.filter((v, i, a) => a.indexOf(v) === i);
-    colors.splice(colors.indexOf("None"), 1);
     return colors;
   }
   
   render() {
-    const colors = getContentColors().slice(0, 3);
-    colors.push("None");
+    const colors = getContentColors();
+    const paddedColors = this.addPadding(colors);
+    const colorsForFilter = this.makeFilterColors(colors);
+
     return (
       <>
         <Container fluid>
@@ -65,14 +75,14 @@ export default class ThematicScreen extends Component{
               <ABreadcrumb />
             </Col>
             <Col xxl="auto">
-              <ColorFilter filters={this.makeFilterColors(colors)} callback={this.handleFilter.bind(this)}/>
+              <ColorFilter filters={colorsForFilter} callback={this.handleFilter.bind(this)}/>
             </Col>
           </Row>
         </Container>
         <CuratedContentGrid 
           colCount={this.props.colCount} 
           dudCount={this.state.padding}
-          colors={colors} 
+          colors={paddedColors} 
           order={this.state.elemOrder} 
           enabledColor={this.state.enabledColor} 
           handleClick={this.handleClick}/>
@@ -109,80 +119,11 @@ function GridElement(props) {
             borderColor: (props.color !== "None") ? props.color : undefined,
             visibility: ((props.enabledColor === props.color) || (props.enabledColor === 'All')) && (props.color !== "None") ? "visible" : "hidden"
           }}
-          // style={{ 
-          //   backgroundColor: props.color, 
-          //   borderColor: props.color, 
-          //   visibility: (props.enabledColor === props.color) || (props.enabledColor === 'All') ? "visible" : "hidden" }} 
           as="button" 
           disabled={ (props.enabledColor === props.color) || (props.enabledColor === 'All') ? false : true }
           onClick={props.handleClick}>
         </Card.Body>
       </Card>
-    </>
-  );
-}
-
-function HardcodedGrid(props) {
-  return (
-    <>
-      <Container>
-        <Row className="g-0 justify-content-center" xxl='7'>
-          <Col key={1} className="order-xxl-3">
-            <Card>
-              <Card.Body 
-                style={{ backgroundColor: props.colors[0], borderColor: props.colors[0], visibility: (props.enabledColor === props.colors[0]) || (props.enabledColor === 'All') ? "visible" : "hidden" }} 
-                as="button" 
-                disabled={ (props.enabledColor === props.colors[0]) || (props.enabledColor === 'All') ? false : true }
-                onClick={props.handleClick}>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col key={2} className="order-xxl-0">
-            <Card>
-              <Card.Body 
-                style={{ backgroundColor: props.colors[1], borderColor: props.colors[1], visibility: (props.enabledColor === props.colors[1]) || (props.enabledColor === 'All') ? "visible" : "hidden" }} 
-                as="button" 
-                disabled={ (props.enabledColor === props.colors[1]) || (props.enabledColor === 'All') ? false : true }
-                onClick={props.handleClick}>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col key={3} className="order-xxl-4">
-            <Card>
-              <Card.Body 
-                style={{ backgroundColor: props.colors[2], borderColor: props.colors[2], visibility: (props.enabledColor === props.colors[2]) || (props.enabledColor === 'All') ? "visible" : "hidden" }} 
-                as="button" 
-                disabled={ (props.enabledColor === props.colors[2]) || (props.enabledColor === 'All') ? false : true }
-                onClick={props.handleClick}>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col key={4} className="order-xxl-2">
-            <Card>
-              <Card.Body style={{ visibility: "hidden" }} as="button" disabled={true}>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col key={5} className="order-xxl-5">
-            <Card>
-              <Card.Body style={{ visibility: "hidden" }} as="button" disabled={true}>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col key={6} className="order-xxl-1">
-            <Card>
-              <Card.Body style={{ visibility: "hidden" }} as="button" disabled={true}>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col key={7} className="order-xxl-6">
-            <Card>
-              <Card.Body style={{ visibility: "hidden" }} as="button" disabled={true}>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
     </>
   );
 }
