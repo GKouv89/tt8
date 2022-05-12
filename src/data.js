@@ -96,9 +96,72 @@ let content = [
   }
 ];
 
-export function getContentColors() {
+const episodes = [
+  {
+    _id: 1,
+    _thematic_id: 1,
+    _session_id: 1
+  },  
+  {
+    _id: 2,
+    _thematic_id: 2,
+    _session_id: 1
+  },
+  {
+    _id: 3,
+    _thematic_id: 1,
+    _session_id: 1
+  },
+  {
+    _id: 4,
+    _thematic_id: 3,
+    _session_id: 1
+  },
+  {
+    _id: 5,
+    _thematic_id: 2,
+    _session_id: 1
+  }
+];
+
+const axes = [
+  {_id: 1,
+  color: '#FF0000'},
+  {_id: 2,
+  color: '#FF7F00'},
+  {_id: 3,
+  color: '#FFFF00'},
+  {_id: 4,
+  color: '#00FF00'},
+  {_id: 5,
+  color: '#0000FF'},
+  {_id: 6,
+  color: '#4B0082'},
+  {_id: 7,
+  color: '#9400D3'},
+];
+
+export function getContentColors(content) {
   const myColors = Array.from(content, x => x._axis_id);
   return myColors;
+}
+
+export function getContentOfThematic(id){
+  console.log('Thematic id is ' + id);
+  let subsetOfEpisodes = episodes.filter(x => x._thematic_id == id);
+  let myContent = [];
+  for(let i = 0; i < subsetOfEpisodes.length; i++){
+    for(let j = 0; j < content.length; j++){
+      if(content[j]._episode_id == subsetOfEpisodes[i]._id){
+        myContent.push(content[j]);
+      }  
+    }
+  }
+  return myContent;
+}
+
+export function getAxisColors(){
+  return Array.from(axes, x => x.color);
 }
 
 export function getContent() {

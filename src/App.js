@@ -8,7 +8,7 @@ import {
   Routes,
   Route } from 'react-router-dom';
 
-import ThematicScreen from './routes/ThematicScreen.js';
+import ThematicScreenWrapper from './routes/ThematicScreen.js';
 import Thematics from './routes/Thematics.js';
 
 import { getThematics } from './data';
@@ -23,7 +23,7 @@ class App extends Component {
             <Header />
             <Routes>
                 <Route path="/" element={<Thematics thematics={getThematics()}/>} />
-                <Route path=":thematicID" element={<ThematicScreen colCount={12} gridSize={240}/>} />
+                <Route path=":thematicID" element={<ThematicScreenWrapper colCount={12} gridSize={120}/>} />
             </Routes>
           </BrowserRouter>
         </div>

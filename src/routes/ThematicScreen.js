@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react'
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import { useParams } from 'react-router-dom'
 import LinkContainer from 'react-router-bootstrap/LinkContainer'
-import { getContentColors, getContent } from '../data'
+import { getContentColors, getContentOfThematic, getAxisColors } from '../data'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -12,14 +12,28 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
 import OverlayTrigger  from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover'
 
-export default class ThematicScreen extends Component{
+export default function ThematicScreenWrapper(props){
+  let {thematicID} = useParams();
+  return (
+    <ThematicScreen {...props}
+    id={thematicID}
+    />
+  );
+}
+
+export class ThematicScreen extends Component{
   constructor(props){
     super(props);
-    let contentSize = getContent().length;
+    let content = getContentOfThematic(this.props.id);
+    let contentSize = content.length;
+    let colors = getContentColors(content);
     let padding = this.props.gridSize-contentSize;
     let elemOrder = this.makeRandomGridOrder(this.props.gridSize);
     console.log(elemOrder);
+    console.log(this.props.id);
     this.state = { 
+      content: content,
+      colors: colors,
       gridSize: this.props.gridSize,
       padding: padding,
       elemOrder: elemOrder,
@@ -57,12 +71,10 @@ export default class ThematicScreen extends Component{
     let colors = col.filter((v, i, a) => a.indexOf(v) === i);
     return colors;
   }
-  
+
   render() {
-    const colors = getContentColors();
-    const content = getContent();
-    const paddedColors = this.addPadding(colors);
-    const colorsForFilter = this.makeFilterColors(colors);
+    const paddedColors = this.addPadding(this.state.colors);
+    const colorsForFilter = getAxisColors();
 
     return (
       <>
@@ -80,7 +92,7 @@ export default class ThematicScreen extends Component{
           colCount={this.props.colCount} 
           dudCount={this.state.padding}
           colors={paddedColors} 
-          content={content}
+          content={this.state.content}
           order={this.state.elemOrder} 
           enabledColor={this.state.enabledColor} />
       </>
@@ -88,7 +100,7 @@ export default class ThematicScreen extends Component{
   }
 }
 
-export class CuratedContentGrid extends Component{
+class CuratedContentGrid extends Component{
   render () {
     const elements = [];
     this.props.order.map((order, idx) => 
@@ -128,8 +140,6 @@ class GridElement extends Component{
   handleClick() {
     this.setState({clicked: !this.state.clicked});
   }
-
-
   
   render() {
     const popover = (
