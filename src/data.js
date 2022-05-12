@@ -48,7 +48,7 @@ let content = [
     _id: 3,
     _episode_id: 2, 
     _axis_id: '#FFFF00', // Yellow
-    name: 'Content 3',
+    name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     desc: 'Some content',
     type: 'text',
     subtype: 'quote',

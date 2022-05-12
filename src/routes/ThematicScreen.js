@@ -1,14 +1,16 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState } from 'react'
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import { useParams } from 'react-router-dom'
 import LinkContainer from 'react-router-bootstrap/LinkContainer'
 import { getContentColors, getContent } from '../data'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Card from 'react-bootstrap/Card';
-import ToggleButton from 'react-bootstrap/ToggleButton';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Card from 'react-bootstrap/Card'
+import ToggleButton from 'react-bootstrap/ToggleButton'
+import OverlayTrigger  from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover'
 
 export default class ThematicScreen extends Component{
   constructor(props){
@@ -23,10 +25,6 @@ export default class ThematicScreen extends Component{
       elemOrder: elemOrder,
       enabledColor: 'All'
     };
-  }
-
-  handleClick() {
-    console.log('I clicked');
   }
 
   handleFilter = (newColor) => {
@@ -84,8 +82,7 @@ export default class ThematicScreen extends Component{
           colors={paddedColors} 
           content={content}
           order={this.state.elemOrder} 
-          enabledColor={this.state.enabledColor} 
-          handleClick={this.handleClick}/>
+          enabledColor={this.state.enabledColor} />
       </>
     );
   }
@@ -94,15 +91,15 @@ export default class ThematicScreen extends Component{
 export class CuratedContentGrid extends Component{
   render () {
     const elements = [];
-    this.props.order.map((order) => 
+    this.props.order.map((order, idx) => 
       {
         if(this.props.colors[order] !== "None"){
-          elements.push(<GridElement enabledColor={this.props.enabledColor}
+          elements.push(<GridElement key={idx} idx={idx} enabledColor={this.props.enabledColor}
           color={this.props.colors[order]}  
-          handleClick={this.props.handleClick}
+          content={this.props.content[order]}
           />);
         }else{
-          elements.push(<DudElement />);
+          elements.push(<DudElement key={idx} idx={idx}/>);
         }
       }
     );
@@ -110,11 +107,8 @@ export class CuratedContentGrid extends Component{
     return (
       <>
         <Container>
-          <Row className="g-0 justify-content-center" xxl={this.props.colCount}>
-            {this.props.order.map((order, idx) => 
-                <Col key={idx}>
-                  {elements[idx]}
-                </Col>)}
+          <Row className="g-0 justify-content-center">
+            {elements}
           </Row>
         </Container>
       </>
@@ -122,35 +116,67 @@ export class CuratedContentGrid extends Component{
   }
 }
 
-function GridElement(props) {
-  return(
-    <>
-      <Card>
-        <Card.Body 
-          style = {{
-            backgroundColor: props.color,
-            borderColor: props.color,
-            visibility: ((props.enabledColor === props.color) || (props.enabledColor === 'All')) ? "visible" : "hidden"
-          }}
-          as="button" 
-          disabled={ (props.enabledColor === props.color) || (props.enabledColor === 'All') ? false : true }
-          onClick={props.handleClick}>
-        </Card.Body>
-      </Card>
-    </>
-  );
+class GridElement extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      clicked: false
+    }
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState({clicked: !this.state.clicked});
+  }
+
+
+  
+  render() {
+    const popover = (
+      <Popover id="popover-position-top">
+        <Popover.Header as="h3">{this.props.content.name}</Popover.Header>
+        <Popover.Body>
+          {this.props.content.desc}
+        </Popover.Body>
+      </Popover>
+    );
+
+    return(
+      <>
+        <Col xxl={1} key={this.props.idx}>
+          <Card>
+            <OverlayTrigger trigger="click" placement="top" overlay={popover}>
+              <Card.Body 
+                style = {{
+                  backgroundColor: this.props.color,
+                  borderColor: this.props.color,
+                  visibility: ((this.props.enabledColor === this.props.color) || (this.props.enabledColor === 'All')) ? "visible" : "hidden",
+                }}
+                as="button" 
+                disabled={ (this.props.enabledColor === this.props.color) || (this.props.enabledColor === 'All') ? false : true }
+                onClick={this.handleClick}
+                >
+              </Card.Body>
+            </OverlayTrigger>
+          </Card>
+        </Col>
+      </>
+    );  
+  }
 }
 
 function DudElement(props) {
   return(
     <>
-      <Card>
-        <Card.Body 
-          style={{ visibility: "hidden"}}
-          as="button"
-          disabled={true}>
-        </Card.Body>
-      </Card>
+      <Col xxl={1} key={props.idx}>
+        <Card>
+          <Card.Body 
+            style={{ visibility: "hidden"}}
+            as="button"
+            disabled={true}>
+          </Card.Body>
+        </Card>
+      </Col>
     </>
   );
 }
