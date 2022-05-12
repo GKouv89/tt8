@@ -37,9 +37,7 @@ export default class ThematicScreen extends Component{
   }
   
   makeRandomGridOrder(gridSize){
-    console.log(gridSize);
     let allMyIndices = [...Array(gridSize).keys()].map(i => i);
-    console.log(allMyIndices.length);
     var r, rand;
     r = [];
     while (allMyIndices.length){
@@ -64,6 +62,7 @@ export default class ThematicScreen extends Component{
   
   render() {
     const colors = getContentColors();
+    const content = getContent();
     const paddedColors = this.addPadding(colors);
     const colorsForFilter = this.makeFilterColors(colors);
 
@@ -83,6 +82,7 @@ export default class ThematicScreen extends Component{
           colCount={this.props.colCount} 
           dudCount={this.state.padding}
           colors={paddedColors} 
+          content={content}
           order={this.state.elemOrder} 
           enabledColor={this.state.enabledColor} 
           handleClick={this.handleClick}/>
@@ -91,22 +91,35 @@ export default class ThematicScreen extends Component{
   }
 }
 
-function CuratedContentGrid(props) {
-  return (
-    <>
-      <Container>
-        <Row className="g-0 justify-content-center" xxl={props.colCount}>
-          {props.order.map((order, idx) => 
-            <Col key={idx}>
-              <GridElement
-              enabledColor={props.enabledColor}
-              color={props.colors[order]}
-              handleClick={props.handleClick} />
-            </Col>)}
-        </Row>
-      </Container>
-    </>
-  );
+export class CuratedContentGrid extends Component{
+  render () {
+    const elements = [];
+    this.props.order.map((order) => 
+      {
+        if(this.props.colors[order] !== "None"){
+          elements.push(<GridElement enabledColor={this.props.enabledColor}
+          color={this.props.colors[order]}  
+          handleClick={this.props.handleClick}
+          />);
+        }else{
+          elements.push(<DudElement />);
+        }
+      }
+    );
+
+    return (
+      <>
+        <Container>
+          <Row className="g-0 justify-content-center" xxl={this.props.colCount}>
+            {this.props.order.map((order, idx) => 
+                <Col key={idx}>
+                  {elements[idx]}
+                </Col>)}
+          </Row>
+        </Container>
+      </>
+    );
+  }
 }
 
 function GridElement(props) {
@@ -115,13 +128,27 @@ function GridElement(props) {
       <Card>
         <Card.Body 
           style = {{
-            backgroundColor: (props.color !== "None") ? props.color : undefined,
-            borderColor: (props.color !== "None") ? props.color : undefined,
-            visibility: ((props.enabledColor === props.color) || (props.enabledColor === 'All')) && (props.color !== "None") ? "visible" : "hidden"
+            backgroundColor: props.color,
+            borderColor: props.color,
+            visibility: ((props.enabledColor === props.color) || (props.enabledColor === 'All')) ? "visible" : "hidden"
           }}
           as="button" 
           disabled={ (props.enabledColor === props.color) || (props.enabledColor === 'All') ? false : true }
           onClick={props.handleClick}>
+        </Card.Body>
+      </Card>
+    </>
+  );
+}
+
+function DudElement(props) {
+  return(
+    <>
+      <Card>
+        <Card.Body 
+          style={{ visibility: "hidden"}}
+          as="button"
+          disabled={true}>
         </Card.Body>
       </Card>
     </>
