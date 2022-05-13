@@ -2,15 +2,19 @@ import React, { Component, useState } from 'react'
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import { useParams } from 'react-router-dom'
 import LinkContainer from 'react-router-bootstrap/LinkContainer'
-import { getContentColors, getContentOfThematic, getAxisColors } from '../data'
+import { getContentColors, 
+        getContentOfThematic, 
+        getAxisColors,
+        getThematicEpisodes } from '../data'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Card from 'react-bootstrap/Card'
 import ToggleButton from 'react-bootstrap/ToggleButton'
-import OverlayTrigger  from 'react-bootstrap/OverlayTrigger';
+import OverlayTrigger  from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
+import { Link } from "react-router-dom"
 
 export default function ThematicScreenWrapper(props){
   let {thematicID} = useParams();
@@ -21,19 +25,22 @@ export default function ThematicScreenWrapper(props){
   );
 }
 
-export class ThematicScreen extends Component{
+class ThematicScreen extends Component{
   constructor(props){
     super(props);
     let content = getContentOfThematic(this.props.id);
     let contentSize = content.length;
     let colors = getContentColors(content);
-    let padding = this.props.gridSize-contentSize;
+    // Account for episode tiles here, before padding calculation.
+    let episodes = getThematicEpisodes(this.props.id);
+    let padding = this.props.gridSize-contentSize - episodes.length;
     let elemOrder = this.makeRandomGridOrder(this.props.gridSize);
     console.log(elemOrder);
     console.log(this.props.id);
     this.state = { 
       content: content,
       colors: colors,
+      episodes: episodes,
       gridSize: this.props.gridSize,
       padding: padding,
       elemOrder: elemOrder,
@@ -59,17 +66,15 @@ export class ThematicScreen extends Component{
     return r;
   }
 
-  addPadding(colors){
-    let paddedColors  = colors.slice();
+  addPadding(){
+    let paddedColors  = this.state.colors.slice();
+    for(let x = 0; x < this.state.episodes.length; x++){
+      paddedColors.push(this.state.episodes[x]);
+    }
     for(let x = 0; x < this.state.padding; x++){
       paddedColors.push("None");
     }
     return paddedColors;
-  }
-
-  makeFilterColors(col){
-    let colors = col.filter((v, i, a) => a.indexOf(v) === i);
-    return colors;
   }
 
   render() {
@@ -105,13 +110,15 @@ class CuratedContentGrid extends Component{
     const elements = [];
     this.props.order.map((order, idx) => 
       {
-        if(this.props.colors[order] !== "None"){
-          elements.push(<GridElement key={idx} idx={idx} enabledColor={this.props.enabledColor}
-          color={this.props.colors[order]}  
-          content={this.props.content[order]}
-          />);
-        }else{
+        if(this.props.colors[order] === "None"){
           elements.push(<DudElement key={idx} idx={idx}/>);
+        }else if(Number.isInteger(this.props.colors[order])){
+          elements.push(<EpisodeElement key={idx} idx={idx} epno={this.props.colors[order]}/>)
+        }else{
+          elements.push(<GridElement key={idx} idx={idx} enabledColor={this.props.enabledColor}
+            color={this.props.colors[order]}  
+            content={this.props.content[order]}
+          />);  
         }
       }
     );
@@ -184,6 +191,26 @@ function DudElement(props) {
             style={{ visibility: "hidden"}}
             as="button"
             disabled={true}>
+          </Card.Body>
+        </Card>
+      </Col>
+    </>
+  );
+}
+
+function EpisodeElement(props){
+  return(
+    <>
+      <Col xxl={1} key={props.idx}>
+        <Card>
+          <Card.Body 
+            style={{ backgroundColor: "#D3D3D3", borderColor: "#D3D3D3", fontSize: "x-small", padding: "9px"}}
+            as="button"
+            disabled={true}>
+            <Card.Text >
+              {/* <Link to={`${props.id}`}></Link> */}
+              Episode {props.epno}
+            </Card.Text>
           </Card.Body>
         </Card>
       </Col>

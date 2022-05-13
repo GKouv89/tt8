@@ -167,3 +167,9 @@ export function getAxisColors(){
 export function getContent() {
   return content;
 }
+
+export function getThematicEpisodes(id){
+  let subsetOfEpisodes = episodes.filter(x => x._thematic_id == id);
+  let epNos = Array.from(subsetOfEpisodes, x => x._id);
+  return epNos;
+}
