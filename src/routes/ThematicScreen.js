@@ -94,6 +94,7 @@ class ThematicScreen extends Component{
           </Row>
         </Container>
         <CuratedContentGrid 
+          themid={this.props.id}
           colCount={this.props.colCount} 
           dudCount={this.state.padding}
           colors={paddedColors} 
@@ -113,7 +114,7 @@ class CuratedContentGrid extends Component{
         if(this.props.colors[order] === "None"){
           elements.push(<DudElement key={idx} idx={idx}/>);
         }else if(Number.isInteger(this.props.colors[order])){
-          elements.push(<EpisodeElement key={idx} idx={idx} epno={this.props.colors[order]}/>)
+          elements.push(<EpisodeElement key={idx} idx={idx} epno={this.props.colors[order]} themid={this.props.themid}/>)
         }else{
           elements.push(<GridElement key={idx} idx={idx} enabledColor={this.props.enabledColor}
             color={this.props.colors[order]}  
@@ -199,6 +200,8 @@ function DudElement(props) {
 }
 
 function EpisodeElement(props){
+  console.log('Themid: ' + props.themid);
+  console.log('epno: ' + props.epno);
   return(
     <>
       <Col xxl={1} key={props.idx}>
@@ -208,8 +211,9 @@ function EpisodeElement(props){
             as="button"
             disabled={true}>
             <Card.Text >
-              {/* <Link to={`${props.id}`}></Link> */}
-              Episode {props.epno}
+              <Link to={`/${props.themid}/episodes/${props.epno}`}>
+                Episode {props.epno}
+              </Link>
             </Card.Text>
           </Card.Body>
         </Card>
