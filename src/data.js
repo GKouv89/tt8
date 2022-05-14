@@ -3,19 +3,19 @@ let thematics = [
     _id: 1,
     name: 'Περιβάλλον',
     desc: 'Η πρώτη περιγραφή',
-    img_path: process.env.PUBLIC_URL + 'pubassets/environment.jpg'
+    img_path: process.env.PUBLIC_URL + '/pubassets/environment.jpg'
   },
   { 
     _id: 2,
     name: 'Εργασία',
     desc: 'Η 2η περιγραφή',
-    img_path: process.env.PUBLIC_URL + 'pubassets/jobs.jpg'
+    img_path: process.env.PUBLIC_URL + '/pubassets/jobs.jpg'
   },
   { 
     _id: 3,
     name: 'Μεταναστευτικό',
     desc: 'Η 3η περιγραφή',
-    img_path: process.env.PUBLIC_URL + 'pubassets/immigration.jpg'
+    img_path: process.env.PUBLIC_URL + '/pubassets/immigration.jpg'
   }
 ];
 
@@ -32,7 +32,8 @@ let content = [
     desc: 'Some content',
     type: 'text',
     subtype: 'quote',
-    format: 'txt'
+    format: 'txt',
+    path: process.env.PUBLIC_URL + '/pubassets/MyFirstQuote.txt'
   },
   {
     _id: 2,
@@ -93,6 +94,16 @@ let content = [
     type: 'text',
     subtype: 'quote',
     format: 'txt'
+  },
+  {
+    _id: 8,
+    _episode_id: 1, 
+    _axis_id: '#9400D3', // Violet
+    name: 'Content 8',
+    desc: 'Some content',
+    type: 'img',
+    format: '.jpg',
+    path: process.env.PUBLIC_URL + '/pubassets/environment.jpg'
   }
 ];
 
@@ -100,27 +111,32 @@ const episodes = [
   {
     _id: 1,
     _thematic_id: 1,
-    _session_id: 1
+    _session_id: 1,
+    desc: "Αυτή είναι μία σύντομη περιγραφή του 1ου επεισοδίου."
   },  
   {
     _id: 2,
     _thematic_id: 2,
-    _session_id: 1
+    _session_id: 1,
+    desc: "Αυτή είναι μία σύντομη περιγραφή του 2ου επεισοδίου."
   },
   {
     _id: 3,
     _thematic_id: 1,
-    _session_id: 1
+    _session_id: 1,
+    desc: "Αυτή είναι μία σύντομη περιγραφή του 3ου επεισοδίου."
   },
   {
     _id: 4,
     _thematic_id: 3,
-    _session_id: 1
+    _session_id: 1,
+    desc: "Αυτή είναι μία σύντομη περιγραφή του 4ου επεισοδίου."
   },
   {
     _id: 5,
     _thematic_id: 2,
-    _session_id: 1
+    _session_id: 1,
+    desc: "Αυτή είναι μία σύντομη περιγραφή του 5ου επεισοδίου."
   }
 ];
 
@@ -172,4 +188,10 @@ export function getThematicEpisodes(id){
   let subsetOfEpisodes = episodes.filter(x => x._thematic_id == id);
   let epNos = Array.from(subsetOfEpisodes, x => x._id);
   return epNos;
+}
+
+export function getEpisodeContent(id){
+  let subsetOfContent = content.filter(x => x._episode_id == id);
+  // console.log(subsetOfContent);
+  return subsetOfContent;
 }
