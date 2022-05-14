@@ -15,6 +15,7 @@ import { getThematics } from './data';
 import ThemeProvider from 'react-bootstrap/ThemeProvider';
 
 import EpisodeScreenWrapper from './routes/EpisodeScreen.js';
+import ContentWrapper from './routes/EpisodeContent';
 
 class App extends Component {
   render() {
@@ -27,6 +28,7 @@ class App extends Component {
                 <Route path="/" element={<Thematics thematics={getThematics()}/>} />
                 <Route path=":thematicID" element={<ThematicScreenWrapper colCount={12} gridSize={120}/>} />
                 <Route path=":thematicID/episodes/:episodeID" element={<EpisodeScreenWrapper colCount={12} gridSize={120}/>} />
+                <Route path=":thematicID/episodes/:episodeID/content/:contentID" element={<ContentWrapper />} />
             </Routes>
           </BrowserRouter>
         </div>

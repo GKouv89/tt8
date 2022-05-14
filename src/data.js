@@ -195,3 +195,7 @@ export function getEpisodeContent(id){
   // console.log(subsetOfContent);
   return subsetOfContent;
 }
+
+export function getPieceOfContent(id){
+  return content[id];
+}

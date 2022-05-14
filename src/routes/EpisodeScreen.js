@@ -6,10 +6,10 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import LinkContainer from 'react-router-bootstrap/LinkContainer'
 import Card from 'react-bootstrap/Card'
-import CardGroup from 'react-bootstrap/CardGroup'
 
 import { getEpisodeContent } from '../data'
 
+import EpisodeContent from './EpisodeContent'
 
 export default function EpisodeScreenWrapper(props){
     let {thematicID, episodeID} = useParams();
@@ -31,7 +31,7 @@ function EpisodeScreen(props) {
                     </Col>
                 </Row>
             </Container>
-            <EpisodeGrid epid={props.epid}/>
+            <EpisodeGrid themid={props.themid} epid={props.epid}/>
         </>
     );
 }
@@ -48,9 +48,9 @@ class EpisodeGrid extends Component{
     let elements = [];
     epContent.map((content, idx) => {
       if(content.type == "img"){
-        elements.push(<ImageTile key={idx} idx={idx} content={content}/>);
+        elements.push(<ImageTile key={idx} idx={idx} content={content} themid={this.props.themid} epid={this.props.epid}/>);
       }else{
-        elements.push(<ContentTile key={idx} idx={idx} content={content}/>);
+        elements.push(<ContentTile key={idx} idx={idx} content={content} themid={this.props.themid} epid={this.props.epid}/>);
       }
     })
 
@@ -61,17 +61,22 @@ class EpisodeGrid extends Component{
             {elements}
           </Row>
         </Container>
+        {/* <EpisodeContent path={epContent[0].path}/> */}
       </>
     );
   }
 }
 
 function ContentTile(props){
+  let contentPath = "/" + props.themid + "/episodes/"+ props.epid + "/content/" + props.content._id;
+
   return(
     <Col key={props.idx} xxl={2}>
       <Card style={{backgroundColor: props.content._axis_id, borderColor: props.content._axis_id}} className="h-100">
         <Card.Body>
-          <Card.Title>{props.content.name}</Card.Title>
+          <LinkContainer to={contentPath}>
+            <Card.Title>{props.content.name}</Card.Title>
+          </LinkContainer>
           <Card.Text>{props.content.desc}</Card.Text>
         </Card.Body>
       </Card>
@@ -83,10 +88,7 @@ function ImageTile(props){
   return(
     <Col key={props.idx} xxl={2}>
       <Card className="h-100">
-        <Card.Img src={props.content.path} /*style={{width: "auto", height: "auto"}}*/ alt="Card Image" />
-        {/* <Card.ImgOverlay>
-          <Card.Text>{props.content.path}</Card.Text>
-        </Card.ImgOverlay> */}
+        <Card.Img src={props.content.path} alt="Card Image" />
       </Card>
     </Col>
   )
