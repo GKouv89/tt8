@@ -7,9 +7,7 @@ import Col from 'react-bootstrap/Col'
 import LinkContainer from 'react-router-bootstrap/LinkContainer'
 import Card from 'react-bootstrap/Card'
 
-import { getEpisodeContent } from '../data'
-
-import EpisodeContent from './EpisodeContent'
+import { getEpisodeContent, getEpisodeDescription } from '../data'
 
 export default function EpisodeScreenWrapper(props){
     let {thematicID, episodeID} = useParams();
@@ -30,6 +28,17 @@ function EpisodeScreen(props) {
                         <ABreadcrumb themid={props.themid} epid={props.epid}/>
                     </Col>
                 </Row>
+            </Container>
+            <Container fluid>
+              <Row className="justify-content-start">
+                <Col>
+                  <Card>
+                    <Card.Body>
+                      {getEpisodeDescription(props.epid - 1)}
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
             </Container>
             <EpisodeGrid themid={props.themid} epid={props.epid}/>
         </>
@@ -61,7 +70,6 @@ class EpisodeGrid extends Component{
             {elements}
           </Row>
         </Container>
-        {/* <EpisodeContent path={epContent[0].path}/> */}
       </>
     );
   }
@@ -75,9 +83,13 @@ function ContentTile(props){
       <Card style={{backgroundColor: props.content._axis_id, borderColor: props.content._axis_id}} className="h-100">
         <Card.Body>
           <LinkContainer to={contentPath}>
-            <Card.Title>{props.content.name}</Card.Title>
+            <Card.Title>
+              <Card.Link style={{color: "black", fontSize: "medium"}}>
+                {props.content.name}
+              </Card.Link>
+            </Card.Title>
           </LinkContainer>
-          <Card.Text>{props.content.desc}</Card.Text>
+          <Card.Text style={{fontSize: "small"}}>{props.content.desc}</Card.Text>
         </Card.Body>
       </Card>
     </Col>

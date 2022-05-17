@@ -28,10 +28,10 @@ let content = [
     _id: 1,
     _episode_id: 1, 
     _axis_id: '#FF0000', // Red
-    name: 'Content 1',
-    desc: 'Some content',
+    name: 'Ποιοτικές Παρατηρήσεις Ψυχολόγων',
+    desc: 'Οι ποιοτικές παρατηρήσεις των ψυχολόγων για το επεισόδιο 1',
     type: 'text',
-    subtype: 'quote',
+    subtype: 'observations',
     format: 'txt',
     path: process.env.PUBLIC_URL + '/pubassets/MyFirstQuote.txt'
   },
@@ -39,68 +39,74 @@ let content = [
     _id: 2,
     _episode_id: 1, 
     _axis_id: '#FF7F00', // Orange
-    name: 'Content 2',
-    desc: 'Some content',
+    name: 'Απόφθευγμα',
+    desc: 'Ένα χαρακτηρηστικό απόφθευγμα από το επεισόδιο 1',
     type: 'text',
     subtype: 'quote',
-    format: 'txt'
+    format: 'txt',
+    path: ""
   },
   {
     _id: 3,
     _episode_id: 2, 
     _axis_id: '#FFFF00', // Yellow
-    name: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    desc: 'Some content',
+    name: 'Ποιοτικές Παρατηρήσεις Ψυχολόγων',
+    desc: 'Οι ποιοτικές παρατηρήσεις των ψυχολόγων για το επεισόδιο 2',
     type: 'text',
-    subtype: 'quote',
-    format: 'txt'
+    subtype: 'observations',
+    format: 'txt',
+    path: ""
   },
   {
     _id: 4,
     _episode_id: 2, 
     _axis_id: '#00FF00', // Green
-    name: 'Content 4',
-    desc: 'Some content',
+    name: 'Απομαγνητοφώνηση',
+    desc: 'Η απομαγνητοφώνηση των διαλόγων του επεισοδίου 2',
     type: 'text',
-    subtype: 'quote',
-    format: 'txt'
+    subtype: 'transcript',
+    format: 'txt',
+    path: ""
   },
   {
     _id: 5,
     _episode_id: 3, 
     _axis_id: '#0000FF', // Blue
-    name: 'Content 5',
-    desc: 'Some content',
+    name: 'Απόφθευγμα',
+    desc: 'Ένα χαρακτηριστικό απόφθευγμα από το επεισόδιο 3',
     type: 'text',
     subtype: 'quote',
-    format: 'txt'
+    format: 'txt',
+    path: ""
   },
   {
     _id: 6,
     _episode_id: 4, 
     _axis_id: '#4B0082', // Indigo
-    name: 'Content 6',
-    desc: 'Some content',
+    name: 'Απομαγνητοφώνηση',
+    desc: 'Η απομαγνητοφώνηση των διαλόγων του επεισοδίου 4',
     type: 'text',
-    subtype: 'quote',
-    format: 'txt'
+    subtype: 'transcript',
+    format: 'txt',
+    path: ""
   },
   {
     _id: 7,
     _episode_id: 5, 
     _axis_id: '#9400D3', // Violet
-    name: 'Content 7',
-    desc: 'Some content',
+    name: 'Απόφθευγμα',
+    desc: 'Ένα χαρακτηριστικό απόφθευγμα από το επεισόδιο 5',
     type: 'text',
     subtype: 'quote',
-    format: 'txt'
+    format: 'txt',
+    path: ""
   },
   {
     _id: 8,
     _episode_id: 1, 
     _axis_id: '#9400D3', // Violet
-    name: 'Content 8',
-    desc: 'Some content',
+    name: 'Ενδεικτική εικόνα',
+    desc: 'Μία ενδεικτική εικόνα για το επεισόδιο 1',
     type: 'img',
     format: '.jpg',
     path: process.env.PUBLIC_URL + '/pubassets/environment.jpg'
@@ -198,4 +204,8 @@ export function getEpisodeContent(id){
 
 export function getPieceOfContent(id){
   return content[id];
+}
+
+export function getEpisodeDescription(id){
+  return episodes[id].desc;
 }
