@@ -3,7 +3,6 @@ let thematics = [
     _id: 1,
     name: 'Περιβάλλον',
     desc: 'Η πρώτη περιγραφή',
-    // img_path: process.env.PUBLIC_URL + '/pubassets/environment.jpg'
     img_path: process.env.PUBLIC_URL + '/pubassets/_DSC9344.jpg'
   },
   { 
@@ -11,13 +10,11 @@ let thematics = [
     name: 'Εργασία',
     desc: 'Η 2η περιγραφή',
     img_path: process.env.PUBLIC_URL + '/pubassets/Eleusina.jpg'
-    // img_path: process.env.PUBLIC_URL + '/pubassets/jobs.jpg'
   },
   { 
     _id: 3,
-    name: 'Μετανάστευση',
+    name: 'Μεταναστευτικό',
     desc: 'Η 3η περιγραφή',
-    // img_path: process.env.PUBLIC_URL + '/pubassets/immigration.jpg'
     img_path: process.env.PUBLIC_URL + '/pubassets/_DSC5708.jpg'
   }
 ];
@@ -30,7 +27,7 @@ let content = [
   {
     _id: 1,
     _episode_id: 1, 
-    _axis_id: '#FF0000', // Red
+    _axis_id: 1, // Red
     name: 'Ποιοτικές Παρατηρήσεις Ψυχολόγων',
     desc: 'Οι ποιοτικές παρατηρήσεις των ψυχολόγων για το επεισόδιο 1',
     type: 'text',
@@ -41,7 +38,7 @@ let content = [
   {
     _id: 2,
     _episode_id: 1, 
-    _axis_id: '#FF7F00', // Orange
+    _axis_id: 2, // Orange
     name: 'Απόφθευγμα',
     desc: 'Ένα χαρακτηρηστικό απόφθευγμα από το επεισόδιο 1',
     type: 'text',
@@ -52,7 +49,7 @@ let content = [
   {
     _id: 3,
     _episode_id: 2, 
-    _axis_id: '#FFFF00', // Yellow
+    _axis_id: 3, // Yellow
     name: 'Ποιοτικές Παρατηρήσεις Ψυχολόγων',
     desc: 'Οι ποιοτικές παρατηρήσεις των ψυχολόγων για το επεισόδιο 2',
     type: 'text',
@@ -63,7 +60,7 @@ let content = [
   {
     _id: 4,
     _episode_id: 2, 
-    _axis_id: '#00FF00', // Green
+    _axis_id: 4, // Green
     name: 'Απομαγνητοφώνηση',
     desc: 'Η απομαγνητοφώνηση των διαλόγων του επεισοδίου 2',
     type: 'text',
@@ -74,7 +71,7 @@ let content = [
   {
     _id: 5,
     _episode_id: 3, 
-    _axis_id: '#0000FF', // Blue
+    _axis_id: 5, // Blue
     name: 'Απόφθευγμα',
     desc: 'Ένα χαρακτηριστικό απόφθευγμα από το επεισόδιο 3',
     type: 'text',
@@ -85,7 +82,7 @@ let content = [
   {
     _id: 6,
     _episode_id: 4, 
-    _axis_id: '#4B0082', // Indigo
+    _axis_id: 6, // Indigo
     name: 'Απομαγνητοφώνηση',
     desc: 'Η απομαγνητοφώνηση των διαλόγων του επεισοδίου 4',
     type: 'text',
@@ -96,7 +93,7 @@ let content = [
   {
     _id: 7,
     _episode_id: 5, 
-    _axis_id: '#9400D3', // Violet
+    _axis_id: 7, // Violet
     name: 'Απόφθευγμα',
     desc: 'Ένα χαρακτηριστικό απόφθευγμα από το επεισόδιο 5',
     type: 'text',
@@ -107,12 +104,11 @@ let content = [
   {
     _id: 8,
     _episode_id: 1, 
-    _axis_id: '#9400D3', // Violet
+    _axis_id: 7, // Violet
     name: 'Ενδεικτική εικόνα',
     desc: 'Μία ενδεικτική εικόνα για το επεισόδιο 1',
     type: 'img',
     format: '.jpg',
-    // path: process.env.PUBLIC_URL + '/pubassets/environment.jpg'
     path: process.env.PUBLIC_URL + '/pubassets/_DSC9344.jpg'
   }
 ];
@@ -152,19 +148,19 @@ const episodes = [
 
 const axes = [
   {_id: 1,
-  color: '#FF0000'},
+  color: '#FA2410'},
   {_id: 2,
-  color: '#FF7F00'},
+  color: '#F99300'},
   {_id: 3,
-  color: '#FFFF00'},
+  color: '#FCE520'},
   {_id: 4,
-  color: '#00FF00'},
+  color: '#62AA2D'},
   {_id: 5,
-  color: '#0000FF'},
+  color: '#038CCA'},
   {_id: 6,
-  color: '#4B0082'},
+  color: '#002789'},
   {_id: 7,
-  color: '#9400D3'},
+  color: '#8400AB'},
 ];
 
 export function getContentColors(content) {

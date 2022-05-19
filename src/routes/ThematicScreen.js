@@ -69,7 +69,7 @@ class ThematicScreen extends Component{
   addPadding(){
     let paddedColors  = this.state.colors.slice();
     for(let x = 0; x < this.state.episodes.length; x++){
-      paddedColors.push(this.state.episodes[x]);
+      paddedColors.push("Επεισόδιο ".concat(this.state.episodes[x].toString()));
     }
     for(let x = 0; x < this.state.padding; x++){
       paddedColors.push("None");
@@ -113,8 +113,9 @@ class CuratedContentGrid extends Component{
       {
         if(this.props.colors[order] === "None"){
           elements.push(<DudElement key={idx} idx={idx}/>);
-        }else if(Number.isInteger(this.props.colors[order])){
-          elements.push(<EpisodeElement key={idx} idx={idx} epno={this.props.colors[order]} themid={this.props.themid}/>)
+        }else if(typeof this.props.colors[order] === 'string'){
+          let epno = parseInt(this.props.colors[order].replace ( /[^\d.]/g, '' ));
+          elements.push(<EpisodeElement key={idx} idx={idx} epno={epno} themid={this.props.themid}/>)
         }else{
           elements.push(<GridElement key={idx} idx={idx} enabledColor={this.props.enabledColor}
             color={this.props.colors[order]}  
@@ -165,10 +166,9 @@ class GridElement extends Component{
           <Card>
             <OverlayTrigger trigger="click" placement="top" overlay={popover}>
               <Card.Body 
+                className={"axis" + this.props.color}
                 style = {{
-                  backgroundColor: this.props.color,
-                  borderColor: this.props.color,
-                  visibility: ((this.props.enabledColor === this.props.color) || (this.props.enabledColor === 'All')) ? "visible" : "hidden",
+                  visibility: ((this.props.enabledColor == this.props.color) || (this.props.enabledColor === 'All')) ? "visible" : "hidden",
                 }}
                 as="button" 
                 disabled={ (this.props.enabledColor === this.props.color) || (this.props.enabledColor === 'All') ? false : true }
@@ -189,7 +189,7 @@ function DudElement(props) {
       <Col xxl={1} key={props.idx}>
         <Card>
           <Card.Body 
-            style={{ visibility: "hidden"}}
+            className="dud"
             as="button"
             disabled={true}>
           </Card.Body>
@@ -207,12 +207,12 @@ function EpisodeElement(props){
       <Col xxl={1} key={props.idx}>
         <Card>
           <Card.Body 
-            style={{ backgroundColor: "#D3D3D3", borderColor: "#D3D3D3", fontSize: "x-small", padding: "9px"}}
+            className="episode-tile"
             as="button"
             disabled={true}>
             <Card.Text >
               <Link to={`/${props.themid}/episodes/${props.epno}`}>
-                Episode {props.epno}
+                Επεισόδιο {props.epno}
               </Link>
             </Card.Text>
           </Card.Body>
@@ -244,14 +244,14 @@ function ColorFilter (props) {
       <ButtonGroup>
         {props.filters.map((color, idx) => 
           <ToggleButton key={idx} 
-            id={`radio-${idx}`}
+            id={idx}
             type="radio"
             name="radio"
             value={color}
             checked={radioValue === color}
             style={{backgroundColor: (radioValue === color) || (radioValue === 'All') ? color : "#FFFFFF", borderColor: color}}
             onChange={(e) => {
-              props.callback(e.currentTarget.value);
+              props.callback(parseInt(e.currentTarget.id) + 1);
               setRadioValue(e.currentTarget.value);
             }}
           />                
@@ -259,7 +259,7 @@ function ColorFilter (props) {
       </ButtonGroup>
       <ToggleButton 
           key={props.filters.length} 
-          id={`radio-${props.filters.length}`}
+          id={`${props.filters.length}`}
           type="radio"
           name="radio"
           value='All'

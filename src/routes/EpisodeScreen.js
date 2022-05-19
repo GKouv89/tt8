@@ -80,7 +80,7 @@ function ContentTile(props){
 
   return(
     <Col key={props.idx} xxl={2}>
-      <Card style={{backgroundColor: props.content._axis_id, borderColor: props.content._axis_id}} className="h-100">
+      <Card className={"h-100 axis" + props.content._axis_id}>
         <Card.Body>
           <LinkContainer to={contentPath}>
             <Card.Title>
