@@ -99,8 +99,8 @@ function ContentTile(props){
 function ImageTile(props){
   return(
     <Col key={props.idx} xxl={2}>
-      <Card className="h-100">
-        <Card.Img src={props.content.path} alt="Card Image" />
+      <Card className="h-100 border-0">
+        <Card.Img src={props.content.path} alt="Card Image" className="my-auto"/>
       </Card>
     </Col>
   )
