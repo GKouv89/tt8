@@ -21,27 +21,27 @@ export default function EpisodeScreenWrapper(props){
 
 function EpisodeScreen(props) {
     return (
-        <>
-            <Container fluid>
-                <Row>
-                    <Col xxl="auto">
-                        <ABreadcrumb themid={props.themid} epid={props.epid}/>
-                    </Col>
-                </Row>
-            </Container>
-            <Container fluid>
-              <Row className="justify-content-start">
-                <Col>
-                  <Card>
-                    <Card.Body>
-                      {getEpisodeDescription(props.epid - 1)}
-                    </Card.Body>
-                  </Card>
+      <>
+        <Container fluid>
+            <Row>
+                <Col xxl="auto">
+                    <ABreadcrumb themid={props.themid} epid={props.epid}/>
                 </Col>
-              </Row>
-            </Container>
-            <EpisodeGrid themid={props.themid} epid={props.epid}/>
-        </>
+            </Row>
+        </Container>
+        <Container fluid>
+          <Row className="justify-content-start">
+            <Col>
+              <Card>
+                <Card.Body>
+                  {getEpisodeDescription(props.epid - 1)}
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+        <EpisodeGrid themid={props.themid} epid={props.epid}/>
+      </>
     );
 }
 

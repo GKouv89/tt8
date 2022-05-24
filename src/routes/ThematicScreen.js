@@ -93,7 +93,7 @@ class ThematicScreen extends Component{
             </Col>
           </Row>
         </Container>
-        <CuratedContentGrid 
+        <CuratedContentGrid className="header"
           themid={this.props.id}
           colCount={this.props.colCount} 
           dudCount={this.state.padding}
@@ -127,7 +127,7 @@ class CuratedContentGrid extends Component{
 
     return (
       <>
-        <Container>
+        <Container >
           <Row className="g-0 justify-content-center">
             {elements}
           </Row>

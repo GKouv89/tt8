@@ -14,9 +14,9 @@ export default function Header () {
 
     return (
         <>
-            <Navbar bg="light" expand="lg">
+            <Navbar className="header" expand="lg">
                 <Container fluid>
-                    <Navbar.Brand /* href="#home" */ >
+                    <Navbar.Brand>
                         <Link to="/">
                             <img src={logo} alt="Logo of Transition to 8" width="25%" height="25%" className="d-inline-block" style={{float: 'left'}}/>
                         </Link>
