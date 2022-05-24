@@ -1,14 +1,16 @@
 import React from 'react';
-import CardGroup from 'react-bootstrap/CardGroup'
+import Accordion from 'react-bootstrap/Accordion'
 
 import Thematic from '../Component/Thematic.js'
 
 export default function Thematics(props){
-    return(
-      <CardGroup className="header">
-            {props.thematics.map(function (thematic) {
-                return <Thematic key={thematic._id} id={thematic._id} name={thematic.name} desc={thematic.desc} img_path={thematic.img_path}/>                
-            })}
-      </CardGroup>
-    );
-  }
+  return(
+    <Accordion flush className="flex-fill">
+      <div className="d-flex flex-column" style={{height: "100%"}}>
+        {props.thematics.map((thematic, index) => 
+          <Thematic key={thematic._id} eventKey={index} thematic={thematic}/>                
+        )}
+      </div>      
+    </Accordion>
+  );
+}
