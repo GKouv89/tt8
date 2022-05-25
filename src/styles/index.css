@@ -73,6 +73,27 @@ div#root{
   border-color: #D2DED7;
 }
 
+.btn-logobutton-top{
+  background-color: black;
+  flex: auto;
+  border-radius: 0px;
+  height: 8vh;
+}
+
+.btn-logobutton-bottom{
+  background-color: black;
+  flex: auto;
+  border-radius: 0px;
+  height: 6vh;
+}
+
+.btn-logobutton-rounded{
+  background-color: black;
+  flex: auto;
+  border-radius: 15px;
+  height: 8vh;
+}
+
 .stressed {
   text-decoration: underline;
 }

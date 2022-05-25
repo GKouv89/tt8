@@ -1,39 +1,83 @@
 import React, { useState } from 'react';
 import Navbar from 'react-bootstrap/Navbar'
-import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
-import logo from '../assets/logo.png'
-import { Outlet, Link } from "react-router-dom";
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import LinkContainer from 'react-router-bootstrap/LinkContainer';
+
+function ButtonLogo() {
+    return (
+        <Container fluid>
+            <Container className="flex-column">
+                <Row className="g0 flex-fill">
+                    <Col xs={5} className="d-flex flex-fill" >
+                        <Button variant="logobutton-top"/>
+                    </Col>
+                    <Col xs={5} className="d-flex flex-fill" >
+                        <Button variant="logobutton-top"/>
+                    </Col>
+                    <Col xs={2} className="d-flex flex-fill" >
+                        <Row className="g0 flex-fill">
+                            <Col xs={2}  className="d-flex flex-fill">
+                            </Col>
+                            <Col xs={8}  className="d-flex flex-fill">
+                                <Button variant="logobutton-rounded"/>                                    
+                            </Col>
+                            <Col xs={2}  className="d-flex flex-fill">
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+                <Row className="g0 flex-fill">
+                    <Col xs={5} className="d-flex flex-fill" >
+                        <Row className="g0 flex-fill">
+                            <Col xs={3} className="d-flex flex-fill">
+                            </Col>
+                            <Col xs={6} className="d-flex flex-fill">
+                                <Button variant="logobutton-bottom"/>                                    
+                            </Col>
+                            <Col xs={3} className="d-flex flex-fill">
+                            </Col>
+                        </Row>
+                    </Col>
+                    <Col xs={5} className="d-flex flex-fill" >
+                        <Row className="g0 flex-fill">
+                            <Col xs={3} className="d-flex flex-fill">
+                            </Col>
+                            <Col xs={6} className="d-flex flex-fill">
+                                <Button variant="logobutton-bottom"/>                                    
+                            </Col>
+                            <Col xs={3} className="d-flex flex-fill">
+                            </Col>
+                        </Row>
+                    </Col>
+                    <Col xs={2} className="d-flex flex-fill" >
+                        <Row className="g0 flex-fill">
+                            <Col xs={2} className="d-flex flex-fill">
+                            </Col>
+                            <Col xs={8} className="d-flex flex-fill">
+                                <Button variant="logobutton-rounded"/>                                    
+                            </Col>
+                            <Col xs={2} className="d-flex flex-fill">
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Container>
+        </Container>
+
+    );
+}
 
 export default function Header () {
-    const [show, setShow] = useState(false);
-          
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
     return (
         <>
-            <Navbar className="header" expand="lg">
-                <Container fluid>
-                    <Navbar.Brand>
-                        <Link to="/">
-                            <img src={logo} alt="Logo of Transition to 8" width="25%" height="25%" className="d-inline-block" style={{float: 'left'}}/>
-                        </Link>
-                    </Navbar.Brand>                
-                    <Button variant="primary" onClick={handleShow}>Μενού</Button>      
-                    <Offcanvas show={show} onHide={handleClose} placement='end'>
-                        <Offcanvas.Header closeButton>
-                            <Offcanvas.Title>Offcanvas</Offcanvas.Title>
-                        </Offcanvas.Header>
-                        <Offcanvas.Body>
-                            Some text as placeholder. In real life you can have the elements you
-                            have chosen. Like, text, images, lists, etc.
-                        </Offcanvas.Body>
-                    </Offcanvas>
-                </Container>
-            </Navbar>
-            <Outlet />
+            <LinkContainer to="/">
+                <Navbar className="header" expand="lg">
+                    <ButtonLogo />
+                </Navbar>
+            </LinkContainer>
         </>
     );
 }

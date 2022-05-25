@@ -17,14 +17,10 @@ import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import EpisodeScreenWrapper from './routes/EpisodeScreen.js';
 import ContentWrapper from './routes/EpisodeContent';
 
-import Container from 'react-bootstrap/Container'
-import Col from 'react-bootstrap/Col'
-
-
 class App extends Component {
   render() {
     return (
-      <ThemeProvider breakpoints={['xxl']}>
+      <ThemeProvider breakpoints={['xs', 'xxl']}>
         <div className="App d-flex flex-column">
           <BrowserRouter>
             <Header />
