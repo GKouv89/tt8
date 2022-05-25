@@ -72,3 +72,22 @@ div#root{
   background-color: #D2DED7;
   border-color: #D2DED7;
 }
+
+.stressed {
+  text-decoration: underline;
+}
+
+.thematic1 {
+  background-color: #8D6EF4;
+  border-color: #8D6EF4;
+}
+
+.thematic2 {
+  background-color: #EB7943;
+  border-color: #EB7943;
+}
+
+.thematic3 {
+  background-color: #D2DED7;
+  border-color: #D2DED7;
+}

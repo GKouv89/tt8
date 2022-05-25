@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
@@ -42,15 +42,18 @@ export function OldThematic(props) {
   );
 }
 
-function CustomToggle({ children, eventKey, class_id }) {
-  const decoratedOnClick = useAccordionButton(eventKey, () =>
-    console.log('totally custom!')
+function CustomToggle({ children, eventKey, class_id, handleClick, activeKey}) {
+  const decoratedOnClick = useAccordionButton(eventKey, () => {
+      handleClick(eventKey);
+    }
   );
-  console.log(class_id)
   return (
-    <Button size="lg" variant="thematic1"
+    <Button size="lg" variant={ (activeKey == eventKey) ? "thematic" + class_id + " stressed": "thematic" + class_id}
     onClick={decoratedOnClick}>
-    {children}
+      {children}
+      {
+        (activeKey == eventKey) ? <i class="bi bi-x-lg"></i> : <i className="bi bi-plus-lg"></i>
+      }
     </Button>
   );
 }
@@ -58,12 +61,12 @@ function CustomToggle({ children, eventKey, class_id }) {
 
 export default function Thematic(props){ 
   return(
-    <Card className="flex-fill">
-      <Card.Header as="div" style={{ backgroundColor: "white", borderColor:"white"}}>
+    <Card className={"flex-fill thematic" + props.thematic._id} >
+      <Card.Header as="div" className={"thematic" + props.thematic._id}>
         <Container fluid>
           <Row className="g0 align-items-start">
-            <Col xxl={2}>
-              <CustomToggle eventKey={props.eventKey} class_id={props.thematic._id}>{props.thematic.name}</CustomToggle>
+            <Col xxl={3}>
+              <CustomToggle eventKey={props.eventKey} class_id={props.thematic._id} handleClick={props.handleClick} activeKey={props.activeKey}>{props.thematic.name}</CustomToggle>
             </Col>
           </Row>
         </Container>
