@@ -160,19 +160,26 @@ const episodes = [
 
 const axes = [
   {_id: 1,
-  color: '#FA2410'},
+    name: "Διορατικότητα"
+  },
   {_id: 2,
-  color: '#F99300'},
+    name: "Αγάπη"
+  },
   {_id: 3,
-  color: '#FCE520'},
+    name: "Ονειροπόλος"
+  },
   {_id: 4,
-  color: '#62AA2D'},
+    name: "Καταπίεση"
+  },
   {_id: 5,
-  color: '#038CCA'},
+    name: "Υπεραξία"
+  },
   {_id: 6,
-  color: '#002789'},
+    name: "Καταπληκτικό"
+  },
   {_id: 7,
-  color: '#8400AB'},
+    name: "Σταθερότητα"
+  },
 ];
 
 export function getContentColors(content) {
@@ -194,8 +201,8 @@ export function getContentOfThematic(id){
   return myContent;
 }
 
-export function getAxisColors(){
-  return Array.from(axes, x => x.color);
+export function getAxisNames(){
+  return Array.from(axes, x => x.name);
 }
 
 export function getContent() {

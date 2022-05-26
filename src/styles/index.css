@@ -9,38 +9,44 @@ div#root{
 }
 
 .axis1 {
-  background-color: #FA2410;
-  border-color: #FA2410;
+  background-color: #943853;
+  border-color: #943853;
 }
 
 .axis2 {
-  background-color: #F99300;
-  border-color: #F99300;
+  background-color: #FDFB85;
+  border-color: #FDFB85;
 }
 
 .axis3 {
-  background-color: #FCE520;
-  border-color: #FCE520;
+  background-color: #A5A796;
+  border-color: #A5A796;
 }
 
 .axis4 {
-  background-color: #62AA2D;
-  border-color: #62AA2D;
+  background-color: #F2C47B;
+  border-color: #F2C47B;
 }
 
 .axis5 {
-  background-color: #038CCA;
-  border-color: #038CCA;
+  background-color: #ADCF8C;
+  border-color: #ADCF8C;
 }
 
 .axis6 {
-  background-color: #002789;
-  border-color: #002789;
+  background-color: #C8E9F3;
+  border-color: #C8E9F3;
 }
 
 .axis7 {
-  background-color: #8400AB;
-  border-color: #8400AB;
+  background-color: #D7E575;
+  border-color: #D7E575;
+}
+
+.axis1:hover, .axis2:hover, .axis3:hover, .axis4:hover, .axis5:hover, .axis6:hover, .axis7:hover{
+  color: white;
+  background-color: black;
+  border-color: black;
 }
 
 .episode-tile {

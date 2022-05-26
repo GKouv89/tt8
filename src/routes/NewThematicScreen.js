@@ -6,8 +6,11 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 
-import { getThematics } from '../data.js'
+import { getThematics, getAxisNames } from '../data.js'
+import { LinkContainer } from 'react-router-bootstrap';
 
 export default function ThematicScreenWrapper(props){
     let {thematicID} = useParams();
@@ -51,8 +54,68 @@ function ThematicGridHeader(props){
             }
           </Button>
         </Col>
+        <Col xxl={4}>
+          <ColorFilter id={props.id}/>
+        </Col>
+        <Col xxl={4}>
+            <LinkContainer to="/">
+              <Button variant='light' className="rounded-0">
+                Πίσω στις θεματικές
+              </Button>
+            </LinkContainer>
+        </Col>
       </Row>
     </Container>
+  );
+}
+
+function ColorFilter(props){
+  const [expanded, setExpanded] = useState(false);
+  const [hovered, setHovered] = useState('None');
+  let axisnames = getAxisNames();
+  return (
+    <>
+      {/* <ButtonGroup>
+        {props.filters.map((color, idx) => 
+          <ToggleButton key={idx} 
+            id={idx}
+            type="radio"
+            name="radio"
+            value={color}
+            checked={radioValue === color}
+            style={{backgroundColor: (radioValue === color) || (radioValue === 'All') ? color : "#FFFFFF", borderColor: color}}
+            onChange={(e) => {
+              props.callback(parseInt(e.currentTarget.id) + 1);
+              setRadioValue(e.currentTarget.value);
+            }}
+          />                
+        )}
+      </ButtonGroup>
+      <ToggleButton 
+          key={props.filters.length} 
+          id={`${props.filters.length}`}
+          type="radio"
+          name="radio"
+          value='All'
+          checked={radioValue === 'All'}
+          variant="light"
+          onChange={(e) => 
+            {
+              props.callback(e.currentTarget.value);
+              setRadioValue(e.currentTarget.value);
+            }}
+        >
+          Καθαρισμός Φίλτρου
+      </ToggleButton> */}
+      <DropdownButton id="dropdown-item-button" variant={(expanded) ? "thematic" + props.id : "descselected"} onClick={() => setExpanded(!expanded)} title="Φίλτρα">
+        {axisnames.map((name, idx) => 
+          <Dropdown.Item key={idx} as="button" className={"axis" + (++idx)} onMouseOver={() => setHovered(idx)} onMouseOut={() => setHovered('None')}>
+            <p style={{visibility: (hovered == idx) ? "visible": "hidden"}}>
+              {name}
+            </p>
+          </Dropdown.Item>)}
+      </DropdownButton>
+    </>
   );
 }
 
