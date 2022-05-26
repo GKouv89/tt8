@@ -52,7 +52,7 @@ function CustomToggle({ children, eventKey, class_id, handleClick, activeKey}) {
     onClick={decoratedOnClick}>
       {children}
       {
-        (activeKey == eventKey) ? <i class="bi bi-x-lg"></i> : <i className="bi bi-plus-lg"></i>
+        (activeKey == eventKey) ? <i className="bi bi-x-lg"></i> : <i className="bi bi-plus-lg"></i>
       }
     </Button>
   );

@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams , useLocation} from 'react-router-dom'
+
 import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
@@ -71,10 +73,23 @@ function ButtonLogo() {
 }
 
 export default function Header () {
+    // let params = useParams();
+    // let classNameId = 0;    
+    // if(Object.keys(params).length){
+    //     console.log(params);
+    // }
+
+    // let location = useLocation();
+
+    // useEffect(() => {
+    //     console.log(location);
+    //     console.log(params);
+    // });
+
     return (
         <>
             <LinkContainer to="/">
-                <Navbar className="header" expand="lg">
+                <Navbar className="thematic0" expand="lg">
                     <ButtonLogo />
                 </Navbar>
             </LinkContainer>

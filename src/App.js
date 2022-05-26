@@ -8,7 +8,7 @@ import {
   Routes,
   Route } from 'react-router-dom';
 
-import ThematicScreenWrapper from './routes/ThematicScreen.js';
+import ThematicScreenWrapper from './routes/NewThematicScreen.js';
 import Thematics from './routes/Thematics.js';
 
 import { getThematics } from './data';
