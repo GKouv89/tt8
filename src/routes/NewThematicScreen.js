@@ -56,7 +56,7 @@ function ThematicGridHeader(props){
             }
           </Button>
         </Col>
-        <ColorFilterColumnWrapper id={props.id} />
+        <ColorFilterColumnWrapper id={props.id} callback={props.cfcallback}/>
         <Col xxl={4}>
             <LinkContainer to="/">
               <Button variant='light' className="rounded-0">
@@ -70,11 +70,8 @@ function ThematicGridHeader(props){
 }
 
 function ThematicGridBody(props){
-  // [] = useState();
   const gridSize = 30;
   let content = getContentOfThematic(props.id);
-  // let colors = getContentColors(content);
-  // // Account for episode tiles here, before padding calculation.
   let episodes = getThematicEpisodes(props.id);
   let numberOfSquares = content.length + episodes.length;
   let numberOfPadding = gridSize - numberOfSquares;
@@ -93,35 +90,34 @@ function ThematicGridBody(props){
   const makePaddedGridContent = (content, episodes, numberOfPadding) => {
     let contentArray = [];
     content.map((content, idx) => (
-      contentArray.push(<GridSquare key={idx} content={content}/>)
+      contentArray.push(<GridSquare filter={props.filter} content={content}/>)
     ));
     episodes.map((episodeno, idx) => (
-      contentArray.push(<EpisodeSquare key={idx} thematicid={props.id} epno={episodeno} />)
+      contentArray.push(<EpisodeSquare thematicid={props.id} epno={episodeno} />)
     ));
     for(let x = 0; x < numberOfPadding; x++){
-      contentArray.push(<EmptySquare key={x}/>);
+      contentArray.push(<EmptySquare />);
     }
     return contentArray;
   }
 
+  const filterContent = (content, axis_id) => {
+    let newContent = [];
+    for(let x = 0; x < content.length; x++){
+      if(content[x]._axis_id == axis_id){
+        newContent.push(content[x]);
+      }
+    }
+    return newContent;
+  }
+
   let gridOrder = makeRandomGridOrder(gridSize);
   let gridContent = makePaddedGridContent(content, episodes, numberOfPadding);
-  // let padding = this.props.gridSize-contentSize - episodes.length;
-  // let elemOrder = this.makeRandomGridOrder(this.props.gridSize);
-  // console.log(elemOrder);
-  // console.log(this.props.id);
-  // this.state = { 
-  //   content: content,
-  //   colors: colors,
-  //   episodes: episodes,
-  //   gridSize: this.props.gridSize,
-  //   padding: padding,
-  //   elemOrder: elemOrder,
-  //   enabledColor: 'All'
-  // };
-  // console.log(content);
-  // console.log(episodes);
-  // console.log(numberOfSquares);
+  let newContent;
+  if(props.filter != 'None'){
+    newContent = filterContent(content, props.filter);
+  }
+
   return(
     <>
       <Container>
@@ -137,10 +133,12 @@ function GridSquare(props){
   return(
     <>
       <Col xxl={2} className="border border-light gridsquare m-0 p-0">
-        <Card className={"border-light gridsquare axis" + props.content._axis_id}>
+        <Card className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? "border-light gridsquare axis" + props.content._axis_id : "empty"}>
           <Card.Body 
-            className={"axis" + props.content._axis_id}
-            as="button">
+            className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? "axis" + props.content._axis_id : "empty"}
+            as="button"
+            disabled={(props.filter == props.content._axis_id || props.filter == 'None') ? false: true}
+            >
           </Card.Body>
         </Card>
       </Col>
@@ -174,7 +172,7 @@ function EmptySquare(){
           <Card.Body 
             className="empty"
             as="button"
-            disabled="true">
+            disabled={true}>
           </Card.Body>
         </Card>
       </Col>
@@ -221,11 +219,13 @@ function ColorFilterColumnWrapper(props){
   const clearFilterCallback = () => {
     setFilterChosen(!filterChosen);
     setColorChosen('None');
+    props.callback('None');
   }
 
   const filterCallback = (id) => {
     setFilterChosen(!filterChosen);
     setColorChosen(id);
+    props.callback(id);
   }
   console.log('filterchosen: ' + filterChosen);
   console.log('colorchosen: ' + colorChosen);
@@ -252,6 +252,11 @@ function ThematicGrid(props) {
     setOpen(!open);
   }
 
+  const [filteredAxis, setFilteredAxis] = useState('None');
+  const colorFilterCallback = (val) => {
+    setFilteredAxis(val);
+  }
+  console.log('filteredAxis: ' + filteredAxis);
   return (
     <Container fluid>
       <Container className="flex-column">
@@ -259,10 +264,10 @@ function ThematicGrid(props) {
           <Description id={props.id} desc={content.desc} open={open}/>
         </Row>
         <Row>
-          <ThematicGridHeader name={content.name} desc={content.desc} id={props.id} callback={descButtonCallback} open={open}/>
+          <ThematicGridHeader name={content.name} desc={content.desc} id={props.id} callback={descButtonCallback} cfcallback={colorFilterCallback} open={open}/>
         </Row>
         <Row>
-          <ThematicGridBody id={props.id}/>
+          <ThematicGridBody id={props.id} filter={filteredAxis}/>
         </Row>
       </Container>
     </Container>
