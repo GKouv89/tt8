@@ -8,42 +8,42 @@ div#root{
   height: 100%;
 }
 
-.axis1 {
+.filter1 {
   background-color: #943853;
   border-color: #943853;
 }
 
-.axis2 {
+.filter2 {
   background-color: #FDFB85;
   border-color: #FDFB85;
 }
 
-.axis3 {
+.filter3 {
   background-color: #A5A796;
   border-color: #A5A796;
 }
 
-.axis4 {
+.filter4 {
   background-color: #F2C47B;
   border-color: #F2C47B;
 }
 
-.axis5 {
+.filter5 {
   background-color: #ADCF8C;
   border-color: #ADCF8C;
 }
 
-.axis6 {
+.filter6 {
   background-color: #C8E9F3;
   border-color: #C8E9F3;
 }
 
-.axis7 {
+.filter7 {
   background-color: #D7E575;
   border-color: #D7E575;
 }
 
-.axis1:hover, .axis2:hover, .axis3:hover, .axis4:hover, .axis5:hover, .axis6:hover, .axis7:hover{
+.filter1:hover, .filter2:hover, .filter3:hover, .filter4:hover, .filter5:hover, .filter6:hover, .filter7:hover{
   color: white;
   background-color: black;
   border-color: black;
@@ -58,10 +58,6 @@ div#root{
 
 .dud {
   visibility: hidden;
-}
-
-.lime {
-  background-color: #cbe426;
 }
 
 .btn-thematic1 {
@@ -133,6 +129,59 @@ div#root{
   color: white;
 }
 
-.grid {
+/* .grid {
   border-color: black;
+}
+ */
+
+
+.axis1 {
+  background-color: #943853;
+  border-color: #943853;
+}
+
+.axis2 {
+  background-color: #FDFB85;
+  border-color: #FDFB85;
+}
+
+.axis3 {
+  background-color: #A5A796;
+  border-color: #A5A796;
+}
+
+.axis4 {
+  background-color: #F2C47B;
+  border-color: #F2C47B;
+}
+
+.axis5 {
+  background-color: #ADCF8C;
+  border-color: #ADCF8C;
+}
+
+.axis6 {
+  background-color: #C8E9F3;
+  border-color: #C8E9F3;
+}
+
+.axis7 {
+  background-color: #D7E575;
+  border-color: #D7E575;
+}
+
+.episode-tile-new {
+  /* background-color: #D3D3D3; */
+  background-color: transparent;
+  border-color: #D3D3D3;
+  /* font-size: x-small; 
+  padding: 9px */
+}
+
+.empty {
+  visibility: hidden;
+}
+
+.gridsquare {
+  height: 15vh;
 }
