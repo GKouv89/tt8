@@ -173,6 +173,7 @@ div#root{
 .episode-tile-new {
   background-color: transparent;
   border-color: #D3D3D3;
+  color: black;
 }
 
 .empty {
@@ -226,4 +227,9 @@ div#root{
 
 .modal-image{
   color: white;
+}
+
+.modal-open .container-fluid, .modal-open .container {
+  filter: blur(2px);
+  -webkit-filter: blur(2px) grayscale(20%);
 }

@@ -11,12 +11,10 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import Modal from 'react-bootstrap/Modal'
 import Image from 'react-bootstrap/Image'
 
-import { getThematics, getAxisNames, getContentOfThematic, getThematicEpisodes } from '../data.js'
+import { getThematics, getAxisNames, getContentOfThematic, getThematicEpisodes, getAxisColors, AllAxesColors, AllThematicColors } from '../data.js'
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from "react-router-dom"
 import { CloseButton } from 'react-bootstrap';
-
-
 
 export default function ThematicScreenWrapper(props){
     let {thematicID} = useParams();
@@ -159,14 +157,23 @@ function GridSquare(props){
 }
 
 function EpisodeSquare(props){
+  let myEpisodeColors = getAxisColors(props.epno);
+  let myGradientString = "linear-gradient(";
+  for(let i = 0; i < myEpisodeColors.length; i++){
+    console.log(AllAxesColors[myEpisodeColors[i] - 1]);
+    myGradientString = myGradientString + AllAxesColors[myEpisodeColors[i] - 1] + " " + i*15 +"%, ";
+  }
+  myGradientString = myGradientString + AllThematicColors[props.thematicid - 1] + " " + myEpisodeColors.length*15 + "%)" ;
+  console.log(myGradientString);
+
   return(
     <>
       <Col xxl={2} className="border border-light gridsquare m-0 p-0">
         <Card className="gridsquare episode-tile-new border-light">
-          <Card.Body 
+          <Card.Body style={{backgroundImage: myGradientString}}
             className="episode-tile-new"
             as="button">
-            <Link to={`/${props.thematicid}/episodes/${props.epno}`} style={{color: "white", textDecoration: "none"}}>
+            <Link to={`/${props.thematicid}/episodes/${props.epno}`} style={{color: "black", textDecoration: "none"}}>
               Επεισόδιο {props.epno}
             </Link>
           </Card.Body>

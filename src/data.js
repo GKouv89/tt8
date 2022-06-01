@@ -35,6 +35,22 @@ export function getThematics() {
     return thematics;
 }
 
+export const AllAxesColors = [
+  '#943853',
+  '#FDFB85',
+  '#A5A796',
+  '#F2C47B',
+  '#ADCF8C',
+  '#C8E9F3',
+  '#D7E575'
+]
+export const AllThematicColors = [
+  '#8D6EF4',
+  '#EB7943',
+  '#D2DED7'
+]
+
+
 let content = [
   {
     _id: 1,
@@ -185,6 +201,22 @@ const axes = [
 export function getContentColors(content) {
   const myColors = Array.from(content, x => x._axis_id);
   return myColors;
+}
+
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
+export function getAxisColors(episodeID){
+  let myAxes = [];
+  for(let i = 0; i < content.length; i++){
+    if(content[i]._episode_id == episodeID){
+      myAxes.push(content[i]._axis_id);
+    }
+  }
+  let uniqueAxes = myAxes.filter(onlyUnique);
+  // console.log(uniqueAxes);
+  return uniqueAxes;
 }
 
 export function getContentOfThematic(id){
