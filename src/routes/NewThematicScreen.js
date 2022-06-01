@@ -95,6 +95,8 @@ function ThematicGridBody(props){
       {
         if(content.type == 'text' & content.subtype == 'quote'){
           contentArray.push(<QuoteSquare filter={props.filter} content={content}/>);
+        // }else if(content.type == 'img'){
+        //   contentArray.push(<ImageSquare filter={props.filter} content={content}/>);
         }else{
           contentArray.push(<GridSquare filter={props.filter} content={content}/>);
         }
@@ -208,24 +210,62 @@ function QuoteModal(props) {
 function QuoteSquare(props){
   const [quoteVisible, setQuoteVisible] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-  console.log(quoteVisible);
-  console.log(modalShow);
+  const [cardClassName, setCardClassName] = useState("gridsquare border-light m-0 p-0 axis" + props.content._axis_id);
+  const [quoteClassName, setQuoteClassName] = useState("quote-truncate empty");
+
+  const showQuote = () => {
+    setQuoteVisible(true);
+    setCardClassName("gridsquare border-light m-0 p-0 quote");
+    setQuoteClassName("quote-truncate");
+  }
+
+  const hideQuote = () => {
+    setQuoteVisible(false);
+    setCardClassName("gridsquare border-light m-0 p-0 axis" + props.content._axis_id);
+    setQuoteClassName("quote-truncate empty");
+  }
+
   return(
     <>
       <Col xxl={2} className="border border-light gridsquare m-0 p-0">
         <Card as="button" 
-          className={(quoteVisible) ? "gridsquare border-light m-0 p-0 quote" : "gridsquare border-light m-0 p-0 axis" + props.content._axis_id} 
-          onMouseOver={() => setQuoteVisible(true)} 
-          onMouseOut={() => setQuoteVisible(false)}
+          className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? cardClassName : "empty"}
+          onMouseOver={() => showQuote(true)} 
+          onMouseOut={() => hideQuote(false)}
           onClick={() => setModalShow(true)}
+          disabled={(props.filter == props.content._axis_id || props.filter == 'None') ? false: true}
           >
           <Card.Body>
-            <Card.Text className={(quoteVisible) ? "quote-truncate" : "quote-truncate empty"}>
+            <Card.Text className={quoteClassName}>
               {props.content.desc}
             </Card.Text>
           </Card.Body>
         </Card>
         <QuoteModal show={modalShow} onHide={() => setModalShow(false)} text={props.content.desc}/>
+      </Col>
+    </>
+  )
+}
+
+function ImageSquare(props){
+  const [imageVisible, setImageVisible] = useState(false);
+  return(
+    <>
+      <Col xxl={2} className="border border-light gridsquare m-0 p-0">
+        <Card
+          className={"gridsquare border-light m-0 p-0 axis" + props.content._axis_id} 
+          onMouseOver={() => setImageVisible(true)} 
+          onMouseOut={() => setImageVisible(false)}
+          // onClick={() => setModalShow(true)}
+          >
+          <Card.Body className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? "axis" + props.content._axis_id : "empty"}
+            as="button"
+            disabled={(props.filter == props.content._axis_id || props.filter == 'None') ? false: true}>
+            {/* <Card.Text>
+              {props.content.desc}
+            </Card.Text> */}
+          </Card.Body>
+        </Card>
       </Col>
     </>
   )
