@@ -9,11 +9,13 @@ import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Modal from 'react-bootstrap/Modal'
+import Image from 'react-bootstrap/Image'
 
 import { getThematics, getAxisNames, getContentOfThematic, getThematicEpisodes } from '../data.js'
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from "react-router-dom"
 import { CloseButton } from 'react-bootstrap';
+
 
 
 export default function ThematicScreenWrapper(props){
@@ -95,8 +97,8 @@ function ThematicGridBody(props){
       {
         if(content.type == 'text' & content.subtype == 'quote'){
           contentArray.push(<QuoteSquare filter={props.filter} content={content}/>);
-        // }else if(content.type == 'img'){
-        //   contentArray.push(<ImageSquare filter={props.filter} content={content}/>);
+        }else if(content.type == 'img'){
+          contentArray.push(<ImageSquare filter={props.filter} content={content}/>);
         }else{
           contentArray.push(<GridSquare filter={props.filter} content={content}/>);
         }
@@ -199,7 +201,7 @@ function QuoteModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton className="quote" />
+      <CloseButton onClick={props.onHide} variant="white"/>
       <Modal.Body className="modal-quote">
         {props.text}
       </Modal.Body>
@@ -247,31 +249,62 @@ function QuoteSquare(props){
   )
 }
 
+function ImageModal(props) {
+  return (
+    <Modal
+      show={props.show}
+      onHide={props.onHide}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <CloseButton onClick={props.onHide} variant="white"/>
+      <Modal.Body className="modal-image">
+        <Image src={props.img} alt="Modal image" fluid={true}/>
+        {props.desc}
+      </Modal.Body>
+    </Modal>
+  );
+}
+
 function ImageSquare(props){
   const [imageVisible, setImageVisible] = useState(false);
+  const [cardClassName, setCardClassName] = useState("gridsquare border-light m-0 p-0 axis" + props.content._axis_id);
+  const [imageClassName, setImageClassName] = useState("my-auto image-square empty");
+  const [modalShow, setModalShow] = useState(false);
+
+  const showImage = () => {
+    setImageVisible(true);
+    // setCardClassName("gridsquare border-light m-0 p-0 episode-tile-new");
+    // setImageClassName("my-auto image-square");
+    setImageClassName("my-auto h-100");
+  }
+
+  const hideImage = () => {
+    setImageVisible(false);
+    setCardClassName("gridsquare border-light m-0 p-0 axis" + props.content._axis_id);
+    setImageClassName("empty");
+  }
+
   return(
     <>
       <Col xxl={2} className="border border-light gridsquare m-0 p-0">
         <Card
-          className={"gridsquare border-light m-0 p-0 axis" + props.content._axis_id} 
-          onMouseOver={() => setImageVisible(true)} 
-          onMouseOut={() => setImageVisible(false)}
-          // onClick={() => setModalShow(true)}
-          >
-          <Card.Body className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? "axis" + props.content._axis_id : "empty"}
-            as="button"
-            disabled={(props.filter == props.content._axis_id || props.filter == 'None') ? false: true}>
-            {/* <Card.Text>
-              {props.content.desc}
-            </Card.Text> */}
+          className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? cardClassName : "empty"}>
+          <Card.Body as="button" 
+          onMouseOver={() => showImage(true)} 
+          onMouseOut={() => hideImage(false)}
+          onClick={() => setModalShow(true)}
+          className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? cardClassName : "empty"} 
+          disabled={(props.filter == props.content._axis_id || props.filter == 'None') ? false: true}>
+            <Card.Img src={props.content.path} alt="Card Image" className={imageClassName}/>
           </Card.Body>
         </Card>
+        <ImageModal show={modalShow} onHide={() => setModalShow(false)} img={props.content.path} desc={props.content.desc}/>
       </Col>
     </>
   )
 }
-
-
 
 function ColorFilter(props){
   const [expanded, setExpanded] = useState(false);
