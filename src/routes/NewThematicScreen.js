@@ -8,10 +8,12 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
+import Modal from 'react-bootstrap/Modal'
 
 import { getThematics, getAxisNames, getContentOfThematic, getThematicEpisodes } from '../data.js'
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from "react-router-dom"
+import { CloseButton } from 'react-bootstrap';
 
 
 export default function ThematicScreenWrapper(props){
@@ -89,9 +91,15 @@ function ThematicGridBody(props){
 
   const makePaddedGridContent = (content, episodes, numberOfPadding) => {
     let contentArray = [];
-    content.map((content, idx) => (
-      contentArray.push(<GridSquare filter={props.filter} content={content}/>)
-    ));
+    content.map((content, idx) => 
+      {
+        if(content.type == 'text' & content.subtype == 'quote'){
+          contentArray.push(<QuoteSquare filter={props.filter} content={content}/>);
+        }else{
+          contentArray.push(<GridSquare filter={props.filter} content={content}/>);
+        }
+      }
+    );
     episodes.map((episodeno, idx) => (
       contentArray.push(<EpisodeSquare thematicid={props.id} epno={episodeno} />)
     ));
@@ -178,6 +186,49 @@ function EmptySquare(){
       </Col>
     </>
   );
+}
+
+function QuoteModal(props) {
+  return (
+    <Modal
+      show={props.show}
+      onHide={props.onHide}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton className="quote" />
+      <Modal.Body className="modal-quote">
+        {props.text}
+      </Modal.Body>
+    </Modal>
+  );
+}
+
+function QuoteSquare(props){
+  const [quoteVisible, setQuoteVisible] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  console.log(quoteVisible);
+  console.log(modalShow);
+  return(
+    <>
+      <Col xxl={2} className="border border-light gridsquare m-0 p-0">
+        <Card as="button" 
+          className={(quoteVisible) ? "gridsquare border-light m-0 p-0 quote" : "gridsquare border-light m-0 p-0 axis" + props.content._axis_id} 
+          onMouseOver={() => setQuoteVisible(true)} 
+          onMouseOut={() => setQuoteVisible(false)}
+          onClick={() => setModalShow(true)}
+          >
+          <Card.Body>
+            <Card.Text className={(quoteVisible) ? "quote-truncate" : "quote-truncate empty"}>
+              {props.content.desc}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        <QuoteModal show={modalShow} onHide={() => setModalShow(false)} text={props.content.desc}/>
+      </Col>
+    </>
+  )
 }
 
 

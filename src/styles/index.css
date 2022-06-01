@@ -171,11 +171,8 @@ div#root{
 }
 
 .episode-tile-new {
-  /* background-color: #D3D3D3; */
   background-color: transparent;
   border-color: #D3D3D3;
-  /* font-size: x-small; 
-  padding: 9px */
 }
 
 .empty {
@@ -184,4 +181,28 @@ div#root{
 
 .gridsquare {
   height: 15vh;
+}
+
+.quote{
+  font-style: italic;
+  font-size: small;
+  background-color: blue;
+  color: white;
+}
+
+.quote-truncate{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.modal-quote{
+  height: 60vh;  
+  font-size: xx-large;
+  background-color: blue;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
