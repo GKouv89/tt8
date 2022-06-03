@@ -1,7 +1,7 @@
 import { React, Component } from 'react'
 import { useParams } from 'react-router-dom'
 
-import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import Image from 'react-bootstrap/Image';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
 import { getPieceOfContent } from '../data';
 
@@ -18,46 +18,42 @@ export class Content extends Component{
     constructor(props){
         super(props);
         this.state = {
+            type: "",
             content: ""
         };
     }
 
     async componentDidMount() {
         const path = getPieceOfContent(this.props.contid - 1).path;
-        if(path !== ""){
+        const type = getPieceOfContent(this.props.contid - 1).type;
+        if(path !== "" && type == "text"){
             fetch(path)
                 .then((response) => response.text())
-                .then((text) => this.setState({content: text}));
+                .then((text) => this.setState({type:"text", content: text}));
+        }else if(path !== "" && type == "img"){
+            // fetch(path)
+            //     .then(response => response.blob())
+            //     .then(imageBlob => {
+            //         const imageObjectURL = URL.createObjectURL(imageBlob);
+            //         console.log(imageObjectURL);
+            //         this.setState({type:"img", content: imageObjectURL});
+            //     });
+            this.setState({type: "img", content: path});
         }
     }
 
     render () {
-        return(
-            <>
-                <ABreadcrumb themid={this.props.themid} epid={this.props.epid} name={getPieceOfContent(this.props.contid -1).name}/>
-                {this.state.content}
-            </>
-        );
+        console.log(this.state.content);
+        if(this.state.type == "text"){
+            return(
+                <>
+                    {this.state.content}
+                </>
+            );
+        }else if(this.state.type == "img"){
+            return(
+                <Image src={this.state.content} alt="image" fluid={true}/>
+            );
+        }
     }
 }
-
-function ABreadcrumb (props) {
-    let themPath = "/" + props.themid;
-    let epPath = themPath + "/episodes/" + props.epid;
-    return (
-      <>
-        <Breadcrumb>
-          <LinkContainer to = "/">
-            <Breadcrumb.Item> Αρχική Σελίδα </Breadcrumb.Item>
-          </LinkContainer>
-          <LinkContainer to = {themPath}>
-              <Breadcrumb.Item> Θεματική Ενότητα {props.themid} </Breadcrumb.Item>
-          </LinkContainer>
-          <LinkContainer to = {epPath}>
-              <Breadcrumb.Item> Επεισόδιο {props.epid} </Breadcrumb.Item>
-          </LinkContainer>
-          <Breadcrumb.Item active> {props.name} </Breadcrumb.Item>
-        </Breadcrumb>
-      </>
-    );
-  }

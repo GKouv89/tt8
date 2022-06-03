@@ -14,7 +14,7 @@ import Thematics from './routes/Thematics.js';
 import { getThematics } from './data';
 import ThemeProvider from 'react-bootstrap/ThemeProvider';
 
-import EpisodeScreenWrapper from './routes/EpisodeScreen.js';
+import EpisodeScreenWrapper from './routes/NewEpisodeScreen.js';
 import ContentWrapper from './routes/EpisodeContent';
 
 class App extends Component {

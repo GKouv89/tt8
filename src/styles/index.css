@@ -124,16 +124,10 @@ div#root{
   background-color: black;
 }
 
-.btn-descselected {
+.btn-descselected, .btn-descselected:hover {
   background-color: black;
   color: white;
 }
-
-/* .grid {
-  border-color: black;
-}
- */
-
 
 .axis1 {
   background-color: #943853;

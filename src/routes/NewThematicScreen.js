@@ -157,6 +157,8 @@ function GridSquare(props){
 }
 
 function EpisodeSquare(props){
+  const [mouseOver, setMouseOver] = useState(false);
+
   let myEpisodeColors = getAxisColors(props.epno);
   let myGradientString = "linear-gradient(";
   for(let i = 0; i < myEpisodeColors.length; i++){
@@ -170,10 +172,13 @@ function EpisodeSquare(props){
     <>
       <Col xxl={2} className="border border-light gridsquare m-0 p-0">
         <Card className="gridsquare episode-tile-new border-light">
-          <Card.Body style={{backgroundImage: myGradientString}}
+          <Card.Body style={(mouseOver) ? {backgroundColor: "white"} : {backgroundImage: myGradientString}}
             className="episode-tile-new"
-            as="button">
-            <Link to={`/${props.thematicid}/episodes/${props.epno}`} style={{color: "black", textDecoration: "none"}}>
+            as="button"
+            onMouseOver={() => setMouseOver(true)}
+            onMouseOut={() => setMouseOver(false)}
+            >
+            <Link to={`/${props.thematicid}/episodes/${props.epno}`} style={{color: "black", textDecoration: (mouseOver) ? "underline" : "none"}}>
               Επεισόδιο {props.epno}
             </Link>
           </Card.Body>
@@ -282,8 +287,6 @@ function ImageSquare(props){
 
   const showImage = () => {
     setImageVisible(true);
-    // setCardClassName("gridsquare border-light m-0 p-0 episode-tile-new");
-    // setImageClassName("my-auto image-square");
     setImageClassName("my-auto h-100");
   }
 
