@@ -52,7 +52,7 @@ export class Content extends Component{
             );
         }else if(this.state.type == "img"){
             return(
-                <Image src={this.state.content} alt="image" fluid={true}/>
+                <Image src={"http://" + window.location.hostname + this.state.content} alt="image" fluid={true}/>
             );
         }
     }

@@ -83,7 +83,15 @@ function ContentSquare(props){
   );
 }
 
+// function fetchMyFile() {
+//   let path = "http://" + window.location.hostname + "/images/data.csv";
+//   fetch(path)
+//     .then((response) => console.log(response.text()));
+//     // .then(() => console.log(response)); 
+// }
+
 function EmptySquare(){
+  // fetchMyFile();
   return(
     <>
       <Col xxl={2} className="border border-light gridsquare m-0 p-0">
@@ -125,7 +133,6 @@ function EpisodeScreen(props) {
     </>
   );
 }
-
 
 function EpisodeGrid(props) {
   let content = getEpisodeContent(props.epid); 

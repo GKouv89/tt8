@@ -272,7 +272,7 @@ function ImageModal(props) {
     >
       <CloseButton onClick={props.onHide} variant="white"/>
       <Modal.Body className="modal-image">
-        <Image src={props.img} alt="Modal image" fluid={true}/>
+        <Image src={"http://" + window.location.hostname + props.img} alt="Modal image" fluid={true}/>
         {props.desc}
       </Modal.Body>
     </Modal>
@@ -296,6 +296,7 @@ function ImageSquare(props){
     setImageClassName("empty");
   }
 
+  console.log("http://" + window.location.hostname + props.content.path);
   return(
     <>
       <Col xxl={2} className="border border-light gridsquare m-0 p-0">
@@ -307,7 +308,7 @@ function ImageSquare(props){
           onClick={() => setModalShow(true)}
           className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? cardClassName : "empty"} 
           disabled={(props.filter == props.content._axis_id || props.filter == 'None') ? false: true}>
-            <Card.Img src={props.content.path} alt="Card Image" className={imageClassName}/>
+            <Card.Img src={"http://" + window.location.hostname + props.content.path} alt="Card Image" className={imageClassName}/>
           </Card.Body>
         </Card>
         <ImageModal show={modalShow} onHide={() => setModalShow(false)} img={props.content.path} desc={props.content.desc}/>

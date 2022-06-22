@@ -137,7 +137,8 @@ let content = [
     desc: 'Μία ενδεικτική εικόνα για το επεισόδιο 1',
     type: 'img',
     format: '.jpg',
-    path: process.env.PUBLIC_URL + '/pubassets/_DSC9344.jpg'
+    // path: process.env.PUBLIC_URL + '/pubassets/_DSC9344.jpg'
+    path: "/images/_DSC9344.jpg"
   }
 ];
 
