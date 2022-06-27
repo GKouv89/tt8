@@ -138,7 +138,7 @@ let content = [
     type: 'img',
     format: '.jpg',
     // path: process.env.PUBLIC_URL + '/pubassets/_DSC9344.jpg'
-    path: "/images/_DSC9344.jpg"
+    path: "/data/_DSC9344.jpg"
   }
 ];
 

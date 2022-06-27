@@ -1,59 +1,70 @@
-import { React, Component } from 'react'
+import { React, Component, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import Image from 'react-bootstrap/Image';
-import LinkContainer from 'react-router-bootstrap/LinkContainer';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 import { getPieceOfContent } from '../data';
+
+import Breadcrumb from '../Component/Breadcrumb';
 
 export default function ContentWrapper(props) {
     let {thematicID, episodeID, contentID} = useParams();
     return(
         <>
-            <Content themid={thematicID} epid={episodeID} contid={contentID}/>
+            <ContentScreen themid={thematicID} epid={episodeID} contid={contentID}/>
         </>
     );
 }
 
-export class Content extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            type: "",
-            content: ""
-        };
-    }
+function ContentScreen(props){
+    const [type, setType] = useState("");
+    const [content, setContent] = useState("");
 
-    async componentDidMount() {
-        const path = getPieceOfContent(this.props.contid - 1).path;
-        const type = getPieceOfContent(this.props.contid - 1).type;
-        if(path !== "" && type == "text"){
-            fetch(path)
-                .then((response) => response.text())
-                .then((text) => this.setState({type:"text", content: text}));
-        }else if(path !== "" && type == "img"){
-            // fetch(path)
-            //     .then(response => response.blob())
-            //     .then(imageBlob => {
-            //         const imageObjectURL = URL.createObjectURL(imageBlob);
-            //         console.log(imageObjectURL);
-            //         this.setState({type:"img", content: imageObjectURL});
-            //     });
-            this.setState({type: "img", content: path});
+    useEffect(() => {
+        async function fetchData() {
+            const path = getPieceOfContent(props.contid - 1).path;
+            const type = getPieceOfContent(props.contid - 1).type;
+            if(path !== "" && type == "text"){
+                fetch(path)
+                    .then((response) => response.text())
+                    .then((text) => {setType("text"); setContent(text);});
+            }else if(path !== "" && type == "img"){
+                setType("img");
+                setContent(path);
+            }
         }
-    }
+        fetchData()
+    },[]);
 
-    render () {
-        console.log(this.state.content);
-        if(this.state.type == "text"){
-            return(
-                <>
-                    {this.state.content}
-                </>
-            );
-        }else if(this.state.type == "img"){
-            return(
-                <Image src={"http://" + window.location.hostname + this.state.content} alt="image" fluid={true}/>
-            );
-        }
+    let eppath = "/" + props.themid + "/episodes/" + props.epid;
+    return(
+        <Container fluid>
+            <Container className="flex-column">
+                <Row>
+                    <Breadcrumb path={eppath} themid={props.themid}/>                
+                </Row>
+                <Row>
+                    <Content type={type} content={content} />
+                </Row>
+            </Container>
+        </Container>
+    );
+}
+
+function Content(props){
+    let element;
+    switch(props.type){
+        case "text":
+            element = <p>{props.content}</p>
+            break;
+        case "img":
+            element = <Image src={"http://" + window.location.hostname + props.content} alt="image" fluid={true}/>
+            break;
     }
+    return(
+        <>
+            {element}
+        </>
+    );
 }

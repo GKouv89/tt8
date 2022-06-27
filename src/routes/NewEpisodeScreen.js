@@ -8,6 +8,7 @@ import LinkContainer from 'react-router-bootstrap/LinkContainer'
 import Card from 'react-bootstrap/Card'
 
 import { getEpisodeContent, getEpisodeDescription } from '../data'
+import Breadcrumb from '../Component/Breadcrumb'
 
 export default function EpisodeScreenWrapper(props){
     let {thematicID, episodeID} = useParams();
@@ -17,37 +18,6 @@ export default function EpisodeScreenWrapper(props){
       themid={thematicID}
       />
     );
-}
-
-function EpisodeGridHeader(props){
-  const [hovered, setHovered] = useState(false);
-  let themPath = "/" + props.themid;
-  return(
-    <Container>
-      <Row className="border border-light">
-        <Col xxl={4} className={(hovered) ? "border border-light descselected" : "border border-light"}>
-          <LinkContainer to={themPath}>
-            <Button
-              onMouseOver={() => setHovered(true)}
-              onMouseOut={() => setHovered(false)}
-              variant={(hovered) ? "descselected": "thematic" + props.themid}
-            >
-              Πίσω
-              <i className="bi bi-arrow-left"></i>
-            </Button>
-          </LinkContainer>
-        </Col>
-        <Col xxl={4} className={"border border-light"}/>          
-        <Col xxl={4} className={"border border-light"}>
-            <LinkContainer to="/">
-              <Button variant='light' className="rounded-0">
-                Πίσω στις θεματικές
-              </Button>
-            </LinkContainer>
-        </Col>
-      </Row>
-    </Container>
-  );
 }
 
 function Description(props){
@@ -111,13 +81,13 @@ function EpisodeScreen(props) {
   let newClassName="thematic" + props.themid;
   document.body.className=newClassName;
   let desc = getEpisodeDescription(props.epid - 1);
-  
+  let thempath = "/" + props.themid;
   return (
     <>
       <Container fluid>
         <Container className="flex-column">
           <Row>
-            <EpisodeGridHeader themid={props.themid}/>
+            <Breadcrumb path={thempath} themid={props.themid}/>
           </Row>
           <Row xxl={2}>
             <Description classid={props.themid} desc={desc}/>
