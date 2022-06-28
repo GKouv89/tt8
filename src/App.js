@@ -16,6 +16,7 @@ import ThemeProvider from 'react-bootstrap/ThemeProvider';
 
 import EpisodeScreenWrapper from './routes/NewEpisodeScreen.js';
 import ContentWrapper from './routes/EpisodeContent';
+import VizWrapper from './routes/VizWrapper';
 
 class App extends Component {
   render() {

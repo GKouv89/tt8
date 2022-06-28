@@ -139,6 +139,37 @@ let content = [
     format: '.jpg',
     // path: process.env.PUBLIC_URL + '/pubassets/_DSC9344.jpg'
     path: "/data/_DSC9344.jpg"
+  },
+  {
+    _id: 9,
+    _episode_id: 3,
+    _axis_id: 3,
+    name: 'Απλή Οπτικοποίηση',
+    desc: 'Χρωματική Οπτικοποίηση των θερμοκρασιών της Γης τα έτη 1880-2022.',
+    type: 'visualization',
+    subtype: 'plain',
+    fileName: '1.csv',
+    // path: ""
+  },
+  {
+    _id: 10,
+    _episode_id: 3,
+    _axis_id: 4,
+    name: 'Αλληλεπιδραστική Οπτικοποίηση',
+    desc: 'Οπτικοποίηση με αλληλεπίδραση των θερμοκρασιών της Γης τα έτη 1880-2022.',
+    type: 'visualization',
+    subtype: 'slider',
+    fileName: '1.csv'
+    // path: ""
+  },
+  {
+    _id: 11,
+    _episode_id: 3,
+    _axis_id: 5,
+    name: 'Απλή Ηχοποίηση',
+    desc: 'Ηχοποίηση των θερμοκρασιών της Γης τα έτη 1880-2022.',
+    type: 'sonification'
+    // path: ""
   }
 ];
 

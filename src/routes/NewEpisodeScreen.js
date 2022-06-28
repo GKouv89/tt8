@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col'
 import LinkContainer from 'react-router-bootstrap/LinkContainer'
 import Card from 'react-bootstrap/Card'
 
-import { getEpisodeContent, getEpisodeDescription } from '../data'
+import { getEpisodeContent, getEpisodeDescription, getPieceOfContent } from '../data'
 import Breadcrumb from '../Component/Breadcrumb'
 
 export default function EpisodeScreenWrapper(props){
@@ -32,14 +32,26 @@ function Description(props){
   );
 }
 
+// function choosePath(id, themid, epid, type, subtype){
+//   switch(type){
+//     case "visualization":
+//       return "/visualizations/" + subtype + "/" + getPieceOfContent(id - 1).fileID;
+//     case "sonification":
+//       return "/sonifications/" + subtype + "/" + getPieceOfContent(id - 1).fileID;
+//     default:
+//       return "/" + themid + "/episodes/"+ epid + "/content/" + id;
+//   }
+// }
+
 function ContentSquare(props){
-  let contentPath = "/" + props.themid + "/episodes/"+ props.epid + "/content/" + props.content._id;
+  // let path = choosePath(props.content._id, props.themid, props.epid, props.content.type, props.content.subtype);
+  let path = `/${props.themid}/episodes/${props.epid}/content/${props.content._id}`;
   return(
     <>
       <Col xxl={2} className="border border-light gridsquare m-0 p-0">
         <Card className={"border border-light gridsquare axis" + props.content._axis_id}>
           <Card.Body className={"border border-light gridsquare axis" + props.content._axis_id}>
-            <LinkContainer to={contentPath}>
+            <LinkContainer to={path}>
               <Card.Title>
                 <Card.Link className="quote-truncate" style={{color: "black", fontSize: "small"}}>
                   {props.content.name}
