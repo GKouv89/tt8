@@ -30,7 +30,7 @@ export default function SliderScreen(){
     }
 
     return(
-        <div className="container">
+        <div className="slider-container">
             <Slider range min={startingYear} max={endingYear} step={1} marks={marks} included={true} allowCross={false} defaultValue={[startingYear, endingYear]} onChange={updateBounds}/>
             <ReactP5Wrapper sketch={sketch} startingYear={lowerBound} endingYear={upperBound}/>
         </div>

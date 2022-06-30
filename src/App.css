@@ -2,3 +2,11 @@
   text-align: center;
   height: 100vh;
 }
+
+.slider-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;  
+  align-content: flex-start;
+  row-gap: 2rem;
+}

@@ -1,5 +1,5 @@
 export default function sketch(p5) {
-    let path = `http://localhost/data/visualizations/plain/1.csv`;
+    let path = `${window.location.protocol}//${window.location.hostname}/data/visualizations/plain/1.csv`;
     let table;
     let width = 800;
     let height = 600;

@@ -72,7 +72,9 @@ function Content(props){
             element = <p>{props.content}</p>
             break;
         case "img":
-            element = <Image src={"http://" + window.location.hostname + props.content} alt="image" fluid={true}/>
+            let src = `${window.location.protocol}//${window.location.hostname}/${props.content}`;
+            element = <Image src={src} alt="image" fluid={true}/>
+            console.log('Path: ' + src);
             break;
     }
     return(

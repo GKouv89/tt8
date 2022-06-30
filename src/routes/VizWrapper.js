@@ -14,7 +14,7 @@ function chooseViz(typeOfVisualization, typeOfScript, fileName){
     if(typeOfVisualization == 'visualization'){
         switch(typeOfScript){
             case 'plain':
-                let path = `http://${window.location.hostname}/data/visualizations/plain/${fileName}`;
+                let path = `${window.location.protocol}//${window.location.hostname}/data/visualizations/plain/${fileName}`;
                 console.log(path);
                 element = <NoSliderViz sketch={viz1.sketch} path={path} />;
                 break;

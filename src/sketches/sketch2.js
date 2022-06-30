@@ -30,7 +30,7 @@ export function sketch(p5){
 
     p5.setup  = async () => {
         p5.createCanvas(width, height);
-        let data = await fetch(`http://${window.location.hostname}/data/sonifications/plain/1.csv`);
+        let data = await fetch(`${window.location.protocol}//${window.location.hostname}/data/sonifications/plain/1.csv`);
         let csv = await data.text();
         let weather = d3.csvParseRows(csv);
         headingEl = p5.createSpan('');

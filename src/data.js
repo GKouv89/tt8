@@ -72,6 +72,7 @@ let content = [
     type: 'text',
     subtype: 'quote',
     format: 'txt',
+    path: ""
     // path: ""
   },
   {
@@ -101,7 +102,7 @@ let content = [
     _episode_id: 3, 
     _axis_id: 5, // Blue
     name: 'Απόφθευγμα',
-    desc: 'Ένα πάρα πάρα πάρα πάρα πάρα πάρα πάρα πάρα πάρα πάρα πάρα πάρα πολύ μεγάλο απόφθευγμα για να δω πως δουλεύει η διάταξη.',
+    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     type: 'text',
     subtype: 'quote',
     format: 'txt',
@@ -138,7 +139,8 @@ let content = [
     type: 'img',
     format: '.jpg',
     // path: process.env.PUBLIC_URL + '/pubassets/_DSC9344.jpg'
-    path: "/data/_DSC9344.jpg"
+    // path: "/data/_DSC9344.jpg"
+    path: "data/_DSC9344.jpg"
   },
   {
     _id: 9,
