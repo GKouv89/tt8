@@ -7,7 +7,7 @@ import * as son1 from '../sketches/sketch2';
 
 import { getPieceOfContent } from '../data';
 
-import { default as VizWithSlider } from '../Component/SliderScreen'
+import { default as VizWithSlider } from './SliderScreen'
 
 function chooseViz(typeOfVisualization, typeOfScript, fileName){
     let element;
@@ -32,7 +32,6 @@ function chooseViz(typeOfVisualization, typeOfScript, fileName){
 }
 
 export default function VizWrapper(props){
-    // let {typeOfVisualization, typeOfScript, contentID} = useParams();
     let typeOfVisualization = getPieceOfContent(props.id - 1).type;
     let typeOfScript = getPieceOfContent(props.id - 1).subtype;
     let fileName = getPieceOfContent(props.id - 1).fileName;

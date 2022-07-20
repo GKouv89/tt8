@@ -16,7 +16,7 @@ import ThemeProvider from 'react-bootstrap/ThemeProvider';
 
 import EpisodeScreenWrapper from './routes/NewEpisodeScreen.js';
 import ContentWrapper from './routes/EpisodeContent';
-import VizWrapper from './routes/VizWrapper';
+import StudioWrapper from './routes/Studio';
 
 class App extends Component {
   render() {
@@ -30,6 +30,7 @@ class App extends Component {
               <Route path=":thematicID" element={<ThematicScreenWrapper colCount={12} gridSize={120}/>} />
               <Route path=":thematicID/episodes/:episodeID" element={<EpisodeScreenWrapper colCount={12} gridSize={120}/>} />
               <Route path=":thematicID/episodes/:episodeID/content/:contentID" element={<ContentWrapper />} />
+              <Route path=":thematicID/episodes/:episodeID/studio" element={<StudioWrapper />}/>
             </Routes>            
           </BrowserRouter>
         </div>

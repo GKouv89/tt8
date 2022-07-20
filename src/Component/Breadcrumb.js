@@ -9,7 +9,7 @@ export default function Breadcrumb(props){
     const [hovered, setHovered] = useState(false);
     // let themPath = "/" + props.themid;
     return(
-      <Container>
+      <Container fluid>
         <Row className="border border-light">
           <Col xxl={4} className={(hovered) ? "border border-light descselected" : "border border-light"}>
             <LinkContainer to={props.path}>

@@ -9,13 +9,14 @@ import Card from 'react-bootstrap/Card'
 
 import { getEpisodeContent, getEpisodeDescription, getPieceOfContent } from '../data'
 import Breadcrumb from '../Component/Breadcrumb'
+import ContentSquare, { EmptySquare, SpecialUseSquare } from '../Component/ContentSquare'
 
 export default function EpisodeScreenWrapper(props){
     let {thematicID, episodeID} = useParams();
     return (
       <EpisodeScreen {...props}
-      epid={episodeID}
-      themid={thematicID}
+        epid={episodeID}
+        themid={thematicID}
       />
     );
 }
@@ -29,63 +30,6 @@ function Description(props){
       </Card.Body>
     </Card>
   </>
-  );
-}
-
-// function choosePath(id, themid, epid, type, subtype){
-//   switch(type){
-//     case "visualization":
-//       return "/visualizations/" + subtype + "/" + getPieceOfContent(id - 1).fileID;
-//     case "sonification":
-//       return "/sonifications/" + subtype + "/" + getPieceOfContent(id - 1).fileID;
-//     default:
-//       return "/" + themid + "/episodes/"+ epid + "/content/" + id;
-//   }
-// }
-
-function ContentSquare(props){
-  // let path = choosePath(props.content._id, props.themid, props.epid, props.content.type, props.content.subtype);
-  let path = `/${props.themid}/episodes/${props.epid}/content/${props.content._id}`;
-  return(
-    <>
-      <Col xxl={2} className="border border-light gridsquare m-0 p-0">
-        <Card className={"border border-light gridsquare axis" + props.content._axis_id}>
-          <Card.Body className={"border border-light gridsquare axis" + props.content._axis_id}>
-            <LinkContainer to={path}>
-              <Card.Title>
-                <Card.Link className="quote-truncate" style={{color: "black", fontSize: "small"}}>
-                  {props.content.name}
-                </Card.Link>
-              </Card.Title>
-            </LinkContainer>
-          </Card.Body>
-        </Card>
-      </Col>
-    </>
-  );
-}
-
-// function fetchMyFile() {
-//   let path = "http://" + window.location.hostname + "/images/data.csv";
-//   fetch(path)
-//     .then((response) => console.log(response.text()));
-//     // .then(() => console.log(response)); 
-// }
-
-function EmptySquare(){
-  // fetchMyFile();
-  return(
-    <>
-      <Col xxl={2} className="border border-light gridsquare m-0 p-0">
-        <Card className="gridsquare border-light empty">
-          <Card.Body 
-            className="empty"
-            as="button"
-            disabled={true}>
-          </Card.Body>
-        </Card>
-      </Col>
-    </>
   );
 }
 
@@ -125,10 +69,21 @@ function EpisodeGrid(props) {
 
   console.log(props.epid);
   console.log(content);
+  let count = 0;
+  let visSonCount = 0;
   for(x = 0; x < content.length; x++){
-    contentSquares.push(<ContentSquare themid={props.themid} epid={props.epid} content={content[x]}/>);
+    if(content[x].type != "visualization" && content[x].type != "sonification"){
+      console.log(content[x]);
+      contentSquares.push(<ContentSquare themid={props.themid} epid={props.epid} content={content[x]} linksElsewhere={true}/>);
+      count++;
+    }else{
+      visSonCount++;
+    }
   }
-  for(x = 0; x < gridSize - content.length ; x++){
+  if(visSonCount){
+    contentSquares.push(<SpecialUseSquare themid={props.themid} epid={props.epid} linksElsewhere={true} text={'Οπτικοποιήσεις και Ηχοποιήσεις Επεισοδίου'}/>);
+  }
+  for(x = 0; x < gridSize - count - 1; x++){
     contentSquares.push(<EmptySquare />);
   }
 

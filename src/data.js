@@ -302,3 +302,9 @@ export function getPieceOfContent(id){
 export function getEpisodeDescription(id){
   return episodes[id].desc;
 }
+
+export function getStudioContent(episodeId){
+  let subsetOfContent = content.filter(x => (x._episode_id == episodeId && (x.type == 'visualization' || x.type == 'sonification')));
+  // console.log(subsetOfContent);
+  return subsetOfContent;
+}
