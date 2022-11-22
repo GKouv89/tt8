@@ -10,6 +10,10 @@ import Card from 'react-bootstrap/Card'
 import { getEpisodeContent, getEpisodeDescription, getPieceOfContent } from '../data'
 import Breadcrumb from '../Component/Breadcrumb'
 import ContentSquare, { EmptySquare, SpecialUseSquare } from '../Component/ContentSquare'
+import { ReactP5Wrapper } from 'react-p5-wrapper'
+
+import * as legendSketch from '../sketches/axisLegendSketch'
+import { AllAxesColors, getAxisColors2 } from '../data'
 
 export default function EpisodeScreenWrapper(props){
     let {thematicID, episodeID} = useParams();
@@ -38,6 +42,7 @@ function EpisodeScreen(props) {
   document.body.className=newClassName;
   let desc = getEpisodeDescription(props.epid - 1);
   let thempath = "/" + props.themid;
+  let axesColorsForLegend = getAxisColors2(props.epid) // Getting all colors of material in this episode, to use them in our legend sketch.
   return (
     <>
       <Container fluid>
@@ -50,6 +55,9 @@ function EpisodeScreen(props) {
           </Row>
           <Row xxl={2}></Row>
           <Row>
+          <Row>
+            <ReactP5Wrapper sketch={legendSketch.sketch} axes={axesColorsForLegend} allAxes={AllAxesColors} />
+          </Row>
           </Row>
           <Row>
             <EpisodeGrid themid={props.themid} epid={props.epid} />

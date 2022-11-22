@@ -172,6 +172,42 @@ let content = [
     desc: 'Ηχοποίηση των θερμοκρασιών της Γης τα έτη 1880-2022.',
     type: 'sonification'
     // path: ""
+  },
+  {
+    _id: 12,
+    _episode_id: 1,
+    _axis_id: 1,
+    name: 'Participant 1 Biometrics',
+    desc: 'Biometrics of the first participant from Section 2',
+    type: 'biometrics',
+    path: "data/thematic_1/episode_1/episode_data/P1-Section2-2.csv"
+  },
+  {
+    _id: 13,
+    _episode_id: 1,
+    _axis_id: 4,
+    name: 'Participant 3 Biometrics',
+    desc: 'Biometrics of the third participant from Section 2',
+    type: 'biometrics',
+    path: "data/thematic_1/episode_1/episode_data/P3-Section2-2.csv"
+  },
+  {
+    _id: 14,
+    _episode_id: 1,
+    _axis_id: 1,
+    name: 'Participant 4 Biometrics',
+    desc: 'Biometrics of the fourth participant from Section 2',
+    type: 'biometrics',
+    path: "data/thematic_1/episode_1/episode_data/P4-Section2-2.csv"
+  },
+  {
+    _id: 15,
+    _episode_id: 1,
+    _axis_id: 4,
+    name: 'Participant 5 Biometrics',
+    desc: 'Biometrics of the fifth participant from Section 2',
+    type: 'biometrics',
+    path: "data/thematic_1/episode_1/episode_data/P5-Section2-2.csv"
   }
 ];
 
@@ -218,25 +254,32 @@ const episodes = [
 
 const axes = [
   {_id: 1,
-    name: "Διορατικότητα"
+    name: "Διορατικότητα",
+    color: '#943853'
   },
   {_id: 2,
-    name: "Αγάπη"
+    name: "Αγάπη",
+    color: '#FDFB85'
   },
   {_id: 3,
-    name: "Ονειροπόλος"
+    name: "Ονειροπόλος",
+    color: '#A5A796'
   },
   {_id: 4,
-    name: "Καταπίεση"
+    name: "Καταπίεση",
+    color: '#F2C47B'
   },
   {_id: 5,
-    name: "Υπεραξία"
+    name: "Υπεραξία",
+    color: '#ADCF8C'
   },
   {_id: 6,
-    name: "Καταπληκτικό"
+    name: "Καταπληκτικό",
+    color: '#C8E9F3'
   },
   {_id: 7,
-    name: "Σταθερότητα"
+    name: "Σταθερότητα",
+    color: '#D7E575'
   },
 ];
 
@@ -258,6 +301,18 @@ export function getAxisColors(episodeID){
   }
   let uniqueAxes = myAxes.filter(onlyUnique);
   // console.log(uniqueAxes);
+  return uniqueAxes;
+}
+
+export function getAxisColors2(episodeID){
+  let myAxes = [], currAxis;
+  for(let i = 0; i < content.length; i++){
+    if(content[i]._episode_id == episodeID){
+      currAxis = content[i]._axis_id - 1
+      myAxes.push(axes[currAxis].color);
+    }
+  }
+  let uniqueAxes = myAxes.filter(onlyUnique);
   return uniqueAxes;
 }
 
