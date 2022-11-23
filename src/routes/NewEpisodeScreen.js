@@ -42,6 +42,7 @@ function EpisodeScreen(props) {
   document.body.className=newClassName;
   let desc = getEpisodeDescription(props.epid - 1);
   let thempath = "/" + props.themid;
+  const path = `/${props.themid}/episodes/${props.epid}`;
   let axesColorsForLegend = getAxisColors2(props.epid) // Getting all colors of material in this episode, to use them in our legend sketch.
   return (
     <>
@@ -54,11 +55,18 @@ function EpisodeScreen(props) {
             <Description classid={props.themid} desc={desc}/>
           </Row>
           <Row xxl={2}></Row>
-          <Row>
-          <Row>
-            <ReactP5Wrapper sketch={legendSketch.sketch} axes={axesColorsForLegend} allAxes={AllAxesColors} />
+          <Row className="justify-content-evenly align-items-center">
+            <Col xxl={4}>
+              <ReactP5Wrapper sketch={legendSketch.sketch} axes={axesColorsForLegend} allAxes={AllAxesColors} />
+            </Col>
+            <Col xxl={4}>
+              <LinkContainer to={`${path}/studio`}>
+                <Button variant="light"> Οπτικοποιήσεις & Ηχοποιήσεις Επεισοδίου</Button>
+              </LinkContainer>
+            </Col>
           </Row>
-          </Row>
+          {/* <Row>
+          </Row> */}
           <Row>
             <EpisodeGrid themid={props.themid} epid={props.epid} />
           </Row>

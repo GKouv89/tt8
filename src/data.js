@@ -180,7 +180,7 @@ let content = [
     name: 'Participant 1 Biometrics',
     desc: 'Biometrics of the first participant from Section 2',
     type: 'biometrics',
-    path: "data/thematic_1/episode_1/episode_data/P1-Section2-2.csv"
+    path: "data/thematic_1/episode_1/participant_data/P1-Section2-2.csv"
   },
   {
     _id: 13,
@@ -189,7 +189,7 @@ let content = [
     name: 'Participant 3 Biometrics',
     desc: 'Biometrics of the third participant from Section 2',
     type: 'biometrics',
-    path: "data/thematic_1/episode_1/episode_data/P3-Section2-2.csv"
+    path: "data/thematic_1/episode_1/participant_data/P3-Section2-2.csv"
   },
   {
     _id: 14,
@@ -198,7 +198,7 @@ let content = [
     name: 'Participant 4 Biometrics',
     desc: 'Biometrics of the fourth participant from Section 2',
     type: 'biometrics',
-    path: "data/thematic_1/episode_1/episode_data/P4-Section2-2.csv"
+    path: "data/thematic_1/episode_1/participant_data/P4-Section2-2.csv"
   },
   {
     _id: 15,
@@ -207,7 +207,7 @@ let content = [
     name: 'Participant 5 Biometrics',
     desc: 'Biometrics of the fifth participant from Section 2',
     type: 'biometrics',
-    path: "data/thematic_1/episode_1/episode_data/P5-Section2-2.csv"
+    path: "data/thematic_1/episode_1/participant_data/P5-Section2-2.csv"
   }
 ];
 
@@ -316,6 +316,22 @@ export function getAxisColors2(episodeID){
   return uniqueAxes;
 }
 
+// This is used to return all axes colors, as well as their names, 
+// so that the sonifications/visualizations can have them
+export function getAxisColorsAndNames(episodeID){
+  let myAxes = [], currAxis;
+  for(let i = 0; i < content.length; i++){
+    if(content[i]._episode_id == episodeID){
+      currAxis = content[i]._axis_id - 1
+      myAxes.push(currAxis);
+    }
+  }
+  let uniqueAxes = myAxes.filter(onlyUnique);
+  let result = []
+  uniqueAxes.map((axis) => result.push({"color": axes[axis].color, "name": `Axis ${axis+1}`}))
+  return result;
+}
+
 export function getContentOfThematic(id){
   console.log('Thematic id is ' + id);
   let subsetOfEpisodes = episodes.filter(x => x._thematic_id == id);
@@ -346,7 +362,6 @@ export function getThematicEpisodes(id){
 
 export function getEpisodeContent(id){
   let subsetOfContent = content.filter(x => x._episode_id == id);
-  // console.log(subsetOfContent);
   return subsetOfContent;
 }
 

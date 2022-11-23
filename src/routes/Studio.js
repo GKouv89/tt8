@@ -1,14 +1,15 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import Breadcrumb from '../Component/Breadcrumb';
 import ContentSquare, { EmptySquare, SpecialUseSquare } from '../Component/ContentSquare';
-import VizWrapper from '../Component/VizWrapper';
+import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
-import { getStudioContent } from '../data';
+import { getStudioContent, getAxisColorsAndNames } from '../data';
+import * as single from '../sketches/singularParticipantSketch'
 
 export default function StudioWrapper(){
     let {thematicID, episodeID} = useParams();
@@ -19,47 +20,56 @@ export default function StudioWrapper(){
     );
 }
 
-function Studio(props){
-    const [chosenViz, setChosenViz] = useState('None');
-    const visCallback = (id='None') => {
-        setChosenViz(id);
+function sketchChoice(chosenViz, axes){
+    switch(chosenViz){
+        case 0: // Screen no. 0 is the sonification/visualization of a signle participant's biometric data.
+            // Either one of his biometrics, or an average of all of them, can be chosen.
+            return <ReactP5Wrapper sketch={single.sketch} axes={axes}/>
+        default:
+            break;
     }
-    const newClassName = "thematic" + props.themid;
-    document.body.className = newClassName;
+}
+
+function Studio(props){
+    const [chosenViz, setChosenViz] = useState(0); 
+    // Integer state for chosenViz is which 'screen' we're currently at
+    const [sketch, setSketch] = useState(null)
+    const [axes, setAxes] = useState(null)
+    const [loadedData, setLoadedData] = useState(false)
+
+    // Setting paths for breadcrumb buttons
+    const newClassName = "thematic" + props.themid; 
+    document.body.className = newClassName; // CSS class for background color
     const eppath = `/${props.themid}/episodes/${props.epid}`;
-    console.log('Chosen Viz: ', chosenViz);
+
+    // Loading data, this will be a fetch call in the near future
+    useEffect(() => {
+        setAxes(getAxisColorsAndNames(props.epid))
+        setLoadedData(true)
+    }, [])
+
+    // If the data has loaded, then we can set the sketch, with the given data
+    useEffect(() => {
+        if(loadedData)
+            setSketch(sketchChoice(chosenViz, axes))
+    }, [loadedData])
+
+    // If the data has loaded, and the 'screen' changes, then we can set the sketch anew
+    useEffect(() => {
+        if(loadedData)
+            setSketch(sketchChoice(chosenViz, axes))
+    }, [chosenViz])
+
     return(
         <Container fluid>
             <Container className="flex-column" fluid>
                 <Row>
                     <Breadcrumb path={eppath} themid={props.themid}/>                
                 </Row>
-                <Row>
-                    <ButtonGrid epid={props.epid} callback={visCallback}/>                    
-                </Row>
-                {chosenViz == 'None' 
-                    ? <></>
-                    :
-                    <Row>
-                        <VizWrapper id={chosenViz} />
-                    </Row>
+                {
+                    loadedData && sketch != null ? sketch : <></>
                 }
             </Container>
         </Container>
     );
-}
-
-function ButtonGrid(props){
-    const studioContent = getStudioContent(props.epid);
-    let contentSquares = [];
-    for(let i = 0; i < studioContent.length; i++){
-        contentSquares.push(<ContentSquare {...props} content={studioContent[i]} linksElsewhere={false} callback={props.callback}/>);
-    }
-    contentSquares.push(<SpecialUseSquare {...props} linksElsewhere={false} callback={props.callback} text={'Καθαρισμός'}/>);
-    let nearestDiv = (studioContent.length + 1)/6 + 1;
-    let remainder = nearestDiv*6 - (studioContent.length + 1)*2;
-    for(let i = 0; i < remainder; i++){
-        contentSquares.push(<EmptySquare />);
-    }
-    return contentSquares;
 }
