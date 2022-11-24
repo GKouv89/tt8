@@ -1,6 +1,7 @@
 import './p5.sound.min.js'
 import './p5.dom.min.js'
 import './p5.js'
+import * as P5Class from "p5"
 
 export function sketch(p5){
     let data = [] // File paths and friendly names for participant biometrics
@@ -14,19 +15,9 @@ export function sketch(p5){
             // Loading first file as to have something to demonstrate
             // Then continuing with the things setup couldn't do because
             // the data were not previously available
-            table = p5.loadTable(`${window.location.protocol}//${window.location.hostname}/${data[0].path}`, 'csv', 'header', () => {continueSetup()}) 
+            table = p5.loadTable(`${window.location.protocol}//${window.location.hostname}/${data[0].path}`, 'csv', 'header') 
         }        
     };
-
-    // This function is called when all data has been given to the sketch
-    // It does parts of the sketch that used to belong to the setup function
-    function continueSetup(){
-        createGUI()
-        // container.position(p5.width + 1, 0)
-        findMinMax()
-        console.log(min)
-        console.log(max)
-    }
 
     let heartSamplePath = './HEART-loop.mp3'
     let bootPath = './TR-909Kick.mp3'
@@ -74,12 +65,12 @@ export function sketch(p5){
         }
     }
 
-//     // Generates period for drum kick looping
-//     function genPeriod(){
-//         let period = 60/table.get(repNo*samplingRate, 0) // Convention: Heart rate is always the first column, 
-//         // and looping is only used with the heart rate
-//         return period;
-//     }
+    // Generates period for drum kick looping
+    function genPeriod(){
+        let period = 60/table.get(repNo*samplingRate, 0) // Convention: Heart rate is always the first column, 
+        // and looping is only used with the heart rate
+        return period;
+    }
     
     function createGUI(){
         container = p5.createDiv().addClass('p5GUI-container')
@@ -129,6 +120,10 @@ export function sketch(p5){
         oscillatorTypeRadio.option('Square', 'square')
         oscillatorTypeRadio.selected('sine')
         oscillatorTypeRadio.addClass('p5GUI-hide')
+
+        oscillatorTypeRadio.changed(() => {
+            oscillator.setType(oscillatorTypeRadio.value())
+        })
     
         // Appropriately displaying the radio buttons according to the user's biometric choice
         biometricRadio.changed(() => {
@@ -163,7 +158,7 @@ export function sketch(p5){
                 playAndExportButton.removeAttribute('disabled')
                 biometricRadio.removeAttribute('disabled')
                 heartTypeRadio.removeAttribute('disabled')
-                // initializeVisuals()
+                initializeVisuals()
             })
         })
     
@@ -186,81 +181,81 @@ export function sketch(p5){
         axisChoice.selected('0')
     
         axisChoice.changed(() => {
-            // initializeVisuals()
+            initializeVisuals()
         })
     }
 
-//     // This is responsible for the appearance of the canvas.
-//     // If one axis color is chosen, then that color is applied as a background color,
-//     // otherwise a gradient is created.
-//     // The logic of the color created will be explained in createColors
-//     function initializeVisuals(){
-//         old_colors = []
-//         new_colors = []
-//         createColors()
-//         switch(axisChoice.value()){
-//             case 'all':
-//                 axes.map((_, idx) => gradient.addColorStop(idx/(axes.length - 1), old_colors[idx]))
-//                 p5.drawingContext.fillStyle = gradient;    
-//                 p5.rect(0, 0, width, height)        
-//                 break;
-//             default:
-//                 p5.background(old_colors[0])
-//                 break;
-//         }
-//     }
+    // This is responsible for the appearance of the canvas.
+    // If one axis color is chosen, then that color is applied as a background color,
+    // otherwise a gradient is created.
+    // The logic of the color created will be explained in createColors
+    function initializeVisuals(){
+        old_colors = []
+        new_colors = []
+        createColors()
+        switch(axisChoice.value()){
+            case 'all':
+                axes.map((_, idx) => gradient.addColorStop(idx/(axes.length - 1), old_colors[idx]))
+                p5.drawingContext.fillStyle = gradient;    
+                p5.rect(0, 0, width, height)        
+                break;
+            default:
+                p5.background(old_colors[0])
+                break;
+        }
+    }
     
-//     // This is responsible for the sound produced.
-//     function setAudio(){
-//         switch(biometricRadio.value()){
-//             case 'heart':
-//                 switch(heartTypeRadio.value()){
-//                     case 'heart':
-//                         // Sonifying heart rate with a heart sound.
-//                         // The sound file continuously loops,
-//                         // and all we must do is map the heart rate's value
-//                         // to the range [0.5, 1.2]
-//                         // and change the playback rate accordingly
-//                         let rate = p5.constrain(p5.map(table.get(repNo*samplingRate, 0), min[0], max[0], 0.5, 1.25), 0.5, 1.25)
-//                         sound.rate(rate)
-//                         break;
-//                     case 'boot':
-//                         // Sonifying heart rate with a kick sound
-//                         // A loop continuously runs, and on a certain time period,
-//                         // triggers the playback of a file
-//                         // We must then map the heart rate to this time period.
-//                         bootLoop.interval = genPeriod();
-//                         break;
-//                     default:
-//                         break;
-//                 }
-//                 break;
-//             case 'gsr':
-//                 // GSR sonification consists of mapping the biometric value to the oscillator frequency
-//                 freq = p5.constrain(p5.map(table.get(repNo*samplingRate, 1), min[1], max[1], minFreq, maxFreq), minFreq, maxFreq)
-//                 oscillator.freq(freq, 0.1)
-//                 break;  
-//             case 'temp':
-//                 // Temperature sonification consists of mapping the biometric value to the oscillator frequency
-//                 freq = p5.constrain(p5.map(table.get(repNo*samplingRate, 2), min[2], max[2], minFreq, maxFreq), minFreq, maxFreq)
-//                 oscillator.freq(freq, 0.1)
-//                 break;
-//             case 'all':
-//                 // Sonifying all biometrics works as follows:
-//                 // We map each biometric to a frequency
-//                 // Then we find the average of the frequencies,
-//                 // and change the oscillator's frequency to this average value.
-//                 let frequencies = 0
-//                 for(let i = 0; i < 2; i++){
-//                     frequencies += p5.constrain(p5.map(table.get(repNo*samplingRate, i), min[i], max[i], minFreq, maxFreq), minFreq, maxFreq)
-//                 }
-//                 freq = frequencies/3
-//                 oscillator.freq(freq, 0.1)
-//                 break;
-//             default:
-//                 break;
-//         }
-//     }
+    // This is responsible for the sound produced.
+    function setAudio(){
+        switch(biometricRadio.value()){
+            case 'heart':
+                switch(heartTypeRadio.value()){
+                    case 'heart':
+                        // Sonifying heart rate with a heart sound.
+                        // The sound file continuously loops,
+                        // and all we must do is map the heart rate's value
+                        // to the range [0.5, 1.2]
+                        // and change the playback rate accordingly
+                        let rate = p5.constrain(p5.map(table.get(repNo*samplingRate, 0), min[0], max[0], 0.5, 1.25), 0.5, 1.25)
+                        sound.rate(rate)
+                        break;
+                    case 'boot':
+                        // Sonifying heart rate with a kick sound
+                        // A loop continuously runs, and on a certain time period,
+                        // triggers the playback of a file
+                        // We must then map the heart rate to this time period.
+                        bootLoop.interval = genPeriod();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 'gsr':
+                // GSR sonification consists of mapping the biometric value to the oscillator frequency
+                freq = p5.constrain(p5.map(table.get(repNo*samplingRate, 1), min[1], max[1], minFreq, maxFreq), minFreq, maxFreq)
+                oscillator.freq(freq, 0.1)
+                break;  
+            case 'temp':
+                // Temperature sonification consists of mapping the biometric value to the oscillator frequency
+                freq = p5.constrain(p5.map(table.get(repNo*samplingRate, 2), min[2], max[2], minFreq, maxFreq), minFreq, maxFreq)
+                oscillator.freq(freq, 0.1)
+                break;
+            case 'all':
+                // Sonifying all biometrics works as follows:
+                // We map each biometric to a frequency
+                // Then we find the average of the frequencies,
+                // and change the oscillator's frequency to this average value.
+                let frequencies = 0
+                for(let i = 0; i < 2; i++){
+                    frequencies += p5.constrain(p5.map(table.get(repNo*samplingRate, i), min[i], max[i], minFreq, maxFreq), minFreq, maxFreq)
+                }
+                freq = frequencies/3
+                oscillator.freq(freq, 0.1)
+                break;
+            default:
+                break;
+        }
+    }
 
 //     // This is called when the user wants to listen the recorded sound
 //     function handlePlayback(){
@@ -276,55 +271,58 @@ export function sketch(p5){
 //     }
 
     p5.setup = () => {
+        console.log('setup')
         p5.createCanvas(800, 800)
         // The visualizer works with HSB mode. Hue and saturation of the colors
         // are determined by the axes the episode belongs to,
         // and brightness is the parameter that is control by the biometrics.
         p5.colorMode(p5.HSB)
-        
-//         // Creating a loop for the heart rate sonifications
-//         bootLoop = new p5.SoundLoop(callback, genPeriod());
-//         bootLoop.bpm = 0;
-    
-//         // Creating an oscillator for all other sonifications (and making it very silent at first)
-//         oscillator = new p5.Oscillator()
-//         oscillator.freq(20)
-//         oscillator.amp(0.2)
-     
-//         oscillatorTypeRadio.changed(() => {
-//             oscillator.setType(oscillatorTypeRadio.value())
-//         })
-    
-//         // This will be used for recording the audio of the sketch
-//         recorder = new p5.SoundRecorder()
 
-//         // This oscillator is used when the drum kick sonification is selected.
-//         // The recorder by default only records when there is output from the 
-//         // sketch, but when using a soundloop, between triggers of the audiofile,
-//         // there is silence, and it would not record these pauses, resulting in an incorrect soundfile
-//         // A silent oscillator bypasses that problem.
-//         pseudoOscillator = new p5.Oscillator('sine')
-//         pseudoOscillator.freq(5)
-//         pseudoOscillator.amp(0.01)
+        findMinMax()
+        createGUI()
+        // Searching for the appropriate container for the gui
+        // most likely a React-Bootstrap Col object
+        // so now that we're done creating the gui we can place it appropriately
+        container.parent(p5.select('#sketch-gui-container'))
+
+        // console.log('insteadOfSetup')
+        
+
+        // Creating an oscillator for all other sonifications (and making it very silent at first)
+        oscillator = new P5Class.Oscillator()
+        oscillator.freq(20)
+        oscillator.amp(0.2)
+
+        // Creating a loop for the heart rate sonifications
+        bootLoop = new P5Class.SoundLoop(() => boot.play, genPeriod());
+        bootLoop.bpm = 0;
+        
+        // This will be used for recording the audio of the sketch
+        recorder = new P5Class.SoundRecorder()
+
+        // This oscillator is used when the drum kick sonification is selected.
+        // The recorder by default only records when there is output from the 
+        // sketch, but when using a soundloop, between triggers of the audiofile,
+        // there is silence, and it would not record these pauses, resulting in an incorrect soundfile
+        // A silent oscillator bypasses that problem.
+        pseudoOscillator = new P5Class.Oscillator('sine')
+        pseudoOscillator.freq(5)
+        pseudoOscillator.amp(0.01)
     
-//         // initializing the sonification
-//         setAudio()
-    
-//         numberOfReps = 10 // DEBUGGING
-//         gradient = p5.drawingContext.createLinearGradient(width/2, 0, width/2, height) // This is used when all axes are used in the visualization
-//         // Initializing canvas appearance
-//         initializeVisuals()
-    
-//         setFrameRate(frameRate) // MIGHT BE A BUG
-//         p5.noLoop()
+        numberOfReps = 10 // DEBUGGING
+
+        p5.setFrameRate(frameRate)
+
+        // initializing the sonification
+        setAudio()
+
+        // Initializing canvas appearance
+        gradient = p5.drawingContext.createLinearGradient(p5.width/2, 0, p5.width/2, p5.height) // This is used when all axes are used in the visualization
+        initializeVisuals() 
+        p5.noLoop()
     }
 
-//     function callback(){
-//         console.log('callback')
-//         boot.play()
-//     }
-
-//     p5.draw = () => {    
+    p5.draw = () => {    
 //         let freq
 //         if(isLooping()){
 //             if(repNo < numberOfReps){
@@ -372,7 +370,7 @@ export function sketch(p5){
 //                 p5.noLoop()
 //             }
 //         }
-//     }
+    }
     
 //     function startSonification(){
 //         // This is used so the sound loop can play without any other sonification playing beforehand.
@@ -536,52 +534,52 @@ export function sketch(p5){
 //       a.remove()
 //     }
     
-//     // This function creates the colors from reading the current values of the CSV,
-//     // as well as the very next one. This way we can smoothly transition between the colors, using LERPing
-//     // If all axes are selected, multiple colors per line are created, otherwise, only one per line (two overall)
-//     function createColors(){
-//         switch(axisChoice.value()){
-//             case 'all':
-//                 for(let i = 0; i < axes.length; i++){
-//                     old_colors[i] = createColor(repNo*samplingRate, i)
-//                     new_colors[i] = createColor((repNo+1)*samplingRate, i)
-//                 }
-//                 break;
-//             default:
-//                 old_colors[0] = createColor(repNo*samplingRate, parseInt(axisChoice.value()))
-//                 new_colors[0] = createColor((repNo+1)*samplingRate, parseInt(axisChoice.value()))
-//                 break;
-//         }
-//     }
+    // This function creates the colors from reading the current values of the CSV,
+    // as well as the very next one. This way we can smoothly transition between the colors, using LERPing
+    // If all axes are selected, multiple colors per line are created, otherwise, only one per line (two overall)
+    function createColors(){
+        switch(axisChoice.value()){
+            case 'all':
+                for(let i = 0; i < axes.length; i++){
+                    old_colors[i] = createColor(repNo*samplingRate, i)
+                    new_colors[i] = createColor((repNo+1)*samplingRate, i)
+                }
+                break;
+            default:
+                old_colors[0] = createColor(repNo*samplingRate, parseInt(axisChoice.value()))
+                new_colors[0] = createColor((repNo+1)*samplingRate, parseInt(axisChoice.value()))
+                break;
+        }
+    }
     
-//     // This function reads the appropriate biometric,
-//     // extracts the hue and saturation from the appropriate axis color
-//     // and maps the biometric to a brightness value, which is combined with
-//     // the above two properties to form a color.
-//     // If all biometrics are selected, then they are all mapped to a brightness value (a number in the range [0, 100])
-//     // then an average value is calculated and that is used as the brightness of the color being created
-//     function createColor(repNo, colorNo){
-//         let c
-//         switch(biometricRadio.value()){
-//             case 'heart':
-//                 c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), p5.constrain(p5.map(table.get(repNo, 0), min[0], max[0], 0, 100), 0, 100))
-//                 break;
-//             case 'gsr':
-//                 c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), p5.constrain(p5.map(table.get(repNo, 1), min[1], max[1], 0, 100), 0, 100))
-//                 break;  
-//             case 'temp':
-//                 c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), p5.constrain(p5.map(table.get(repNo, 2), min[2], max[2], 0, 100), 0, 100))
-//                 break;
-//             case 'all':
-//                 let brightnesses = 0
-//                 for(let i = 0; i < 2; i++){
-//                     brightnesses += p5.constrain(p5.map(table.get(repNo, i), min[i], max[i], 0, 100), 0, 100)
-//                 }
-//                 c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), brightnesses/3)
-//                 break;
-//             default:
-//                 break;
-//         }
-//         return c
-//     }   
+    // This function reads the appropriate biometric,
+    // extracts the hue and saturation from the appropriate axis color
+    // and maps the biometric to a brightness value, which is combined with
+    // the above two properties to form a color.
+    // If all biometrics are selected, then they are all mapped to a brightness value (a number in the range [0, 100])
+    // then an average value is calculated and that is used as the brightness of the color being created
+    function createColor(repNo, colorNo){
+        let c
+        switch(biometricRadio.value()){
+            case 'heart':
+                c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), p5.constrain(p5.map(table.get(repNo, 0), min[0], max[0], 0, 100), 0, 100))
+                break;
+            case 'gsr':
+                c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), p5.constrain(p5.map(table.get(repNo, 1), min[1], max[1], 0, 100), 0, 100))
+                break;  
+            case 'temp':
+                c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), p5.constrain(p5.map(table.get(repNo, 2), min[2], max[2], 0, 100), 0, 100))
+                break;
+            case 'all':
+                let brightnesses = 0
+                for(let i = 0; i < 2; i++){
+                    brightnesses += p5.constrain(p5.map(table.get(repNo, i), min[i], max[i], 0, 100), 0, 100)
+                }
+                c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), brightnesses/3)
+                break;
+            default:
+                break;
+        }
+        return c
+    }   
 }

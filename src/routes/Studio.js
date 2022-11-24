@@ -7,6 +7,7 @@ import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import { getStudioContent, getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
 import * as single from '../sketches/singularParticipantSketch'
@@ -76,5 +77,9 @@ function SketchComponent({axes, files}){
         setSketch(sketchChoice(chosenViz, axes, files))
     }, [chosenViz])
 
-    return(sketch)
+    return(
+        <Row>
+            <Col xxl={6}>{sketch}</Col>
+            <Col xxl={6} id="sketch-gui-container"></Col>
+        </Row>)
 }
