@@ -276,7 +276,10 @@ export function sketch(p5){
         console.log('setup')
         // Canvas width is the width of its container, which has the id mentioned below.
         // This way the canvas and the GUI do not overlap
-        p5.createCanvas(p5.select('#sketch-canvas-container').elt.clientWidth, 800)
+        let parentElem = p5.select('#sketch-canvas-container').elt
+        let canvasWidth = parentElem.clientWidth
+        p5.createCanvas(canvasWidth, 600)
+
         // The visualizer works with HSB mode. Hue and saturation of the colors
         // are determined by the axes the episode belongs to,
         // and brightness is the parameter that is control by the biometrics.
@@ -325,7 +328,7 @@ export function sketch(p5){
     }
 
     p5.windowResized = () => {
-        p5.resizeCanvas(p5.select('#sketch-canvas-container').elt.clientWidth, 800)
+        p5.resizeCanvas(p5.select('#sketch-canvas-container').elt.clientWidth, 600)
         if(!p5.isLooping()){
             console.log('bloo')
             p5.noLoop() // runs draw once
