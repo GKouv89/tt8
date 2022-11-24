@@ -6,6 +6,7 @@ import * as P5Class from "p5"
 export function sketch(p5){
     let data = [] // File paths and friendly names for participant biometrics
     let axes = []
+    let prefixPath = `${window.location.protocol}//${window.location.hostname}` // This is the prefix for the file server
 
     p5.updateWithProps = props => {
         if(axes.length == 0){ // This will be updated only once
@@ -15,7 +16,7 @@ export function sketch(p5){
             // Loading first file as to have something to demonstrate
             // Then continuing with the things setup couldn't do because
             // the data were not previously available
-            table = p5.loadTable(`${window.location.protocol}//${window.location.hostname}/${data[0].path}`, 'csv', 'header') 
+            table = p5.loadTable(`${prefixPath}/${data[0].path}`, 'csv', 'header', () => {console.log('Done loading')}) 
         }        
     };
 
@@ -152,7 +153,7 @@ export function sketch(p5){
             biometricRadio.attribute('disabled', '')
             heartTypeRadio.attribute('disabled', '')
             console.log('Loading ', data[fileSelect.value()].path)
-            table = p5.loadTable(data[fileSelect.value()].path, 'csv', 'header', () => {
+            table = p5.loadTable(`${prefixPath}/${data[fileSelect.value()].path}`, 'csv', 'header', () => {
                 findMinMax()
                 playButton.removeAttribute('disabled')
                 playAndExportButton.removeAttribute('disabled')
