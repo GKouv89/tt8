@@ -51,7 +51,7 @@ function Studio(props){
     }, [])
 
     return(
-        <Container fluid>
+        <Container fluid >
             <Container className="flex-column" fluid>
                 <Row>
                     <Breadcrumb path={eppath} themid={props.themid}/>                
@@ -78,8 +78,8 @@ function SketchComponent({axes, files}){
     }, [chosenViz])
 
     return(
-        <Row>
-            <Col xxl={6}>{sketch}</Col>
-            <Col xxl={6} id="sketch-gui-container"></Col>
+        <Row >
+            <Col id="sketch-canvas-container">{sketch}</Col>
+            <Col id="sketch-gui-container"></Col>
         </Row>)
 }

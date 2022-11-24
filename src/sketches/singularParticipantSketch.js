@@ -274,7 +274,9 @@ export function sketch(p5){
 
     p5.setup = () => {
         console.log('setup')
-        p5.createCanvas(800, 800)
+        // Canvas width is the width of its container, which has the id mentioned below.
+        // This way the canvas and the GUI do not overlap
+        p5.createCanvas(p5.select('#sketch-canvas-container').elt.clientWidth, 800)
         // The visualizer works with HSB mode. Hue and saturation of the colors
         // are determined by the axes the episode belongs to,
         // and brightness is the parameter that is control by the biometrics.
@@ -285,7 +287,8 @@ export function sketch(p5){
         // Searching for the appropriate container for the gui
         // most likely a React-Bootstrap Col object
         // so now that we're done creating the gui we can place it appropriately
-        container.parent(p5.select('#sketch-gui-container'))
+        let columnContainer = p5.select('#sketch-gui-container')
+        container.parent(columnContainer)
 
         // Creating an oscillator for all other sonifications (and making it very silent at first)
         oscillator = new P5Class.Oscillator()
@@ -321,52 +324,58 @@ export function sketch(p5){
         p5.noLoop()
     }
 
+    p5.windowResized = () => {
+        p5.resizeCanvas(p5.select('#sketch-canvas-container').elt.clientWidth, 800)
+        if(!p5.isLooping()){
+            console.log('bloo')
+            p5.noLoop() // runs draw once
+        }
+    }
+
     p5.draw = () => {    
-        if(p5.isLooping()){
-            if(repNo < numberOfReps){
-                if(frameNo % frameRate == 0){ // Every second
-                    // Reading a new line from the csv and updating the sonifying element (oscillator, playback rate or sound loop interval)
-                    setAudio()
-                    // Updating colors of visualization
-                    createColors()
-                    // Monochromatic or gradient visualization?
-                    switch(axisChoice.value()){
-                        case 'all':
-                            axes.map((_, idx) => gradient.addColorStop(idx/(axes.length - 1), old_colors[idx]))
-                            p5.drawingContext.fillStyle = gradient;    
-                            p5.rect(0, 0, p5.width, p5.height)                    
-                            break;
-                        default:
-                            p5.background(old_colors[0])
-                            break;
-                    }
-                    repNo++
-                }else{
-                    // All frames after the first in a given second,
-                    // are focused on the transition between the current color
-                    // and the next color, the way that they result from the mappings.
-                    // LERPing is applied between the current and next color.
-                    // The percentage is the percentage of frames of the current second
-                    // already drawn.
-                    switch(axisChoice.value()){
-                        case 'all':
-                            axes.map((_, idx) => {
-                                gradient.addColorStop(idx/(axes.length - 1), p5.lerpColor(old_colors[idx], new_colors[idx], (frameNo % frameRate)/frameRate))
-                            })
-                            p5.drawingContext.fillStyle = gradient;    
-                            p5.rect(0, 0, p5.width, p5.height)                    
-                            break;
-                        default:
-                            let c = p5.lerpColor(old_colors[0], new_colors[0], (frameNo % frameRate)/frameRate)
-                            p5.background(c)
-                            break;
-                    }
+        if(repNo < numberOfReps){
+            if(frameNo % frameRate == 0){ // Every second
+                // Reading a new line from the csv and updating the sonifying element (oscillator, playback rate or sound loop interval)
+                setAudio()
+                // Updating colors of visualization
+                createColors()
+                // Monochromatic or gradient visualization?
+                switch(axisChoice.value()){
+                    case 'all':
+                        axes.map((_, idx) => gradient.addColorStop(idx/(axes.length - 1), old_colors[idx]))
+                        p5.drawingContext.fillStyle = gradient;    
+                        p5.rect(0, 0, p5.width, p5.height)                    
+                        break;
+                    default:
+                        p5.background(old_colors[0])
+                        break;
                 }
-                frameNo++
+                repNo++
             }else{
-                stopSonification()
-                p5.noLoop()
+                // All frames after the first in a given second,
+                // are focused on the transition between the current color
+                // and the next color, the way that they result from the mappings.
+                // LERPing is applied between the current and next color.
+                // The percentage is the percentage of frames of the current second
+                // already drawn.
+                switch(axisChoice.value()){
+                    case 'all':
+                        axes.map((_, idx) => {
+                            gradient.addColorStop(idx/(axes.length - 1), p5.lerpColor(old_colors[idx], new_colors[idx], (frameNo % frameRate)/frameRate))
+                        })
+                        p5.drawingContext.fillStyle = gradient;    
+                        p5.rect(0, 0, p5.width, p5.height)                    
+                        break;
+                    default:
+                        let c = p5.lerpColor(old_colors[0], new_colors[0], (frameNo % frameRate)/frameRate)
+                        p5.background(c)
+                        break;
+                }
             }
+            frameNo++
+        }else{
+            stopSonification()
+            p5.noLoop()
         }
     }
     
