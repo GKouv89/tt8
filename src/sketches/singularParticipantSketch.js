@@ -41,14 +41,14 @@ export function sketch(p5){
     let fileSelect
     let axisChoice
     
-    let recorder, recording, pseudoOscillator
+    let recorder, recording, videoBlob, pseudoOscillator
     let isRecording = false, isSoundReady = false
     let gradient
     let old_colors, new_colors
 
     p5.preload = () => {
-        sound = p5.loadSound(`${window.location.protocol}//${window.location.hostname}/data/assets/HEART-loop.mp3`)
-        boot = p5.loadSound(`${window.location.protocol}//${window.location.hostname}/data/assets/TR-909Kick.mp3`)
+        sound = p5.loadSound(`${prefixPath}/data/assets/HEART-loop.mp3`)
+        boot = p5.loadSound(`${prefixPath}/data/assets/TR-909Kick.mp3`)
     }
 
     function findMinMax(){ // finds minimum and maximum values of all biometrics
@@ -168,7 +168,7 @@ export function sketch(p5){
         playRecordingButton.mousePressed(handlePlayback)
         playRecordingButton.attribute('disabled', '')
         downloadButton = p5.createButton('Download Recording').parent(exportContainer).addClass('p5GUI-item')
-        downloadButton.mousePressed(() => {p5.save(recording, 'sonification.wav')});
+        downloadButton.mousePressed(() => {p5.save(recording, 'sonification.wav'); exportVid(videoBlob)});
         downloadButton.attribute('disabled', '')
     
         // The user has the following options for the visualizer:
@@ -515,7 +515,8 @@ export function sketch(p5){
       // every time the recorder has new data, we will store it in our array
       rec.ondataavailable = e => chunks.push(e.data);
       // only when the recorder stops, we construct a complete Blob from all the chunks
-      rec.onstop = e => exportVid(new Blob(chunks, {type: 'video/mp4'})); // We export the video the moment the recording is done, this might change
+    //   rec.onstop = e => exportVid(new Blob(chunks, {type: 'video/mp4'})); // We export the video the moment the recording is done, this might change
+      rec.onstop = e => videoBlob = new Blob(chunks, {type: 'video/mp4'}); // We save the video for later exporting
       
       rec.start();
       setTimeout(()=>rec.stop(), numberOfReps*1000); // The length of the recording is roughly the same as the number of reps
