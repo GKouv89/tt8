@@ -78,14 +78,14 @@ export function sketch(p5){
     
         // The following 3 buttons start, pause and stop the visualization and the sonification, respectively
         playButton = p5.createButton('Play').parent(playContainer).addClass('p5GUI-item');
-        // playButton.mousePressed(startSonification);
+        playButton.mousePressed(startSonification);
     
         pauseButton = p5.createButton('Pause').parent(playContainer).addClass('p5GUI-item');
         // pauseButton.mousePressed(pauseSonification);
         pauseButton.attribute('disabled', '')
     
         stopButton = p5.createButton('Stop').parent(playContainer).addClass('p5GUI-item');
-        // stopButton.mousePressed(stopSonification);
+        stopButton.mousePressed(stopSonification);
         stopButton.attribute('disabled', '')
     
         // The play and export button records both the visual and audio parts of the sketch
@@ -197,7 +197,7 @@ export function sketch(p5){
             case 'all':
                 axes.map((_, idx) => gradient.addColorStop(idx/(axes.length - 1), old_colors[idx]))
                 p5.drawingContext.fillStyle = gradient;    
-                p5.rect(0, 0, width, height)        
+                p5.rect(0, 0, p5.width, p5.height)        
                 break;
             default:
                 p5.background(old_colors[0])
@@ -207,6 +207,7 @@ export function sketch(p5){
     
     // This is responsible for the sound produced.
     function setAudio(){
+        let freq
         switch(biometricRadio.value()){
             case 'heart':
                 switch(heartTypeRadio.value()){
@@ -285,9 +286,6 @@ export function sketch(p5){
         // so now that we're done creating the gui we can place it appropriately
         container.parent(p5.select('#sketch-gui-container'))
 
-        // console.log('insteadOfSetup')
-        
-
         // Creating an oscillator for all other sonifications (and making it very silent at first)
         oscillator = new P5Class.Oscillator()
         oscillator.freq(20)
@@ -323,160 +321,159 @@ export function sketch(p5){
     }
 
     p5.draw = () => {    
-//         let freq
-//         if(isLooping()){
-//             if(repNo < numberOfReps){
-//                 if(frameNo % frameRate == 0){ // Every second
-//                     // Reading a new line from the csv and updating the sonifying element (oscillator, playback rate or sound loop interval)
-//                     setAudio()
-//                     // Updating colors of visualization
-//                     createColors()
-//                     // Monochromatic or gradient visualization?
-//                     switch(axisChoice.value()){
-//                         case 'all':
-//                             axes.map((_, idx) => gradient.addColorStop(idx/(axes.length - 1), old_colors[idx]))
-//                             p5.drawingContext.fillStyle = gradient;    
-//                             p5.rect(0, 0, p5.width, p5.height)                    
-//                             break;
-//                         default:
-//                             p5.background(old_colors[0])
-//                             break;
-//                     }
-//                     repNo++
-//                 }else{
-//                     // All frames after the first in a given second,
-//                     // are focused on the transition between the current color
-//                     // and the next color, the way that they result from the mappings.
-//                     // LERPing is applied between the current and next color.
-//                     // The percentage is the percentage of frames of the current second
-//                     // already drawn.
-//                     switch(axisChoice.value()){
-//                         case 'all':
-//                             axes.map((_, idx) => {
-//                                 gradient.addColorStop(idx/(axes.length - 1), p5.lerpColor(old_colors[idx], new_colors[idx], (frameNo % frameRate)/frameRate))
-//                             })
-//                             p5.drawingContext.fillStyle = gradient;    
-//                             p5.rect(0, 0, p5.width, p5.height)                    
-//                             break;
-//                         default:
-//                             let c = p5.lerpColor(old_colors[0], new_colors[0], (frameNo % frameRate)/frameRate)
-//                             p5.background(c)
-//                             break;
-//                     }
-//                 }
-//                 frameNo++
-//             }else{
-//                 stopSonification()
-//                 p5.noLoop()
-//             }
-//         }
+        if(p5.isLooping()){
+            if(repNo < numberOfReps){
+                if(frameNo % frameRate == 0){ // Every second
+                    // Reading a new line from the csv and updating the sonifying element (oscillator, playback rate or sound loop interval)
+                    setAudio()
+                    // Updating colors of visualization
+                    createColors()
+                    // Monochromatic or gradient visualization?
+                    switch(axisChoice.value()){
+                        case 'all':
+                            axes.map((_, idx) => gradient.addColorStop(idx/(axes.length - 1), old_colors[idx]))
+                            p5.drawingContext.fillStyle = gradient;    
+                            p5.rect(0, 0, p5.width, p5.height)                    
+                            break;
+                        default:
+                            p5.background(old_colors[0])
+                            break;
+                    }
+                    repNo++
+                }else{
+                    // All frames after the first in a given second,
+                    // are focused on the transition between the current color
+                    // and the next color, the way that they result from the mappings.
+                    // LERPing is applied between the current and next color.
+                    // The percentage is the percentage of frames of the current second
+                    // already drawn.
+                    switch(axisChoice.value()){
+                        case 'all':
+                            axes.map((_, idx) => {
+                                gradient.addColorStop(idx/(axes.length - 1), p5.lerpColor(old_colors[idx], new_colors[idx], (frameNo % frameRate)/frameRate))
+                            })
+                            p5.drawingContext.fillStyle = gradient;    
+                            p5.rect(0, 0, p5.width, p5.height)                    
+                            break;
+                        default:
+                            let c = p5.lerpColor(old_colors[0], new_colors[0], (frameNo % frameRate)/frameRate)
+                            p5.background(c)
+                            break;
+                    }
+                }
+                frameNo++
+            }else{
+                stopSonification()
+                p5.noLoop()
+            }
+        }
     }
     
-//     function startSonification(){
-//         // This is used so the sound loop can play without any other sonification playing beforehand.
-//         // If this isn't used, one must choose any other option, stop, then choose the kick option.
-//         p5.userStartAudio() 
-//         startSound()
-//         p5.loop()
-//         // Disabling most GUI elements
-//         playButton.attribute('disabled', '')
-//         pauseButton.removeAttribute('disabled')
-//         stopButton.removeAttribute('disabled')
-//         heartTypeRadio.attribute('disabled', '')
-//         biometricRadio.attribute('disabled', '')
-//         oscillatorTypeRadio.attribute('disabled', '')
-//         playAndExportButton.attribute('disabled', '')
-//         axisChoice.attribute('disabled', '')
-//         fileSelect.attribute('disabled', '')
-//         // If the user has already created a recording, we must disable this button as well
-//         if(!isRecording && isSoundReady){
-//             playRecordingButton.attribute('disabled', '')
-//         }
-//     }
+    function startSonification(){
+        // This is used so the sound loop can play without any other sonification playing beforehand.
+        // If this isn't used, one must choose any other option, stop, then choose the kick option.
+        p5.userStartAudio() 
+        startSound()
+        p5.loop()
+        // Disabling most GUI elements
+        playButton.attribute('disabled', '')
+        pauseButton.removeAttribute('disabled')
+        stopButton.removeAttribute('disabled')
+        heartTypeRadio.attribute('disabled', '')
+        biometricRadio.attribute('disabled', '')
+        oscillatorTypeRadio.attribute('disabled', '')
+        playAndExportButton.attribute('disabled', '')
+        axisChoice.attribute('disabled', '')
+        fileSelect.attribute('disabled', '')
+        // If the user has already created a recording, we must disable this button as well
+        if(!isRecording && isSoundReady){
+            playRecordingButton.attribute('disabled', '')
+        }
+    }
 
-//     // Necessary commands to start sonification according to the option selected
-//     function startSound(){
-//         switch(biometricRadio.value()){
-//             case 'heart':
-//                 switch(heartTypeRadio.value()){
-//                     case 'heart':
-//                         sound.loop()
-//                         break;
-//                     case 'boot':
-//                         pseudoOscillator.start()
-//                         bootLoop.start()
-//                         break;
-//                     default:
-//                         break;
-//                 }
-//                 break;
-//             case 'temp':
-//             case 'gsr':
-//             case 'all':
-//                 oscillator.start()
-//                 break;
-//             default:
-//                 break;
-//         }
-//     }
+    // Necessary commands to start sonification according to the option selected
+    function startSound(){
+        switch(biometricRadio.value()){
+            case 'heart':
+                switch(heartTypeRadio.value()){
+                    case 'heart':
+                        sound.loop()
+                        break;
+                    case 'boot':
+                        pseudoOscillator.start()
+                        bootLoop.start()
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 'temp':
+            case 'gsr':
+            case 'all':
+                oscillator.start()
+                break;
+            default:
+                break;
+        }
+    }
 
-//     // Necessary commands to stop sonification according to the option selected
-//     function stopSound(){
-//         switch(biometricRadio.value()){
-//             case 'heart':
-//                 switch(heartTypeRadio.value()){
-//                     case 'heart':
-//                         sound.stop()
-//                         break;
-//                     case 'boot':
-//                         bootLoop.stop()
-//                         pseudoOscillator.stop()
-//                         break;
-//                     default:
-//                         break;
-//                 }
-//                 break;
-//             case 'temp':
-//             case 'gsr':
-//             case 'all':
-//                 oscillator.stop()
-//                 break;        
-//             default:
-//                 break;
-//         }
-//     }
+    // Necessary commands to stop sonification according to the option selected
+    function stopSound(){
+        switch(biometricRadio.value()){
+            case 'heart':
+                switch(heartTypeRadio.value()){
+                    case 'heart':
+                        sound.stop()
+                        break;
+                    case 'boot':
+                        bootLoop.stop()
+                        pseudoOscillator.stop()
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 'temp':
+            case 'gsr':
+            case 'all':
+                oscillator.stop()
+                break;        
+            default:
+                break;
+        }
+    }
     
-//     function stopSonification(){
-//         // Resetting repetition and frame counters, so that the sonification and visualization can start from the top.
-//         repNo = 0
-//         frameNo = 0
-//         stopSound()
-//         p5.noLoop()
+    function stopSonification(){
+        // Resetting repetition and frame counters, so that the sonification and visualization can start from the top.
+        repNo = 0
+        frameNo = 0
+        stopSound()
+        p5.noLoop()
 
-//         // Re-enabling GUI elements
-//         playButton.removeAttribute('disabled')
-//         pauseButton.attribute('disabled', '')
-//         stopButton.attribute('disabled', '')
-//         playAndExportButton.removeAttribute('disabled')
-//         heartTypeRadio.removeAttribute('disabled')
-//         biometricRadio.removeAttribute('disabled')
-//         axisChoice.removeAttribute('disabled')
-//         oscillatorTypeRadio.removeAttribute('disabled')
-//         fileSelect.removeAttribute('disabled')
-//         // If the recorder is also running, we handle its state variables and GUI components accordingly
-//         if(isRecording){
-//             playRecordingButton.removeAttribute('disabled')
-//             downloadButton.removeAttribute('disabled')
-//             recorder.stop()
-//             isRecording = false
-//             isSoundReady = true
-//         }else if(!isRecording && isSoundReady){
-//             playRecordingButton.removeAttribute('disabled', '')
-//         }
-//         // Redrawing the canvas so it takes the colors
-//         // that correspond to the values in the CSV's first line
-//         initializeVisuals()
-//     }
+        // Re-enabling GUI elements
+        playButton.removeAttribute('disabled')
+        pauseButton.attribute('disabled', '')
+        stopButton.attribute('disabled', '')
+        playAndExportButton.removeAttribute('disabled')
+        heartTypeRadio.removeAttribute('disabled')
+        biometricRadio.removeAttribute('disabled')
+        axisChoice.removeAttribute('disabled')
+        oscillatorTypeRadio.removeAttribute('disabled')
+        fileSelect.removeAttribute('disabled')
+        // If the recorder is also running, we handle its state variables and GUI components accordingly
+        if(isRecording){
+            playRecordingButton.removeAttribute('disabled')
+            downloadButton.removeAttribute('disabled')
+            recorder.stop()
+            isRecording = false
+            isSoundReady = true
+        }else if(!isRecording && isSoundReady){
+            playRecordingButton.removeAttribute('disabled', '')
+        }
+        // Redrawing the canvas so it takes the colors
+        // that correspond to the values in the CSV's first line
+        initializeVisuals()
+    }
 
 //     function pauseSonification(){
 //         noLoop()
