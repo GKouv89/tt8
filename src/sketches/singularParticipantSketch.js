@@ -3,36 +3,29 @@ import './p5.dom.min.js'
 import './p5.js'
 
 export function sketch(p5){
-    const data = [ // Temporarily hardcoded, this will be fetching
-        // one of these files at a time, or more accurately will 
-        // take one of these filenames as a parameter from the reactp5wrapper
-        {path: 'data/thematic_1/episode_1/participant_data/P1-Section2-2.csv', name: '1st Participant'},
-        {path: 'data/thematic_1/episode_1/participant_data/P3-Section2-2.csv', name: '3rd Participant'},
-        {path: 'data/thematic_1/episode_1/participant_data/P4-Section2-2.csv', name: '4th Participant'},
-        {path: 'data/thematic_1/episode_1/participant_data/P5-Section2-2.csv', name: '5th Participant'},
-    ]
-    
-    // const axes = [ // Temporarily hardcoded, this will be fetching
-    // // these colors or will take them as a parameter from the reactp5wrapper
-    //     {'color': '#FF0000', name: '1st Axis'},
-    //     {'color': '#00FF00', name: '4th Axis'}    
-    // ]
-
+    let data = [] // File paths and friendly names for participant biometrics
     let axes = []
 
     p5.updateWithProps = props => {
         if(axes.length == 0){ // This will be updated only once
             axes = props.axes;
-            redoSetup()
-        }
-        
+            // Along with axes we can be certain the data array can be initialized
+            data = props.files
+            // Loading first file as to have something to demonstrate
+            // Then continuing with the things setup couldn't do because
+            // the data were not previously available
+            table = p5.loadTable(`${window.location.protocol}//${window.location.hostname}/${data[0].path}`, 'csv', 'header', () => {continueSetup()}) 
+        }        
     };
 
     // This function is called when all data has been given to the sketch
     // It does parts of the sketch that used to belong to the setup function
-    function redoSetup(){
+    function continueSetup(){
         createGUI()
         // container.position(p5.width + 1, 0)
+        findMinMax()
+        console.log(min)
+        console.log(max)
     }
 
     let heartSamplePath = './HEART-loop.mp3'
@@ -61,26 +54,25 @@ export function sketch(p5){
     let gradient
     let old_colors, new_colors
 
-    p5.preload = () => { // Maybe loadTable won't be taking place here, more on that in a bit.        
-        table = p5.loadTable(`${window.location.protocol}//${window.location.hostname}/${data[0].path}`, 'csv', 'header') // Loading first file as to have something to demonstrate
+    p5.preload = () => {
         sound = p5.loadSound(`${window.location.protocol}//${window.location.hostname}/data/assets/HEART-loop.mp3`)
         boot = p5.loadSound(`${window.location.protocol}//${window.location.hostname}/data/assets/TR-909Kick.mp3`)
     }
 
-//     function findMinMax(){ // finds minimum and maximum values of all biometrics
-//         // for any given participant, to later use them in mapping.
-//         let currval, numberOfReps = 0
-//         min = [1000, 1000, 1000] // index 0 is HR, index 1 is SC, index 2 is TEMP
-//         max = [0, 0, 0]
-//         for(let i = 0; i < table.getRowCount(); i += samplingRate){
-//             for(let j = 0; j < 3; j++){
-//                 currval = parseFloat(table.get(i, j))
-//                 min[j] = (() => {return currval < min[j] ? currval : min[j]})()
-//                 max[j] = (() => {return currval > max[j] ? currval : max[j]})()
-//             }
-//             numberOfReps++
-//         }
-//     }
+    function findMinMax(){ // finds minimum and maximum values of all biometrics
+        // for any given participant, to later use them in mapping.
+        let currval, numberOfReps = 0
+        min = [1000, 1000, 1000] // index 0 is HR, index 1 is SC, index 2 is TEMP
+        max = [0, 0, 0]
+        for(let i = 0; i < table.getRowCount(); i += samplingRate){
+            for(let j = 0; j < 3; j++){
+                currval = parseFloat(table.get(i, j))
+                min[j] = (() => {return currval < min[j] ? currval : min[j]})()
+                max[j] = (() => {return currval > max[j] ? currval : max[j]})()
+            }
+            numberOfReps++
+        }
+    }
 
 //     // Generates period for drum kick looping
 //     function genPeriod(){
@@ -289,10 +281,6 @@ export function sketch(p5){
         // are determined by the axes the episode belongs to,
         // and brightness is the parameter that is control by the biometrics.
         p5.colorMode(p5.HSB)
-//         findMinMax()
-    
-//         createGUI()
-//         container.position(p5.width + 1, 0)
         
 //         // Creating a loop for the heart rate sonifications
 //         bootLoop = new p5.SoundLoop(callback, genPeriod());

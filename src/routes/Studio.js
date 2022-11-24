@@ -8,7 +8,7 @@ import { ReactP5Wrapper } from 'react-p5-wrapper';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
-import { getStudioContent, getAxisColorsAndNames } from '../data';
+import { getStudioContent, getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
 import * as single from '../sketches/singularParticipantSketch'
 
 export default function StudioWrapper(){
@@ -20,22 +20,21 @@ export default function StudioWrapper(){
     );
 }
 
-function sketchChoice(chosenViz, axes){
+function sketchChoice(chosenViz, axes, files){
     switch(chosenViz){
         case 0: // Screen no. 0 is the sonification/visualization of a signle participant's biometric data.
             // Either one of his biometrics, or an average of all of them, can be chosen.
-            return <ReactP5Wrapper sketch={single.sketch} axes={axes}/>
+            return <ReactP5Wrapper sketch={single.sketch} axes={axes} files={files}/>
         default:
             break;
     }
 }
 
 function Studio(props){
-    const [chosenViz, setChosenViz] = useState(0); 
-    // Integer state for chosenViz is which 'screen' we're currently at
-    const [sketch, setSketch] = useState(null)
-    const [axes, setAxes] = useState(null)
-    const [loadedData, setLoadedData] = useState(false)
+    // The data for sonification and visualization are loaded here
+    // So we can avoid reload every time we change the sonification/visualization given
+    // Here we store the axes and the file paths/names for the sketch
+    const [data, setData] = useState(null)
 
     // Setting paths for breadcrumb buttons
     const newClassName = "thematic" + props.themid; 
@@ -43,22 +42,12 @@ function Studio(props){
     const eppath = `/${props.themid}/episodes/${props.epid}`;
 
     // Loading data, this will be a fetch call in the near future
+    // This runs just once, when the component renders
     useEffect(() => {
-        setAxes(getAxisColorsAndNames(props.epid))
-        setLoadedData(true)
+        let axes = getAxisColorsAndNames(props.epid)
+        let files = getAllEpisodeBiometrics(props.epid)
+        setData({axes: axes, files: files})
     }, [])
-
-    // If the data has loaded, then we can set the sketch, with the given data
-    useEffect(() => {
-        if(loadedData)
-            setSketch(sketchChoice(chosenViz, axes))
-    }, [loadedData])
-
-    // If the data has loaded, and the 'screen' changes, then we can set the sketch anew
-    useEffect(() => {
-        if(loadedData)
-            setSketch(sketchChoice(chosenViz, axes))
-    }, [chosenViz])
 
     return(
         <Container fluid>
@@ -67,9 +56,25 @@ function Studio(props){
                     <Breadcrumb path={eppath} themid={props.themid}/>                
                 </Row>
                 {
-                    loadedData && sketch != null ? sketch : <></>
+                    data && <SketchComponent axes={data.axes} files={data.files}/>
                 }
             </Container>
         </Container>
     );
+}
+
+function SketchComponent({axes, files}){
+    // Integer state for chosenViz is which 'screen' we're currently at
+    const [chosenViz, setChosenViz] = useState(0); 
+    // Here we store a reference (?) to the ReactP5Wrapper object of the chosen sketch
+    // so when that changes, the component is rerendered
+    const [sketch, setSketch] = useState(null)
+
+    // If the 'screen' changes, then we can also set the sketch anew
+    // This is called also on the 1st render of the component to show the 1st sketch
+    useEffect(() => {
+        setSketch(sketchChoice(chosenViz, axes, files))
+    }, [chosenViz])
+
+    return(sketch)
 }

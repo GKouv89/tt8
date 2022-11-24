@@ -332,6 +332,17 @@ export function getAxisColorsAndNames(episodeID){
   return result;
 }
 
+// This will return objects with the friendly names of the files
+// and their respective paths when queried from the visualization/sonification
+export function getAllEpisodeBiometrics(episodeID){
+  let result = []
+  content.map((contentPiece) => {
+    if(contentPiece._episode_id == episodeID && contentPiece.type == 'biometrics')
+      result.push({"path": contentPiece.path, "name": contentPiece.name})
+  })
+  return result
+}
+
 export function getContentOfThematic(id){
   console.log('Thematic id is ' + id);
   let subsetOfEpisodes = episodes.filter(x => x._thematic_id == id);
