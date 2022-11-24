@@ -82,7 +82,7 @@ export function sketch(p5){
         playButton.mousePressed(startSonification);
     
         pauseButton = p5.createButton('Pause').parent(playContainer).addClass('p5GUI-item');
-        // pauseButton.mousePressed(pauseSonification);
+        pauseButton.mousePressed(pauseSonification);
         pauseButton.attribute('disabled', '')
     
         stopButton = p5.createButton('Stop').parent(playContainer).addClass('p5GUI-item');
@@ -92,7 +92,7 @@ export function sketch(p5){
         // The play and export button records both the visual and audio parts of the sketch
         exportContainer = p5.createDiv().parent(container).addClass('p5GUI-row')
         playAndExportButton = p5.createButton('Play & Export').parent(exportContainer).addClass('p5GUI-item');
-        // playAndExportButton.mousePressed(recordSonification);
+        playAndExportButton.mousePressed(recordSonification);
     
         // This radio button lets the user choose whether they want to visualize/sonify:
         // the participant's heart rate, their skin conductance, their temperature, or
@@ -165,10 +165,10 @@ export function sketch(p5){
     
         // If the user has recorded the sketch, they can listen to their recording, and download it.
         playRecordingButton = p5.createButton('Play Recording').parent(exportContainer).addClass('p5GUI-item')
-        // playRecordingButton.mousePressed(handlePlayback)
+        playRecordingButton.mousePressed(handlePlayback)
         playRecordingButton.attribute('disabled', '')
         downloadButton = p5.createButton('Download Recording').parent(exportContainer).addClass('p5GUI-item')
-        downloadButton.mousePressed(() => {save(recording, 'sonification.wav')});
+        downloadButton.mousePressed(() => {p5.save(recording, 'sonification.wav')});
         downloadButton.attribute('disabled', '')
     
         // The user has the following options for the visualizer:
@@ -259,18 +259,18 @@ export function sketch(p5){
         }
     }
 
-//     // This is called when the user wants to listen the recorded sound
-//     function handlePlayback(){
-//         playButton.attribute('disabled', '')
-//         playRecordingButton.attribute('disabled', '')
-//         playAndExportButton.attribute('disabled', '')
-//         recording.play()
-//         recording.onended(() => {
-//             playButton.removeAttribute('disabled')
-//             playRecordingButton.removeAttribute('disabled')
-//             playAndExportButton.removeAttribute('disabled')
-//         })
-//     }
+    // This is called when the user wants to listen the recorded sound
+    function handlePlayback(){
+        playButton.attribute('disabled', '')
+        playRecordingButton.attribute('disabled', '')
+        playAndExportButton.attribute('disabled', '')
+        recording.play()
+        recording.onended(() => {
+            playButton.removeAttribute('disabled')
+            playRecordingButton.removeAttribute('disabled')
+            playAndExportButton.removeAttribute('disabled')
+        })
+    }
 
     p5.setup = () => {
         console.log('setup')
@@ -293,7 +293,7 @@ export function sketch(p5){
         oscillator.amp(0.2)
 
         // Creating a loop for the heart rate sonifications
-        bootLoop = new P5Class.SoundLoop(() => boot.play, genPeriod());
+        bootLoop = new P5Class.SoundLoop(() => boot.play(), genPeriod());
         bootLoop.bpm = 0;
         
         // This will be used for recording the audio of the sketch
@@ -476,61 +476,61 @@ export function sketch(p5){
         initializeVisuals()
     }
 
-//     function pauseSonification(){
-//         noLoop()
-//         stopSound()
-//         playButton.removeAttribute('disabled')
-//         axisChoice.removeAttribute('disabled')
-//         pauseButton.attribute('disabled', '')
-//     }
+    function pauseSonification(){
+        p5.noLoop()
+        stopSound()
+        playButton.removeAttribute('disabled')
+        axisChoice.removeAttribute('disabled')
+        pauseButton.attribute('disabled', '')
+    }
     
-//     function recordSonification(){
-//         // Same logic with start sonification, but here we cannot stop
-//         // the recording before all lines are read from the CSV
-//         p5.userStartAudio()
-//         playButton.attribute('disabled', '')
-//         pauseButton.attribute('disabled', '')
-//         stopButton.attribute('disabled', '')
-//         playAndExportButton.attribute('disabled', '')
-//         heartTypeRadio.attribute('disabled', '')
-//         biometricRadio.attribute('disabled', '')
-//         oscillatorTypeRadio.attribute('disabled', '')
-//         axisChoice.attribute('disabled', '')
+    function recordSonification(){
+        // Same logic with start sonification, but here we cannot stop
+        // the recording before all lines are read from the CSV
+        p5.userStartAudio()
+        playButton.attribute('disabled', '')
+        pauseButton.attribute('disabled', '')
+        stopButton.attribute('disabled', '')
+        playAndExportButton.attribute('disabled', '')
+        heartTypeRadio.attribute('disabled', '')
+        biometricRadio.attribute('disabled', '')
+        oscillatorTypeRadio.attribute('disabled', '')
+        axisChoice.attribute('disabled', '')
     
-//         isRecording = true
+        isRecording = true
     
-//         recording = new p5.SoundFile()
-//         recorder.record(recording)
-//         startSound()
-//         p5.loop()
-//         startRecording()
-//     }
+        recording = new P5Class.SoundFile()
+        recorder.record(recording)
+        startSound()
+        p5.loop()
+        startRecording()
+    }
 
-//     // This function is used for capturing the visuals of the sketch
-//     function startRecording() {
-//       const chunks = []; // here we will store our recorded media chunks (Blobs)
-//       const canvas = document.querySelector('canvas');
-//       const stream = canvas.captureStream(25); // grab our canvas MediaStream
-//       const rec = new MediaRecorder(stream); // init the recorder
-//       // every time the recorder has new data, we will store it in our array
-//       rec.ondataavailable = e => chunks.push(e.data);
-//       // only when the recorder stops, we construct a complete Blob from all the chunks
-//       rec.onstop = e => exportVid(new Blob(chunks, {type: 'video/mp4'})); // We export the video the moment the recording is done, this might change
+    // This function is used for capturing the visuals of the sketch
+    function startRecording() {
+      const chunks = []; // here we will store our recorded media chunks (Blobs)
+      const canvas = document.querySelector('canvas');
+      const stream = canvas.captureStream(25); // grab our canvas MediaStream
+      const rec = new MediaRecorder(stream); // init the recorder
+      // every time the recorder has new data, we will store it in our array
+      rec.ondataavailable = e => chunks.push(e.data);
+      // only when the recorder stops, we construct a complete Blob from all the chunks
+      rec.onstop = e => exportVid(new Blob(chunks, {type: 'video/mp4'})); // We export the video the moment the recording is done, this might change
       
-//       rec.start();
-//       setTimeout(()=>rec.stop(), numberOfReps*1000); // The length of the recording is roughly the same as the number of reps
-//     }
+      rec.start();
+      setTimeout(()=>rec.stop(), numberOfReps*1000); // The length of the recording is roughly the same as the number of reps
+    }
     
-//     function exportVid(blob) {
-//       // Just creating an anchor element to download, then using and deleting it.
-//       const a = document.createElement('a');
-//       a.download = 'myvid.mp4';
-//       a.href = URL.createObjectURL(blob);
-//       a.textContent = 'download the video';
-//       document.body.appendChild(a);
-//       a.click()
-//       a.remove()
-//     }
+    function exportVid(blob) {
+      // Just creating an anchor element to download, then using and deleting it.
+      const a = document.createElement('a');
+      a.download = 'myvid.mp4';
+      a.href = URL.createObjectURL(blob);
+      a.textContent = 'download the video';
+      document.body.appendChild(a);
+      a.click()
+      a.remove()
+    }
     
     // This function creates the colors from reading the current values of the CSV,
     // as well as the very next one. This way we can smoothly transition between the colors, using LERPing
