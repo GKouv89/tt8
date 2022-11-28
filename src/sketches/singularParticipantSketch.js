@@ -196,6 +196,7 @@ export function sketch(p5){
         createColors()
         switch(axisChoice.value()){
             case 'all':
+                gradient = p5.drawingContext.createLinearGradient(p5.width/2, 0, p5.width/2, p5.height) // This is used when all axes are used in the visualization
                 axes.map((_, idx) => gradient.addColorStop(idx/(axes.length - 1), old_colors[idx]))
                 p5.drawingContext.fillStyle = gradient;    
                 p5.rect(0, 0, p5.width, p5.height)        
@@ -330,7 +331,6 @@ export function sketch(p5){
     p5.windowResized = () => {
         p5.resizeCanvas(p5.select('#sketch-canvas-container').elt.clientWidth, 600)
         if(!p5.isLooping()){
-            console.log('bloo')
             p5.noLoop() // runs draw once
         }
     }
@@ -345,7 +345,10 @@ export function sketch(p5){
                 // Monochromatic or gradient visualization?
                 switch(axisChoice.value()){
                     case 'all':
-                        axes.map((_, idx) => gradient.addColorStop(idx/(axes.length - 1), old_colors[idx]))
+                        gradient = p5.drawingContext.createLinearGradient(p5.width/2, 0, p5.width/2, p5.height) // This is used when all axes are used in the visualization
+                        axes.map((_, idx) => {
+                            gradient.addColorStop(idx/(axes.length - 1), old_colors[idx])
+                        })
                         p5.drawingContext.fillStyle = gradient;    
                         p5.rect(0, 0, p5.width, p5.height)                    
                         break;
@@ -363,6 +366,7 @@ export function sketch(p5){
                 // already drawn.
                 switch(axisChoice.value()){
                     case 'all':
+                        gradient = p5.drawingContext.createLinearGradient(p5.width/2, 0, p5.width/2, p5.height) // This is used when all axes are used in the visualization
                         axes.map((_, idx) => {
                             gradient.addColorStop(idx/(axes.length - 1), p5.lerpColor(old_colors[idx], new_colors[idx], (frameNo % frameRate)/frameRate))
                         })
@@ -551,14 +555,26 @@ export function sketch(p5){
     function createColors(){
         switch(axisChoice.value()){
             case 'all':
-                for(let i = 0; i < axes.length; i++){
-                    old_colors[i] = createColor(repNo*samplingRate, i)
-                    new_colors[i] = createColor((repNo+1)*samplingRate, i)
+                if(old_colors.length !== 0){
+                    for(let i = 0; i < axes.length; i++){
+                        old_colors[i] = new_colors[i]
+                        new_colors[i] = createColor((repNo+1)*samplingRate, i)
+                    }    
+                }else{
+                    for(let i = 0; i < axes.length; i++){
+                        old_colors[i] = createColor(repNo*samplingRate, i)
+                        new_colors[i] = createColor((repNo+1)*samplingRate, i)
+                    }    
                 }
                 break;
             default:
-                old_colors[0] = createColor(repNo*samplingRate, parseInt(axisChoice.value()))
-                new_colors[0] = createColor((repNo+1)*samplingRate, parseInt(axisChoice.value()))
+                if(old_colors.length !== 0){
+                    old_colors[0] = new_colors[0]
+                    new_colors[0] = createColor((repNo+1)*samplingRate, parseInt(axisChoice.value()))
+                }else{
+                    old_colors[0] = createColor(repNo*samplingRate, parseInt(axisChoice.value()))
+                    new_colors[0] = createColor((repNo+1)*samplingRate, parseInt(axisChoice.value()))  
+                }
                 break;
         }
     }
