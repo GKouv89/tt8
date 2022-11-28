@@ -550,11 +550,15 @@ export function sketch(p5){
     }
     
     // This function creates the colors from reading the current values of the CSV,
-    // as well as the very next one. This way we can smoothly transition between the colors, using LERPing
+    // as well as the very next ones. This way we can smoothly transition between the colors, using LERPing
     // If all axes are selected, multiple colors per line are created, otherwise, only one per line (two overall)
     function createColors(){
         switch(axisChoice.value()){
             case 'all':
+                // This if statement ensures that there won't be any unessesary calculations
+                // as well as making sure the colors created all appear in the correct order.
+                // Without this, when old and new colors where created anew, after the first second
+                // the canvas reverted back to the values it had on time zero.
                 if(old_colors.length !== 0){
                     for(let i = 0; i < axes.length; i++){
                         old_colors[i] = new_colors[i]
@@ -568,6 +572,7 @@ export function sketch(p5){
                 }
                 break;
             default:
+                // Similar to above if statement.
                 if(old_colors.length !== 0){
                     old_colors[0] = new_colors[0]
                     new_colors[0] = createColor((repNo+1)*samplingRate, parseInt(axisChoice.value()))
