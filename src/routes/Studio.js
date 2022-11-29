@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button'
 
 import { getStudioContent, getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
 import * as single from '../sketches/singularParticipantSketch'
+import * as episode from '../sketches/episodeSketch'
 
 export default function StudioWrapper(){
     let {thematicID, episodeID} = useParams();
@@ -27,6 +28,8 @@ function sketchChoice(chosenViz, axes, files){
         case 0: // Screen no. 0 is the sonification/visualization of a signle participant's biometric data.
             // Either one of his biometrics, or an average of all of them, can be chosen.
             return <ReactP5Wrapper sketch={single.sketch} axes={axes} files={files}/>
+        case 1: 
+            return <ReactP5Wrapper sketch={episode.sketch} axes={axes} files={files}/>
         default:
             break;
     }
@@ -82,14 +85,14 @@ function SketchComponent({axes, files}){
     return(
         <Row className='align-items-center fluid'>
             <Col xs="auto">
-                <Button variant='light' className='rounded-circle' /* style={{'visibility': chosenViz !== 0 ? 'visible' : 'hidden'}} */>
+                <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 0 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz-1)}>
                     <i className="bi bi-arrow-left"></i>
                 </Button>
             </Col>
             <Col id="sketch-canvas-container">{sketch}</Col>
             <Col id="sketch-gui-container"></Col> 
             <Col xs="auto">
-                <Button variant='light' className='rounded-circle'>
+                <Button variant='light' className='rounded-circle' onClick={() => setChosenViz(chosenViz+1)}>
                     <i className="bi bi-arrow-right"></i>
                 </Button>
             </Col>

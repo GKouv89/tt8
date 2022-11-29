@@ -14,8 +14,7 @@ export function sketch(p5){
             // Along with axes we can be certain the data array can be initialized
             data = props.files
             // Loading first file as to have something to demonstrate
-            // Then continuing with the things setup couldn't do because
-            // the data were not previously available
+            // Then continuing with the setup
             table = p5.loadTable(`${prefixPath}/${data[0].path}`, 'csv', 'header', () => {console.log('Done loading')}) 
         }        
     };
