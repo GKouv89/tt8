@@ -24,7 +24,14 @@ export function sketch(p5){
     let bootPath = './TR-909Kick.mp3'
     let table
     let sound, boot, bootLoop
-    let oscillator, minFreq = 2000, maxFreq = 3000
+    let oscillator //, minFreq = 2000, maxFreq = 3000
+    let startingC = 60 // Starting from C3
+    let endingC = 96 // Ending with B5 (C6, but excluded)
+    // we generate the frequencies of all notes that are between the starting and ending octave
+    // that belong to the C Major chord
+    // and use them to quantize the oscillator's values
+    // so it sounds a lot more harmonic
+    let arrayOfFrequencies = []
 
     let samplingRate = 100 // Not really the sampling rate, but rather every how many lines do we take into account.
     let min = [1000, 1000, 1000] // index 0 is HR, index 1 is SC, index 2 is TEMP
@@ -206,10 +213,27 @@ export function sketch(p5){
                 break;
         }
     }
+
+    function quantizeFrequency(freq){
+        let immLowerFreq, immHigherFreq
+        for(let i = 0; i < arrayOfFrequencies.length; i++){
+            immLowerFreq = arrayOfFrequencies[i]                
+            immHigherFreq = arrayOfFrequencies[i+1]
+            if(freq > immLowerFreq && freq < immHigherFreq){ // Found which quantization levels we should consider
+                // Which is closest to the frequency? The immediately lowest, or the immediately highest?
+                if(p5.abs(freq - immLowerFreq) < p5.abs(freq - immHigherFreq))
+                    return arrayOfFrequencies[i];
+                else
+                    return arrayOfFrequencies[i+1];
+            }
+        }
+    }
     
     // This is responsible for the sound produced.
     function setAudio(){
         let freq
+        let minFreq = arrayOfFrequencies[0];
+        let maxFreq = arrayOfFrequencies[arrayOfFrequencies.length - 1]
         switch(biometricRadio.value()){
             case 'heart':
                 switch(heartTypeRadio.value()){
@@ -235,12 +259,16 @@ export function sketch(p5){
                 break;
             case 'gsr':
                 // GSR sonification consists of mapping the biometric value to the oscillator frequency
+                // then quantizing. The quantization levels are C Major notes accross several octaves, so that the
+                // end result sounds good
                 freq = p5.constrain(p5.map(table.get(repNo*samplingRate, 1), min[1], max[1], minFreq, maxFreq), minFreq, maxFreq)
+                freq = quantizeFrequency(freq)
                 oscillator.freq(freq, 0.1)
                 break;  
             case 'temp':
-                // Temperature sonification consists of mapping the biometric value to the oscillator frequency
+                // Temperature sonification consists of mapping the biometric value to the oscillator frequency, then quantizing.
                 freq = p5.constrain(p5.map(table.get(repNo*samplingRate, 2), min[2], max[2], minFreq, maxFreq), minFreq, maxFreq)
+                freq = quantizeFrequency(freq)
                 oscillator.freq(freq, 0.1)
                 break;
             case 'all':
@@ -253,6 +281,7 @@ export function sketch(p5){
                     frequencies += p5.constrain(p5.map(table.get(repNo*samplingRate, i), min[i], max[i], minFreq, maxFreq), minFreq, maxFreq)
                 }
                 freq = frequencies/3
+                freq = quantizeFrequency(freq)
                 oscillator.freq(freq, 0.1)
                 break;
             default:
@@ -320,6 +349,15 @@ export function sketch(p5){
         p5.setFrameRate(frameRate)
 
         // initializing the sonification
+        // iterate through all available octaves
+        // generate frequencies of C Major notes
+        // store them in arrayOfFrequencies 
+        for(let i = startingC; i < endingC; i+=12){
+            arrayOfFrequencies.push(p5.midiToFreq(i)) // C
+            arrayOfFrequencies.push(p5.midiToFreq(i+4)) // E
+            arrayOfFrequencies.push(p5.midiToFreq(i+7)) // G
+        }
+        // console.log(arrayOfFrequencies)
         setAudio()
 
         // Initializing canvas appearance
