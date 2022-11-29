@@ -305,10 +305,13 @@ export function sketch(p5){
     //     handleAudio()
     // }
     
-    // function setup(){
+    p5.setup = () => {
+        let parentElem = p5.select('#sketch-canvas-container-large').elt
+        let canvasWidth = parentElem.clientWidth
+        p5.createCanvas(canvasWidth - 50, 600)
     //     createCanvas(windowWidth, 800)
-    //     background('white')
-    //     colorMode(HSB)
+        p5.background('white')
+        p5.colorMode(p5.HSB)
         
     //     numberOfReps = Math.floor(tables[0].getRowCount()/samplingRate)
     //     noStroke()
@@ -341,7 +344,7 @@ export function sketch(p5){
     //     recorder = new p5.SoundRecorder()
     
     //     noLoop()
-    // }
+    }
     
     // function handleGradient(){
     //     if(frameNo % frameRate == 0){ // New colors read from CSV

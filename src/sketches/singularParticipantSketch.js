@@ -309,6 +309,7 @@ export function sketch(p5){
         let canvasWidth = parentElem.clientWidth
         p5.createCanvas(canvasWidth, 600)
 
+
         // The visualizer works with HSB mode. Hue and saturation of the colors
         // are determined by the axes the episode belongs to,
         // and brightness is the parameter that is control by the biometrics.
