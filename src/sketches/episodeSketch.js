@@ -9,6 +9,25 @@ export function sketch(p5){
     let tables = []
 
     let axes = []
+
+    function loadFile(idx){
+        tables.push(p5.loadTable(`${prefixPath}/${filepaths[idx].path}`, 'csv', 'header', () => {
+            if(idx == filepaths.length - 1){ // Base case: if we have loaded the last file, go on with finding min & max values
+                moreSetup()
+            }else{ // otherwise proceed with loading next file
+                loadFile(idx+1)
+            }
+        }))
+    }
+
+    // This does what setup can't do because the files haven't loaded yet
+    function moreSetup(){
+        findMinMax()
+        numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate)
+        let rowContainer = p5.select('#sketch-ribbon-container')
+        biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer) /* .parent(guiContainer).addClass('column-item') */
+        initializeAudio()
+    }
     
     p5.updateWithProps = props => {
         if(axes.length == 0){ // This will be updated only once
@@ -16,106 +35,107 @@ export function sketch(p5){
             // Along with axes we can be certain the data array can be initialized
             filepaths = props.files
             // Loading all files from the get go
-            filepaths.map(filepath => {console.log(`${prefixPath}/${filepath.path}`); tables.push(p5.loadTable(`${prefixPath}/${filepath.path}`, 'csv', 'header', () => console.log(`Done loading ${filepath}`)))})
+            // This will call itself recursively
+            loadFile(0)        
         }        
     }
         
-    // let min , max
+    let min , max
     
-    // let old_colors = [], new_colors = []
-    // let numberOfReps = 0
+    let old_colors = [], new_colors = []
+    let numberOfReps = 0
     
-    // let frameNo = 0
-    // let frameRate = 25
-    // let samplingRate = 100
-    // let repNo = 0
+    let frameNo = 0
+    let frameRate = 25
+    let samplingRate = 100
+    let repNo = 0
     
-    // let guiContainer, biometricAnalyticsContainer, studioContainer
-    // // guiContainer is a parent to the following two.
-    // // biometricAnalyticsContainer contains the grey ribbon at the top part of the screen
-    // // where the biometrics' ranges and current values are displayed
-    // // studioContainer has the sliders, buttons and radio buttons that control
-    // // the visualization and sonification parameters.
+    let guiContainer, biometricAnalyticsContainer, studioContainer
+    // guiContainer is a parent to the following two.
+    // biometricAnalyticsContainer contains the grey ribbon at the top part of the screen
+    // where the biometrics' ranges and current values are displayed
+    // studioContainer has the sliders, buttons and radio buttons that control
+    // the visualization and sonification parameters.
     
-    // let gradient
-    // let axisChoice, axisColor
+    let gradient
+    let axisChoice, axisColor
     
-    // let oscillators = [] // One per participant
-    // let envelopes = [] // One per participant
-    // let env_trigger_loops = [] // Triggers the corresponding envelope, which in turn controls the corresponding oscillator's amplitude. 
-    // // The sound loop's interval determines when the envelope is triggered, and the interval varies in accordance with the variations in the participant's heart rate.
+    let oscillators = [] // One per participant
+    let envelopes = [] // One per participant
+    let env_trigger_loops = [] // Triggers the corresponding envelope, which in turn controls the corresponding oscillator's amplitude. 
+    // The sound loop's interval determines when the envelope is triggered, and the interval varies in accordance with the variations in the participant's heart rate.
     
-    // let currentC = 60; // Participant's oscillators' frequencies start from middle C
+    let currentC = 60; // Participant's oscillators' frequencies start from middle C
     
-    // // let lower_freq_bounds = [] // The lowest frequency the corresponding participant's oscillator can have
-    // // let upper_freq_bounds = [] // The highest frequency the corresponding participant's oscillator can have
-    // let minAmp = 0.2, maxAmp = 0.5
-    // let playButton, pauseButton, stopButton // Buttons that control the sonification and visualization.
-    // let playAndExportButton, playRecordingButton // Buttons that have to do with recording and exporting the sonification and visualization.
-    // let hideGUI // This button will show or hide the GUI, biometric analytics container, and color stop indicators (the 4 rectangles)
-    // let isGUIhidden = false // This will check whether the above button must toggle visibility on or off
-    // let downloadButton, downloadVideoButton
-    // // let lowerFreqSlider, upperFreqSlider
-    // let attackSlider, decaySlider
-    // let amplitudeSlider
-    // let oscillatorTypeRadio
-    // let isRecording = false
-    // let recorder // This is used to record the sound from our sketch
-    // let recordingSoundFile // This is where the sound recording is kept
-    // let videoBlob // This is where the video recording of the visualization is stored
+    // let lower_freq_bounds = [] // The lowest frequency the corresponding participant's oscillator can have
+    // let upper_freq_bounds = [] // The highest frequency the corresponding participant's oscillator can have
+    let minAmp = 0.2, maxAmp = 0.5
+    let playButton, pauseButton, stopButton // Buttons that control the sonification and visualization.
+    let playAndExportButton, playRecordingButton // Buttons that have to do with recording and exporting the sonification and visualization.
+    let hideGUI // This button will show or hide the GUI, biometric analytics container, and color stop indicators (the 4 rectangles)
+    let isGUIhidden = false // This will check whether the above button must toggle visibility on or off
+    let downloadButton, downloadVideoButton
+    // let lowerFreqSlider, upperFreqSlider
+    let attackSlider, decaySlider
+    let amplitudeSlider
+    let oscillatorTypeRadio
+    let isRecording = false
+    let recorder // This is used to record the sound from our sketch
+    let recordingSoundFile // This is where the sound recording is kept
+    let videoBlob // This is where the video recording of the visualization is stored
     
-    // let universalReleaseTime = 0.005 // This is the smallest value that didn't produce audible clicks for 4 participants
+    let universalReleaseTime = 0.005 // This is the smallest value that didn't produce audible clicks for 4 participants
     
-    // function findMinMax(){
-    //     let currval
-    //     // The following arrays contain the minimum and maximum of all biometrics PER PARTICIPANT
-    //     // 1st dimension (row): biometric
-    //     // 2nd dimension (column): participant
-    //     min = Array(tables[0].getColumnCount())
-    //     max = Array(tables[0].getColumnCount())
-    //     for(let i = 0; i < min.length; i++){
-    //         min[i] = Array(tables.length).fill(1000)
-    //         max[i] = Array(tables.length).fill(0)
-    //     }
-    //     for(let f = 0; f < tables.length; f++){
-    //         for(let i = 0; i < tables[f].getRowCount(); i += samplingRate){
-    //             for(let j = 0; j < tables[f].getColumnCount(); j++){
-    //                 currval = parseFloat(tables[f].get(i, j))
-    //                 min[j][f] = (() => {return currval < min[j][f] ? currval : min[j][f]})()
-    //                 max[j][f] = (() => {return currval > max[j][f] ? currval : max[j][f]})()
-    //             }
-    //         }
-    //     }
-    // }
+    function findMinMax(){
+        let currval
+        // The following arrays contain the minimum and maximum of all biometrics PER PARTICIPANT
+        // 1st dimension (row): biometric
+        // 2nd dimension (column): participant
+        min = Array(tables[0].getColumnCount())
+        max = Array(tables[0].getColumnCount())
+        for(let i = 0; i < min.length; i++){
+            min[i] = Array(tables.length).fill(1000)
+            max[i] = Array(tables.length).fill(0)
+        }
+        for(let f = 0; f < tables.length; f++){
+            for(let i = 0; i < tables[f].getRowCount(); i += samplingRate){
+                for(let j = 0; j < tables[f].getColumnCount(); j++){
+                    currval = parseFloat(tables[f].get(i, j))
+                    min[j][f] = (() => {return currval < min[j][f] ? currval : min[j][f]})()
+                    max[j][f] = (() => {return currval > max[j][f] ? currval : max[j][f]})()
+                }
+            }
+        }
+    }
     
-    // // N squares where N is no of participants, that show min and max for all biometrics and current values (and maybe brightness value that is the result of the 'normalization')
-    // let biometricCurrentValues
-    // function createBiometricValueRibbon(){
-    //     let container = createDiv().addClass('container').addClass('greyRibbon')
-    //     let biometricNames = ['HR', 'GSR', 'Temp']
-    //     // Keeping current values of all biometrics for all participants to change later
-    //     biometricCurrentValues = Array(3)
-    //     for(let i = 0; i < 3; i++){
-    //         biometricCurrentValues[i] = Array(tables.length)
-    //     }
-    //     tables.map((table, idx) => {
-    //         let square = createDiv().addClass('row-item').addClass('greyRibbon').parent(container)
-    //         createDiv(`P${idx+1}`).addClass('column-item').parent(square)
-    //         for(let i = 0; i < tables[idx].getColumnCount(); i++){
-    //             createDiv(`${biometricNames[i]}: [${min[i][idx]}, ${max[i][idx]}]`).addClass('column-item').parent(square)
-    //             biometricCurrentValues[i][idx] = createP(`Currently: ${table.get(repNo, i)}`).addClass('column-item').parent(square)
-    //         }
-    //     })
-    //     return container
-    // }
+    // N squares where N is no of participants, that show min and max for all biometrics and current values (and maybe brightness value that is the result of the 'normalization')
+    let biometricCurrentValues
+    function createBiometricValueRibbon(){
+        let container = p5.createDiv().addClass('p5EpisodeGUI-container').addClass('greyRibbon')
+        let biometricNames = ['HR', 'GSR', 'Temp']
+        // Keeping current values of all biometrics for all participants to change later
+        biometricCurrentValues = Array(3)
+        for(let i = 0; i < 3; i++){
+            biometricCurrentValues[i] = Array(tables.length)
+        }
+        tables.map((table, idx) => {
+            let square = p5.createDiv().addClass('p5EpisodeGUI-row-item').addClass('greyRibbon').parent(container)
+            p5.createDiv(`P${idx+1}`).addClass('p5EpisodeGUI-column-item').parent(square)
+            for(let i = 0; i < tables[idx].getColumnCount(); i++){
+                p5.createDiv(`${biometricNames[i]}: [${min[i][idx]}, ${max[i][idx]}]`).addClass('p5EpisodeGUI-column-item').parent(square)
+                biometricCurrentValues[i][idx] = p5.createP(`Currently: ${table.get(repNo, i)}`).addClass('p5EpisodeGUI-column-item').parent(square)
+            }
+        })
+        return container
+    }
     
-    // function updateCurrentBiometricValues(){
-    //     tables.map((table, idx) => {
-    //         for(let i = 0; i < table.getColumnCount(); i++){
-    //             biometricCurrentValues[i][idx].html(`Currently: ${table.get(repNo*samplingRate, i)}`)
-    //         }
-    //     })
-    // }
+    function updateCurrentBiometricValues(){
+        tables.map((table, idx) => {
+            for(let i = 0; i < table.getColumnCount(); i++){
+                biometricCurrentValues[i][idx].html(`Currently: ${table.get(repNo*samplingRate, i)}`)
+            }
+        })
+    }
     
     // function createGUI(){
     //     let container = createDiv().addClass('parentContainer')
@@ -253,70 +273,67 @@ export function sketch(p5){
     //     handleGradient()
     // }
     
-    // function genPeriod(i){
-    //     let currentRate = floor(tables[i].get(repNo*samplingRate, 0)) // Convention: Heart Rate is always the 1st column
-    //     let period = 60/currentRate
-    //     return period;
-    // }
+    function genPeriod(i){
+        let currentRate = floor(tables[i].get(repNo*samplingRate, 0)) // Convention: Heart Rate is always the 1st column
+        let period = 60/currentRate
+        return period;
+    }
     
-    // function initializeAudio(){
-    //     for(let i = 0; i < tables.length; i++){
-    //         oscillators[i] = new p5.Oscillator('sine')
-    //         envelopes[i] = new p5.Envelope()
-    //         envelopes[i].setADSR(0.001, 0.2, 0.2, universalReleaseTime) 
-    //         oscillators[i].amp(envelopes[i])
-    //         env_trigger_loops[i] = new p5.SoundLoop(() => {envelopes[i].play(oscillators[i])}, genPeriod(i))
-    //         env_trigger_loops[i].bpm = 0
-    //     }
-    //     notesToPlay()
-    // }
+    function initializeAudio(){
+        for(let i = 0; i < tables.length; i++){
+            oscillators[i] = new P5Class.Oscillator('sine')
+            envelopes[i] = new P5Class.Envelope()
+            envelopes[i].setADSR(0.001, 0.2, 0.2, universalReleaseTime) 
+            oscillators[i].amp(envelopes[i])
+            env_trigger_loops[i] = new P5Class.SoundLoop(() => {envelopes[i].play(oscillators[i])}, genPeriod(i))
+            env_trigger_loops[i].bpm = 0
+        }
+        notesToPlay()
+    }
     
-    // function notesToPlay(){
-    //     // Assigning frequencies to oscillators
-    //     // Participants are all assigned to a note of the C major chord
-    //     // This way, the end result is a lot more harmonious
-    //     // When there are more than 3 participants, the chord is repeated
-    //     // in higher octaves
-    //     for(let i = 0; i < tables.length; i++){
-    //         // When we're done with a triad of participants,
-    //         // change current octave
-    //         if(i && i % 3 == 0){ // The octave change does not take place the very first time we run the loop
-    //             currentC += 12
-    //         }
-    //         switch(i % 3){
-    //             // The C Major chord has 3 notes:
-    //             // C, E, G
-    //             // The 1st participant is C, the 2nd is E, the 3rd is G,
-    //             // the 4th is the next C and so on.
-    //             case 0: // C
-    //                 oscillators[i].freq(midiToFreq(currentC))
-    //                 break;
-    //             case 1: // E
-    //                 oscillators[i].freq(midiToFreq(currentC + 4))
-    //                 break;
-    //             case 2: // G
-    //                 oscillators[i].freq(midiToFreq(currentC + 7))
-    //                 break;
-    //             default:
-    //                 console.log('Default case')
-    //                 break;
-    //         }
-    //     }
-    //     handleAudio()
-    // }
+    function notesToPlay(){
+        // Assigning frequencies to oscillators
+        // Participants are all assigned to a note of the C major chord
+        // This way, the end result is a lot more harmonious
+        // When there are more than 3 participants, the chord is repeated
+        // in higher octaves
+        for(let i = 0; i < tables.length; i++){
+            // When we're done with a triad of participants,
+            // change current octave
+            if(i && i % 3 == 0){ // The octave change does not take place the very first time we run the loop
+                currentC += 12
+            }
+            switch(i % 3){
+                // The C Major chord has 3 notes:
+                // C, E, G
+                // The 1st participant is C, the 2nd is E, the 3rd is G,
+                // the 4th is the next C and so on.
+                case 0: // C
+                    oscillators[i].freq(p5.midiToFreq(currentC))
+                    break;
+                case 1: // E
+                    oscillators[i].freq(p5.midiToFreq(currentC + 4))
+                    break;
+                case 2: // G
+                    oscillators[i].freq(p5.midiToFreq(currentC + 7))
+                    break;
+                default:
+                    console.log('Default case')
+                    break;
+            }
+        }
+        handleAudio()
+    }
     
     p5.setup = () => {
         let parentElem = p5.select('#sketch-canvas-container-large').elt
         let canvasWidth = parentElem.clientWidth
-        p5.createCanvas(canvasWidth - 50, 600)
-    //     createCanvas(windowWidth, 800)
+        p5.createCanvas(0.9*canvasWidth, 600)
         p5.background('white')
         p5.colorMode(p5.HSB)
         
-    //     numberOfReps = Math.floor(tables[0].getRowCount()/samplingRate)
-    //     noStroke()
-    //     findMinMax()
-    //     setFrameRate(frameRate)
+        p5.noStroke()
+        p5.setFrameRate(frameRate)
     //     guiContainer = createDiv().addClass('parentContainer')
     //     guiContainer.position(0, 0)
     //     biometricAnalyticsContainer = createBiometricValueRibbon().parent(guiContainer).addClass('column-item')
@@ -336,14 +353,19 @@ export function sketch(p5){
     //         initializeVisuals() // Calling this again to remove or redraw the color stop indicators
     //     })
     
-    
-    //     gradient = drawingContext.createLinearGradient(0, height/2, width, height/2)
-    //     numberOfReps = 20
+        gradient = p5.drawingContext.createLinearGradient(0, p5.height/2, p5.width, p5.height/2)
+        numberOfReps = 20 // DEBUGGING
         
-    //     initializeAudio()
-    //     recorder = new p5.SoundRecorder()
-    
-    //     noLoop()
+        recorder = new P5Class.SoundRecorder()
+
+        p5.noLoop()
+    }
+
+    p5.windowResized = () => {
+        p5.resizeCanvas(0.8*p5.select('#sketch-canvas-container-large').elt.clientWidth, 600)
+        // if(!p5.isLooping()){ // TEMPORARILY DISABLED UNTIL WE REDEFINE DRAW
+        //     p5.noLoop() // runs draw once
+        // }
     }
     
     // function handleGradient(){
