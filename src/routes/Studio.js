@@ -30,21 +30,23 @@ function sketchChoice(chosenViz, axes, files){
         case 0: // Screen no. 0 is the sonification/visualization of a signle participant's biometric data.
             // Either one of his biometrics, or an average of all of them, can be chosen.
             return(
-                <Row className='align-items-center'>
-                    <Col id="sketch-canvas-container">
-                        <ReactP5Wrapper sketch={single.sketch} axes={axes} files={files}/>
-                    </Col>
-                    <Col id="sketch-gui-container"></Col> 
-                </Row>
+                <Container>
+                    <Row className='align-items-center'>
+                        <Col id="sketch-canvas-container">
+                            <ReactP5Wrapper sketch={single.sketch} axes={axes} files={files}/>
+                        </Col>
+                        <Col id="sketch-gui-container"></Col> 
+                    </Row>
+                </Container>
             )
         case 1: // Screen no. 1 is the sonification/visualization of all biometrics of all episode participants.
             return(
-                <>
-                    <Row id="sketch-ribbon-container" />
+                <Container className='flex-column'>
+                    <Row id="sketch-ribbon-container"></Row>
                     <Row id="sketch-canvas-container-large">
                         <ReactP5Wrapper sketch={episode.sketch} axes={axes} files={files}/>
                     </Row>
-                </>
+                </Container>
             )
         default:
             break;
@@ -105,17 +107,7 @@ function SketchComponent({axes, files}){
                     <i className="bi bi-arrow-left"></i>
                 </Button>
             </Col>
-            {sketch && <Col>
-                            <Container>
-                                {/* <Row className='align-items-center fluid'>
-                                    <Col id="sketch-canvas-container"> */}
-                                        {sketch}
-                                    {/* </Col>
-                                    <Col id="sketch-gui-container"></Col> 
-                                </Row> */}
-                            </Container>
-                        </Col>
-            }
+            {sketch && <Col>{sketch}</Col>}
             <Col xs="auto">
                 <Button variant='light' className='rounded-circle' onClick={() => setChosenViz(chosenViz+1)}>
                     <i className="bi bi-arrow-right"></i>
