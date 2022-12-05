@@ -46,11 +46,11 @@ export function sketch(p5){
                 biometricAnalyticsContainer.style('display', 'flex')
             }
             isGUIhidden = !isGUIhidden
-            // initializeVisuals() // Calling this again to remove or redraw the color stop indicators
+            initializeVisuals() // Calling this again to remove or redraw the color stop indicators
         })
 
-
-        initializeAudio()
+        initializeVisuals();
+        initializeAudio();
     }
     
     p5.updateWithProps = props => {
@@ -257,7 +257,7 @@ export function sketch(p5){
         axisChoice.changed(() => {
             axisColor = axes[parseInt(axisChoice.value())].color
             console.log(axisColor)
-            // initializeVisuals()
+            initializeVisuals()
         })
         return container
     }
@@ -288,12 +288,12 @@ export function sketch(p5){
     //     a.remove()
     // }
     
-    // function initializeVisuals(){
-    //     old_colors = []
-    //     new_colors = []
-    //     createColors()
-    //     handleGradient()
-    // }
+    function initializeVisuals(){
+        old_colors = []
+        new_colors = []
+        createColors()
+        handleGradient()
+    }
     
     function genPeriod(i){
         let currentRate = p5.floor(tables[i].get(repNo*samplingRate, 0)) // Convention: Heart Rate is always the 1st column
@@ -374,53 +374,53 @@ export function sketch(p5){
         // }
     }
     
-    // function handleGradient(){
-    //     if(frameNo % frameRate == 0){ // New colors read from CSV
-    //         createColors()
-    //         gradient = drawingContext.createLinearGradient(0, height/2, width, height/2)
-    //         if(tables.length !== 1){           
-    //             tables.map((_, idx) => {
-    //                 gradient.addColorStop(idx/(tables.length - 1), old_colors[idx])
-    //             })
-    //         }else{ // Edge case, only 1 participant
-    //             gradient.addColorStop(0, old_colors[0])
-    //         }
-    //         drawingContext.fillStyle = gradient;
-    //         rect(0, 0, width, height) 
-    //         updateCurrentBiometricValues()
-    //     }else{ // In between colors to make transition from one shade of the color to the next smooth
-    //         gradient = drawingContext.createLinearGradient(0, height/2, width, height/2)
-    //         if(tables.length !== 1){           
-    //             tables.map((_, idx) => {
-    //                 gradient.addColorStop(idx/(tables.length - 1), lerpColor(old_colors[idx], new_colors[idx], (frameNo % frameRate)/frameRate))
-    //                 // LERPing colors by the percentage of frames already 'played' in the current second
-    //             })
-    //         }else{ // Edge case, only 1 participant
-    //             gradient.addColorStop(0, lerpColor(old_colors[0], new_colors[0], (frameNo % frameRate)/frameRate))
-    //         }
-    //         drawingContext.fillStyle = gradient;    
-    //         rect(0, 0, width, height)                    
-    //     }
-    //     // This following part gives an insight by changing the value of the biometric in real time
-    //     // and comparing the value to the minimum and maximum value, respectively
+    function handleGradient(){
+        if(frameNo % frameRate == 0){ // New colors read from CSV
+            createColors()
+            gradient = p5.drawingContext.createLinearGradient(0, p5.height/2, p5.width, p5.height/2);
+            if(tables.length !== 1){           
+                tables.map((_, idx) => {
+                    gradient.addColorStop(idx/(tables.length - 1), old_colors[idx])
+                })
+            }else{ // Edge case, only 1 participant
+                gradient.addColorStop(0, old_colors[0])
+            }
+            p5.drawingContext.fillStyle = gradient;
+            p5.rect(0, 0, p5.width, p5.height) 
+            updateCurrentBiometricValues()
+        }else{ // In between colors to make transition from one shade of the color to the next smooth
+            gradient = p5.drawingContext.createLinearGradient(0, p5.height/2, p5.width, p5.height/2)
+            if(tables.length !== 1){           
+                tables.map((_, idx) => {
+                    gradient.addColorStop(idx/(tables.length - 1), lerpColor(old_colors[idx], new_colors[idx], (frameNo % frameRate)/frameRate))
+                    // LERPing colors by the percentage of frames already 'played' in the current second
+                })
+            }else{ // Edge case, only 1 participant
+                gradient.addColorStop(0, lerpColor(old_colors[0], new_colors[0], (frameNo % frameRate)/frameRate))
+            }
+            p5.drawingContext.fillStyle = gradient;    
+            p5.rect(0, 0, p5.width, p5.height);
+        }
+        // This following part gives an insight by changing the value of the biometric in real time
+        // and comparing the value to the minimum and maximum value, respectively
      
-    //     stroke('white')
-    //     strokeWeight(1)
-    //     // These rectangles act as guides to show the parts of the scene where the actual participant's shade is
-    //     // In between it's just the gradient.
-    //     if(!isGUIhidden){ // the rectangles indicating a color stop are only drawn if the rest of the gui is visible
-    //         if(tables.length !== 1){ // No point in having rectangles if there's just one participant
-    //             // The first and last color stops are at the edge of the canvas so they require separate handling.
-    //             rect(0, 0, 20, height) // first color stop
-    //             rect(width-20, 0, 20, height) // last color stop
-    //             // In between
-    //             for(let i = 1; i < tables.length - 1; i++){
-    //                 rect(i*width/(tables.length - 1), 0, 20, height)
-    //             }
-    //         }
-    //     }
-    //     noStroke()
-    // }
+        p5.stroke('white')
+        p5.strokeWeight(1)
+        // These rectangles act as guides to show the parts of the scene where the actual participant's shade is
+        // In between it's just the gradient.
+        if(!isGUIhidden){ // the rectangles indicating a color stop are only drawn if the rest of the gui is visible
+            if(tables.length !== 1){ // No point in having rectangles if there's just one participant
+                // The first and last color stops are at the edge of the canvas so they require separate handling.
+                p5.rect(0, 0, 20, p5.height) // first color stop
+                p5.rect(p5.width-20, 0, 20, p5.height) // last color stop
+                // In between
+                for(let i = 1; i < tables.length - 1; i++){
+                    p5.rect(i*p5.width/(tables.length - 1), 0, 20, p5.height)
+                }
+            }
+        }
+        p5.noStroke()
+    }
     
     // This is called once per second when the sonification is running,
     // right before the sonification starts and once when it stops, 
@@ -456,30 +456,30 @@ export function sketch(p5){
     //     }
     // }
     
-    // function createColor(repNo, colorNo){
-    //     // Mapping a biometric (temporarily hardcoded, always the heartbeat) to a number in brightness' valid range of values.
-    //     let brightnesses = 0, bioCount = tables[colorNo].getColumnCount()
-    //     for(let i = 0; i < bioCount; i++){
-    //         brightnesses += constrain(map(tables[colorNo].get(repNo, i), min[i][colorNo], max[i][colorNo], 0, 100), 0, 100)
-    //     }
-    //     return color(hue(axisColor), saturation(axisColor), brightnesses/bioCount)
-    // }
+    function createColor(repNo, colorNo){
+        // Mapping a biometric (temporarily hardcoded, always the heartbeat) to a number in brightness' valid range of values.
+        let brightnesses = 0, bioCount = tables[colorNo].getColumnCount()
+        for(let i = 0; i < bioCount; i++){
+            brightnesses += p5.constrain(p5.map(tables[colorNo].get(repNo, i), min[i][colorNo], max[i][colorNo], 0, 100), 0, 100)
+        }
+        return p5.color(p5.hue(axisColor), p5.saturation(axisColor), brightnesses/bioCount)
+    }
     
-    // function createColors(){
-    //     // In order to have the smooth transition between shades as time passes,
-    //     // we must know both the current and the next shade according to the mappings beforehand.
-    //     if(new_colors.length != 0){
-    //         for(let i = 0; i < new_colors.length; i++){
-    //             old_colors[i] = new_colors[i]
-    //             new_colors[i] = createColor((repNo + 1)*samplingRate, i)
-    //         }
-    //     }else{
-    //         for(let i = 0; i < filepaths.length; i++){
-    //             old_colors.push(createColor(repNo*samplingRate, i))
-    //             new_colors.push(createColor((repNo + 1)*samplingRate, i))
-    //         }
-    //     }
-    // }
+    function createColors(){
+        // In order to have the smooth transition between shades as time passes,
+        // we must know both the current and the next shade according to the mappings beforehand.
+        if(new_colors.length != 0){
+            for(let i = 0; i < new_colors.length; i++){
+                old_colors[i] = new_colors[i]
+                new_colors[i] = createColor((repNo + 1)*samplingRate, i)
+            }
+        }else{
+            for(let i = 0; i < filepaths.length; i++){
+                old_colors.push(createColor(repNo*samplingRate, i))
+                new_colors.push(createColor((repNo + 1)*samplingRate, i))
+            }
+        }
+    }
     
     // function startSonification(){
     //     userStartAudio()
