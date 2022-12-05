@@ -20,6 +20,7 @@ export function sketch(p5){
         }))
     }
 
+    let GUIcontainer; // Contains both the GUI and the show/hide button, because the second must be handled seperately from the first visibility-wise.
     // This does what setup can't do because the files haven't loaded yet
     function moreSetup(){
         findMinMax()
@@ -27,18 +28,28 @@ export function sketch(p5){
         let rowContainer = p5.select('#sketch-ribbon-container')
         biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer) /* .parent(guiContainer).addClass('column-item') */
         // GUI creation takes place here because the available axes must be loaded before we create the corresponding radio button
-        studioContainer = createGUI().addClass('p5EpisodeGUI-column-item')
-        // let canvasParent = p5.select('#sketch-canvas-container-large').elt.getBoundingClientRect();
+        GUIcontainer = p5.createDiv().addClass('parentContainer').style('width', '50%');
+        studioContainer = createGUI().parent(GUIcontainer).addClass('p5EpisodeGUI-column-item');
         // Positioning the GUI buttons right above the canvas
         // Every time the window is resized, they are repositioned appropriately.
-        // let left = canvasParent.left;
-        // let right = canvasParent.right;
-        // let x = (right - left)/2;
-        // console.log("left: ", left);
-        // console.log("right: ", right);
-        // console.log("x: ", x);
-        // studioContainer.position(x, canvasParent.top);
         centerGUI()
+
+        hideGUI = p5.createButton('Hide GUI').parent(GUIcontainer).addClass('p5EpisodeGUI-column-item');
+        hideGUI.mousePressed(() => {
+            if(!isGUIhidden){
+                hideGUI.html('Show GUI')
+                studioContainer.style('display', 'none')
+                biometricAnalyticsContainer.style('display', 'none')
+            }else{
+                hideGUI.html('Hide GUI')
+                studioContainer.style('display', 'flex')
+                biometricAnalyticsContainer.style('display', 'flex')
+            }
+            isGUIhidden = !isGUIhidden
+            // initializeVisuals() // Calling this again to remove or redraw the color stop indicators
+        })
+
+
         initializeAudio()
     }
     
@@ -138,7 +149,7 @@ export function sketch(p5){
         let diff = canvasParentCenter - studioContainerCenter;
         
         let offset = canvasParent.left + diff;
-        studioContainer.position(offset, canvasParentTop);
+        GUIcontainer.position(offset, canvasParentTop);
     }
     
     // N squares where N is no of participants, that show min and max for all biometrics and current values (and maybe brightness value that is the result of the 'normalization')
@@ -345,23 +356,6 @@ export function sketch(p5){
         
         p5.noStroke()
         p5.setFrameRate(frameRate)
-    //     guiContainer = createDiv().addClass('parentContainer')
-    //     guiContainer.position(0, 0)
-        // studioContainer = createGUI().parent(guiContainer).addClass('column-item')
-    //     hideGUI = createButton('Hide GUI').parent(guiContainer).addClass('column-item')
-    //     hideGUI.mousePressed(() => {
-    //         if(!isGUIhidden){
-    //             hideGUI.html('Show GUI')
-    //             studioContainer.style('display', 'none')
-    //             biometricAnalyticsContainer.style('display', 'none')
-    //         }else{
-    //             hideGUI.html('Hide GUI')
-    //             studioContainer.style('display', 'flex')
-    //             biometricAnalyticsContainer.style('display', 'flex')
-    //         }
-    //         isGUIhidden = !isGUIhidden
-    //         initializeVisuals() // Calling this again to remove or redraw the color stop indicators
-    //     })
     
         gradient = p5.drawingContext.createLinearGradient(0, p5.height/2, p5.width, p5.height/2)
         numberOfReps = 20 // DEBUGGING
