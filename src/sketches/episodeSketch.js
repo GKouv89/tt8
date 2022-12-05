@@ -175,6 +175,7 @@ export function sketch(p5){
     
     function updateCurrentBiometricValues(){
         tables.map((table, idx) => {
+            console.log('In updateCurrentBiometricValues, with repNo = ', repNo);
             for(let i = 0; i < table.getColumnCount(); i++){
                 biometricCurrentValues[i][idx].html(`Currently: ${table.get(repNo*samplingRate, i)}`)
             }
@@ -186,14 +187,14 @@ export function sketch(p5){
         let tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item')
     
         playButton = p5.createButton('Play').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
-        // playButton.mousePressed(startSonification);
+        playButton.mousePressed(startSonification);
     
         pauseButton = p5.createButton('Pause').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
-        // pauseButton.mousePressed(pauseSonification);
+        pauseButton.mousePressed(pauseSonification);
         pauseButton.attribute('disabled', '')
     
         stopButton = p5.createButton('Stop').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
-        // stopButton.mousePressed(stopSonification);
+        stopButton.mousePressed(stopSonification);
         stopButton.attribute('disabled', '')
     
         // Slider for attackTime
@@ -367,11 +368,10 @@ export function sketch(p5){
 
     p5.windowResized = () => {
         p5.resizeCanvas(0.9*p5.select('#sketch-canvas-container-large').elt.clientWidth, 600)
-        p5.background('white')
         centerGUI()
-        // if(!p5.isLooping()){ // TEMPORARILY DISABLED UNTIL WE REDEFINE DRAW
-        //     p5.noLoop() // runs draw once
-        // }
+        if(!p5.isLooping()){ 
+            p5.noLoop() // runs draw once to redo the canvas
+        }
     }
     
     function handleGradient(){
@@ -392,11 +392,11 @@ export function sketch(p5){
             gradient = p5.drawingContext.createLinearGradient(0, p5.height/2, p5.width, p5.height/2)
             if(tables.length !== 1){           
                 tables.map((_, idx) => {
-                    gradient.addColorStop(idx/(tables.length - 1), lerpColor(old_colors[idx], new_colors[idx], (frameNo % frameRate)/frameRate))
+                    gradient.addColorStop(idx/(tables.length - 1), p5.lerpColor(old_colors[idx], new_colors[idx], (frameNo % frameRate)/frameRate))
                     // LERPing colors by the percentage of frames already 'played' in the current second
                 })
             }else{ // Edge case, only 1 participant
-                gradient.addColorStop(0, lerpColor(old_colors[0], new_colors[0], (frameNo % frameRate)/frameRate))
+                gradient.addColorStop(0, p5.lerpColor(old_colors[0], new_colors[0], (frameNo % frameRate)/frameRate))
             }
             p5.drawingContext.fillStyle = gradient;    
             p5.rect(0, 0, p5.width, p5.height);
@@ -439,22 +439,24 @@ export function sketch(p5){
         }
     }
     
-    // function draw(){    
-    //     if(repNo < numberOfReps){
-    //         handleGradient()
-    //         // Every second we read another line from the CSV 
-    //         // So every second, we redetermine what the participant's heart rate is
-    //         // and this changes each loop's interval, effective immediately,
-    //         // as well as the oscillators' frequencies and amplitudes
-    //         if(frameNo % frameRate == 0){
-    //             handleAudio()
-    //             repNo++
-    //         }
-    //         frameNo++
-    //     }else{
-    //         stopSonification()
-    //     }
-    // }
+    p5.draw = () => {    
+        console.log('draw')
+        if(repNo < numberOfReps){
+            console.log('in if')
+            handleGradient()
+            // Every second we read another line from the CSV 
+            // So every second, we redetermine what the participant's heart rate is
+            // and this changes each loop's interval, effective immediately,
+            // as well as the oscillators' frequencies and amplitudes
+            if(frameNo % frameRate == 0){
+            //     handleAudio()
+                repNo++
+            }
+            frameNo++
+        }else{
+            stopSonification()
+        }
+    }
     
     function createColor(repNo, colorNo){
         // Mapping a biometric (temporarily hardcoded, always the heartbeat) to a number in brightness' valid range of values.
@@ -481,66 +483,66 @@ export function sketch(p5){
         }
     }
     
-    // function startSonification(){
-    //     userStartAudio()
-    //     startSound()
-    //     loop()
-    //     playButton.attribute('disabled', '')
-    //     pauseButton.removeAttribute('disabled')
-    //     stopButton.removeAttribute('disabled')
-    //     playAndExportButton.attribute('disabled', '')
-    //     axisChoice.attribute('disabled', '')
-    //     // if(!isRecording && isSoundReady){
-    //     //     playRecordingButton.attribute('disabled', '')
-    //     // }
-    // }
+    function startSonification(){
+        p5.userStartAudio()
+        // startSound()
+        p5.loop()
+        playButton.attribute('disabled', '')
+        pauseButton.removeAttribute('disabled')
+        stopButton.removeAttribute('disabled')
+        playAndExportButton.attribute('disabled', '')
+        axisChoice.attribute('disabled', '')
+        // if(!isRecording && isSoundReady){
+        //     playRecordingButton.attribute('disabled', '')
+        // }
+    }
     
-    // function startSound(){
-    //     env_trigger_loops.map((loop, idx) => {
-    //         loop.start()
-    //         oscillators[idx].start()
-    //     })
-    // }
+    function startSound(){
+        env_trigger_loops.map((loop, idx) => {
+            loop.start()
+            oscillators[idx].start()
+        })
+    }
     
-    // function stopSound(){
-    //     env_trigger_loops.map((loop, idx) => {
-    //         loop.stop()
-    //         oscillators[idx].stop()
-    //     })
-    // }
+    function stopSound(){
+        env_trigger_loops.map((loop, idx) => {
+            loop.stop()
+            oscillators[idx].stop()
+        })
+    }
     
-    // function stopSonification(){
-    //     repNo = 0
-    //     frameNo = 0
-    //     stopSound()
-    //     noLoop()
-    //     playButton.removeAttribute('disabled')
-    //     pauseButton.attribute('disabled', '')
-    //     stopButton.attribute('disabled', '')
-    //     playAndExportButton.removeAttribute('disabled')
-    //     axisChoice.removeAttribute('disabled')
-    //     if(isRecording){
-    //     //     playRecordingButton.removeAttribute('disabled')
-    //         downloadButton.removeAttribute('disabled')
-    //         downloadVideoButton.removeAttribute('disabled')
-    //         recorder.stop() // Stopping the sound recorder manually, the visualization recorder uses a timeout to stop
-    //         isRecording = false
-    //         // isSoundReady = true
-    //     // }else if(!isRecording && isSoundReady){
-    //     //     playRecordingButton.removeAttribute('disabled', '')
-    //     }
-    //     initializeVisuals()
-    //     handleAudio()
-    //     numberOfReps = 20
-    // }
+    function stopSonification(){
+        repNo = 0
+        frameNo = 0
+        // stopSound()
+        p5.noLoop()
+        playButton.removeAttribute('disabled')
+        pauseButton.attribute('disabled', '')
+        stopButton.attribute('disabled', '')
+        playAndExportButton.removeAttribute('disabled')
+        axisChoice.removeAttribute('disabled')
+        if(isRecording){
+        //     playRecordingButton.removeAttribute('disabled')
+            downloadButton.removeAttribute('disabled')
+            downloadVideoButton.removeAttribute('disabled')
+            recorder.stop() // Stopping the sound recorder manually, the visualization recorder uses a timeout to stop
+            isRecording = false
+            // isSoundReady = true
+        // }else if(!isRecording && isSoundReady){
+        //     playRecordingButton.removeAttribute('disabled', '')
+        }
+        initializeVisuals()
+        handleAudio()
+        numberOfReps = 20
+    }
     
-    // function pauseSonification(){
-    //     noLoop()
-    //     stopSound()
-    //     playButton.removeAttribute('disabled')
-    //     axisChoice.removeAttribute('disabled')
-    //     pauseButton.attribute('disabled', '')
-    // }
+    function pauseSonification(){
+        p5.noLoop()
+        // stopSound()
+        playButton.removeAttribute('disabled')
+        axisChoice.removeAttribute('disabled')
+        pauseButton.attribute('disabled', '')
+    }
     
     // function recordSonification(){
     //     // Disable all other buttons, including play and export, but not sliders
