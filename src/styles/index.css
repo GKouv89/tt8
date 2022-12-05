@@ -278,6 +278,7 @@ div#root{
   display: flex;
   flex-direction: column;
   justify-content: start;
+  width: 50%;
 }
 
 .p5EpisodeGUI-column-item {

@@ -26,6 +26,19 @@ export function sketch(p5){
         numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate)
         let rowContainer = p5.select('#sketch-ribbon-container')
         biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer) /* .parent(guiContainer).addClass('column-item') */
+        // GUI creation takes place here because the available axes must be loaded before we create the corresponding radio button
+        studioContainer = createGUI().addClass('p5EpisodeGUI-column-item')
+        // let canvasParent = p5.select('#sketch-canvas-container-large').elt.getBoundingClientRect();
+        // Positioning the GUI buttons right above the canvas
+        // Every time the window is resized, they are repositioned appropriately.
+        // let left = canvasParent.left;
+        // let right = canvasParent.right;
+        // let x = (right - left)/2;
+        // console.log("left: ", left);
+        // console.log("right: ", right);
+        // console.log("x: ", x);
+        // studioContainer.position(x, canvasParent.top);
+        centerGUI()
         initializeAudio()
     }
     
@@ -107,6 +120,26 @@ export function sketch(p5){
             }
         }
     }
+
+    function centerGUI(){
+        // The middle of the GUI container on the x axis
+        // must align with the middle of the canvas on the x axis.        
+        let canvasParent = p5.select('#sketch-canvas-container-large').elt.getBoundingClientRect();
+        let studioContainerRect = studioContainer.elt.getBoundingClientRect();
+        console.log('studioContainerRect: ', studioContainerRect);
+        // Positioning the GUI buttons right above the canvas, centered.
+        // We must also take into consideration how much we've scrolled as to properly find the vertical position of the container
+        let canvasParentTop = canvasParent.top + window.scrollY; 
+
+        // Centering the container. Find out what the difference in the container's width
+        // and the parent container's width is and use it as an offset on the x axis.
+        let canvasParentCenter = (canvasParent.right - canvasParent.left)/2;        
+        let studioContainerCenter = (studioContainerRect.right - studioContainerRect.left)/2;
+        let diff = canvasParentCenter - studioContainerCenter;
+        
+        let offset = canvasParent.left + diff;
+        studioContainer.position(offset, canvasParentTop);
+    }
     
     // N squares where N is no of participants, that show min and max for all biometrics and current values (and maybe brightness value that is the result of the 'normalization')
     let biometricCurrentValues
@@ -137,108 +170,86 @@ export function sketch(p5){
         })
     }
     
-    // function createGUI(){
-    //     let container = createDiv().addClass('parentContainer')
-    //     let tempContainer = createDiv().parent(container).addClass('column-item')
+    function createGUI(){
+        let container = p5.createDiv().addClass('parentContainer')
+        let tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item')
     
-    //     playButton = createButton('Play').parent(tempContainer).addClass('row-item')
-    //     playButton.mousePressed(startSonification);
+        playButton = p5.createButton('Play').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        // playButton.mousePressed(startSonification);
     
-    //     pauseButton = createButton('Pause').parent(tempContainer).addClass('row-item')
-    //     pauseButton.mousePressed(pauseSonification);
-    //     pauseButton.attribute('disabled', '')
+        pauseButton = p5.createButton('Pause').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        // pauseButton.mousePressed(pauseSonification);
+        pauseButton.attribute('disabled', '')
     
-    //     stopButton = createButton('Stop').parent(tempContainer).addClass('row-item')
-    //     stopButton.mousePressed(stopSonification);
-    //     stopButton.attribute('disabled', '')
+        stopButton = p5.createButton('Stop').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        // stopButton.mousePressed(stopSonification);
+        stopButton.attribute('disabled', '')
     
-    //     // tempContainer = createDiv().parent(container).addClass('column-item')
-    //     // // Allowing frequencies to range from C3 to B6
-    //     // // and enforcing constrain that at least two octaves of frequencies must be allocated to all participants and then further divided
-    //     // // The following range of frequencies will be split up in however many pieces required 
-    //     // // according to the number of participants that show up in an episode
-    //     // createP('Lowest note: C3').parent(tempContainer).addClass('row-item')
-    //     // lowerFreqSlider = createSlider(48, 71, 48).parent(tempContainer).addClass('row-item')
-    //     // createP('B4').parent(tempContainer).addClass('row-item')
+        // Slider for attackTime
+        tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item')
+        p5.createP('Attack Time: 0.001').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        attackSlider = p5.createSlider(0.001, 0.3, 0.001, 0.001).parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        p5.createP('0.3').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        attackSlider.changed(() => {
+            handleAudio()
+        })
     
-    //     // tempContainer = createDiv().parent(container).addClass('column-item')
-    //     // createP('Highest note: C5').parent(tempContainer).addClass('row-item')
-    //     // upperFreqSlider = createSlider(72, 95, 95).parent(tempContainer).addClass('row-item')
-    //     // createP('B6').parent(tempContainer).addClass('row-item')
+        // Slider for decayTime
+        tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item')
+        p5.createP('Decay Time: 0.001').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        decaySlider = p5.createSlider(0.001, 0.3, 0.15, 0.001).parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        p5.createP('0.3').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        decaySlider.changed(() => {
+            handleAudio()
+        })
     
-    //     // lowerFreqSlider.changed(() => {
-    //     //     notesToPlay()
-    //     // })
+        tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item')
+        p5.createP('Volume: ').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        amplitudeSlider = p5.createSlider(0, 1, 0.5, 0.1).parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        // outputVolume(0.5, 0)
+        // amplitudeSlider.changed(() => {
+        //     outputVolume(amplitudeSlider.value(), 0.15)
+        // })
     
-    //     // upperFreqSlider.changed(() => {
-    //     //     notesToPlay()
-    //     // })
+        tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item')
+        oscillatorTypeRadio = p5.createRadio().parent(tempContainer)
+        oscillatorTypeRadio.option('Sine', 'sine')
+        oscillatorTypeRadio.option('Triangle', 'triangle')
+        oscillatorTypeRadio.option('Sawtooth', 'sawtooth')
+        oscillatorTypeRadio.option('Square', 'square')
+        oscillatorTypeRadio.selected('sine')
+        oscillatorTypeRadio.changed(() => {
+            oscillators.map((osc) => osc.setType(oscillatorTypeRadio.value()))
+        })
     
-    //     // Slider for attackTime
-    //     tempContainer = createDiv().parent(container).addClass('column-item')
-    //     createP('Attack Time: 0.001').parent(tempContainer).addClass('row-item')
-    //     attackSlider = createSlider(0.001, 0.3, 0.001, 0.001).parent(tempContainer).addClass('row-item')
-    //     createP('0.3').parent(tempContainer).addClass('row-item')
-    //     attackSlider.changed(() => {
-    //         handleAudio()
-    //     })
+        tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item')
+        playAndExportButton = p5.createButton('Play & Export').parent(tempContainer).addClass('p5EpisodeGUI-row-item');
+        // playAndExportButton.mousePressed(recordSonification);
     
-    //     // Slider for decayTime
-    //     tempContainer = createDiv().parent(container).addClass('column-item')
-    //     createP('Decay Time: 0.001').parent(tempContainer).addClass('row-item')
-    //     decaySlider = createSlider(0.001, 0.3, 0.15, 0.001).parent(tempContainer).addClass('row-item')
-    //     createP('0.3').parent(tempContainer).addClass('row-item')
-    //     decaySlider.changed(() => {
-    //         handleAudio()
-    //     })
+        // playRecordingButton = p5.createButton('Play Recording').parent(exportContainer).addClass('item')
+        // playRecordingButton.mousePressed(handlePlayback)
+        // playRecordingButton.attribute('disabled', '')
+        downloadButton = p5.createButton('Download Sonification Recording').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        downloadButton.mousePressed(() => {save(recordingSoundFile, 'sonification.wav')});
+        downloadButton.attribute('disabled', '')
     
-    //     tempContainer = createDiv().parent(container).addClass('column-item')
-    //     createP('Volume: ').parent(tempContainer).addClass('row-item')
-    //     amplitudeSlider = createSlider(0, 1, 0.5, 0.1).parent(tempContainer).addClass('row-item')
-    //     outputVolume(0.5, 0)
-    //     amplitudeSlider.changed(() => {
-    //         outputVolume(amplitudeSlider.value(), 0.15)
-    //     })
-    
-    //     tempContainer = createDiv().parent(container).addClass('column-item')
-    //     oscillatorTypeRadio = createRadio().parent(tempContainer)
-    //     oscillatorTypeRadio.option('Sine', 'sine')
-    //     oscillatorTypeRadio.option('Triangle', 'triangle')
-    //     oscillatorTypeRadio.option('Sawtooth', 'sawtooth')
-    //     oscillatorTypeRadio.option('Square', 'square')
-    //     oscillatorTypeRadio.selected('sine')
-    //     oscillatorTypeRadio.changed(() => {
-    //         oscillators.map((osc) => osc.setType(oscillatorTypeRadio.value()))
-    //     })
-    
-    //     tempContainer = createDiv().parent(container).addClass('column-item')
-    //     playAndExportButton = createButton('Play & Export').parent(tempContainer).addClass('row-item');
-    //     playAndExportButton.mousePressed(recordSonification);
-    
-    //     // playRecordingButton = createButton('Play Recording').parent(exportContainer).addClass('item')
-    //     // playRecordingButton.mousePressed(handlePlayback)
-    //     // playRecordingButton.attribute('disabled', '')
-    //     downloadButton = createButton('Download Sonification Recording').parent(tempContainer).addClass('row-item')
-    //     downloadButton.mousePressed(() => {save(recordingSoundFile, 'sonification.wav')});
-    //     downloadButton.attribute('disabled', '')
-    
-    //     downloadVideoButton = createButton('Download Visualization Video').parent(tempContainer).addClass('row-item')
-    //     downloadVideoButton.mousePressed(() => {exportVid(videoBlob)})
-    //     downloadVideoButton.attribute('disabled', '')
+        downloadVideoButton = p5.createButton('Download Visualization Video').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        // downloadVideoButton.mousePressed(() => {exportVid(videoBlob)})
+        downloadVideoButton.attribute('disabled', '')
         
-    //     axisChoice = createRadio().parent(container).addClass('column-item')
-    //     for(let i = 0; i < axes.length; i++){
-    //         axisChoice.option(axes[i].name, i.toString())
-    //     }
-    //     axisChoice.selected('0')
-    //     axisColor = axes[0].color
-    //     axisChoice.changed(() => {
-    //         axisColor = axes[parseInt(axisChoice.value())].color
-    //         console.log(axisColor)
-    //         initializeVisuals()
-    //     })
-    //     return container
-    // }
+        axisChoice = p5.createRadio().parent(container).addClass('p5EpisodeGUI-column-item')
+        for(let i = 0; i < axes.length; i++){
+            axisChoice.option(axes[i].name, i.toString())
+        }
+        axisChoice.selected('0')
+        axisColor = axes[0].color
+        axisChoice.changed(() => {
+            axisColor = axes[parseInt(axisChoice.value())].color
+            console.log(axisColor)
+            // initializeVisuals()
+        })
+        return container
+    }
     
     // function startRecordingVisualization() {
     //     const chunks = []; // Here we will store our recorded media chunks (Blobs)
@@ -274,7 +285,7 @@ export function sketch(p5){
     // }
     
     function genPeriod(i){
-        let currentRate = floor(tables[i].get(repNo*samplingRate, 0)) // Convention: Heart Rate is always the 1st column
+        let currentRate = p5.floor(tables[i].get(repNo*samplingRate, 0)) // Convention: Heart Rate is always the 1st column
         let period = 60/currentRate
         return period;
     }
@@ -336,8 +347,7 @@ export function sketch(p5){
         p5.setFrameRate(frameRate)
     //     guiContainer = createDiv().addClass('parentContainer')
     //     guiContainer.position(0, 0)
-    //     biometricAnalyticsContainer = createBiometricValueRibbon().parent(guiContainer).addClass('column-item')
-    //     studioContainer = createGUI().parent(guiContainer).addClass('column-item')
+        // studioContainer = createGUI().parent(guiContainer).addClass('column-item')
     //     hideGUI = createButton('Hide GUI').parent(guiContainer).addClass('column-item')
     //     hideGUI.mousePressed(() => {
     //         if(!isGUIhidden){
@@ -362,7 +372,9 @@ export function sketch(p5){
     }
 
     p5.windowResized = () => {
-        p5.resizeCanvas(0.8*p5.select('#sketch-canvas-container-large').elt.clientWidth, 600)
+        p5.resizeCanvas(0.9*p5.select('#sketch-canvas-container-large').elt.clientWidth, 600)
+        p5.background('white')
+        centerGUI()
         // if(!p5.isLooping()){ // TEMPORARILY DISABLED UNTIL WE REDEFINE DRAW
         //     p5.noLoop() // runs draw once
         // }
@@ -416,22 +428,22 @@ export function sketch(p5){
     //     noStroke()
     // }
     
-    // // This is called once per second when the sonification is running,
-    // // right before the sonification starts and once when it stops, 
-    // // as to reset the values of the trigger loop intervals, 
-    // // oscillator frequencies and amplitudes.
-    // function handleAudio(){
-    //     let amp, freq
-    //     for(let i = 0; i < tables.length; i++){
-    //         env_trigger_loops[i].interval = genPeriod(i)
-    //         amp = constrain(map(tables[i].get(repNo*samplingRate, 2), min[2][i], max[2][i], minAmp, maxAmp), minAmp, maxAmp) // Mapping temperature to amplitude
-    //         envelopes[i].setRange(amp, 0)        
-    //         // GSR is mapped to the sustain level of the ADSR envelope
-    //         let susRatio = constrain(map(tables[i].get(repNo*samplingRate, 1), min[1][i], max[1][i], 0, 1.0), 0, 1.0)
-    //         // console.log('Envelope: ' + i + ', susRatio: ' + susRatio)
-    //         envelopes[i].setADSR(attackSlider.value(), decaySlider.value(), susRatio, universalReleaseTime)
-    //     }
-    // }
+    // This is called once per second when the sonification is running,
+    // right before the sonification starts and once when it stops, 
+    // as to reset the values of the trigger loop intervals, 
+    // oscillator frequencies and amplitudes.
+    function handleAudio(){
+        let amp, freq
+        for(let i = 0; i < tables.length; i++){
+            env_trigger_loops[i].interval = genPeriod(i)
+            amp = p5.constrain(p5.map(tables[i].get(repNo*samplingRate, 2), min[2][i], max[2][i], minAmp, maxAmp), minAmp, maxAmp) // Mapping temperature to amplitude
+            envelopes[i].setRange(amp, 0)        
+            // GSR is mapped to the sustain level of the ADSR envelope
+            let susRatio = p5.constrain(p5.map(tables[i].get(repNo*samplingRate, 1), min[1][i], max[1][i], 0, 1.0), 0, 1.0)
+            // console.log('Envelope: ' + i + ', susRatio: ' + susRatio)
+            envelopes[i].setADSR(attackSlider.value(), decaySlider.value(), susRatio, universalReleaseTime)
+        }
+    }
     
     // function draw(){    
     //     if(repNo < numberOfReps){
