@@ -24,7 +24,8 @@ export function sketch(p5){
     // This does what setup can't do because the files haven't loaded yet
     function moreSetup(){
         findMinMax()
-        numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate)
+        // numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate) 
+        numberOfReps = 20; // DEBUGGING
         let rowContainer = p5.select('#sketch-ribbon-container')
         biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer) /* .parent(guiContainer).addClass('column-item') */
         // GUI creation takes place here because the available axes must be loaded before we create the corresponding radio button
@@ -40,10 +41,14 @@ export function sketch(p5){
                 hideGUI.html('Show GUI')
                 studioContainer.style('display', 'none')
                 biometricAnalyticsContainer.style('display', 'none')
+                centerGUI(); // Running this again to position the only remaining button nicely
             }else{
                 hideGUI.html('Hide GUI')
                 studioContainer.style('display', 'flex')
                 biometricAnalyticsContainer.style('display', 'flex')
+                centerGUI(); // Running this again to make sure the GUI is positioned nicely
+                // because if the window is resized while the GUI is hidden, it overlaps with the biometric ribbon
+                // after it is visible again.
             }
             isGUIhidden = !isGUIhidden
             initializeVisuals() // Calling this again to remove or redraw the color stop indicators
@@ -142,14 +147,17 @@ export function sketch(p5){
         // We must also take into consideration how much we've scrolled as to properly find the vertical position of the container
         let canvasParentTop = canvasParent.top + window.scrollY; 
 
-        // Centering the container. Find out what the difference in the container's width
-        // and the parent container's width is and use it as an offset on the x axis.
-        let canvasParentCenter = (canvasParent.right - canvasParent.left)/2;        
-        let studioContainerCenter = (studioContainerRect.right - studioContainerRect.left)/2;
-        let diff = canvasParentCenter - studioContainerCenter;
+        // // Centering the container. Find out what the difference in the container's width
+        // // and the parent container's width is and use it as an offset on the x axis.
+        // let canvasParentCenter = (canvasParent.right - canvasParent.left)/2;        
+        // let studioContainerCenter = (studioContainerRect.right - studioContainerRect.left)/2;
+        // let diff = canvasParentCenter - studioContainerCenter;
         
-        let offset = canvasParent.left + diff;
-        GUIcontainer.position(offset, canvasParentTop);
+        // let offset = canvasParent.left + diff;
+        // GUIcontainer.position(offset, canvasParentTop);
+        // Temporarily placed GUI to the left of the canvas, because centering wasn't as precise 
+        // as I would have liked it to be.
+        GUIcontainer.position(canvasParent.left, canvasParentTop);
     }
     
     // N squares where N is no of participants, that show min and max for all biometrics and current values (and maybe brightness value that is the result of the 'normalization')
@@ -183,7 +191,7 @@ export function sketch(p5){
     }
     
     function createGUI(){
-        let container = p5.createDiv().addClass('parentContainer')
+        let container = p5.createDiv().addClass('parentContainer').addClass('p5EpisodeGUI');
         let tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item')
     
         playButton = p5.createButton('Play').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
@@ -215,9 +223,9 @@ export function sketch(p5){
             handleAudio()
         })
     
-        tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item')
-        p5.createP('Volume: ').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
-        amplitudeSlider = p5.createSlider(0, 1, 0.5, 0.1).parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        // tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item')
+        // p5.createP('Volume: ').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
+        // amplitudeSlider = p5.createSlider(0, 1, 0.5, 0.1).parent(tempContainer).addClass('p5EpisodeGUI-row-item')
         // outputVolume(0.5, 0)
         // amplitudeSlider.changed(() => {
         //     outputVolume(amplitudeSlider.value(), 0.15)
@@ -236,7 +244,7 @@ export function sketch(p5){
     
         tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item')
         playAndExportButton = p5.createButton('Play & Export').parent(tempContainer).addClass('p5EpisodeGUI-row-item');
-        // playAndExportButton.mousePressed(recordSonification);
+        playAndExportButton.mousePressed(recordSonification);
     
         // playRecordingButton = p5.createButton('Play Recording').parent(exportContainer).addClass('item')
         // playRecordingButton.mousePressed(handlePlayback)
@@ -246,7 +254,7 @@ export function sketch(p5){
         downloadButton.attribute('disabled', '')
     
         downloadVideoButton = p5.createButton('Download Visualization Video').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
-        // downloadVideoButton.mousePressed(() => {exportVid(videoBlob)})
+        downloadVideoButton.mousePressed(() => {exportVid(videoBlob)})
         downloadVideoButton.attribute('disabled', '')
         
         axisChoice = p5.createRadio().parent(container).addClass('p5EpisodeGUI-column-item')
@@ -263,31 +271,30 @@ export function sketch(p5){
         return container
     }
     
-    // function startRecordingVisualization() {
-    //     const chunks = []; // Here we will store our recorded media chunks (Blobs)
-    //     const canvas = document.querySelector('canvas');
-    //     const stream = canvas.captureStream(25); // Grab our canvas MediaStream
-    //     const rec = new MediaRecorder(stream); // Init the recorder
-    //     // Every time the recorder has new data, we will store it in our array
-    //     rec.ondataavailable = e => chunks.push(e.data);
-    //     // Only when the recorder stops, we construct a complete Blob from all the chunks
-    //     // rec.onstop = e => exportVid(new Blob(chunks, {type: 'video/mp4'}));
-    //     rec.onstop = e => videoBlob = new Blob(chunks, {type: 'video/mp4'});
+    function startRecordingVisualization() {
+        const chunks = []; // Here we will store our recorded media chunks (Blobs)
+        const canvas = document.querySelector('canvas');
+        const stream = canvas.captureStream(25); // Grab our canvas MediaStream
+        const rec = new MediaRecorder(stream); // Init the recorder
+        // Every time the recorder has new data, we will store it in our array
+        rec.ondataavailable = e => chunks.push(e.data);
+        // Only when the recorder stops, we construct a complete Blob from all the chunks
+        rec.onstop = e => videoBlob = new Blob(chunks, {type: 'video/mp4'});
         
-    //     rec.start();
-    //     setTimeout(()=>rec.stop(), numberOfReps*1000); // If we increase repNo every 25 frames, 
-    //     // and 25 frames are in a second, the rough length of the vis video is numberOfReps seconds
-    // }
+        rec.start();
+        setTimeout(()=>rec.stop(), numberOfReps*1000); // If we increase repNo every 25 frames, 
+        // and 25 frames are in a second, the rough length of the vis video is numberOfReps seconds
+    }
       
-    // function exportVid(blob) {
-    //     const a = document.createElement('a');
-    //     a.download = 'myvid.mp4';
-    //     a.href = URL.createObjectURL(blob);
-    //     a.textContent = 'download the video';
-    //     document.body.appendChild(a);
-    //     a.click()
-    //     a.remove()
-    // }
+    function exportVid(blob) {
+        const a = document.createElement('a');
+        a.download = 'myvid.mp4';
+        a.href = URL.createObjectURL(blob);
+        a.textContent = 'download the video';
+        document.body.appendChild(a);
+        a.click()
+        a.remove()
+    }
     
     function initializeVisuals(){
         old_colors = []
@@ -440,9 +447,8 @@ export function sketch(p5){
     }
     
     p5.draw = () => {    
-        console.log('draw')
         if(repNo < numberOfReps){
-            console.log('in if')
+            console.log('numberOfReps: ', numberOfReps);
             handleGradient()
             // Every second we read another line from the CSV 
             // So every second, we redetermine what the participant's heart rate is
@@ -544,21 +550,21 @@ export function sketch(p5){
         pauseButton.attribute('disabled', '')
     }
     
-    // function recordSonification(){
-    //     // Disable all other buttons, including play and export, but not sliders
-    //     // Start recording, set state variable to true
-    //     playButton.attribute('disabled', '')
-    //     pauseButton.attribute('disabled', '')
-    //     stopButton.attribute('disabled', '')
-    //     playAndExportButton.attribute('disabled', '')
-    //     // playRecordingButton.attribute('disabled', '')
-    //     // downloadButton.attribute('disabled', '')
+    function recordSonification(){
+        // Disable all other buttons, including play and export, but not sliders
+        // Start recording, set state variable to true
+        playButton.attribute('disabled', '')
+        pauseButton.attribute('disabled', '')
+        stopButton.attribute('disabled', '')
+        playAndExportButton.attribute('disabled', '')
+        // playRecordingButton.attribute('disabled', '')
+        // downloadButton.attribute('disabled', '')
     
-    //     isRecording = true
-    //     recordingSoundFile = new p5.SoundFile()
-    //     recorder.record(recordingSoundFile)
-    //     startRecordingVisualization()
-    //     startSound()
-    //     loop()
-    // }
+        isRecording = true
+        // recordingSoundFile = new p5.SoundFile()
+        // recorder.record(recordingSoundFile)
+        startRecordingVisualization()
+        // startSound()
+        p5.loop()
+    }
 }
