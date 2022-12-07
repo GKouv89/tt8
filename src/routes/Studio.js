@@ -109,7 +109,7 @@ function SketchComponent({axes, files}){
             </Col>
             {sketch && <Col>{sketch}</Col>}
             <Col xs="auto">
-                <Button variant='light' className='rounded-circle' onClick={() => setChosenViz(chosenViz+1)}>
+                <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 1 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz+1)}>
                     <i className="bi bi-arrow-right"></i>
                 </Button>
             </Col>

@@ -24,8 +24,8 @@ export function sketch(p5){
     // This does what setup can't do because the files haven't loaded yet
     function moreSetup(){
         findMinMax()
-        // numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate) 
-        numberOfReps = 20; // DEBUGGING
+        numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate) 
+        // numberOfReps = 7; // DEBUGGING
         let rowContainer = p5.select('#sketch-ribbon-container')
         biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer) /* .parent(guiContainer).addClass('column-item') */
         // GUI creation takes place here because the available axes must be loaded before we create the corresponding radio button
@@ -142,7 +142,7 @@ export function sketch(p5){
         // must align with the middle of the canvas on the x axis.        
         let canvasParent = p5.select('#sketch-canvas-container-large').elt.getBoundingClientRect();
         let studioContainerRect = studioContainer.elt.getBoundingClientRect();
-        console.log('studioContainerRect: ', studioContainerRect);
+        // console.log('studioContainerRect: ', studioContainerRect);
         // Positioning the GUI buttons right above the canvas, centered.
         // We must also take into consideration how much we've scrolled as to properly find the vertical position of the container
         let canvasParentTop = canvasParent.top + window.scrollY; 
@@ -183,7 +183,7 @@ export function sketch(p5){
     
     function updateCurrentBiometricValues(){
         tables.map((table, idx) => {
-            console.log('In updateCurrentBiometricValues, with repNo = ', repNo);
+            // console.log('In updateCurrentBiometricValues, with repNo = ', repNo);
             for(let i = 0; i < table.getColumnCount(); i++){
                 biometricCurrentValues[i][idx].html(`Currently: ${table.get(repNo*samplingRate, i)}`)
             }
@@ -250,7 +250,7 @@ export function sketch(p5){
         // playRecordingButton.mousePressed(handlePlayback)
         // playRecordingButton.attribute('disabled', '')
         downloadButton = p5.createButton('Download Sonification Recording').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
-        downloadButton.mousePressed(() => {save(recordingSoundFile, 'sonification.wav')});
+        downloadButton.mousePressed(() => {p5.save(recordingSoundFile, 'sonification.wav')});
         downloadButton.attribute('disabled', '')
     
         downloadVideoButton = p5.createButton('Download Visualization Video').parent(tempContainer).addClass('p5EpisodeGUI-row-item')
@@ -366,7 +366,14 @@ export function sketch(p5){
         p5.setFrameRate(frameRate)
     
         gradient = p5.drawingContext.createLinearGradient(0, p5.height/2, p5.width, p5.height/2)
-        numberOfReps = 20 // DEBUGGING
+        // This is a bit of a bandaid patch.
+        // When setup runs, the files likely haven't loaded yet.
+        // And therefore, when noLoop is called at its end,
+        // draw runs, and draw runs a check against the numberOfReps variable.
+        // But it's value isn't valid!
+        // So, initializing it as 1 here, and assigning it its proper value once
+        // everything loads.
+        numberOfReps = 1 
         
         recorder = new P5Class.SoundRecorder()
 
@@ -448,14 +455,14 @@ export function sketch(p5){
     
     p5.draw = () => {    
         if(repNo < numberOfReps){
-            console.log('numberOfReps: ', numberOfReps);
+            // console.log('numberOfReps: ', numberOfReps);
             handleGradient()
             // Every second we read another line from the CSV 
             // So every second, we redetermine what the participant's heart rate is
             // and this changes each loop's interval, effective immediately,
             // as well as the oscillators' frequencies and amplitudes
             if(frameNo % frameRate == 0){
-            //     handleAudio()
+                handleAudio()
                 repNo++
             }
             frameNo++
@@ -491,7 +498,7 @@ export function sketch(p5){
     
     function startSonification(){
         p5.userStartAudio()
-        // startSound()
+        startSound()
         p5.loop()
         playButton.attribute('disabled', '')
         pauseButton.removeAttribute('disabled')
@@ -501,6 +508,7 @@ export function sketch(p5){
         // if(!isRecording && isSoundReady){
         //     playRecordingButton.attribute('disabled', '')
         // }
+        console.time('sonification');
     }
     
     function startSound(){
@@ -518,9 +526,10 @@ export function sketch(p5){
     }
     
     function stopSonification(){
+        console.log('repNo: ', repNo);
         repNo = 0
         frameNo = 0
-        // stopSound()
+        stopSound()
         p5.noLoop()
         playButton.removeAttribute('disabled')
         pauseButton.attribute('disabled', '')
@@ -539,12 +548,13 @@ export function sketch(p5){
         }
         initializeVisuals()
         handleAudio()
-        numberOfReps = 20
+        // numberOfReps = 7
+        console.timeEnd('sonification');
     }
     
     function pauseSonification(){
         p5.noLoop()
-        // stopSound()
+        stopSound()
         playButton.removeAttribute('disabled')
         axisChoice.removeAttribute('disabled')
         pauseButton.attribute('disabled', '')
@@ -561,10 +571,10 @@ export function sketch(p5){
         // downloadButton.attribute('disabled', '')
     
         isRecording = true
-        // recordingSoundFile = new p5.SoundFile()
-        // recorder.record(recordingSoundFile)
+        recordingSoundFile = new P5Class.SoundFile()
+        recorder.record(recordingSoundFile)
         startRecordingVisualization()
-        // startSound()
+        startSound()
         p5.loop()
     }
 }
