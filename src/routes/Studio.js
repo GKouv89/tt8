@@ -79,7 +79,7 @@ function Studio(props){
                     <Breadcrumb path={eppath} themid={props.themid}/>                
                 </Row>
                 {
-                    data && <SketchComponent axes={data.axes} files={data.files}/>
+                    data && data.files.length ? <SketchComponent axes={data.axes} files={data.files}/> : <h1>Προς το παρόν, δεν υπάρχουν οπτικοποιήσεις και ηχοποιήσεις για αυτό το επεισόδιο.</h1>
                 }
             </Container>
         </Container>
