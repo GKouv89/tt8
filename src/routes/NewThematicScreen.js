@@ -311,7 +311,7 @@ function ImageSquare(props){
             <Card.Img src={`${window.location.protocol}//${window.location.hostname}/${props.content.path}`} alt="Card Image" className={imageClassName}/>
           </Card.Body>
         </Card>
-        <ImageModal show={modalShow} onHide={() => setModalShow(false)} img={props.content.path} desc={props.content.desc}/>
+        <ImageModal show={modalShow} onHide={() => setModalShow(false)} img={props.content.path} desc={props.content.desc} path={props.content.path}/>
       </Col>
     </>
   )
