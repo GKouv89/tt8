@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button'
 import { getStudioContent, getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
 import * as single from '../sketches/singularParticipantSketch'
 import * as episode from '../sketches/episodeSketch'
+import * as episodeCreative from '../sketches/episodeCreativeSketch'
 
 export default function StudioWrapper(){
     let {thematicID, episodeID} = useParams();
@@ -48,6 +49,16 @@ function sketchChoice(chosenViz, axes, files){
                     </Row>
                 </Container>
             )
+        case 2: // Screen no. 2 is the sonification/visualization of all biometrics of all episode participants,
+                // but also giving the user the ability to change the color coding.
+            return(
+                <Container className='flex-column'>
+                    <Row id="sketch-ribbon-container"></Row>
+                    <Row id="sketch-canvas-container-large">
+                        <ReactP5Wrapper sketch={episodeCreative.sketch} axes={axes} files={files}/>
+                    </Row>
+                </Container>
+            ); // Maybe axis is unecessary here.
         default:
             break;
     }
@@ -109,7 +120,7 @@ function SketchComponent({axes, files}){
             </Col>
             {sketch && <Col>{sketch}</Col>}
             <Col xs="auto">
-                <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 1 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz+1)}>
+                <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 2 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz+1)}>
                     <i className="bi bi-arrow-right"></i>
                 </Button>
             </Col>
