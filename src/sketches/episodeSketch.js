@@ -22,6 +22,10 @@ export function sketch(p5){
 
     let GUIcontainer; // Contains both the GUI and the show/hide button, because the second must be handled seperately from the first visibility-wise.
     // This does what setup can't do because the files haven't loaded yet
+    
+    let setupFinished = false; // This becomes true only after moreSetup has run enough to fill the canvas with its actual colors.
+    // That means, that the props have been updated, every file has been properly loaded, etc.
+
     function moreSetup(){
         findMinMax()
         numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate) 
@@ -54,6 +58,7 @@ export function sketch(p5){
             initializeVisuals() // Calling this again to remove or redraw the color stop indicators
         })
 
+        setupFinished = true;
         initializeVisuals();
         initializeAudio();
     }
@@ -383,8 +388,6 @@ export function sketch(p5){
         numberOfReps = 1 
         
         recorder = new P5Class.SoundRecorder()
-
-        p5.noLoop()
     }
 
     p5.windowResized = () => {
@@ -461,20 +464,27 @@ export function sketch(p5){
     }
     
     p5.draw = () => {    
-        if(repNo < numberOfReps){
-            // console.log('numberOfReps: ', numberOfReps);
-            handleGradient()
-            // Every second we read another line from the CSV 
-            // So every second, we redetermine what the participant's heart rate is
-            // and this changes each loop's interval, effective immediately,
-            // as well as the oscillators' frequencies and amplitudes
-            if(frameNo % frameRate == 0){
-                handleAudio()
-                repNo++
-            }
-            frameNo++
+        if(setupFinished){
+            if(repNo < numberOfReps){
+                // console.log('numberOfReps: ', numberOfReps);
+                handleGradient()
+                // Every second we read another line from the CSV 
+                // So every second, we redetermine what the participant's heart rate is
+                // and this changes each loop's interval, effective immediately,
+                // as well as the oscillators' frequencies and amplitudes
+                if(frameNo % frameRate == 0){
+                    handleAudio()
+                    repNo++
+                }
+                frameNo++
+            }else{
+                stopSonification()
+            }    
         }else{
-            stopSonification()
+            // A nicer, spinner animation can go here while everything is setting up.
+            // for the moment, let's just keep this
+            p5.textSize(128);
+            p5.text('Setting things up...', 0, 0, p5.width, p5.height);
         }
     }
     

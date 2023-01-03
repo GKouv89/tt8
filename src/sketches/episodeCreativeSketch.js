@@ -59,6 +59,7 @@ export function sketch(p5){
             initializeVisuals() // Calling this again to remove or redraw the color stop indicators
         })
 
+        setupFinished = true;
         initializeVisuals();
         initializeAudio();
     }
@@ -120,7 +121,8 @@ export function sketch(p5){
     let videoBlob // This is where the video recording of the visualization is stored
     
     let universalReleaseTime = 0.005 // This is the smallest value that didn't produce audible clicks for 4 participants
-    
+    let setupFinished = false;
+
     function findMinMax(){
         let currval
         // The following arrays contain the minimum and maximum of all biometrics PER PARTICIPANT
@@ -420,8 +422,6 @@ export function sketch(p5){
         numberOfReps = 1 
         
         recorder = new P5Class.SoundRecorder()
-
-        p5.noLoop()
     }
 
     p5.windowResized = () => {
@@ -501,20 +501,27 @@ export function sketch(p5){
     }
     
     p5.draw = () => {    
-        if(repNo < numberOfReps){
-            // console.log('numberOfReps: ', numberOfReps);
-            handleGradient()
-            // Every second we read another line from the CSV 
-            // So every second, we redetermine what the participant's heart rate is
-            // and this changes each loop's interval, effective immediately,
-            // as well as the oscillators' frequencies and amplitudes
-            if(frameNo % frameRate == 0){
-                handleAudio()
-                repNo++
-            }
-            frameNo++
+        if(setupFinished){
+            if(repNo < numberOfReps){
+                // console.log('numberOfReps: ', numberOfReps);
+                handleGradient()
+                // Every second we read another line from the CSV 
+                // So every second, we redetermine what the participant's heart rate is
+                // and this changes each loop's interval, effective immediately,
+                // as well as the oscillators' frequencies and amplitudes
+                if(frameNo % frameRate == 0){
+                    handleAudio()
+                    repNo++
+                }
+                frameNo++
+            }else{
+                stopSonification()
+            }    
         }else{
-            stopSonification()
+            // A nicer, spinner animation can go here while everything is setting up.
+            // for the moment, let's just keep this
+            p5.textSize(128);
+            p5.text('Setting things up...', 0, 0, p5.width, p5.height);
         }
     }
     

@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import LinkContainer from 'react-router-bootstrap/LinkContainer'
 import Card from 'react-bootstrap/Card'
+import Spinner from 'react-bootstrap/Spinner'
 
 import { getEpisodeContent, getEpisodeDescription, getPieceOfContent } from '../data'
 import Breadcrumb from '../Component/Breadcrumb'
@@ -44,6 +45,9 @@ function EpisodeScreen(props) {
   let thempath = "/" + props.themid;
   const path = `/${props.themid}/episodes/${props.epid}`;
   let axesColorsForLegend = getAxisColors2(props.epid) // Getting all colors of material in this episode, to use them in our legend sketch.
+  
+  const [spinnerVisible, setSpinnerVisible] = useState(true);
+  
   return (
     <>
       <Container fluid>
@@ -57,7 +61,10 @@ function EpisodeScreen(props) {
           <Row xxl={2}></Row>
           <Row className="justify-content-evenly align-items-center">
             <Col xxl={4}>
-              <ReactP5Wrapper sketch={legendSketch.sketch} axes={axesColorsForLegend} allAxes={AllAxesColors} />
+              <Container>
+                <ReactP5Wrapper sketch={legendSketch.sketch} axes={axesColorsForLegend} allAxes={AllAxesColors} callback={setSpinnerVisible}/>
+                <Spinner animation="border" style={{display: spinnerVisible ? 'block' : 'none'}}/>
+              </Container>
             </Col>
             <Col xxl={4}>
               <LinkContainer to={`${path}/studio`}>

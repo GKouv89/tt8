@@ -11,6 +11,7 @@ export function sketch(p5){
         axes = props.axes;
         console.log(axes)
         allAxes = props.allAxes;
+        props.callback(false);
         p5.loop()
     };
 
@@ -21,7 +22,7 @@ export function sketch(p5){
         p5.noLoop()
     }
 
-    p5.draw = () => {    
+    p5.draw = () => {   
         allAxes.map((axis, idx) => {
             if(axes.includes(axis)){
                 gradient.addColorStop(idx/6, p5.color(axis))

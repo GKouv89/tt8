@@ -113,18 +113,21 @@ function SketchComponent({axes, files}){
 
     // The 3rd column is space for the GUI that will be created from the sketch, hence its emptiness
     return(
-        <Row className='align-items-center fluid'>
-            <Col xs="auto">
-                <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 0 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz-1)}>
-                    <i className="bi bi-arrow-left"></i>
-                </Button>
-            </Col>
-            {sketch ? <Col>{sketch}</Col> : <Col><Spinner id="p5_loading" animation="border"/></Col>}
-            <Col xs="auto">
-                <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 2 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz+1)}>
-                    <i className="bi bi-arrow-right"></i>
-                </Button>
-            </Col>
-        </Row>
+        <>
+            <Spinner id="p5_loading" animation="border"/>
+            <Row className='align-items-center fluid'>
+                <Col xs="auto">
+                    <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 0 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz-1)}>
+                        <i className="bi bi-arrow-left"></i>
+                    </Button>
+                </Col>
+                {sketch && <Col>{sketch}</Col>}
+                <Col xs="auto">
+                    <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 2 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz+1)}>
+                        <i className="bi bi-arrow-right"></i>
+                    </Button>
+                </Col>
+            </Row>
+        </>
     )
 }
