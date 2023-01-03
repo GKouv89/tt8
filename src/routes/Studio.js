@@ -9,6 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button'
+import Spinner from 'react-bootstrap/Spinner';
 
 import { getStudioContent, getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
 import * as single from '../sketches/singularParticipantSketch'
@@ -118,7 +119,7 @@ function SketchComponent({axes, files}){
                     <i className="bi bi-arrow-left"></i>
                 </Button>
             </Col>
-            {sketch && <Col>{sketch}</Col>}
+            {sketch ? <Col>{sketch}</Col> : <Col><Spinner id="p5_loading" animation="border"/></Col>}
             <Col xs="auto">
                 <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 2 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz+1)}>
                     <i className="bi bi-arrow-right"></i>
