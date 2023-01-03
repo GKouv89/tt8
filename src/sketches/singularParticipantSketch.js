@@ -53,8 +53,11 @@ export function sketch(p5){
     let old_colors, new_colors
 
     p5.preload = () => {
-        sound = p5.loadSound(`${prefixPath}/data/assets/HEART-loop.mp3`)
-        boot = p5.loadSound(`${prefixPath}/data/assets/TR-909Kick.mp3`)
+        // p5.soundFormats('mp3', 'ogg');
+        // sound = p5.loadSound(`${prefixPath}/data/assets/HEART-loop`);
+        // boot = p5.loadSound(`${prefixPath}/data/assets/TR-909Kick`);
+        sound = p5.loadSound(`${prefixPath}/data/assets/HEART-loop.mp3`);
+        boot = p5.loadSound(`${prefixPath}/data/assets/TR-909Kick.mp3`);
     }
 
     function findMinMax(){ // finds minimum and maximum values of all biometrics

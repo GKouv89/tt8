@@ -25,7 +25,7 @@ export function sketch(p5){
     function moreSetup(){
         findMinMax()
         numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate) 
-        // numberOfReps = 7; // DEBUGGING
+        numberOfReps = 20; // DEBUGGING
         let rowContainer = p5.select('#sketch-ribbon-container')
         biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer) /* .parent(guiContainer).addClass('column-item') */
         // GUI creation takes place here because the available axes must be loaded before we create the corresponding radio button
@@ -275,11 +275,17 @@ export function sketch(p5){
         const chunks = []; // Here we will store our recorded media chunks (Blobs)
         const canvas = document.querySelector('canvas');
         const stream = canvas.captureStream(25); // Grab our canvas MediaStream
-        const rec = new MediaRecorder(stream); // Init the recorder
+        const options = {
+            // videoBitsPerSecond: 2500000,
+            videoBitsPerSecond: 6000000,
+            mimeType: "video/webm",
+        };
+        const rec = new MediaRecorder(stream, options); // Init the recorder
         // Every time the recorder has new data, we will store it in our array
         rec.ondataavailable = e => chunks.push(e.data);
         // Only when the recorder stops, we construct a complete Blob from all the chunks
-        rec.onstop = e => videoBlob = new Blob(chunks, {type: 'video/mp4'});
+        // rec.onstop = e => videoBlob = new Blob(chunks, {type: 'video/mp4'});
+        rec.onstop = e => videoBlob = new Blob(chunks, {type: 'video/webm'});
         
         rec.start();
         setTimeout(()=>rec.stop(), numberOfReps*1000); // If we increase repNo every 25 frames, 
@@ -288,7 +294,8 @@ export function sketch(p5){
       
     function exportVid(blob) {
         const a = document.createElement('a');
-        a.download = 'myvid.mp4';
+        // a.download = 'myvid.mp4';
+        a.download = 'myvid.webm';
         a.href = URL.createObjectURL(blob);
         a.textContent = 'download the video';
         document.body.appendChild(a);
@@ -548,7 +555,7 @@ export function sketch(p5){
         }
         initializeVisuals()
         handleAudio()
-        // numberOfReps = 7
+        numberOfReps = 20
         console.timeEnd('sonification');
     }
     
