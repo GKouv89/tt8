@@ -3,6 +3,8 @@ import './p5.dom.min.js'
 import './p5.js'
 import * as P5Class from "p5"
 
+import MidiWriter from 'midi-writer-js';
+
 export function sketch(p5){
     let prefixPath = `${window.location.protocol}//${window.location.hostname}` // This is the prefix for the file server
     let filepaths = []
@@ -61,6 +63,8 @@ export function sketch(p5){
         setupFinished = true;
         initializeVisuals();
         initializeAudio();
+        p5.noLoop();
+        // console.log('repNo: ', repNo);
     }
     
     p5.updateWithProps = props => {
@@ -562,6 +566,10 @@ export function sketch(p5){
             // isSoundReady = true
         // }else if(!isRecording && isSoundReady){
         //     playRecordingButton.removeAttribute('disabled', '')
+
+            // Just testing the functionality with the example provided from
+            // the documentation.
+            midiWriterTest();
         }
         initializeVisuals()
         handleAudio()
@@ -593,5 +601,25 @@ export function sketch(p5){
         startRecordingVisualization()
         startSound()
         p5.loop()
+    }
+
+    function midiWriterTest(){
+        const track = new MidiWriter.Track();
+
+        track.addEvent([
+                new MidiWriter.NoteEvent({pitch: ['E4','D4'], duration: '4'}),
+                new MidiWriter.NoteEvent({pitch: ['C4'], duration: '2'}),
+                new MidiWriter.NoteEvent({pitch: ['E4','D4'], duration: '4'}),
+                new MidiWriter.NoteEvent({pitch: ['C4'], duration: '2'}),
+                new MidiWriter.NoteEvent({pitch: ['C4', 'C4', 'C4', 'C4', 'D4', 'D4', 'D4', 'D4'], duration: '8'}),
+                new MidiWriter.NoteEvent({pitch: ['E4','D4'], duration: '4'}),
+                new MidiWriter.NoteEvent({pitch: ['C4'], duration: '2'})
+            ], function(event, index) {
+              return {sequential: true};
+            }
+        );
+
+        const write = new MidiWriter.Writer(track);
+        console.log(write.dataUri());
     }
 }

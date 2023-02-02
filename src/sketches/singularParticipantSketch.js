@@ -3,6 +3,8 @@ import './p5.dom.min.js'
 import './p5.js'
 import * as P5Class from "p5"
 
+import MidiWriter from 'midi-writer-js';
+
 export function sketch(p5){
     let data = [] // File paths and friendly names for participant biometrics
     let axes = []
@@ -254,6 +256,12 @@ export function sketch(p5){
                         // triggers the playback of a file
                         // We must then map the heart rate to this time period.
                         bootLoop.interval = genPeriod();
+                        // In case we're recording, we also export MIDI
+                        // If interval changes, tempo changes
+                        if(isRecording){
+                            console.log(parseInt(table.get(repNo*samplingRate, 0)));
+                            recordingTrack.setTempo(parseInt(table.get(repNo*samplingRate, 0)));
+                        }
                         break;
                     default:
                         break;
@@ -332,7 +340,20 @@ export function sketch(p5){
         oscillator.amp(0.2)
 
         // Creating a loop for the heart rate sonifications
-        bootLoop = new P5Class.SoundLoop(() => boot.play(), genPeriod());
+        bootLoop = new P5Class.SoundLoop(() => {
+            boot.play(); 
+            // If we are recording and therefore, want to export MIDI as well,
+            // every time the note plays, a note must be added.
+            // the tempo changes are being taken care of elsewhere.
+            if(isRecording){
+                recordingTrack.addEvent([
+                        new MidiWriter.NoteEvent({pitch: ['A4'], duration: '4'}),
+                    ], function(event, index) {
+                        return {sequential: true};
+                    }
+                );
+            } 
+        }, genPeriod());
         bootLoop.bpm = 0;
         
         // This will be used for recording the audio of the sketch
@@ -525,12 +546,24 @@ export function sketch(p5){
             recorder.stop()
             isRecording = false
             isSoundReady = true
+            // midiWriterTest();
+            // If we are exporting, and the option is the only one so far offered,
+            // time to also export the MIDI
+            if(biometricRadio.value() == 'heart' && heartTypeRadio.value() == 'boot'){
+                console.log('here');
+                recordingWriter = new MidiWriter.Writer(recordingTrack);
+                console.log(recordingWriter.dataUri());
+            }else{
+                console.log('here2');
+                console.log(biometricRadio.value());
+            }
         }else if(!isRecording && isSoundReady){
             playRecordingButton.removeAttribute('disabled', '')
         }
         // Redrawing the canvas so it takes the colors
         // that correspond to the values in the CSV's first line
         initializeVisuals()
+        numberOfReps = 10;
     }
 
     function pauseSonification(){
@@ -540,6 +573,8 @@ export function sketch(p5){
         axisChoice.removeAttribute('disabled')
         pauseButton.attribute('disabled', '')
     }
+
+    let recordingTrack, recordingWriter;
     
     function recordSonification(){
         // Same logic with start sonification, but here we cannot stop
@@ -561,6 +596,11 @@ export function sketch(p5){
         startSound()
         p5.loop()
         startRecording()
+
+        // Preparing MIDI track for track recording. 
+        // Temporarily only drum kick option.
+        recordingTrack = new MidiWriter.Track();
+        recordingTrack.setTimeSignature(4, 4);
     }
 
     // This function is used for capturing the visuals of the sketch
@@ -655,4 +695,58 @@ export function sketch(p5){
         }
         return c
     }   
+
+    function midiWriterTest(){
+        const track = new MidiWriter.Track();
+        track.setTimeSignature(4, 4);
+
+        track.setTempo(81);
+        
+        track.addEvent([
+                new MidiWriter.NoteEvent({pitch: ['A4'], duration: '4', repeat: 40}),
+            ], function(event, index) {
+              return {sequential: true};
+            }
+        );
+
+        const write = new MidiWriter.Writer(track);
+        console.log(write.dataUri());
+
+        ///////////////////////////////////////////////////////
+        
+        // const track2 = new MidiWriter.Track();
+        // track2.setTempo(740);
+        // track2.addEvent([
+        //         new MidiWriter.NoteEvent({pitch: ['A4'], duration: '1', repeat: 10}),
+        //     ], function(event, index) {
+        //       return {sequential: true};
+        //     }
+        // );
+
+        // track2.setTempo(370);
+        // track2.addEvent([
+        //         new MidiWriter.NoteEvent({pitch: ['A4'], duration: '1', repeat: 10}),
+        //     ], function(event, index) {
+        //       return {sequential: true};
+        //     }
+        // );
+
+        // const write2 = new MidiWriter.Writer(track2);
+        // console.log(write2.dataUri());
+
+        const track2 = new MidiWriter.Track();
+        // track.setTimeSignature(1, 1);
+
+        track2.setTempo(81);
+        
+        track2.addEvent([
+                new MidiWriter.NoteEvent({pitch: ['A4'], duration: '1', repeat: 10}),
+            ], function(event, index) {
+              return {sequential: true};
+            }
+        );
+
+        const write2 = new MidiWriter.Writer(track2);
+        console.log(write2.dataUri());
+    }
 }
