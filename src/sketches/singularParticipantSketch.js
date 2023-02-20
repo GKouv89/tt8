@@ -10,9 +10,14 @@ export function sketch(p5){
     let axes = []
     let prefixPath = `${window.location.protocol}//${window.location.hostname}` // This is the prefix for the file server
 
+    // Color chosen for visualization
+    let axisChoice;
     p5.updateWithProps = props => {
         if(axes.length == 0){ // This will be updated only once
             axes = props.axes;
+            // Temporarily, choosing 1st color. Later, this will be a query that returns a specific color before
+            // updateWithProps runs.
+            axisChoice = axes[0];
             // Along with axes we can be certain the data array can be initialized
             data = props.files
             // Loading first file as to have something to demonstrate
@@ -27,12 +32,12 @@ export function sketch(p5){
     let sound, boot, bootLoop
     let oscillator //, minFreq = 2000, maxFreq = 3000
     let startingC = 60 // Starting from C3
-    let endingC = 96 // Ending with B5 (C6, but excluded)
+    let endingC = 96 // Ending with B6 (C7, but excluded)
     // we generate the frequencies of all notes that are between the starting and ending octave
     // that belong to the C Major chord
     // and use them to quantize the oscillator's values
     // so it sounds a lot more harmonic
-    let arrayOfFrequencies = []
+    let arrayOfFrequencies = [];
 
     let samplingRate = 100 // Not really the sampling rate, but rather every how many lines do we take into account.
     let min = [1000, 1000, 1000] // index 0 is HR, index 1 is SC, index 2 is TEMP
@@ -41,14 +46,14 @@ export function sketch(p5){
     
     // All of the following are handlers for GUI components,
     // so we can enable/disable them or otherwise modify them, when needed
-    let heartTypeRadio, biometricRadio, oscillatorTypeRadio
-    let container, playContainer, exportContainer
-    let playButton, pauseButton, stopButton, playAndExportButton
-    let playRecordingButton
-    let downloadButton
-    let fileSelect
-    let axisChoice
-    
+    let heartTypeRadio, biometricRadio, oscillatorTypeRadio;
+    let container, playContainer, exportContainer;
+    let playButton, pauseButton, stopButton, playAndExportButton;
+    let playRecordingButton;
+    let downloadButton;
+    let fileSelect;
+    let lowestOctave, highestOctave;
+
     let recorder, recording, videoBlob, pseudoOscillator
     let isRecording = false, isSoundReady = false
     let gradient
@@ -181,20 +186,24 @@ export function sketch(p5){
         downloadButton = p5.createButton('Download Recording').parent(exportContainer).addClass('p5GUI-item')
         downloadButton.mousePressed(() => {p5.save(recording, 'sonification.wav'); exportVid(videoBlob)});
         downloadButton.attribute('disabled', '')
-    
-        // The user has the following options for the visualizer:
-        // A) One of the colors of the axes that the episode belongs to
-        // B) A gradient of all the aforementioned colors.
-        axisChoice = p5.createRadio().parent(container).addClass('p5GUI-row')
-        for(let i = 0; i < axes.length; i++){
-            axisChoice.option(axes[i].name, i.toString())
-        }
-        axisChoice.option('All axes', 'all')
-        axisChoice.selected('0')
-    
-        axisChoice.changed(() => {
-            initializeVisuals()
-        })
+
+        row = p5.createDiv().parent(container).addClass('p5GUI-row');
+        // GUI elements for upper and lower octave change.
+        // User inputs a number from 1 to 8 in both textboxes
+        p5.createP('Starting C: ').parent(row).addClass('p5GUI-item');
+        lowestOctave = p5.createInput("4").parent(row).addClass('p5GUI-item');
+        lowestOctave.changed(() => {
+            startingC = 12 + parseInt(lowestOctave.value()) * 12;
+            // the first 12 in the sum above refers to C0, whose MIDI value is 12.
+            initArrayOfFreq();
+        });
+        p5.createP('Ending C (excluding): ').parent(row).addClass('p5GUI-item');
+        highestOctave = p5.createInput("7").parent(row).addClass('p5GUI-item');
+        highestOctave.changed(() => {
+            endingC = 12 + parseInt(highestOctave.value()) * 12;
+            // the first 12 in the sum above refers to C0, whose MIDI value is 12.
+            initArrayOfFreq();
+        });
     }
 
     // This is responsible for the appearance of the canvas.
@@ -202,20 +211,10 @@ export function sketch(p5){
     // otherwise a gradient is created.
     // The logic of the color created will be explained in createColors
     function initializeVisuals(){
-        old_colors = []
-        new_colors = []
-        createColors()
-        switch(axisChoice.value()){
-            case 'all':
-                gradient = p5.drawingContext.createLinearGradient(p5.width/2, 0, p5.width/2, p5.height) // This is used when all axes are used in the visualization
-                axes.map((_, idx) => gradient.addColorStop(idx/(axes.length - 1), old_colors[idx]))
-                p5.drawingContext.fillStyle = gradient;    
-                p5.rect(0, 0, p5.width, p5.height)        
-                break;
-            default:
-                p5.background(old_colors[0])
-                break;
-        }
+        old_colors = [];
+        new_colors = [];
+        createColors();
+        p5.background(old_colors[0]);
     }
 
     function quantizeFrequency(freq){
@@ -237,7 +236,10 @@ export function sketch(p5){
     function setAudio(){
         let freq
         let minFreq = arrayOfFrequencies[0];
-        let maxFreq = arrayOfFrequencies[arrayOfFrequencies.length - 1]
+        let maxFreq = arrayOfFrequencies[arrayOfFrequencies.length - 1];
+        console.log('in setAudio');
+        console.log('minFreq: ', minFreq);
+        console.log('maxFreq: ', maxFreq);
         switch(biometricRadio.value()){
             case 'heart':
                 switch(heartTypeRadio.value()){
@@ -312,6 +314,19 @@ export function sketch(p5){
         })
     }
 
+    function initArrayOfFreq(){
+        // initializing the sonification
+        // iterate through all available octaves
+        // generate frequencies of C Major notes
+        // store them in arrayOfFrequencies 
+        arrayOfFrequencies = [];
+        for(let i = startingC; i < endingC; i+=12){
+            arrayOfFrequencies.push(p5.midiToFreq(i)); // C
+            arrayOfFrequencies.push(p5.midiToFreq(i+4)); // E
+            arrayOfFrequencies.push(p5.midiToFreq(i+7)); // G
+        }
+    }
+
     p5.setup = () => {
         console.log('setup')
         // Canvas width is the width of its container, which has the id mentioned below.
@@ -372,17 +387,9 @@ export function sketch(p5){
 
         p5.setFrameRate(frameRate)
 
-        // initializing the sonification
-        // iterate through all available octaves
-        // generate frequencies of C Major notes
-        // store them in arrayOfFrequencies 
-        for(let i = startingC; i < endingC; i+=12){
-            arrayOfFrequencies.push(p5.midiToFreq(i)) // C
-            arrayOfFrequencies.push(p5.midiToFreq(i+4)) // E
-            arrayOfFrequencies.push(p5.midiToFreq(i+7)) // G
-        }
         // console.log(arrayOfFrequencies)
-        setAudio()
+        initArrayOfFreq();
+        setAudio();
 
         // Initializing canvas appearance
         gradient = p5.drawingContext.createLinearGradient(p5.width/2, 0, p5.width/2, p5.height) // This is used when all axes are used in the visualization
@@ -401,24 +408,11 @@ export function sketch(p5){
         if(repNo < numberOfReps){
             if(frameNo % frameRate == 0){ // Every second
                 // Reading a new line from the csv and updating the sonifying element (oscillator, playback rate or sound loop interval)
-                setAudio()
+                setAudio();
                 // Updating colors of visualization
-                createColors()
-                // Monochromatic or gradient visualization?
-                switch(axisChoice.value()){
-                    case 'all':
-                        gradient = p5.drawingContext.createLinearGradient(p5.width/2, 0, p5.width/2, p5.height) // This is used when all axes are used in the visualization
-                        axes.map((_, idx) => {
-                            gradient.addColorStop(idx/(axes.length - 1), old_colors[idx])
-                        })
-                        p5.drawingContext.fillStyle = gradient;    
-                        p5.rect(0, 0, p5.width, p5.height)                    
-                        break;
-                    default:
-                        p5.background(old_colors[0])
-                        break;
-                }
-                repNo++
+                createColors();
+                p5.background(old_colors[0]);
+                repNo++;
             }else{
                 // All frames after the first in a given second,
                 // are focused on the transition between the current color
@@ -426,20 +420,8 @@ export function sketch(p5){
                 // LERPing is applied between the current and next color.
                 // The percentage is the percentage of frames of the current second
                 // already drawn.
-                switch(axisChoice.value()){
-                    case 'all':
-                        gradient = p5.drawingContext.createLinearGradient(p5.width/2, 0, p5.width/2, p5.height) // This is used when all axes are used in the visualization
-                        axes.map((_, idx) => {
-                            gradient.addColorStop(idx/(axes.length - 1), p5.lerpColor(old_colors[idx], new_colors[idx], (frameNo % frameRate)/frameRate))
-                        })
-                        p5.drawingContext.fillStyle = gradient;    
-                        p5.rect(0, 0, p5.width, p5.height)                    
-                        break;
-                    default:
-                        let c = p5.lerpColor(old_colors[0], new_colors[0], (frameNo % frameRate)/frameRate)
-                        p5.background(c)
-                        break;
-                }
+                let c = p5.lerpColor(old_colors[0], new_colors[0], (frameNo % frameRate)/frameRate);
+                p5.background(c);
             }
             frameNo++
         }else{
@@ -462,7 +444,6 @@ export function sketch(p5){
         biometricRadio.attribute('disabled', '')
         oscillatorTypeRadio.attribute('disabled', '')
         playAndExportButton.attribute('disabled', '')
-        axisChoice.attribute('disabled', '')
         fileSelect.attribute('disabled', '')
         // If the user has already created a recording, we must disable this button as well
         if(!isRecording && isSoundReady){
@@ -502,11 +483,11 @@ export function sketch(p5){
             case 'heart':
                 switch(heartTypeRadio.value()){
                     case 'heart':
-                        sound.stop()
+                        sound.stop();
                         break;
                     case 'boot':
-                        bootLoop.stop()
-                        pseudoOscillator.stop()
+                        bootLoop.stop();
+                        pseudoOscillator.stop();
                         break;
                     default:
                         break;
@@ -515,7 +496,7 @@ export function sketch(p5){
             case 'temp':
             case 'gsr':
             case 'all':
-                oscillator.stop()
+                oscillator.stop();
                 break;        
             default:
                 break;
@@ -536,7 +517,6 @@ export function sketch(p5){
         playAndExportButton.removeAttribute('disabled')
         heartTypeRadio.removeAttribute('disabled')
         biometricRadio.removeAttribute('disabled')
-        axisChoice.removeAttribute('disabled')
         oscillatorTypeRadio.removeAttribute('disabled')
         fileSelect.removeAttribute('disabled')
         // If the recorder is also running, we handle its state variables and GUI components accordingly
@@ -570,7 +550,6 @@ export function sketch(p5){
         p5.noLoop()
         stopSound()
         playButton.removeAttribute('disabled')
-        axisChoice.removeAttribute('disabled')
         pauseButton.attribute('disabled', '')
     }
 
@@ -587,7 +566,6 @@ export function sketch(p5){
         heartTypeRadio.attribute('disabled', '')
         biometricRadio.attribute('disabled', '')
         oscillatorTypeRadio.attribute('disabled', '')
-        axisChoice.attribute('disabled', '')
     
         isRecording = true
     
@@ -630,38 +608,15 @@ export function sketch(p5){
       a.remove()
     }
     
-    // This function creates the colors from reading the current values of the CSV,
-    // as well as the very next ones. This way we can smoothly transition between the colors, using LERPing
-    // If all axes are selected, multiple colors per line are created, otherwise, only one per line (two overall)
+    // This function creates the color from reading the current values of the CSV,
+    // as well as the very next one. This way, we can smoothly transition between the colors, using LERPing
     function createColors(){
-        switch(axisChoice.value()){
-            case 'all':
-                // This if statement ensures that there won't be any unessesary calculations
-                // as well as making sure the colors created all appear in the correct order.
-                // Without this, when old and new colors where created anew, after the first second
-                // the canvas reverted back to the values it had on time zero.
-                if(old_colors.length !== 0){
-                    for(let i = 0; i < axes.length; i++){
-                        old_colors[i] = new_colors[i]
-                        new_colors[i] = createColor((repNo+1)*samplingRate, i)
-                    }    
-                }else{
-                    for(let i = 0; i < axes.length; i++){
-                        old_colors[i] = createColor(repNo*samplingRate, i)
-                        new_colors[i] = createColor((repNo+1)*samplingRate, i)
-                    }    
-                }
-                break;
-            default:
-                // Similar to above if statement.
-                if(old_colors.length !== 0){
-                    old_colors[0] = new_colors[0]
-                    new_colors[0] = createColor((repNo+1)*samplingRate, parseInt(axisChoice.value()))
-                }else{
-                    old_colors[0] = createColor(repNo*samplingRate, parseInt(axisChoice.value()))
-                    new_colors[0] = createColor((repNo+1)*samplingRate, parseInt(axisChoice.value()))  
-                }
-                break;
+        if(old_colors.length !== 0){
+            old_colors[0] = new_colors[0];
+            new_colors[0] = createColor((repNo+1)*samplingRate, axisChoice.color);
+        }else{
+            old_colors[0] = createColor(repNo*samplingRate, axisChoice.color);
+            new_colors[0] = createColor((repNo+1)*samplingRate, axisChoice.color);
         }
     }
     
@@ -671,29 +626,29 @@ export function sketch(p5){
     // the above two properties to form a color.
     // If all biometrics are selected, then they are all mapped to a brightness value (a number in the range [0, 100])
     // then an average value is calculated and that is used as the brightness of the color being created
-    function createColor(repNo, colorNo){
-        let c
+    function createColor(repNo, color){
+        let c;
         switch(biometricRadio.value()){
             case 'heart':
-                c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), p5.constrain(p5.map(table.get(repNo, 0), min[0], max[0], 0, 100), 0, 100))
+                c = p5.color(p5.hue(color), p5.saturation(color), p5.constrain(p5.map(table.get(repNo, 0), min[0], max[0], 0, 100), 0, 100));
                 break;
             case 'gsr':
-                c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), p5.constrain(p5.map(table.get(repNo, 1), min[1], max[1], 0, 100), 0, 100))
+                c = p5.color(p5.hue(color), p5.saturation(color), p5.constrain(p5.map(table.get(repNo, 1), min[1], max[1], 0, 100), 0, 100));
                 break;  
             case 'temp':
-                c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), p5.constrain(p5.map(table.get(repNo, 2), min[2], max[2], 0, 100), 0, 100))
+                c = p5.color(p5.hue(color), p5.saturation(color), p5.constrain(p5.map(table.get(repNo, 2), min[2], max[2], 0, 100), 0, 100));
                 break;
             case 'all':
                 let brightnesses = 0
                 for(let i = 0; i < 2; i++){
-                    brightnesses += p5.constrain(p5.map(table.get(repNo, i), min[i], max[i], 0, 100), 0, 100)
+                    brightnesses += p5.constrain(p5.map(table.get(repNo, i), min[i], max[i], 0, 100), 0, 100);
                 }
-                c = p5.color(p5.hue(axes[colorNo].color), p5.saturation(axes[colorNo].color), brightnesses/3)
+                c = p5.color(p5.hue(color), p5.saturation(color), brightnesses/3);
                 break;
             default:
                 break;
         }
-        return c
+        return c;
     }   
 
     function midiWriterTest(){
