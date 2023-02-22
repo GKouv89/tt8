@@ -40,7 +40,7 @@ function sketchChoice(chosenViz, axes, files){
                         <Col id="sketch-gui-container"></Col> 
                     </Row>
                 </Container>
-            )
+            );
         case 1: // Screen no. 1 is the sonification/visualization of all biometrics of all episode participants.
             return(
                 <Container className='flex-column'>
@@ -49,17 +49,7 @@ function sketchChoice(chosenViz, axes, files){
                         <ReactP5Wrapper sketch={episode.sketch} axes={axes} files={files}/>
                     </Row>
                 </Container>
-            )
-        case 2: // Screen no. 2 is the sonification/visualization of all biometrics of all episode participants,
-                // but also giving the user the ability to change the color coding.
-            return(
-                <Container className='flex-column'>
-                    <Row id="sketch-ribbon-container"></Row>
-                    <Row id="sketch-canvas-container-large">
-                        <ReactP5Wrapper sketch={episodeCreative.sketch} axes={axes} files={files}/>
-                    </Row>
-                </Container>
-            ); // Maybe axis is unecessary here.
+            );
         default:
             break;
     }
@@ -123,7 +113,7 @@ function SketchComponent({axes, files}){
                 </Col>
                 {sketch && <Col>{sketch}</Col>}
                 <Col xs="auto">
-                    <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 2 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz+1)}>
+                    <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 1 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz+1)}>
                         <i className="bi bi-arrow-right"></i>
                     </Button>
                 </Col>
