@@ -15,9 +15,9 @@ export function sketch(p5){
     function loadFile(idx){
         tables.push(p5.loadTable(`${prefixPath}/${filepaths[idx].path}`, 'csv', 'header', () => {
             if(idx == filepaths.length - 1){ // Base case: if we have loaded the last file, go on with finding min & max values
-                moreSetup()
+                moreSetup();
             }else{ // otherwise proceed with loading next file
-                loadFile(idx+1)
+                loadFile(idx+1);
             }
         }))
     }
@@ -71,10 +71,10 @@ export function sketch(p5){
         if(axes.length == 0){ // This will be updated only once
             axes = props.axes;
             // Along with axes we can be certain the data array can be initialized
-            filepaths = props.files
+            filepaths = props.files;
             // Loading all files from the get go
             // This will call itself recursively
-            loadFile(0)        
+            loadFile(0);
         }        
     }
         
@@ -96,7 +96,7 @@ export function sketch(p5){
     // the visualization and sonification parameters.
     
     let gradient
-    let axisChoice, axisColor
+    let axisColor;
     
     let oscillators = [] // One per participant
     let envelopes = [] // One per participant
@@ -266,18 +266,8 @@ export function sketch(p5){
         downloadVideoButton.mousePressed(() => {exportVid(videoBlob)})
         downloadVideoButton.attribute('disabled', '')
         
-        axisChoice = p5.createRadio().parent(container).addClass('p5EpisodeGUI-column-item')
-        for(let i = 0; i < axes.length; i++){
-            axisChoice.option(axes[i].name, i.toString())
-        }
-        axisChoice.selected('0')
-        axisColor = axes[0].color
-        axisChoice.changed(() => {
-            axisColor = axes[parseInt(axisChoice.value())].color
-            console.log(axisColor)
-            initializeVisuals()
-        })
-        return container
+        axisColor = axes[0].color;
+        return container;
     }
     
     function startRecordingVisualization() {
@@ -518,14 +508,13 @@ export function sketch(p5){
     }
     
     function startSonification(){
-        p5.userStartAudio()
-        startSound()
-        p5.loop()
-        playButton.attribute('disabled', '')
-        pauseButton.removeAttribute('disabled')
-        stopButton.removeAttribute('disabled')
-        playAndExportButton.attribute('disabled', '')
-        axisChoice.attribute('disabled', '')
+        p5.userStartAudio();
+        startSound();
+        p5.loop();
+        playButton.attribute('disabled', '');
+        pauseButton.removeAttribute('disabled');
+        stopButton.removeAttribute('disabled');
+        playAndExportButton.attribute('disabled', '');
         // if(!isRecording && isSoundReady){
         //     playRecordingButton.attribute('disabled', '')
         // }
@@ -548,15 +537,14 @@ export function sketch(p5){
     
     function stopSonification(){
         console.log('repNo: ', repNo);
-        repNo = 0
-        frameNo = 0
-        stopSound()
-        p5.noLoop()
-        playButton.removeAttribute('disabled')
-        pauseButton.attribute('disabled', '')
-        stopButton.attribute('disabled', '')
-        playAndExportButton.removeAttribute('disabled')
-        axisChoice.removeAttribute('disabled')
+        repNo = 0;
+        frameNo = 0;
+        stopSound();
+        p5.noLoop();
+        playButton.removeAttribute('disabled');
+        pauseButton.attribute('disabled', '');
+        stopButton.attribute('disabled', '');
+        playAndExportButton.removeAttribute('disabled');
         if(isRecording){
         //     playRecordingButton.removeAttribute('disabled')
             downloadButton.removeAttribute('disabled')
@@ -578,11 +566,10 @@ export function sketch(p5){
     }
     
     function pauseSonification(){
-        p5.noLoop()
-        stopSound()
-        playButton.removeAttribute('disabled')
-        axisChoice.removeAttribute('disabled')
-        pauseButton.attribute('disabled', '')
+        p5.noLoop();
+        stopSound();
+        playButton.removeAttribute('disabled');
+        pauseButton.attribute('disabled', '');
     }
     
     function recordSonification(){
