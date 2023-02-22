@@ -6,11 +6,11 @@ import * as P5Class from "p5"
 import MidiWriter from 'midi-writer-js';
 
 export function sketch(p5){
-    let prefixPath = `${window.location.protocol}//${window.location.hostname}` // This is the prefix for the file server
-    let filepaths = []
-    let tables = []
+    let prefixPath = `${window.location.protocol}//${window.location.hostname}`; // This is the prefix for the file server
+    let filepaths = [];
+    let tables = [];
 
-    let axes = []
+    let axes = [];
 
     function loadFile(idx){
         tables.push(p5.loadTable(`${prefixPath}/${filepaths[idx].path}`, 'csv', 'header', () => {
@@ -29,17 +29,17 @@ export function sketch(p5){
     // That means, that the props have been updated, every file has been properly loaded, etc.
 
     function moreSetup(){
-        findMinMax()
-        numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate) 
+        findMinMax();
+        numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate);
         numberOfReps = 20; // DEBUGGING
-        let rowContainer = p5.select('#sketch-ribbon-container')
-        biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer) /* .parent(guiContainer).addClass('column-item') */
+        let rowContainer = p5.select('#sketch-ribbon-container');
+        biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer); /* .parent(guiContainer).addClass('column-item') */
         // GUI creation takes place here because the available axes must be loaded before we create the corresponding radio button
         GUIcontainer = p5.createDiv().addClass('parentContainer').style('width', '50%');
         studioContainer = createGUI().parent(GUIcontainer).addClass('p5EpisodeGUI-column-item');
         // Positioning the GUI buttons right above the canvas
         // Every time the window is resized, they are repositioned appropriately.
-        centerGUI()
+        centerGUI();
 
         hideGUI = p5.createButton('Hide GUI').parent(GUIcontainer).addClass('p5EpisodeGUI-column-item');
         hideGUI.mousePressed(() => {
@@ -104,25 +104,23 @@ export function sketch(p5){
     // The sound loop's interval determines when the envelope is triggered, and the interval varies in accordance with the variations in the participant's heart rate.
     
     let currentC = 60; // Participant's oscillators' frequencies start from middle C
+    let startingOctave;
+
+    let minAmp = 0.2, maxAmp = 0.5;
+    let playButton, pauseButton, stopButton; // Buttons that control the sonification and visualization.
+    let playAndExportButton, playRecordingButton; // Buttons that have to do with recording and exporting the sonification and visualization.
+    let hideGUI; // This button will show or hide the GUI, biometric analytics container, and color stop indicators (the 4 rectangles)
+    let isGUIhidden = false; // This will check whether the above button must toggle visibility on or off
+    let downloadButton, downloadVideoButton;
+    let attackSlider, decaySlider;
+    let amplitudeSlider;
+    let oscillatorTypeRadio;
+    let isRecording = false;
+    let recorder; // This is used to record the sound from our sketch
+    let recordingSoundFile; // This is where the sound recording is kept
+    let videoBlob; // This is where the video recording of the visualization is stored
     
-    // let lower_freq_bounds = [] // The lowest frequency the corresponding participant's oscillator can have
-    // let upper_freq_bounds = [] // The highest frequency the corresponding participant's oscillator can have
-    let minAmp = 0.2, maxAmp = 0.5
-    let playButton, pauseButton, stopButton // Buttons that control the sonification and visualization.
-    let playAndExportButton, playRecordingButton // Buttons that have to do with recording and exporting the sonification and visualization.
-    let hideGUI // This button will show or hide the GUI, biometric analytics container, and color stop indicators (the 4 rectangles)
-    let isGUIhidden = false // This will check whether the above button must toggle visibility on or off
-    let downloadButton, downloadVideoButton
-    // let lowerFreqSlider, upperFreqSlider
-    let attackSlider, decaySlider
-    let amplitudeSlider
-    let oscillatorTypeRadio
-    let isRecording = false
-    let recorder // This is used to record the sound from our sketch
-    let recordingSoundFile // This is where the sound recording is kept
-    let videoBlob // This is where the video recording of the visualization is stored
-    
-    let universalReleaseTime = 0.005 // This is the smallest value that didn't produce audible clicks for 4 participants
+    let universalReleaseTime = 0.005; // This is the smallest value that didn't produce audible clicks for 4 participants
     
     function findMinMax(){
         let currval
@@ -267,6 +265,18 @@ export function sketch(p5){
         downloadVideoButton.attribute('disabled', '')
         
         axisColor = axes[0].color;
+
+        // GUI element for changing the starting C.
+        // User inputs a number from 0 to 8
+        tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item');
+        p5.createP('Starting C: ').parent(tempContainer).addClass('p5EpisodeGUI-row-item');
+        startingOctave = p5.createInput("4").parent(tempContainer).addClass('p5EpisodeGUI-row-item');
+        startingOctave.changed(() => {
+            currentC = 12 + parseInt(startingOctave.value()) * 12;
+            // the first 12 in the sum above refers to C0, whose MIDI value is 12.
+            notesToPlay();
+        });
+
         return container;
     }
     
@@ -317,14 +327,14 @@ export function sketch(p5){
     
     function initializeAudio(){
         for(let i = 0; i < tables.length; i++){
-            oscillators[i] = new P5Class.Oscillator('sine')
-            envelopes[i] = new P5Class.Envelope()
-            envelopes[i].setADSR(0.001, 0.2, 0.2, universalReleaseTime) 
-            oscillators[i].amp(envelopes[i])
-            env_trigger_loops[i] = new P5Class.SoundLoop(() => {envelopes[i].play(oscillators[i])}, genPeriod(i))
-            env_trigger_loops[i].bpm = 0
+            oscillators[i] = new P5Class.Oscillator('sine');
+            envelopes[i] = new P5Class.Envelope();
+            envelopes[i].setADSR(0.001, 0.2, 0.2, universalReleaseTime);
+            oscillators[i].amp(envelopes[i]);
+            env_trigger_loops[i] = new P5Class.SoundLoop(() => {envelopes[i].play(oscillators[i])}, genPeriod(i));
+            env_trigger_loops[i].bpm = 0;
         }
-        notesToPlay()
+        notesToPlay();
     }
     
     function notesToPlay(){
@@ -337,7 +347,7 @@ export function sketch(p5){
             // When we're done with a triad of participants,
             // change current octave
             if(i && i % 3 == 0){ // The octave change does not take place the very first time we run the loop
-                currentC += 12
+                currentC += 12;
             }
             switch(i % 3){
                 // The C Major chord has 3 notes:
@@ -345,20 +355,20 @@ export function sketch(p5){
                 // The 1st participant is C, the 2nd is E, the 3rd is G,
                 // the 4th is the next C and so on.
                 case 0: // C
-                    oscillators[i].freq(p5.midiToFreq(currentC))
+                    oscillators[i].freq(p5.midiToFreq(currentC));
                     break;
                 case 1: // E
-                    oscillators[i].freq(p5.midiToFreq(currentC + 4))
+                    oscillators[i].freq(p5.midiToFreq(currentC + 4));
                     break;
                 case 2: // G
-                    oscillators[i].freq(p5.midiToFreq(currentC + 7))
+                    oscillators[i].freq(p5.midiToFreq(currentC + 7));
                     break;
                 default:
-                    console.log('Default case')
+                    console.log('Default case');
                     break;
             }
         }
-        handleAudio()
+        handleAudio();
     }
     
     p5.setup = () => {
@@ -523,15 +533,15 @@ export function sketch(p5){
     
     function startSound(){
         env_trigger_loops.map((loop, idx) => {
-            loop.start()
-            oscillators[idx].start()
+            loop.start();
+            oscillators[idx].start();
         })
     }
     
     function stopSound(){
         env_trigger_loops.map((loop, idx) => {
-            loop.stop()
-            oscillators[idx].stop()
+            loop.stop();
+            oscillators[idx].stop();
         })
     }
     
