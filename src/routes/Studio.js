@@ -14,7 +14,6 @@ import Spinner from 'react-bootstrap/Spinner';
 import { getStudioContent, getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
 import * as single from '../sketches/singularParticipantSketch'
 import * as episode from '../sketches/episodeSketch'
-import * as episodeCreative from '../sketches/episodeCreativeSketch'
 
 export default function StudioWrapper(){
     let {thematicID, episodeID} = useParams();
