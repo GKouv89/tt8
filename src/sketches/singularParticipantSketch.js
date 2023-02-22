@@ -192,17 +192,21 @@ export function sketch(p5){
         // User inputs a number from 1 to 8 in both textboxes
         p5.createP('Starting C: ').parent(row).addClass('p5GUI-item');
         lowestOctave = p5.createInput("4").parent(row).addClass('p5GUI-item');
-        lowestOctave.changed(() => {
-            startingC = 12 + parseInt(lowestOctave.value()) * 12;
-            // the first 12 in the sum above refers to C0, whose MIDI value is 12.
-            initArrayOfFreq();
+        lowestOctave.input(() => {
+            if(lowestOctave.value() !== ""){
+                startingC = 12 + parseInt(lowestOctave.value()) * 12;
+                // the first 12 in the sum above refers to C0, whose MIDI value is 12.
+                initArrayOfFreq();
+            }
         });
         p5.createP('Ending C (excluding): ').parent(row).addClass('p5GUI-item');
         highestOctave = p5.createInput("7").parent(row).addClass('p5GUI-item');
         highestOctave.changed(() => {
-            endingC = 12 + parseInt(highestOctave.value()) * 12;
-            // the first 12 in the sum above refers to C0, whose MIDI value is 12.
-            initArrayOfFreq();
+            if(highestOctave.value() !== ""){
+                endingC = 12 + parseInt(highestOctave.value()) * 12;
+                // the first 12 in the sum above refers to C0, whose MIDI value is 12.
+                initArrayOfFreq();
+            }
         });
     }
 
@@ -218,9 +222,9 @@ export function sketch(p5){
     }
 
     function quantizeFrequency(freq){
-        let immLowerFreq, immHigherFreq
+        let immLowerFreq, immHigherFreq;
         for(let i = 0; i < arrayOfFrequencies.length; i++){
-            immLowerFreq = arrayOfFrequencies[i]                
+            immLowerFreq = arrayOfFrequencies[i];
             immHigherFreq = arrayOfFrequencies[i+1]
             if(freq > immLowerFreq && freq < immHigherFreq){ // Found which quantization levels we should consider
                 // Which is closest to the frequency? The immediately lowest, or the immediately highest?
@@ -234,12 +238,9 @@ export function sketch(p5){
     
     // This is responsible for the sound produced.
     function setAudio(){
-        let freq
+        let freq;
         let minFreq = arrayOfFrequencies[0];
         let maxFreq = arrayOfFrequencies[arrayOfFrequencies.length - 1];
-        console.log('in setAudio');
-        console.log('minFreq: ', minFreq);
-        console.log('maxFreq: ', maxFreq);
         switch(biometricRadio.value()){
             case 'heart':
                 switch(heartTypeRadio.value()){
@@ -249,8 +250,8 @@ export function sketch(p5){
                         // and all we must do is map the heart rate's value
                         // to the range [0.5, 1.2]
                         // and change the playback rate accordingly
-                        let rate = p5.constrain(p5.map(table.get(repNo*samplingRate, 0), min[0], max[0], 0.5, 1.25), 0.5, 1.25)
-                        sound.rate(rate)
+                        let rate = p5.constrain(p5.map(table.get(repNo*samplingRate, 0), min[0], max[0], 0.5, 1.25), 0.5, 1.25);
+                        sound.rate(rate);
                         break;
                     case 'boot':
                         // Sonifying heart rate with a kick sound
@@ -273,15 +274,15 @@ export function sketch(p5){
                 // GSR sonification consists of mapping the biometric value to the oscillator frequency
                 // then quantizing. The quantization levels are C Major notes accross several octaves, so that the
                 // end result sounds good
-                freq = p5.constrain(p5.map(table.get(repNo*samplingRate, 1), min[1], max[1], minFreq, maxFreq), minFreq, maxFreq)
-                freq = quantizeFrequency(freq)
-                oscillator.freq(freq, 0.1)
+                freq = p5.constrain(p5.map(table.get(repNo*samplingRate, 1), min[1], max[1], minFreq, maxFreq), minFreq, maxFreq);
+                freq = quantizeFrequency(freq);
+                oscillator.freq(freq, 0.1);
                 break;  
             case 'temp':
                 // Temperature sonification consists of mapping the biometric value to the oscillator frequency, then quantizing.
-                freq = p5.constrain(p5.map(table.get(repNo*samplingRate, 2), min[2], max[2], minFreq, maxFreq), minFreq, maxFreq)
-                freq = quantizeFrequency(freq)
-                oscillator.freq(freq, 0.1)
+                freq = p5.constrain(p5.map(table.get(repNo*samplingRate, 2), min[2], max[2], minFreq, maxFreq), minFreq, maxFreq);
+                freq = quantizeFrequency(freq);
+                oscillator.freq(freq, 0.1);
                 break;
             case 'all':
                 // Sonifying all biometrics works as follows:
@@ -290,11 +291,11 @@ export function sketch(p5){
                 // and change the oscillator's frequency to this average value.
                 let frequencies = 0
                 for(let i = 0; i < 2; i++){
-                    frequencies += p5.constrain(p5.map(table.get(repNo*samplingRate, i), min[i], max[i], minFreq, maxFreq), minFreq, maxFreq)
+                    frequencies += p5.constrain(p5.map(table.get(repNo*samplingRate, i), min[i], max[i], minFreq, maxFreq), minFreq, maxFreq);
                 }
-                freq = frequencies/3
-                freq = quantizeFrequency(freq)
-                oscillator.freq(freq, 0.1)
+                freq = frequencies/3;
+                freq = quantizeFrequency(freq);
+                oscillator.freq(freq, 0.1);
                 break;
             default:
                 break;
@@ -314,17 +315,25 @@ export function sketch(p5){
         })
     }
 
+    // let notes = []; // DEBUG
     function initArrayOfFreq(){
         // initializing the sonification
         // iterate through all available octaves
         // generate frequencies of C Major notes
         // store them in arrayOfFrequencies 
+        // console.log('Notes before: ', notes); // DEBUG
+        // notes = [];
         arrayOfFrequencies = [];
         for(let i = startingC; i < endingC; i+=12){
+            console.log("Current C: ", i);
             arrayOfFrequencies.push(p5.midiToFreq(i)); // C
+            // notes.push(i); // DEBUG
             arrayOfFrequencies.push(p5.midiToFreq(i+4)); // E
+            // notes.push(i+4); // DEBUG
             arrayOfFrequencies.push(p5.midiToFreq(i+7)); // G
+            // notes.push(i+7); // DEBUG
         }
+        // console.log('Notes after: ', notes); // DEBUG
     }
 
     p5.setup = () => {

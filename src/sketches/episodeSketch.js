@@ -271,10 +271,26 @@ export function sketch(p5){
         tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item');
         p5.createP('Starting C: ').parent(tempContainer).addClass('p5EpisodeGUI-row-item');
         startingOctave = p5.createInput("4").parent(tempContainer).addClass('p5EpisodeGUI-row-item');
-        startingOctave.changed(() => {
-            currentC = 12 + parseInt(startingOctave.value()) * 12;
-            // the first 12 in the sum above refers to C0, whose MIDI value is 12.
-            notesToPlay();
+        startingOctave.input(() => {
+            if(startingOctave.value() !== ""){
+                console.log("blah");
+                let tempC = 12 + parseInt(startingOctave.value()) * 12; 
+                // the first 12 in the sum above refers to C0, whose MIDI value is 12.
+                // Checking upper boundary
+                // We must ensure that the last participant plays a note
+                // which is less than C9 (120 MIDI value).
+                let participantCount = tables.length;
+                let octaves = p5.floor(participantCount / 3) + (participantCount % 3 !== 0 ? 1 : 0);
+                let highestNote = tempC + 12*octaves;
+                if(highestNote <= 120){
+                    currentC = tempC;
+                } else {
+                    // Out of bounds
+                    currentC = 120 - 12*(octaves + 1);
+                    startingOctave.value(`${currentC/12}`);
+                }
+                notesToPlay();
+            }
         });
 
         return container;
@@ -308,15 +324,15 @@ export function sketch(p5){
         a.href = URL.createObjectURL(blob);
         a.textContent = 'download the video';
         document.body.appendChild(a);
-        a.click()
-        a.remove()
+        a.click();
+        a.remove();
     }
     
     function initializeVisuals(){
-        old_colors = []
-        new_colors = []
-        createColors()
-        handleGradient()
+        old_colors = [];
+        new_colors = [];
+        createColors();
+        handleGradient();
     }
     
     function genPeriod(i){
