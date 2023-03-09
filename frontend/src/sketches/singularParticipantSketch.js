@@ -10,6 +10,22 @@ export function sketch(p5){
     let axes = []
     let prefixPath = `${window.location.protocol}//${window.location.hostname}` // This is the prefix for the file server
 
+    // sonificationRunning is used when the window becomes visible after being minimized
+    // or after the tab was switched to a different one. This way we can check if we are
+    // supposed to be starting the draw loop again. If we have simply paused, then
+    // switching back to the tab should not trigger the draw loop again, 
+    // and this is why isPaused is used. 
+    let sonificationRunning = false, isPaused = false;
+    document.addEventListener("visibilitychange", () => {
+        console.log(document.visibilityState);
+        console.log(p5.getAudioContext().state);
+        if(!isPaused && sonificationRunning)
+            if(document.visibilityState == "hidden")
+                hideSonification();
+            else
+                showSonification();
+    });
+
     // Color chosen for visualization
     let axisChoice;
     p5.updateWithProps = props => {
@@ -442,21 +458,26 @@ export function sketch(p5){
     function startSonification(){
         // This is used so the sound loop can play without any other sonification playing beforehand.
         // If this isn't used, one must choose any other option, stop, then choose the kick option.
-        p5.userStartAudio() 
-        startSound()
-        p5.loop()
+        console.log(p5.getAudioContext().state);
+        sonificationRunning = true;
+        // making sure we reset this variable
+        isPaused = false;
+        // if(p5.getAudioContext().state !== "running")
+        //     p5.userStartAudio(); 
+        startSound();
+        p5.loop();
         // Disabling most GUI elements
-        playButton.attribute('disabled', '')
-        pauseButton.removeAttribute('disabled')
-        stopButton.removeAttribute('disabled')
-        heartTypeRadio.attribute('disabled', '')
-        biometricRadio.attribute('disabled', '')
-        oscillatorTypeRadio.attribute('disabled', '')
-        playAndExportButton.attribute('disabled', '')
-        fileSelect.attribute('disabled', '')
+        playButton.attribute('disabled', '');
+        pauseButton.removeAttribute('disabled');
+        stopButton.removeAttribute('disabled');
+        heartTypeRadio.attribute('disabled', '');
+        biometricRadio.attribute('disabled', '');
+        oscillatorTypeRadio.attribute('disabled', '');
+        playAndExportButton.attribute('disabled', '');
+        fileSelect.attribute('disabled', '');
         // If the user has already created a recording, we must disable this button as well
         if(!isRecording && isSoundReady){
-            playRecordingButton.attribute('disabled', '')
+            playRecordingButton.attribute('disabled', '');
         }
     }
 
@@ -513,11 +534,14 @@ export function sketch(p5){
     }
     
     function stopSonification(){
+        sonificationRunning = false;
+        // making sure we reset this variable
+        isPaused = false;
         // Resetting repetition and frame counters, so that the sonification and visualization can start from the top.
-        repNo = 0
-        frameNo = 0
-        stopSound()
-        p5.noLoop()
+        repNo = 0;
+        frameNo = 0;
+        stopSound();
+        p5.noLoop();
 
         // Re-enabling GUI elements
         playButton.removeAttribute('disabled')
@@ -551,15 +575,28 @@ export function sketch(p5){
         }
         // Redrawing the canvas so it takes the colors
         // that correspond to the values in the CSV's first line
-        initializeVisuals()
+        initializeVisuals();
         numberOfReps = 10;
     }
 
     function pauseSonification(){
-        p5.noLoop()
-        stopSound()
-        playButton.removeAttribute('disabled')
-        pauseButton.attribute('disabled', '')
+        isPaused = true;
+        p5.noLoop();
+        stopSound();
+        playButton.removeAttribute('disabled');
+        pauseButton.attribute('disabled', '');
+    }
+
+    // A lighter version of pauseSonification, only when the tab is switched/browser is minimized.
+    function hideSonification(){
+        p5.noLoop();
+        stopSound();
+    }
+
+    // A lighter version of startSonification, for when the tab is visible again
+    function showSonification(){
+        p5.loop();
+        startSound();
     }
 
     let recordingTrack, recordingWriter;
@@ -567,22 +604,22 @@ export function sketch(p5){
     function recordSonification(){
         // Same logic with start sonification, but here we cannot stop
         // the recording before all lines are read from the CSV
-        p5.userStartAudio()
-        playButton.attribute('disabled', '')
-        pauseButton.attribute('disabled', '')
-        stopButton.attribute('disabled', '')
-        playAndExportButton.attribute('disabled', '')
-        heartTypeRadio.attribute('disabled', '')
-        biometricRadio.attribute('disabled', '')
-        oscillatorTypeRadio.attribute('disabled', '')
+        p5.userStartAudio();
+        playButton.attribute('disabled', '');
+        pauseButton.attribute('disabled', '');
+        stopButton.attribute('disabled', '');
+        playAndExportButton.attribute('disabled', '');
+        heartTypeRadio.attribute('disabled', '');
+        biometricRadio.attribute('disabled', '');
+        oscillatorTypeRadio.attribute('disabled', '');
     
-        isRecording = true
+        isRecording = true;
     
-        recording = new P5Class.SoundFile()
-        recorder.record(recording)
-        startSound()
-        p5.loop()
-        startRecording()
+        recording = new P5Class.SoundFile();
+        recorder.record(recording);
+        startSound();
+        p5.loop();
+        startRecording();
 
         // Preparing MIDI track for track recording. 
         // Temporarily only drum kick option.

@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner';
+import Alert from 'react-bootstrap/Alert';
 
 import { getStudioContent, getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
 import * as single from '../sketches/singularParticipantSketch'
@@ -58,7 +59,8 @@ function Studio(props){
     // The data for sonification and visualization are loaded here
     // So we can avoid reload every time we change the sonification/visualization given
     // Here we store the axes and the file paths/names for the sketch
-    const [data, setData] = useState(null)
+    const [data, setData] = useState(null);
+    const [showAlert, setShowAlert] = useState(true);
 
     // Setting paths for breadcrumb buttons
     const newClassName = "thematic" + props.themid; 
@@ -79,6 +81,24 @@ function Studio(props){
                 <Row>
                     <Breadcrumb path={eppath} themid={props.themid}/>                
                 </Row>
+                {
+                    showAlert && 
+                    <Row>
+                        <Alert variant='warning' onClose={() => setShowAlert(false)} dismissible>
+                            <Alert.Heading>
+                                Αναπαραγωγή οπτικοποιήσεων & ηχοποιήσεων
+                            </Alert.Heading>
+                            <p>
+                                Η αναπαραγωγή των οπτικοποιήσεων και ηχοποιήσεων απαιτούν την παραμονή σας σε αυτή την καρτέλα.
+                            </p>
+                            <hr />
+                            <p>
+                                Αν αλλάξετε καρτέλα ή ελαχιστοποιήσετε το παράθυρο, απλώς θα γίνει παύση της αναπαραγωγής. Η αναπαραγωγή θα συνεχιστεί κανονικά με
+                                την επιστροφή σας στην τρέχουσα καρτέλα.
+                            </p>
+                        </Alert>                
+                    </Row>
+                }
                 {
                     data && data.files.length ? <SketchComponent axes={data.axes} files={data.files}/> : <h1>Προς το παρόν, δεν υπάρχουν οπτικοποιήσεις και ηχοποιήσεις για αυτό το επεισόδιο.</h1>
                 }

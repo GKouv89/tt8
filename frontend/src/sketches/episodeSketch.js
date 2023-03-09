@@ -12,6 +12,17 @@ export function sketch(p5){
 
     let axes = [];
 
+    let sonificationRunning = false, isPaused = false;
+    document.addEventListener("visibilitychange", () => {
+        console.log(document.visibilityState);
+        console.log(p5.getAudioContext().state);
+        if(!isPaused && sonificationRunning)
+            if(document.visibilityState == "hidden")
+                hideSonification();
+            else
+                showSonification();
+    });
+
     function loadFile(idx){
         tables.push(p5.loadTable(`${prefixPath}/${filepaths[idx].path}`, 'csv', 'header', () => {
             if(idx == filepaths.length - 1){ // Base case: if we have loaded the last file, go on with finding min & max values
@@ -31,7 +42,8 @@ export function sketch(p5){
     function moreSetup(){
         findMinMax();
         numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate);
-        numberOfReps = 20; // DEBUGGING
+        console.log('NUMBER OF REPS: ', numberOfReps);
+        // numberOfReps = 20; // DEBUGGING
         let rowContainer = p5.select('#sketch-ribbon-container');
         biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer); /* .parent(guiContainer).addClass('column-item') */
         // GUI creation takes place here because the available axes must be loaded before we create the corresponding radio button
@@ -486,19 +498,19 @@ export function sketch(p5){
     p5.draw = () => {    
         if(setupFinished){
             if(repNo < numberOfReps){
-                // console.log('numberOfReps: ', numberOfReps);
-                handleGradient()
+                console.log('repNo: ', repNo);
+                handleGradient();
                 // Every second we read another line from the CSV 
                 // So every second, we redetermine what the participant's heart rate is
                 // and this changes each loop's interval, effective immediately,
                 // as well as the oscillators' frequencies and amplitudes
                 if(frameNo % frameRate == 0){
-                    handleAudio()
-                    repNo++
+                    handleAudio();
+                    repNo++;
                 }
-                frameNo++
+                frameNo++;
             }else{
-                stopSonification()
+                stopSonification();
             }    
         }else{
             // A nicer, spinner animation can go here while everything is setting up.
@@ -534,6 +546,8 @@ export function sketch(p5){
     }
     
     function startSonification(){
+        sonificationRunning = true;
+        isPaused = false;
         p5.userStartAudio();
         startSound();
         p5.loop();
@@ -562,7 +576,8 @@ export function sketch(p5){
     }
     
     function stopSonification(){
-        console.log('repNo: ', repNo);
+        sonificationRunning = false;
+        isPaused = false;
         repNo = 0;
         frameNo = 0;
         stopSound();
@@ -587,38 +602,50 @@ export function sketch(p5){
         }
         initializeVisuals()
         handleAudio()
-        numberOfReps = 20
+        // numberOfReps = 20
         console.timeEnd('sonification');
     }
     
     function pauseSonification(){
+        isPaused = true;
         p5.noLoop();
         stopSound();
         playButton.removeAttribute('disabled');
         pauseButton.attribute('disabled', '');
     }
+
+    // A lighter version of pauseSonification, only when the tab is switched/browser is minimized.
+    function hideSonification(){
+        p5.noLoop();
+        stopSound();
+    }
+
+    // A lighter version of startSonification, for when the tab is visible again
+    function showSonification(){
+        p5.loop();
+        startSound();
+    }
     
     function recordSonification(){
         // Disable all other buttons, including play and export, but not sliders
         // Start recording, set state variable to true
-        playButton.attribute('disabled', '')
-        pauseButton.attribute('disabled', '')
-        stopButton.attribute('disabled', '')
-        playAndExportButton.attribute('disabled', '')
+        playButton.attribute('disabled', '');
+        pauseButton.attribute('disabled', '');
+        stopButton.attribute('disabled', '');
+        playAndExportButton.attribute('disabled', '');
         // playRecordingButton.attribute('disabled', '')
         // downloadButton.attribute('disabled', '')
     
-        isRecording = true
-        recordingSoundFile = new P5Class.SoundFile()
-        recorder.record(recordingSoundFile)
-        startRecordingVisualization()
-        startSound()
-        p5.loop()
+        isRecording = true;
+        recordingSoundFile = new P5Class.SoundFile();
+        recorder.record(recordingSoundFile);
+        startRecordingVisualization();
+        startSound();
+        p5.loop();
     }
 
     function midiWriterTest(){
         const track = new MidiWriter.Track();
-
         track.addEvent([
                 new MidiWriter.NoteEvent({pitch: ['E4','D4'], duration: '4'}),
                 new MidiWriter.NoteEvent({pitch: ['C4'], duration: '2'}),
