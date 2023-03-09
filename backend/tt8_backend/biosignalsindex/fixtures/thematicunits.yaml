@@ -1,0 +1,11 @@
+---
+- model: biosignalsindex.ThematicUnit
+  fields:
+    name: Περιβάλλον
+- model: biosignalsindex.ThematicUnit
+  fields:
+    name: Εργασία
+- model: biosignalsindex.ThematicUnit
+  fields:
+    name: Μεταναστευτικό
+...

@@ -5,17 +5,19 @@ from tt8_backend.settings import DATA_DIR
 class ThematicUnit(models.Model):
 	name = models.CharField(max_length=255)
 
-class Session(models.Model):
+class SociodramaSession(models.Model):
 	thematic = models.ForeignKey(
 		'ThematicUnit',
 		on_delete = models.CASCADE,
+		related_name = 'sessions',
 	)
 	session_id_in_thematic = models.IntegerField()
 
 class Participant(models.Model):
 	session = models.ForeignKey(
-		'Session',
+		'SociodramaSession',
 		on_delete = models.CASCADE,
+		related_name = 'participants',
 	)
 	participant_id_in_session = models.IntegerField()
 
@@ -23,17 +25,20 @@ class Axis(models.Model):
 	thematic = models.ForeignKey(
 		'ThematicUnit',
 		on_delete = models.CASCADE,
+		related_name = 'axes',
 	)
 	axis_id_in_thematic = models.IntegerField()
-	description = models.TextField()
+	title = models.TextField()
 	color = models.CharField(max_length=7) # This is a hexadecimal color code. Something like this: "#FF0000"
 
 class Episode(models.Model):
 	session = models.ForeignKey(
-		'Session',
+		'SociodramaSession',
 		on_delete = models.CASCADE,
+		related_name = 'episodes',
 	)
-	axis = models.ManyToManyField('Axis', related_name = 'axis_episodes')
+	axis = models.ManyToManyField('Axis', related_name = 'episodes')
+	episode_id_in_session = models.IntegerField()
 
 class ParticipantMaterial(models.Model):
 	GRAPH = 'GR'
@@ -42,6 +47,9 @@ class ParticipantMaterial(models.Model):
 		(GRAPH, 'Graph'),
 		(RAW, 'Raw data'),
 	]
+	# The biosignal choice might become redundant
+	# if files end up following the format for the sample files
+	# currently used by the front end.
 	HEART = 'HR'
 	GSR = 'SC'
 	TEMP = 'TEMP'

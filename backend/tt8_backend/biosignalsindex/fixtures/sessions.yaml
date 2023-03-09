@@ -1,0 +1,26 @@
+---
+- model: biosignalsindex.SociodramaSession
+  fields:
+    thematic: 1
+    session_id_in_thematic: 1
+- model: biosignalsindex.SociodramaSession
+  fields:
+    thematic: 1
+    session_id_in_thematic: 2
+- model: biosignalsindex.SociodramaSession
+  fields:
+    thematic: 2
+    session_id_in_thematic: 1
+- model: biosignalsindex.SociodramaSession
+  fields:
+    thematic: 2
+    session_id_in_thematic: 2
+- model: biosignalsindex.SociodramaSession
+  fields:
+    thematic: 3
+    session_id_in_thematic: 1
+- model: biosignalsindex.SociodramaSession
+  fields:
+    thematic: 3
+    session_id_in_thematic: 2
+...
