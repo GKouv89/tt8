@@ -31,8 +31,8 @@ export function sketch(p5){
     let table
     let sound, boot, bootLoop
     let oscillator //, minFreq = 2000, maxFreq = 3000
-    let startingC = 60 // Starting from C3
-    let endingC = 96 // Ending with B6 (C7, but excluded)
+    let startingC = 48; // Starting from C3
+    let endingC = 72; // Ending with B4 (C5, but excluded)
     // we generate the frequencies of all notes that are between the starting and ending octave
     // that belong to the C Major chord
     // and use them to quantize the oscillator's values
@@ -191,7 +191,7 @@ export function sketch(p5){
         // GUI elements for upper and lower octave change.
         // User inputs a number from 1 to 8 in both textboxes
         p5.createP('Starting C: ').parent(row).addClass('p5GUI-item');
-        lowestOctave = p5.createInput("4").parent(row).addClass('p5GUI-item');
+        lowestOctave = p5.createInput("3").parent(row).addClass('p5GUI-item');
         lowestOctave.input(() => {
             if(lowestOctave.value() !== ""){
                 startingC = 12 + parseInt(lowestOctave.value()) * 12;
@@ -200,7 +200,7 @@ export function sketch(p5){
             }
         });
         p5.createP('Ending C (excluding): ').parent(row).addClass('p5GUI-item');
-        highestOctave = p5.createInput("7").parent(row).addClass('p5GUI-item');
+        highestOctave = p5.createInput("5").parent(row).addClass('p5GUI-item');
         highestOctave.changed(() => {
             if(highestOctave.value() !== ""){
                 endingC = 12 + parseInt(highestOctave.value()) * 12;
@@ -226,7 +226,7 @@ export function sketch(p5){
         for(let i = 0; i < arrayOfFrequencies.length; i++){
             immLowerFreq = arrayOfFrequencies[i];
             immHigherFreq = arrayOfFrequencies[i+1]
-            if(freq > immLowerFreq && freq < immHigherFreq){ // Found which quantization levels we should consider
+            if(freq >= immLowerFreq && freq <= immHigherFreq){ // Found which quantization levels we should consider
                 // Which is closest to the frequency? The immediately lowest, or the immediately highest?
                 if(p5.abs(freq - immLowerFreq) < p5.abs(freq - immHigherFreq))
                     return arrayOfFrequencies[i];
