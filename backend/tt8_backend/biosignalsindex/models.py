@@ -19,7 +19,7 @@ class Participant(models.Model):
 		on_delete = models.CASCADE,
 		related_name = 'participants',
 	)
-	participant_id_in_session = models.IntegerField()
+	sensor_id_in_session = models.IntegerField()
 
 class Axis(models.Model):
 	thematic = models.ForeignKey(
@@ -53,18 +53,22 @@ class ParticipantMaterial(models.Model):
 	HEART = 'HR'
 	GSR = 'SC'
 	TEMP = 'TEMP'
+	ALL = 'ALL'
 	BIOSIGNAL_CHOICES = [
 		(HEART, 'Heart Rate'),
 		(GSR, 'Skin Conductance'),
 		(TEMP, 'Temperature'),
+		(ALL, 'All'),
 	]
 	participant = models.ForeignKey(
 		'Participant',
 		on_delete = models.CASCADE,
+		related_name='biometrics',
 	)
 	episode = models.ForeignKey(
 		'Episode',
 		on_delete = models.CASCADE,
+		related_name='material',
 	)
 	friendly_name = models.CharField(max_length=255) # Something like 'Participant 1 heart rate in episode 3'
 	description = models.TextField()
@@ -76,4 +80,4 @@ class ParticipantMaterial(models.Model):
 		choices = BIOSIGNAL_CHOICES,
 		max_length = 4,
 	)
-	path = models.FilePathField(path=DATA_DIR, recursive=True)
+	path = models.CharField(max_length=255)

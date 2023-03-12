@@ -1,0 +1,95 @@
+- fields:
+    axis: [1]
+    episode_id_in_session: '22'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [8]
+    episode_id_in_session: '48'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [1]
+    episode_id_in_session: '18'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [1]
+    episode_id_in_session: '9'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [1]
+    episode_id_in_session: '23'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [2]
+    episode_id_in_session: '21'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [2]
+    episode_id_in_session: '7'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [1]
+    episode_id_in_session: '25'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [8]
+    episode_id_in_session: '63'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [3]
+    episode_id_in_session: '47'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [7]
+    episode_id_in_session: '3'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [3]
+    episode_id_in_session: '2'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [5]
+    episode_id_in_session: '13'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [1]
+    episode_id_in_session: '17'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [5, 6]
+    episode_id_in_session: '26'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [4]
+    episode_id_in_session: '30'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [5]
+    episode_id_in_session: '34'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [3]
+    episode_id_in_session: '49'
+    session: 19
+  model: biosignalsindex.Episode
+- fields:
+    axis: [3]
+    episode_id_in_session: '56'
+    session: 19
+  model: biosignalsindex.Episode
