@@ -71,7 +71,7 @@ class ParticipantMaterial(models.Model):
 		related_name='material',
 	)
 	friendly_name = models.CharField(max_length=255) # Something like 'Participant 1 heart rate in episode 3'
-	description = models.TextField()
+	description = models.TextField(null=True)
 	file_type = models.CharField(
 		choices = TYPE_CHOICES,
 		max_length = 3,

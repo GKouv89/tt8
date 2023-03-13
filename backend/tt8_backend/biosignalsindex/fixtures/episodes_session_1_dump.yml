@@ -1,0 +1,134 @@
+- model: biosignalsindex.episode
+  pk: 1
+  fields:
+    session: 19
+    episode_id_in_session: 22
+    axis:
+    - 1
+- model: biosignalsindex.episode
+  pk: 2
+  fields:
+    session: 19
+    episode_id_in_session: 48
+    axis:
+    - 8
+- model: biosignalsindex.episode
+  pk: 3
+  fields:
+    session: 19
+    episode_id_in_session: 18
+    axis:
+    - 1
+- model: biosignalsindex.episode
+  pk: 4
+  fields:
+    session: 19
+    episode_id_in_session: 9
+    axis:
+    - 1
+- model: biosignalsindex.episode
+  pk: 5
+  fields:
+    session: 19
+    episode_id_in_session: 23
+    axis:
+    - 1
+- model: biosignalsindex.episode
+  pk: 6
+  fields:
+    session: 19
+    episode_id_in_session: 21
+    axis:
+    - 2
+- model: biosignalsindex.episode
+  pk: 7
+  fields:
+    session: 19
+    episode_id_in_session: 7
+    axis:
+    - 2
+- model: biosignalsindex.episode
+  pk: 8
+  fields:
+    session: 19
+    episode_id_in_session: 25
+    axis:
+    - 1
+- model: biosignalsindex.episode
+  pk: 9
+  fields:
+    session: 19
+    episode_id_in_session: 63
+    axis:
+    - 8
+- model: biosignalsindex.episode
+  pk: 10
+  fields:
+    session: 19
+    episode_id_in_session: 47
+    axis:
+    - 3
+- model: biosignalsindex.episode
+  pk: 11
+  fields:
+    session: 19
+    episode_id_in_session: 3
+    axis:
+    - 7
+- model: biosignalsindex.episode
+  pk: 12
+  fields:
+    session: 19
+    episode_id_in_session: 2
+    axis:
+    - 3
+- model: biosignalsindex.episode
+  pk: 13
+  fields:
+    session: 19
+    episode_id_in_session: 13
+    axis:
+    - 5
+- model: biosignalsindex.episode
+  pk: 14
+  fields:
+    session: 19
+    episode_id_in_session: 17
+    axis:
+    - 1
+- model: biosignalsindex.episode
+  pk: 15
+  fields:
+    session: 19
+    episode_id_in_session: 26
+    axis:
+    - 5
+    - 6
+- model: biosignalsindex.episode
+  pk: 16
+  fields:
+    session: 19
+    episode_id_in_session: 30
+    axis:
+    - 4
+- model: biosignalsindex.episode
+  pk: 17
+  fields:
+    session: 19
+    episode_id_in_session: 34
+    axis:
+    - 5
+- model: biosignalsindex.episode
+  pk: 18
+  fields:
+    session: 19
+    episode_id_in_session: 49
+    axis:
+    - 3
+- model: biosignalsindex.episode
+  pk: 19
+  fields:
+    session: 19
+    episode_id_in_session: 56
+    axis:
+    - 3
