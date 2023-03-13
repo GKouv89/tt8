@@ -1,5 +1,4 @@
 from django.db import models
-from tt8_backend.settings import DATA_DIR
 
 # Create your models here.
 class ThematicUnit(models.Model):
