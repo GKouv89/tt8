@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'tt8_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'tt8db',
+        'USER': 'tt8dbuser',
+        'PASSWORD': 'SyR7sihYfw_USjs.',
+        'HOST': 'localhost',
+        'PORT': 3306,
     }
 }
 

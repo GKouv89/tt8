@@ -1,0 +1,1538 @@
+%YAML 1.1
+---
+# tt8db.auth_permission
+-
+  id: 1
+  name: "Can add log entry"
+  content_type_id: 1
+  codename: "add_logentry"
+-
+  id: 2
+  name: "Can change log entry"
+  content_type_id: 1
+  codename: "change_logentry"
+-
+  id: 3
+  name: "Can delete log entry"
+  content_type_id: 1
+  codename: "delete_logentry"
+-
+  id: 4
+  name: "Can view log entry"
+  content_type_id: 1
+  codename: "view_logentry"
+-
+  id: 5
+  name: "Can add permission"
+  content_type_id: 2
+  codename: "add_permission"
+-
+  id: 6
+  name: "Can change permission"
+  content_type_id: 2
+  codename: "change_permission"
+-
+  id: 7
+  name: "Can delete permission"
+  content_type_id: 2
+  codename: "delete_permission"
+-
+  id: 8
+  name: "Can view permission"
+  content_type_id: 2
+  codename: "view_permission"
+-
+  id: 9
+  name: "Can add group"
+  content_type_id: 3
+  codename: "add_group"
+-
+  id: 10
+  name: "Can change group"
+  content_type_id: 3
+  codename: "change_group"
+-
+  id: 11
+  name: "Can delete group"
+  content_type_id: 3
+  codename: "delete_group"
+-
+  id: 12
+  name: "Can view group"
+  content_type_id: 3
+  codename: "view_group"
+-
+  id: 13
+  name: "Can add user"
+  content_type_id: 4
+  codename: "add_user"
+-
+  id: 14
+  name: "Can change user"
+  content_type_id: 4
+  codename: "change_user"
+-
+  id: 15
+  name: "Can delete user"
+  content_type_id: 4
+  codename: "delete_user"
+-
+  id: 16
+  name: "Can view user"
+  content_type_id: 4
+  codename: "view_user"
+-
+  id: 17
+  name: "Can add content type"
+  content_type_id: 5
+  codename: "add_contenttype"
+-
+  id: 18
+  name: "Can change content type"
+  content_type_id: 5
+  codename: "change_contenttype"
+-
+  id: 19
+  name: "Can delete content type"
+  content_type_id: 5
+  codename: "delete_contenttype"
+-
+  id: 20
+  name: "Can view content type"
+  content_type_id: 5
+  codename: "view_contenttype"
+-
+  id: 21
+  name: "Can add session"
+  content_type_id: 6
+  codename: "add_session"
+-
+  id: 22
+  name: "Can change session"
+  content_type_id: 6
+  codename: "change_session"
+-
+  id: 23
+  name: "Can delete session"
+  content_type_id: 6
+  codename: "delete_session"
+-
+  id: 24
+  name: "Can view session"
+  content_type_id: 6
+  codename: "view_session"
+-
+  id: 25
+  name: "Can add axis"
+  content_type_id: 7
+  codename: "add_axis"
+-
+  id: 26
+  name: "Can change axis"
+  content_type_id: 7
+  codename: "change_axis"
+-
+  id: 27
+  name: "Can delete axis"
+  content_type_id: 7
+  codename: "delete_axis"
+-
+  id: 28
+  name: "Can view axis"
+  content_type_id: 7
+  codename: "view_axis"
+-
+  id: 29
+  name: "Can add episode"
+  content_type_id: 8
+  codename: "add_episode"
+-
+  id: 30
+  name: "Can change episode"
+  content_type_id: 8
+  codename: "change_episode"
+-
+  id: 31
+  name: "Can delete episode"
+  content_type_id: 8
+  codename: "delete_episode"
+-
+  id: 32
+  name: "Can view episode"
+  content_type_id: 8
+  codename: "view_episode"
+-
+  id: 33
+  name: "Can add participant"
+  content_type_id: 9
+  codename: "add_participant"
+-
+  id: 34
+  name: "Can change participant"
+  content_type_id: 9
+  codename: "change_participant"
+-
+  id: 35
+  name: "Can delete participant"
+  content_type_id: 9
+  codename: "delete_participant"
+-
+  id: 36
+  name: "Can view participant"
+  content_type_id: 9
+  codename: "view_participant"
+-
+  id: 37
+  name: "Can add thematic unit"
+  content_type_id: 10
+  codename: "add_thematicunit"
+-
+  id: 38
+  name: "Can change thematic unit"
+  content_type_id: 10
+  codename: "change_thematicunit"
+-
+  id: 39
+  name: "Can delete thematic unit"
+  content_type_id: 10
+  codename: "delete_thematicunit"
+-
+  id: 40
+  name: "Can view thematic unit"
+  content_type_id: 10
+  codename: "view_thematicunit"
+-
+  id: 41
+  name: "Can add participant material"
+  content_type_id: 11
+  codename: "add_participantmaterial"
+-
+  id: 42
+  name: "Can change participant material"
+  content_type_id: 11
+  codename: "change_participantmaterial"
+-
+  id: 43
+  name: "Can delete participant material"
+  content_type_id: 11
+  codename: "delete_participantmaterial"
+-
+  id: 44
+  name: "Can view participant material"
+  content_type_id: 11
+  codename: "view_participantmaterial"
+-
+  id: 45
+  name: "Can add sociodrama session"
+  content_type_id: 12
+  codename: "add_sociodramasession"
+-
+  id: 46
+  name: "Can change sociodrama session"
+  content_type_id: 12
+  codename: "change_sociodramasession"
+-
+  id: 47
+  name: "Can delete sociodrama session"
+  content_type_id: 12
+  codename: "delete_sociodramasession"
+-
+  id: 48
+  name: "Can view sociodrama session"
+  content_type_id: 12
+  codename: "view_sociodramasession"
+# tt8db.biosignalsindex_axis
+-
+  id: 1
+  axis_id_in_thematic: 1
+  title: "Αρνητικά συναισθήματα για το αστικό περιβάλλον της πόλης"
+  color: "#E99736"
+  thematic_id: 1
+-
+  id: 2
+  axis_id_in_thematic: 2
+  title: "Θετικά συναισθήματα για το αστικό περιβάλλον της πόλης"
+  color: "#96382E"
+  thematic_id: 1
+-
+  id: 3
+  axis_id_in_thematic: 3
+  title: "Ο πολίτης προς την πόλη"
+  color: "#959642"
+  thematic_id: 1
+-
+  id: 4
+  axis_id_in_thematic: 4
+  title: "Η πόλη προς τον πολίτη"
+  color: "#EC827F"
+  thematic_id: 1
+-
+  id: 5
+  axis_id_in_thematic: 5
+  title: "Η αρνητική παρουσία της βιομηχανίας στην πόλη"
+  color: "#947256"
+  thematic_id: 1
+-
+  id: 6
+  axis_id_in_thematic: 6
+  title: "Η θετική παρουσία της βιομηχανίας στην πόλη"
+  color: "#5AB97A"
+  thematic_id: 1
+-
+  id: 7
+  axis_id_in_thematic: 7
+  title: "Ο πολίτης ως μονάδα"
+  color: "#9CD851"
+  thematic_id: 1
+-
+  id: 8
+  axis_id_in_thematic: 8
+  title: "Ο πολίτης ως συλλογικότητα"
+  color: "#FFFFFF"
+  thematic_id: 1
+# tt8db.biosignalsindex_episode
+-
+  id: 1
+  session_id: 1
+  episode_id_in_session: 22
+-
+  id: 2
+  session_id: 1
+  episode_id_in_session: 48
+-
+  id: 3
+  session_id: 1
+  episode_id_in_session: 18
+-
+  id: 4
+  session_id: 1
+  episode_id_in_session: 9
+-
+  id: 5
+  session_id: 1
+  episode_id_in_session: 23
+-
+  id: 6
+  session_id: 1
+  episode_id_in_session: 21
+-
+  id: 7
+  session_id: 1
+  episode_id_in_session: 7
+-
+  id: 8
+  session_id: 1
+  episode_id_in_session: 25
+-
+  id: 9
+  session_id: 1
+  episode_id_in_session: 63
+-
+  id: 10
+  session_id: 1
+  episode_id_in_session: 47
+-
+  id: 11
+  session_id: 1
+  episode_id_in_session: 3
+-
+  id: 12
+  session_id: 1
+  episode_id_in_session: 2
+-
+  id: 13
+  session_id: 1
+  episode_id_in_session: 13
+-
+  id: 14
+  session_id: 1
+  episode_id_in_session: 17
+-
+  id: 15
+  session_id: 1
+  episode_id_in_session: 26
+-
+  id: 16
+  session_id: 1
+  episode_id_in_session: 30
+-
+  id: 17
+  session_id: 1
+  episode_id_in_session: 34
+-
+  id: 18
+  session_id: 1
+  episode_id_in_session: 49
+-
+  id: 19
+  session_id: 1
+  episode_id_in_session: 56
+# tt8db.biosignalsindex_episode_axis
+-
+  id: 1
+  episode_id: 1
+  axis_id: 1
+-
+  id: 2
+  episode_id: 2
+  axis_id: 8
+-
+  id: 3
+  episode_id: 3
+  axis_id: 1
+-
+  id: 4
+  episode_id: 4
+  axis_id: 1
+-
+  id: 5
+  episode_id: 5
+  axis_id: 1
+-
+  id: 6
+  episode_id: 6
+  axis_id: 2
+-
+  id: 7
+  episode_id: 7
+  axis_id: 2
+-
+  id: 8
+  episode_id: 8
+  axis_id: 1
+-
+  id: 9
+  episode_id: 9
+  axis_id: 8
+-
+  id: 10
+  episode_id: 10
+  axis_id: 3
+-
+  id: 11
+  episode_id: 11
+  axis_id: 7
+-
+  id: 12
+  episode_id: 12
+  axis_id: 3
+-
+  id: 13
+  episode_id: 13
+  axis_id: 5
+-
+  id: 14
+  episode_id: 14
+  axis_id: 1
+-
+  id: 15
+  episode_id: 15
+  axis_id: 5
+-
+  id: 16
+  episode_id: 15
+  axis_id: 6
+-
+  id: 17
+  episode_id: 16
+  axis_id: 4
+-
+  id: 18
+  episode_id: 17
+  axis_id: 5
+-
+  id: 19
+  episode_id: 18
+  axis_id: 3
+-
+  id: 20
+  episode_id: 19
+  axis_id: 3
+# tt8db.biosignalsindex_participant
+-
+  id: 1
+  sensor_id_in_session: 2
+  session_id: 1
+-
+  id: 2
+  sensor_id_in_session: 5
+  session_id: 1
+-
+  id: 3
+  sensor_id_in_session: 6
+  session_id: 1
+-
+  id: 4
+  sensor_id_in_session: 4
+  session_id: 1
+-
+  id: 5
+  sensor_id_in_session: 3
+  session_id: 1
+# tt8db.biosignalsindex_participantmaterial
+-
+  id: 96
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene22/Scene22AllSensor2.csv"
+  episode_id: 1
+  participant_id: 1
+-
+  id: 97
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene22/Scene22AllSensor5.csv"
+  episode_id: 1
+  participant_id: 2
+-
+  id: 98
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene22/Scene22AllSensor6.csv"
+  episode_id: 1
+  participant_id: 3
+-
+  id: 99
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene22/Scene22AllSensor4.csv"
+  episode_id: 1
+  participant_id: 4
+-
+  id: 100
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene22/Scene22AllSensor3.csv"
+  episode_id: 1
+  participant_id: 5
+-
+  id: 101
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene48/Scene48AllSensor4.csv"
+  episode_id: 2
+  participant_id: 4
+-
+  id: 102
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene48/Scene48AllSensor2.csv"
+  episode_id: 2
+  participant_id: 1
+-
+  id: 103
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene48/Scene48AllSensor5.csv"
+  episode_id: 2
+  participant_id: 2
+-
+  id: 104
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene48/Scene48AllSensor3.csv"
+  episode_id: 2
+  participant_id: 5
+-
+  id: 105
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene48/Scene48AllSensor6.csv"
+  episode_id: 2
+  participant_id: 3
+-
+  id: 106
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene18/Scene18AllSensor2.csv"
+  episode_id: 3
+  participant_id: 1
+-
+  id: 107
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene18/Scene18AllSensor3.csv"
+  episode_id: 3
+  participant_id: 5
+-
+  id: 108
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene18/Scene18AllSensor5.csv"
+  episode_id: 3
+  participant_id: 2
+-
+  id: 109
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene18/Scene18AllSensor6.csv"
+  episode_id: 3
+  participant_id: 3
+-
+  id: 110
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene18/Scene18AllSensor4.csv"
+  episode_id: 3
+  participant_id: 4
+-
+  id: 111
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene9/Scene9AllSensor2.csv"
+  episode_id: 4
+  participant_id: 1
+-
+  id: 112
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene9/Scene9AllSensor6.csv"
+  episode_id: 4
+  participant_id: 3
+-
+  id: 113
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene9/Scene9AllSensor3.csv"
+  episode_id: 4
+  participant_id: 5
+-
+  id: 114
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene9/Scene9AllSensor5.csv"
+  episode_id: 4
+  participant_id: 2
+-
+  id: 115
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene9/Scene9AllSensor4.csv"
+  episode_id: 4
+  participant_id: 4
+-
+  id: 116
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene23/Scene23AllSensor2.csv"
+  episode_id: 5
+  participant_id: 1
+-
+  id: 117
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene23/Scene23AllSensor5.csv"
+  episode_id: 5
+  participant_id: 2
+-
+  id: 118
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene23/Scene23AllSensor3.csv"
+  episode_id: 5
+  participant_id: 5
+-
+  id: 119
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene23/Scene23AllSensor4.csv"
+  episode_id: 5
+  participant_id: 4
+-
+  id: 120
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene23/Scene23AllSensor6.csv"
+  episode_id: 5
+  participant_id: 3
+-
+  id: 121
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene21/Scene21AllSensor2.csv"
+  episode_id: 6
+  participant_id: 1
+-
+  id: 122
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene21/Scene21AllSensor6.csv"
+  episode_id: 6
+  participant_id: 3
+-
+  id: 123
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene21/Scene21AllSensor4.csv"
+  episode_id: 6
+  participant_id: 4
+-
+  id: 124
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene21/Scene21AllSensor5.csv"
+  episode_id: 6
+  participant_id: 2
+-
+  id: 125
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene21/Scene21AllSensor3.csv"
+  episode_id: 6
+  participant_id: 5
+-
+  id: 126
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene7/Scene7AllSensor2.csv"
+  episode_id: 7
+  participant_id: 1
+-
+  id: 127
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene7/Scene7AllSensor3.csv"
+  episode_id: 7
+  participant_id: 5
+-
+  id: 128
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene7/Scene7AllSensor4.csv"
+  episode_id: 7
+  participant_id: 4
+-
+  id: 129
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene7/Scene7AllSensor6.csv"
+  episode_id: 7
+  participant_id: 3
+-
+  id: 130
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene7/Scene7AllSensor5.csv"
+  episode_id: 7
+  participant_id: 2
+-
+  id: 131
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene25/Scene25AllSensor2.csv"
+  episode_id: 8
+  participant_id: 1
+-
+  id: 132
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene25/Scene25AllSensor5.csv"
+  episode_id: 8
+  participant_id: 2
+-
+  id: 133
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene25/Scene25AllSensor3.csv"
+  episode_id: 8
+  participant_id: 5
+-
+  id: 134
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene25/Scene25AllSensor6.csv"
+  episode_id: 8
+  participant_id: 3
+-
+  id: 135
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene25/Scene25AllSensor4.csv"
+  episode_id: 8
+  participant_id: 4
+-
+  id: 136
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene63/Scene63AllSensor2.csv"
+  episode_id: 9
+  participant_id: 1
+-
+  id: 137
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene63/Scene63AllSensor3.csv"
+  episode_id: 9
+  participant_id: 5
+-
+  id: 138
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene63/Scene63AllSensor4.csv"
+  episode_id: 9
+  participant_id: 4
+-
+  id: 139
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene63/Scene63AllSensor6.csv"
+  episode_id: 9
+  participant_id: 3
+-
+  id: 140
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene63/Scene63AllSensor5.csv"
+  episode_id: 9
+  participant_id: 2
+-
+  id: 141
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene47/Scene47AllSensor2.csv"
+  episode_id: 10
+  participant_id: 1
+-
+  id: 142
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene47/Scene47AllSensor4.csv"
+  episode_id: 10
+  participant_id: 4
+-
+  id: 143
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene47/Scene47AllSensor6.csv"
+  episode_id: 10
+  participant_id: 3
+-
+  id: 144
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene47/Scene47AllSensor5.csv"
+  episode_id: 10
+  participant_id: 2
+-
+  id: 145
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene47/Scene47AllSensor3.csv"
+  episode_id: 10
+  participant_id: 5
+-
+  id: 146
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene3/Scene3AllSensor2.csv"
+  episode_id: 11
+  participant_id: 1
+-
+  id: 147
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene3/Scene3AllSensor4.csv"
+  episode_id: 11
+  participant_id: 4
+-
+  id: 148
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene3/Scene3AllSensor5.csv"
+  episode_id: 11
+  participant_id: 2
+-
+  id: 149
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene3/Scene3AllSensor6.csv"
+  episode_id: 11
+  participant_id: 3
+-
+  id: 150
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene3/Scene3AllSensor3.csv"
+  episode_id: 11
+  participant_id: 5
+-
+  id: 151
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene2/Scene2AllSensor2.csv"
+  episode_id: 12
+  participant_id: 1
+-
+  id: 152
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene2/Scene2AllSensor6.csv"
+  episode_id: 12
+  participant_id: 3
+-
+  id: 153
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene2/Scene2AllSensor3.csv"
+  episode_id: 12
+  participant_id: 5
+-
+  id: 154
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene2/Scene2AllSensor4.csv"
+  episode_id: 12
+  participant_id: 4
+-
+  id: 155
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene2/Scene2AllSensor5.csv"
+  episode_id: 12
+  participant_id: 2
+-
+  id: 156
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene13/Scene13AllSensor2.csv"
+  episode_id: 13
+  participant_id: 1
+-
+  id: 157
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene13/Scene13AllSensor6.csv"
+  episode_id: 13
+  participant_id: 3
+-
+  id: 158
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene13/Scene13AllSensor3.csv"
+  episode_id: 13
+  participant_id: 5
+-
+  id: 159
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene13/Scene13AllSensor4.csv"
+  episode_id: 13
+  participant_id: 4
+-
+  id: 160
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene13/Scene13AllSensor5.csv"
+  episode_id: 13
+  participant_id: 2
+-
+  id: 161
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene17/Scene17AllSensor2.csv"
+  episode_id: 14
+  participant_id: 1
+-
+  id: 162
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene17/Scene17AllSensor4.csv"
+  episode_id: 14
+  participant_id: 4
+-
+  id: 163
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene17/Scene17AllSensor5.csv"
+  episode_id: 14
+  participant_id: 2
+-
+  id: 164
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene17/Scene17AllSensor3.csv"
+  episode_id: 14
+  participant_id: 5
+-
+  id: 165
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene17/Scene17AllSensor6.csv"
+  episode_id: 14
+  participant_id: 3
+-
+  id: 166
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene26/Scene26AllSensor2.csv"
+  episode_id: 15
+  participant_id: 1
+-
+  id: 167
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene26/Scene26AllSensor5.csv"
+  episode_id: 15
+  participant_id: 2
+-
+  id: 168
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene26/Scene26AllSensor3.csv"
+  episode_id: 15
+  participant_id: 5
+-
+  id: 169
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene26/Scene26AllSensor4.csv"
+  episode_id: 15
+  participant_id: 4
+-
+  id: 170
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene26/Scene26AllSensor6.csv"
+  episode_id: 15
+  participant_id: 3
+-
+  id: 171
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene30/Scene30AllSensor2.csv"
+  episode_id: 16
+  participant_id: 1
+-
+  id: 172
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene30/Scene30AllSensor3.csv"
+  episode_id: 16
+  participant_id: 5
+-
+  id: 173
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene30/Scene30AllSensor5.csv"
+  episode_id: 16
+  participant_id: 2
+-
+  id: 174
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene30/Scene30AllSensor6.csv"
+  episode_id: 16
+  participant_id: 3
+-
+  id: 175
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene30/Scene30AllSensor4.csv"
+  episode_id: 16
+  participant_id: 4
+-
+  id: 176
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene34/Scene34AllSensor2.csv"
+  episode_id: 17
+  participant_id: 1
+-
+  id: 177
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene34/Scene34AllSensor3.csv"
+  episode_id: 17
+  participant_id: 5
+-
+  id: 178
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene34/Scene34AllSensor6.csv"
+  episode_id: 17
+  participant_id: 3
+-
+  id: 179
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene34/Scene34AllSensor5.csv"
+  episode_id: 17
+  participant_id: 2
+-
+  id: 180
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene34/Scene34AllSensor4.csv"
+  episode_id: 17
+  participant_id: 4
+-
+  id: 181
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene49/Scene49AllSensor2.csv"
+  episode_id: 18
+  participant_id: 1
+-
+  id: 182
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene49/Scene49AllSensor3.csv"
+  episode_id: 18
+  participant_id: 5
+-
+  id: 183
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene49/Scene49AllSensor4.csv"
+  episode_id: 18
+  participant_id: 4
+-
+  id: 184
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene49/Scene49AllSensor5.csv"
+  episode_id: 18
+  participant_id: 2
+-
+  id: 185
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene49/Scene49AllSensor6.csv"
+  episode_id: 18
+  participant_id: 3
+-
+  id: 186
+  friendly_name: "Sensor 2 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene56/Scene56AllSensor2.csv"
+  episode_id: 19
+  participant_id: 1
+-
+  id: 187
+  friendly_name: "Sensor 5 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene56/Scene56AllSensor5.csv"
+  episode_id: 19
+  participant_id: 2
+-
+  id: 188
+  friendly_name: "Sensor 3 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene56/Scene56AllSensor3.csv"
+  episode_id: 19
+  participant_id: 5
+-
+  id: 189
+  friendly_name: "Sensor 4 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene56/Scene56AllSensor4.csv"
+  episode_id: 19
+  participant_id: 4
+-
+  id: 190
+  friendly_name: "Sensor 6 All Biometrics"
+  description: null
+  file_type: "RAW"
+  biosignal: "ALL"
+  path: "Thematic1/Scene56/Scene56AllSensor6.csv"
+  episode_id: 19
+  participant_id: 3
+# tt8db.biosignalsindex_sociodramasession
+-
+  id: 1
+  session_id_in_thematic: 1
+  thematic_id: 1
+-
+  id: 2
+  session_id_in_thematic: 2
+  thematic_id: 1
+-
+  id: 3
+  session_id_in_thematic: 1
+  thematic_id: 2
+-
+  id: 4
+  session_id_in_thematic: 2
+  thematic_id: 2
+-
+  id: 5
+  session_id_in_thematic: 1
+  thematic_id: 3
+-
+  id: 6
+  session_id_in_thematic: 2
+  thematic_id: 3
+# tt8db.biosignalsindex_thematicunit
+-
+  id: 1
+  name: "Περιβάλλον"
+-
+  id: 2
+  name: "Εργασία"
+-
+  id: 3
+  name: "Μεταναστευτικό"
+# tt8db.django_content_type
+-
+  id: 1
+  app_label: "admin"
+  model: "logentry"
+-
+  id: 3
+  app_label: "auth"
+  model: "group"
+-
+  id: 2
+  app_label: "auth"
+  model: "permission"
+-
+  id: 4
+  app_label: "auth"
+  model: "user"
+-
+  id: 7
+  app_label: "biosignalsindex"
+  model: "axis"
+-
+  id: 8
+  app_label: "biosignalsindex"
+  model: "episode"
+-
+  id: 9
+  app_label: "biosignalsindex"
+  model: "participant"
+-
+  id: 11
+  app_label: "biosignalsindex"
+  model: "participantmaterial"
+-
+  id: 12
+  app_label: "biosignalsindex"
+  model: "sociodramasession"
+-
+  id: 10
+  app_label: "biosignalsindex"
+  model: "thematicunit"
+-
+  id: 5
+  app_label: "contenttypes"
+  model: "contenttype"
+-
+  id: 6
+  app_label: "sessions"
+  model: "session"
+# tt8db.django_migrations
+-
+  id: 1
+  app: "contenttypes"
+  name: "0001_initial"
+  applied: "2023-03-14 12:43:23.560818"
+-
+  id: 2
+  app: "auth"
+  name: "0001_initial"
+  applied: "2023-03-14 12:43:23.842072"
+-
+  id: 3
+  app: "admin"
+  name: "0001_initial"
+  applied: "2023-03-14 12:43:23.905902"
+-
+  id: 4
+  app: "admin"
+  name: "0002_logentry_remove_auto_add"
+  applied: "2023-03-14 12:43:23.913880"
+-
+  id: 5
+  app: "admin"
+  name: "0003_logentry_add_action_flag_choices"
+  applied: "2023-03-14 12:43:23.921858"
+-
+  id: 6
+  app: "contenttypes"
+  name: "0002_remove_content_type_name"
+  applied: "2023-03-14 12:43:23.965741"
+-
+  id: 7
+  app: "auth"
+  name: "0002_alter_permission_name_max_length"
+  applied: "2023-03-14 12:43:23.996658"
+-
+  id: 8
+  app: "auth"
+  name: "0003_alter_user_email_max_length"
+  applied: "2023-03-14 12:43:24.011619"
+-
+  id: 9
+  app: "auth"
+  name: "0004_alter_user_username_opts"
+  applied: "2023-03-14 12:43:24.018600"
+-
+  id: 10
+  app: "auth"
+  name: "0005_alter_user_last_login_null"
+  applied: "2023-03-14 12:43:24.052510"
+-
+  id: 11
+  app: "auth"
+  name: "0006_require_contenttypes_0002"
+  applied: "2023-03-14 12:43:24.055501"
+-
+  id: 12
+  app: "auth"
+  name: "0007_alter_validators_add_error_messages"
+  applied: "2023-03-14 12:43:24.062990"
+-
+  id: 13
+  app: "auth"
+  name: "0008_alter_user_username_max_length"
+  applied: "2023-03-14 12:43:24.076953"
+-
+  id: 14
+  app: "auth"
+  name: "0009_alter_user_last_name_max_length"
+  applied: "2023-03-14 12:43:24.087923"
+-
+  id: 15
+  app: "auth"
+  name: "0010_alter_group_name_max_length"
+  applied: "2023-03-14 12:43:24.099891"
+-
+  id: 16
+  app: "auth"
+  name: "0011_update_proxy_permissions"
+  applied: "2023-03-14 12:43:24.108869"
+-
+  id: 17
+  app: "auth"
+  name: "0012_alter_user_first_name_max_length"
+  applied: "2023-03-14 12:43:24.126820"
+-
+  id: 18
+  app: "biosignalsindex"
+  name: "0001_initial"
+  applied: "2023-03-14 12:43:24.462463"
+-
+  id: 19
+  app: "biosignalsindex"
+  name: "0002_rename_session_sociodramasession"
+  applied: "2023-03-14 12:43:24.642980"
+-
+  id: 20
+  app: "biosignalsindex"
+  name: "0003_alter_sociodramasession_thematic"
+  applied: "2023-03-14 12:43:24.648975"
+-
+  id: 21
+  app: "biosignalsindex"
+  name: "0004_rename_description_axis_title_and_more"
+  applied: "2023-03-14 12:43:24.688858"
+-
+  id: 22
+  app: "biosignalsindex"
+  name: "0005_alter_participantmaterial_biosignal_and_more"
+  applied: "2023-03-14 12:43:24.710799"
+-
+  id: 23
+  app: "biosignalsindex"
+  name: "0006_rename_participant_id_in_session_participant_sensor_id_in_session"
+  applied: "2023-03-14 12:43:24.720772"
+-
+  id: 24
+  app: "biosignalsindex"
+  name: "0007_alter_participantmaterial_description"
+  applied: "2023-03-14 12:43:24.748698"
+-
+  id: 25
+  app: "sessions"
+  name: "0001_initial"
+  applied: "2023-03-14 12:43:24.770647"
+...

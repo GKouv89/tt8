@@ -25,7 +25,11 @@ class BiometricsView(generics.ListAPIView):
         if queryset is not None:
             serializer = EpisodeBiometricsSerializer(queryset, many=True)
             response_enhanced = {'material': serializer.data}
-            [response_enhanced['color']] = [axis.color for axis in queryset.first().episode.axis.all() if axis.axis_id_in_thematic == int(request.query_params['axis'])]
+            if 'axis' in request.query_params.keys():
+                try:
+                    [response_enhanced['color']] = [axis.color for axis in queryset.first().episode.axis.all() if axis.axis_id_in_thematic == int(request.query_params['axis'])]
+                except ValueError:
+                   return Response(status=status.HTTP_404_NOT_FOUND)
             return Response(response_enhanced)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
