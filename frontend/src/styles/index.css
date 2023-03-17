@@ -75,21 +75,21 @@ div#root{
   border-color: #D2DED7;
 }
 
-.btn-logobutton-top{
+.btn-logobutton-top, .btn-logobutton-top:hover{
   background-color: black;
   flex: auto;
   border-radius: 0px;
   height: 8vh;
 }
 
-.btn-logobutton-bottom{
+.btn-logobutton-bottom, .btn-logobutton-bottom:hover{
   background-color: black;
   flex: auto;
   border-radius: 0px;
   height: 6vh;
 }
 
-.btn-logobutton-rounded{
+.btn-logobutton-rounded, .btn-logobutton-rounded:hover{
   background-color: black;
   flex: auto;
   border-radius: 15px;

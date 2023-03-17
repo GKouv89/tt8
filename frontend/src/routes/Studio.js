@@ -17,6 +17,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer';
 import { getStudioContent, getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
 import * as single from '../sketches/singularParticipantSketch'
 import * as episode from '../sketches/episodeSketch'
+import CloseButton from 'react-bootstrap/CloseButton';
 
 export default function StudioWrapper(){
     let {thematicID, episodeID} = useParams();
@@ -64,7 +65,6 @@ function Studio(props){
     const [data, setData] = useState(null);
     const [showPlayToast, setShowPlayToast] = useState(true);
     const [showRecToast, setRecToast] = useState(true);
-    const [position, setPosition] = useState('top-left');
 
     // Setting paths for breadcrumb buttons
     const newClassName = "thematic" + props.themid; 
@@ -81,10 +81,10 @@ function Studio(props){
 
     return(
         <>
-            <ToastContainer position={position}>
-                <Toast key={0} show={showPlayToast} onClose={() => setShowPlayToast(false)} bg={'warning'}>
-                    <Toast.Header>
-                        <small>Playback</small>
+            <ToastContainer>
+                <Toast key={0} show={showPlayToast} bg={'warning'} onClose={() =>setShowPlayToast(false)}>
+                    <Toast.Header style={{'justifyContent': 'space-between'}}>
+                        <strong>Playback</strong>
                     </Toast.Header>
                     <Toast.Body>
                         <small>
@@ -93,8 +93,8 @@ function Studio(props){
                     </Toast.Body>
                 </Toast>
                 <Toast key={1} show={showRecToast} onClose={() => setRecToast(false)} bg={'danger'}>
-                    <Toast.Header>
-                        <small>Recording</small>
+                    <Toast.Header style={{'justifyContent': 'space-between'}}>
+                        <strong>Recording</strong>
                     </Toast.Header>
                     <Toast.Body>
                         <small>
