@@ -656,7 +656,6 @@ export function sketch(p5){
       canvasRecorder.onstop = e => videoBlob = new Blob(videoChunks, {type: 'video/mp4'}); // We save the video for later exporting
       
       canvasRecorder.start();
-    //   setTimeout(()=>rec.stop(), numberOfReps*1000); // The length of the recording is roughly the same as the number of reps
     }
     
     function exportVid(blob) {

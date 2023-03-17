@@ -12,15 +12,34 @@ export function sketch(p5){
 
     let axes = [];
 
-    let sonificationRunning = false, isPaused = false;
+    let sonificationRunning = false, isPaused = false, isForcedRecStop = false;
     document.addEventListener("visibilitychange", () => {
         console.log(document.visibilityState);
         console.log(p5.getAudioContext().state);
-        if(!isPaused && sonificationRunning)
-            if(document.visibilityState == "hidden")
-                hideSonification();
-            else
-                showSonification();
+        if(!isRecording && !isPaused && sonificationRunning){
+            if(document.visibilityState == "hidden"){
+                p5.noLoop();
+                stopSound();
+            }
+            else{
+                p5.loop();
+                startSound();
+            }
+        }else if(isRecording){
+            // Recording must be fully stopped, and every counter and
+            // buffer must be restored to its previous state
+            // GUI must also be stored
+            // So, pretty much what stopSonification does
+            // This also resets the flags that are used above in this handler
+            // and when the window refocuses, none of the previous flow statements
+            // will come true 
+            // The only thing that needs to be handled additionally is resetting the video/audio buffers
+            // For that, isForcedRecStop is set to true, and everything is then 
+            // handled conditionally by stopSonification
+            isForcedRecStop = true;
+            stopSonification();
+        }
+
     });
 
     function loadFile(idx){
@@ -130,7 +149,8 @@ export function sketch(p5){
     let isRecording = false;
     let recorder; // This is used to record the sound from our sketch
     let recordingSoundFile; // This is where the sound recording is kept
-    let videoBlob; // This is where the video recording of the visualization is stored
+    // Used for canvas recording
+    let canvasRecorder, videoChunks, videoBlob;
     
     let universalReleaseTime = 0.005; // This is the smallest value that didn't produce audible clicks for 4 participants
     
@@ -309,24 +329,20 @@ export function sketch(p5){
     }
     
     function startRecordingVisualization() {
-        const chunks = []; // Here we will store our recorded media chunks (Blobs)
-        const canvas = document.querySelector('canvas');
-        const stream = canvas.captureStream(25); // Grab our canvas MediaStream
-        const options = {
-            // videoBitsPerSecond: 2500000,
-            videoBitsPerSecond: 6000000,
-            mimeType: "video/webm",
-        };
-        const rec = new MediaRecorder(stream, options); // Init the recorder
+        videoChunks = []; // Here we will store our recorded media chunks (Blobs)
+        // const options = {
+        //     // videoBitsPerSecond: 2500000,
+        //     videoBitsPerSecond: 6000000,
+        //     mimeType: "video/webm",
+        // };
+        // const rec = new MediaRecorder(stream, options); // Init the recorder
         // Every time the recorder has new data, we will store it in our array
-        rec.ondataavailable = e => chunks.push(e.data);
+        canvasRecorder.ondataavailable = e => videoChunks.push(e.data);
         // Only when the recorder stops, we construct a complete Blob from all the chunks
         // rec.onstop = e => videoBlob = new Blob(chunks, {type: 'video/mp4'});
-        rec.onstop = e => videoBlob = new Blob(chunks, {type: 'video/webm'});
+        canvasRecorder.onstop = e => videoBlob = new Blob(videoChunks, {type: 'video/webm'});
         
-        rec.start();
-        setTimeout(()=>rec.stop(), numberOfReps*1000); // If we increase repNo every 25 frames, 
-        // and 25 frames are in a second, the rough length of the vis video is numberOfReps seconds
+        canvasRecorder.start();
     }
       
     function exportVid(blob) {
@@ -403,11 +419,17 @@ export function sketch(p5){
         let parentElem = p5.select('#sketch-canvas-container-large').elt
         let canvasWidth = parentElem.clientWidth
         p5.createCanvas(0.9*canvasWidth, 600)
-        p5.background('white')
-        p5.colorMode(p5.HSB)
+
+        // Setting up the canvas recorder, now that the canvas has been created
+        p5.setFrameRate(frameRate);
+        const canvas = document.querySelector('canvas');
+        const stream = canvas.captureStream(frameRate); // grab our canvas MediaStream
+        canvasRecorder = new MediaRecorder(stream); // init the recorder    
         
-        p5.noStroke()
-        p5.setFrameRate(frameRate)
+        p5.background('white');
+        p5.colorMode(p5.HSB);
+        
+        p5.noStroke();
     
         gradient = p5.drawingContext.createLinearGradient(0, p5.height/2, p5.width, p5.height/2)
         // This is a bit of a bandaid patch.
@@ -586,24 +608,24 @@ export function sketch(p5){
         pauseButton.attribute('disabled', '');
         stopButton.attribute('disabled', '');
         playAndExportButton.removeAttribute('disabled');
+        initializeVisuals();
+        handleAudio();
+        // numberOfReps = 20
+        console.timeEnd('sonification');
         if(isRecording){
-        //     playRecordingButton.removeAttribute('disabled')
-            downloadButton.removeAttribute('disabled')
-            downloadVideoButton.removeAttribute('disabled')
-            recorder.stop() // Stopping the sound recorder manually, the visualization recorder uses a timeout to stop
-            isRecording = false
-            // isSoundReady = true
-        // }else if(!isRecording && isSoundReady){
-        //     playRecordingButton.removeAttribute('disabled', '')
-
+            recorder.stop(); // Stopping the sound recorder manually.
+            canvasRecorder.stop();
+            isRecording = false;
+            if(isForcedRecStop){
+                isForcedRecStop = false;
+                return;
+            }
+            downloadButton.removeAttribute('disabled');
+            downloadVideoButton.removeAttribute('disabled');
             // Just testing the functionality with the example provided from
             // the documentation.
             midiWriterTest();
         }
-        initializeVisuals()
-        handleAudio()
-        // numberOfReps = 20
-        console.timeEnd('sonification');
     }
     
     function pauseSonification(){
@@ -612,18 +634,6 @@ export function sketch(p5){
         stopSound();
         playButton.removeAttribute('disabled');
         pauseButton.attribute('disabled', '');
-    }
-
-    // A lighter version of pauseSonification, only when the tab is switched/browser is minimized.
-    function hideSonification(){
-        p5.noLoop();
-        stopSound();
-    }
-
-    // A lighter version of startSonification, for when the tab is visible again
-    function showSonification(){
-        p5.loop();
-        startSound();
     }
     
     function recordSonification(){
