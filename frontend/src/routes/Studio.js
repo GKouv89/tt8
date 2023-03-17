@@ -10,7 +10,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner';
-import Alert from 'react-bootstrap/Alert';
+// import Alert from 'react-bootstrap/Alert';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 
 import { getStudioContent, getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
 import * as single from '../sketches/singularParticipantSketch'
@@ -60,7 +62,9 @@ function Studio(props){
     // So we can avoid reload every time we change the sonification/visualization given
     // Here we store the axes and the file paths/names for the sketch
     const [data, setData] = useState(null);
-    const [showAlert, setShowAlert] = useState(true);
+    const [showPlayToast, setShowPlayToast] = useState(true);
+    const [showRecToast, setRecToast] = useState(true);
+    const [position, setPosition] = useState('top-left');
 
     // Setting paths for breadcrumb buttons
     const newClassName = "thematic" + props.themid; 
@@ -76,34 +80,54 @@ function Studio(props){
     }, [])
 
     return(
-        <Container fluid>
-            <Container className="flex-column" fluid>
-                <Row>
-                    <Breadcrumb path={eppath} themid={props.themid}/>                
-                </Row>
-                {
-                    showAlert && 
+        <>
+            <ToastContainer position={position}>
+                <Toast key={0} show={showPlayToast} onClose={() => setShowPlayToast(false)} bg={'warning'}>
+                    <Toast.Header>
+                        <small>Playback</small>
+                    </Toast.Header>
+                    <Toast.Body>
+                        <small>
+                            Playback is paused when the current browser tab is switched or minimized.
+                        </small>
+                    </Toast.Body>
+                </Toast>
+                <Toast key={1} show={showRecToast} onClose={() => setRecToast(false)} bg={'danger'}>
+                    <Toast.Header>
+                        <small>Recording</small>
+                    </Toast.Header>
+                    <Toast.Body>
+                        <small>
+                            Recording is reset when the current browser tab is switched or minimized.
+                            Don't worry, you can restart again.
+                        </small>
+                    </Toast.Body>
+                </Toast>
+            </ToastContainer>
+            <Container fluid>
+                <Container className="flex-column" fluid>
                     <Row>
-                        <Alert variant='warning' onClose={() => setShowAlert(false)} dismissible>
-                            <Alert.Heading>
-                                Αναπαραγωγή οπτικοποιήσεων & ηχοποιήσεων
-                            </Alert.Heading>
-                            <p>
-                                Η αναπαραγωγή των οπτικοποιήσεων και ηχοποιήσεων απαιτούν την παραμονή σας σε αυτή την καρτέλα.
-                            </p>
-                            <hr />
-                            <p>
-                                Αν αλλάξετε καρτέλα ή ελαχιστοποιήσετε το παράθυρο, απλώς θα γίνει παύση της αναπαραγωγής. Η αναπαραγωγή θα συνεχιστεί κανονικά με
-                                την επιστροφή σας στην τρέχουσα καρτέλα.
-                            </p>
-                        </Alert>                
+                        <Breadcrumb path={eppath} themid={props.themid}/>                
                     </Row>
-                }
-                {
-                    data && data.files.length ? <SketchComponent axes={data.axes} files={data.files}/> : <h1>Προς το παρόν, δεν υπάρχουν οπτικοποιήσεις και ηχοποιήσεις για αυτό το επεισόδιο.</h1>
-                }
+                            {/* <Alert variant='warning' onClose={() => setShowAlert(false)} dismissible>
+                                    <Alert.Heading>
+                                        Αναπαραγωγή οπτικοποιήσεων & ηχοποιήσεων
+                                    </Alert.Heading>
+                                    <p>
+                                        Η αναπαραγωγή των οπτικοποιήσεων και ηχοποιήσεων απαιτούν την παραμονή σας σε αυτή την καρτέλα.
+                                    </p>
+                                    <hr />
+                                    <p>
+                                        Αν αλλάξετε καρτέλα ή ελαχιστοποιήσετε το παράθυρο, απλώς θα γίνει παύση της αναπαραγωγής. Η αναπαραγωγή θα συνεχιστεί κανονικά με
+                                        την επιστροφή σας στην τρέχουσα καρτέλα.
+                                    </p>
+                                </Alert>                 */}
+                    {
+                        data && data.files.length ? <SketchComponent axes={data.axes} files={data.files}/> : <h1>Προς το παρόν, δεν υπάρχουν οπτικοποιήσεις και ηχοποιήσεις για αυτό το επεισόδιο.</h1>
+                    }
+                </Container>
             </Container>
-        </Container>
+        </>
     );
 }
 

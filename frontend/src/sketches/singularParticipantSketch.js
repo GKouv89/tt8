@@ -15,15 +15,35 @@ export function sketch(p5){
     // supposed to be starting the draw loop again. If we have simply paused, then
     // switching back to the tab should not trigger the draw loop again, 
     // and this is why isPaused is used. 
-    let sonificationRunning = false, isPaused = false;
+    let sonificationRunning = false, isPaused = false, isForcedRecStop = false;
     document.addEventListener("visibilitychange", () => {
         console.log(document.visibilityState);
         console.log(p5.getAudioContext().state);
-        if(!isPaused && sonificationRunning)
-            if(document.visibilityState == "hidden")
-                hideSonification();
-            else
-                showSonification();
+        if(!isRecording && !isPaused && sonificationRunning){
+            // Simply stop or restart sound and draw function
+            // No need to enable/disable GUI elements
+            if(document.visibilityState == "hidden"){
+                p5.noLoop();
+                stopSound();        
+            }else{
+                p5.loop();
+                startSound();
+            }
+            return;
+        }else if(isRecording){
+            // Recording must be fully stopped, and every counter and
+            // buffer must be restored to its previous state
+            // GUI must also be stored
+            // So, pretty much what stopSonification does
+            // This also resets the flags that are used above in this handler
+            // and when the window refocuses, none of the previous flow statements
+            // will come true 
+            // The only thing that needs to be handled additionally is resetting the video/audio buffers
+            // For that, isForcedRecStop is set to true, and everything is then 
+            // handled conditionally by stopSonification
+            isForcedRecStop = true;
+            stopSonification();
+        }
     });
 
     // Color chosen for visualization
@@ -42,8 +62,6 @@ export function sketch(p5){
         }        
     };
 
-    let heartSamplePath = './HEART-loop.mp3'
-    let bootPath = './TR-909Kick.mp3'
     let table
     let sound, boot, bootLoop
     let oscillator //, minFreq = 2000, maxFreq = 3000
@@ -70,10 +88,13 @@ export function sketch(p5){
     let fileSelect;
     let lowestOctave, highestOctave;
 
-    let recorder, recording, videoBlob, pseudoOscillator
-    let isRecording = false, isSoundReady = false
-    let gradient
-    let old_colors, new_colors
+    // Used for audio recording
+    let recorder, recording, pseudoOscillator;
+    // Used for canvas recording
+    let canvasRecorder, videoChunks, videoBlob;
+    let isRecording = false, isSoundReady = false;
+    let gradient;
+    let old_colors, new_colors;
 
     p5.preload = () => {
         // p5.soundFormats('mp3', 'ogg');
@@ -360,6 +381,11 @@ export function sketch(p5){
         let canvasWidth = parentElem.clientWidth
         p5.createCanvas(canvasWidth, 600)
 
+        // Setting up the canvas recorder, now that the canvas has been created
+        p5.setFrameRate(frameRate);
+        const canvas = document.querySelector('canvas');
+        const stream = canvas.captureStream(frameRate); // grab our canvas MediaStream
+        canvasRecorder = new MediaRecorder(stream); // init the recorder    
 
         // The visualizer works with HSB mode. Hue and saturation of the colors
         // are determined by the axes the episode belongs to,
@@ -410,8 +436,6 @@ export function sketch(p5){
     
         numberOfReps = 10 // DEBUGGING
 
-        p5.setFrameRate(frameRate)
-
         // console.log(arrayOfFrequencies)
         initArrayOfFreq();
         setAudio();
@@ -448,10 +472,10 @@ export function sketch(p5){
                 let c = p5.lerpColor(old_colors[0], new_colors[0], (frameNo % frameRate)/frameRate);
                 p5.background(c);
             }
-            frameNo++
+            frameNo++;
         }else{
-            stopSonification()
-            p5.noLoop()
+            stopSonification();
+            p5.noLoop();
         }
     }
     
@@ -544,39 +568,47 @@ export function sketch(p5){
         p5.noLoop();
 
         // Re-enabling GUI elements
-        playButton.removeAttribute('disabled')
-        pauseButton.attribute('disabled', '')
-        stopButton.attribute('disabled', '')
-        playAndExportButton.removeAttribute('disabled')
-        heartTypeRadio.removeAttribute('disabled')
-        biometricRadio.removeAttribute('disabled')
-        oscillatorTypeRadio.removeAttribute('disabled')
-        fileSelect.removeAttribute('disabled')
-        // If the recorder is also running, we handle its state variables and GUI components accordingly
-        if(isRecording){
-            playRecordingButton.removeAttribute('disabled')
-            downloadButton.removeAttribute('disabled')
-            recorder.stop()
-            isRecording = false
-            isSoundReady = true
-            // midiWriterTest();
-            // If we are exporting, and the option is the only one so far offered,
-            // time to also export the MIDI
-            if(biometricRadio.value() == 'heart' && heartTypeRadio.value() == 'boot'){
-                console.log('here');
-                recordingWriter = new MidiWriter.Writer(recordingTrack);
-                console.log(recordingWriter.dataUri());
-            }else{
-                console.log('here2');
-                console.log(biometricRadio.value());
-            }
-        }else if(!isRecording && isSoundReady){
-            playRecordingButton.removeAttribute('disabled', '')
-        }
+        playButton.removeAttribute('disabled');
+        pauseButton.attribute('disabled', '');
+        stopButton.attribute('disabled', '');
+        playAndExportButton.removeAttribute('disabled');
+        heartTypeRadio.removeAttribute('disabled');
+        biometricRadio.removeAttribute('disabled');
+        oscillatorTypeRadio.removeAttribute('disabled');
+        fileSelect.removeAttribute('disabled');
         // Redrawing the canvas so it takes the colors
         // that correspond to the values in the CSV's first line
         initializeVisuals();
         numberOfReps = 10;
+        // If the recorder is also running, we handle its state variables and GUI components accordingly
+        if(isRecording){
+            recorder.stop();
+            canvasRecorder.stop();
+            isRecording = false;
+            // Handling 'accidental'/forced recording stop that occurs on tab switching/window minimization
+            if(isForcedRecStop){
+                // Most importantly, recording playback and download buttons must not be available
+                // So we return before that
+                isForcedRecStop = false;
+                return;
+            }
+            playRecordingButton.removeAttribute('disabled');
+            downloadButton.removeAttribute('disabled');
+            isSoundReady = true;
+            // midiWriterTest();
+            // If we are exporting, and the option is the only one so far offered,
+            // time to also export the MIDI
+            // if(biometricRadio.value() == 'heart' && heartTypeRadio.value() == 'boot'){
+            //     console.log('here');
+            //     recordingWriter = new MidiWriter.Writer(recordingTrack);
+            //     console.log(recordingWriter.dataUri());
+            // }else{
+            //     console.log('here2');
+            //     console.log(biometricRadio.value());
+            // }
+        }else if(!isRecording && isSoundReady){
+            playRecordingButton.removeAttribute('disabled', '')
+        }
     }
 
     function pauseSonification(){
@@ -585,18 +617,6 @@ export function sketch(p5){
         stopSound();
         playButton.removeAttribute('disabled');
         pauseButton.attribute('disabled', '');
-    }
-
-    // A lighter version of pauseSonification, only when the tab is switched/browser is minimized.
-    function hideSonification(){
-        p5.noLoop();
-        stopSound();
-    }
-
-    // A lighter version of startSonification, for when the tab is visible again
-    function showSonification(){
-        p5.loop();
-        startSound();
     }
 
     let recordingTrack, recordingWriter;
@@ -619,7 +639,7 @@ export function sketch(p5){
         recorder.record(recording);
         startSound();
         p5.loop();
-        startRecording();
+        startVideoRecording();
 
         // Preparing MIDI track for track recording. 
         // Temporarily only drum kick option.
@@ -628,19 +648,15 @@ export function sketch(p5){
     }
 
     // This function is used for capturing the visuals of the sketch
-    function startRecording() {
-      const chunks = []; // here we will store our recorded media chunks (Blobs)
-      const canvas = document.querySelector('canvas');
-      const stream = canvas.captureStream(25); // grab our canvas MediaStream
-      const rec = new MediaRecorder(stream); // init the recorder
+    function startVideoRecording() {
+      videoChunks = []; // here we will store our recorded media chunks (Blobs)
       // every time the recorder has new data, we will store it in our array
-      rec.ondataavailable = e => chunks.push(e.data);
+      canvasRecorder.ondataavailable = e => videoChunks.push(e.data);
       // only when the recorder stops, we construct a complete Blob from all the chunks
-    //   rec.onstop = e => exportVid(new Blob(chunks, {type: 'video/mp4'})); // We export the video the moment the recording is done, this might change
-      rec.onstop = e => videoBlob = new Blob(chunks, {type: 'video/mp4'}); // We save the video for later exporting
+      canvasRecorder.onstop = e => videoBlob = new Blob(videoChunks, {type: 'video/mp4'}); // We save the video for later exporting
       
-      rec.start();
-      setTimeout(()=>rec.stop(), numberOfReps*1000); // The length of the recording is roughly the same as the number of reps
+      canvasRecorder.start();
+    //   setTimeout(()=>rec.stop(), numberOfReps*1000); // The length of the recording is roughly the same as the number of reps
     }
     
     function exportVid(blob) {
