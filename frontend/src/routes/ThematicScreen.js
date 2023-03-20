@@ -83,6 +83,7 @@ class ThematicScreen extends Component{
 
     return (
       <>
+        <ThematicScreenNew id={this.props.id}/>
         <Container fluid>
           <Row>
             <Col xxl="auto">

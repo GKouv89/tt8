@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 import Collapse from 'react-bootstrap/Collapse'
 import Container from 'react-bootstrap/Container'
@@ -16,10 +16,12 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from "react-router-dom"
 import { CloseButton } from 'react-bootstrap';
 
+import { fetchThematicScenes } from '../api/calls';
+
 export default function ThematicScreenWrapper(props){
     let {thematicID} = useParams();
     return (
-      <ThematicGrid {...props}
+      <ThematicScreenNew {...props}
       id={thematicID}
       />
     );
@@ -375,36 +377,55 @@ function ColorFilterColumnWrapper(props){
   );
 }
 
-function ThematicGrid(props) {
-  let newClassName="thematic" + props.id;
-  document.body.className=newClassName;
-  let content = getThematics();
-  content = content[props.id - 1];
+function ThematicScreenNew(props){
+  const [data, setData] = useState(null);
 
-  const [open, setOpen] = useState(false);
-  const descButtonCallback = () => {
-    console.log(open);
-    setOpen(!open);
-  }
+  useEffect(() => {
+    fetchThematicScenes(props.id, [1, 2])
+    .then((ret) => setData(ret))
+    .catch(err => console.error(err));
+  }, []);
 
-  const [filteredAxis, setFilteredAxis] = useState('None');
-  const colorFilterCallback = (val) => {
-    setFilteredAxis(val);
-  }
-  console.log('filteredAxis: ' + filteredAxis);
-  return (
-    <Container fluid>
-      <Container className="flex-column">
-        <Row>
-          <Description id={props.id} desc={content.desc} open={open}/>
-        </Row>
-        <Row>
-          <ThematicGridHeader name={content.name} desc={content.desc} id={props.id} callback={descButtonCallback} cfcallback={colorFilterCallback} open={open}/>
-        </Row>
-        <Row>
-          <ThematicGridBody id={props.id} filter={filteredAxis}/>
-        </Row>
-      </Container>
-    </Container>
-  );  
+  useEffect(() => { data && console.log(data);  }, [data]);
+
+  return(
+    <></>
+  );
 }
+
+// function ThematicGrid(props) {
+//   let newClassName="thematic" + props.id;
+//   document.body.className=newClassName;
+//   let content = getThematics();
+//   content = content[props.id - 1];
+
+//   const [open, setOpen] = useState(false);
+//   const descButtonCallback = () => {
+//     console.log(open);
+//     setOpen(!open);
+//   }
+
+//   const [filteredAxis, setFilteredAxis] = useState('None');
+//   const colorFilterCallback = (val) => {
+//     setFilteredAxis(val);
+//   }
+//   console.log('filteredAxis: ' + filteredAxis);
+//   return (
+//     <Container fluid>
+//       <Container className="flex-column">
+//         <Row>
+//           <ThematicScreenNew id={props.id} />
+//         </Row>
+//         <Row>
+//           <Description id={props.id} desc={content.desc} open={open}/>
+//         </Row>
+//         <Row>
+//           <ThematicGridHeader name={content.name} desc={content.desc} id={props.id} callback={descButtonCallback} cfcallback={colorFilterCallback} open={open}/>
+//         </Row>
+//         <Row>
+//           <ThematicGridBody id={props.id} filter={filteredAxis}/>
+//         </Row>
+//       </Container>
+//     </Container>
+//   );  
+// }
