@@ -11,37 +11,6 @@ import Button from 'react-bootstrap/Button'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
 
-// export function OldThematic(props) {
-//   return (
-//       <Accordion.Item eventKey={props.eventKey} className="flex-fill">
-//         <Accordion.Header>
-//           <Accordion.Button className="thematic-header">
-//             {props.thematic.name}
-//           </Accordion.Button>        
-//         </Accordion.Header>
-//         <Accordion.Body>
-//           <Container fluid>
-//             <Row>
-//               <Col xxl={6}>
-//                 <Row className="h-100">
-//                   <Col xxl={12} className="align-self-center">
-//                     {props.thematic.desc}
-//                   </Col>
-//                   <Col xxl={12} className="align-self-center">
-//                     <Button size="lg" variant="dark">Περισσότερα</Button>
-//                   </Col>
-//                 </Row>
-//               </Col>
-//               <Col xxl={6}>
-//                 <img src={props.thematic.img_path} width={"100%"} alt="Thematic Picture"/>
-//               </Col>
-//             </Row>
-//           </Container>
-//         </Accordion.Body>
-//       </Accordion.Item>
-//   );
-// }
-
 function CustomToggle({ children, eventKey, class_id, handleClick, activeKey}) {
   const decoratedOnClick = useAccordionButton(eventKey, () => {
       handleClick(eventKey);
@@ -57,7 +26,6 @@ function CustomToggle({ children, eventKey, class_id, handleClick, activeKey}) {
     </Button>
   );
 }
-
 
 export default function Thematic(props){ 
   // console.log("hostname: " + );
