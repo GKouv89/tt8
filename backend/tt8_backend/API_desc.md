@@ -1,11 +1,11 @@
 # Endpoints
 
-* (GET) /thematics/{id}/sessions/{id}/episodes/{id}/biosignals: Επιστρέφει τα βιομετρικά για τις οπτικοποιήσεις/ηχοποιήσεις του επεισοδίου.
+* (GET) thematics/{id}/sessions/{id}/scenes/{id}/biometrics/: Επιστρέφει τα βιομετρικά για 
+τις οπτικοποιήσεις/ηχοποιήσεις του επεισοδίου.
+## Request
+*   Query parameters in url: ?axis=1
 
-# Requests
-*   Query paramters in url: ?axis=1
-
-# Responses
+## Response
 
 * 
     {
@@ -16,6 +16,21 @@
                 path: 'https://transitionto8.athenarc.gr/data/Thematic1/Session2/Scene28/Scene28Sensor1All.csv'
             }
             ,
+            ...
+        ]
+    }
+
+* (GET) /thematics/{id}/sessions/{id}/scenes/ : Επιστρέφει τα επεισόδια μίας συνεδρίας
+
+## Response
+*   {
+        [   {
+                'episode_id_in_session': 22, 
+                'axis': [
+                    'axis_id_in_thematic': 1,
+                    'color': '#FFFFFF',
+                ]
+            },
             ...
         ]
     }

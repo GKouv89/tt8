@@ -4,7 +4,7 @@ from django.db.models import Q
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import EpisodeBiometricsSerializer
+from .serializers import EpisodeBiometricsSerializer, SceneSerializer
 # Create your views here.
 
 class BiometricsView(generics.ListAPIView):
@@ -34,6 +34,25 @@ class BiometricsView(generics.ListAPIView):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+class SessionScenesView(generics.ListAPIView):
+    serializer_class = SceneSerializer
+    
+    def get_queryset(self, thematicID, sessionID):
+        try: 
+            session = SociodramaSession.objects.get(Q(thematic=thematicID) & Q(session_id_in_thematic=sessionID))
+            return session.episodes.all()
+        except:
+            return None
+        
+    def list(self, request, thematicID, sessionID):
+        queryset = self.get_queryset(thematicID, sessionID)
+        if queryset is not None:
+            serializer = SceneSerializer(queryset, many=True)
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    
     
 
 

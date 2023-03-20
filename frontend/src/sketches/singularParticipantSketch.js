@@ -236,6 +236,7 @@ export function sketch(p5){
                 initArrayOfFreq();
             }
         });
+        row = p5.createDiv().parent(container).addClass('p5GUI-row');
         p5.createP('Ending C (excluding): ').parent(row).addClass('p5GUI-item');
         highestOctave = p5.createInput("5").parent(row).addClass('p5GUI-item');
         highestOctave.changed(() => {
