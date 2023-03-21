@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 import Breadcrumb from '../Component/Breadcrumb';
 import ContentSquare, { EmptySquare, SpecialUseSquare } from '../Component/ContentSquare';
@@ -21,6 +21,9 @@ import CloseButton from 'react-bootstrap/CloseButton';
 
 export default function StudioWrapper(){
     let {thematicID, episodeID} = useParams();
+    const [searchParams] = useSearchParams();
+    console.log(searchParams.get('axis'));
+
     return(
         <>
             <Studio themid={thematicID} epid={episodeID}/>

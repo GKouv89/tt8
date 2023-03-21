@@ -28,9 +28,7 @@ class App extends Component {
             <Routes>
               <Route path="/" element={<Thematics thematics={getThematics()}/>} />
               <Route path=":thematicID" element={<ThematicScreenWrapper colCount={12} gridSize={120}/>} />
-              <Route path=":thematicID/episodes/:episodeID" element={<EpisodeScreenWrapper colCount={12} gridSize={120}/>} />
-              <Route path=":thematicID/episodes/:episodeID/content/:contentID" element={<ContentWrapper />} />
-              <Route path=":thematicID/episodes/:episodeID/studio" element={<StudioWrapper />}/>
+              <Route path=":thematicID/sessions/:sessionID/episodes/:episodeID/studio" element={<StudioWrapper />}/>
             </Routes>            
           </BrowserRouter>
         </div>

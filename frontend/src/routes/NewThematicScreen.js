@@ -6,15 +6,10 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
-import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
-import Modal from 'react-bootstrap/Modal'
-import Image from 'react-bootstrap/Image'
 
 import { getThematics, getAxisNames, getContentOfThematic, getThematicEpisodes, getAxisColors, AllAxesColors, AllThematicColors } from '../data.js'
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from "react-router-dom"
-import { CloseButton } from 'react-bootstrap';
 
 import { fetchThematicScenes } from '../api/calls';
 
@@ -70,7 +65,7 @@ function ThematicGridBody( {id, sessionData} ){
   const createContentArray = () => {
     let content = [];
     sessionData.scenes.map((scene, idx) => { 
-        content.push(<EpisodeSquare key={idx} thematicid={id} epno={scene.episode_id_in_session} axes={scene.axis} />);
+        content.push(<EpisodeSquare key={idx} thematicid={id} sessionid={sessionData.session} epno={scene.episode_id_in_session} axes={scene.axis} />);
     });  
     return content;
   }
@@ -110,7 +105,6 @@ function EpisodeSquare(props){
     }else{
       tempString = myEpisodeColors[0];
     }
-    console.log(tempString);
     setMyGradientString(tempString);
   }, []);
 
@@ -132,7 +126,11 @@ function EpisodeSquare(props){
           <Card.Title>Επεισόδιο {props.epno} </Card.Title>
           {
               props.axes.map((axis, idx) => {
-              return <Card.Link key={idx} style={{'color': 'black'}}>Άξονας {axis.axis_id_in_thematic}</Card.Link>;
+              return <>
+                <Link key={idx} to={`/${props.thematicid}/sessions/${props.sessionid}/episodes/${props.epno}/studio?axis=${axis.axis_id_in_thematic}`}>
+                  <Card.Link style={{'color': 'black'}}>Άξονας {axis.axis_id_in_thematic}</Card.Link>
+                </Link>
+              </>
             })
           }
         </Card.Body>
@@ -167,7 +165,6 @@ function ThematicGrid(props) {
   const [data, setData] = useState(null);
 
   const sortData = (arr) =>  {
-    console.log(arr);
     return arr.sort((a, b) => a.episode_id_in_session - b.episode_id_in_session);
   }
 
