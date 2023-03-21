@@ -31,7 +31,7 @@ export default function StudioWrapper(){
     );
 }
 
-function sketchChoice(chosenViz, axes, files){
+function sketchChoice(chosenViz, color, files){
     // According to which sketch is used, a different row/column layout is preferred
     // and is returned bundled with the sketch wrapper        
     switch(chosenViz){
@@ -41,7 +41,7 @@ function sketchChoice(chosenViz, axes, files){
                 <Container>
                     <Row className='align-items-center'>
                         <Col id="sketch-canvas-container">
-                            <ReactP5Wrapper sketch={single.sketch} axes={axes} files={files}/>
+                            <ReactP5Wrapper sketch={single.sketch} color={color} files={files}/>
                         </Col>
                         <Col id="sketch-gui-container"></Col> 
                     </Row>
@@ -52,7 +52,7 @@ function sketchChoice(chosenViz, axes, files){
                 <Container className='flex-column'>
                     <Row id="sketch-ribbon-container"></Row>
                     <Row id="sketch-canvas-container-large">
-                        <ReactP5Wrapper sketch={episode.sketch} axes={axes} files={files}/>
+                        <ReactP5Wrapper sketch={episode.sketch} color={color} files={files}/>
                     </Row>
                 </Container>
             );
@@ -65,7 +65,8 @@ function Studio({themid, epid, sessionID, axis}){
     // The data for sonification and visualization are loaded here
     // So we can avoid reload every time we change the sonification/visualization given
     // Here we store the axes and the file paths/names for the sketch
-    const [data, setData] = useState(null);
+    const [color, setColor] = useState(null);
+    const [files, setFiles] = useState(null);
     const [showPlayToast, setShowPlayToast] = useState(true);
     const [showRecToast, setRecToast] = useState(true);
 
@@ -78,11 +79,13 @@ function Studio({themid, epid, sessionID, axis}){
     // This runs just once, when the component renders
     useEffect(() => {
         fetchSceneMaterial(themid, sessionID, epid, axis)
-            .then((ret) => console.log(ret));
-        let axes = getAxisColorsAndNames(epid)
-        let files = getAllEpisodeBiometrics(epid)
-        setData({axes: axes, files: files})
-    }, [])
+            .then((ret) => {
+                const material = ret.material.map((mat, idx) => {mat.path = mat.path.replace('https://transitionto8.athenarc.gr/', ''); return mat;});
+                setColor(ret.color);
+                setFiles(material);
+            })
+            .catch((err) => console.error(err));
+    }, []);
 
     return(
         <>
@@ -115,7 +118,7 @@ function Studio({themid, epid, sessionID, axis}){
                         <Breadcrumb path={eppath} themid={themid}/>
                     </Row>
                     {
-                        data && data.files.length ? <SketchComponent axes={data.axes} files={data.files}/> : <h1>Προς το παρόν, δεν υπάρχουν οπτικοποιήσεις και ηχοποιήσεις για αυτό το επεισόδιο.</h1>
+                        color && files ? <SketchComponent color={color} files={files}/> : <h1>Προς το παρόν, δεν υπάρχουν οπτικοποιήσεις και ηχοποιήσεις για αυτό το επεισόδιο.</h1>
                     }
                 </Container>
             </Container>
@@ -123,7 +126,7 @@ function Studio({themid, epid, sessionID, axis}){
     );
 }
 
-function SketchComponent({axes, files}){
+function SketchComponent({color, files}){
     // Integer state for chosenViz is which 'screen' we're currently at
     const [chosenViz, setChosenViz] = useState(0); 
     // Here we store a reference (?) to the ReactP5Wrapper object of the chosen sketch
@@ -133,7 +136,7 @@ function SketchComponent({axes, files}){
     // If the 'screen' changes, then we can also set the sketch anew
     // This is called also on the 1st render of the component to show the 1st sketch
     useEffect(() => {
-        setSketch(sketchChoice(chosenViz, axes, files))
+        setSketch(sketchChoice(chosenViz, color, files))
     }, [chosenViz])
 
     // The 3rd column is space for the GUI that will be created from the sketch, hence its emptiness
@@ -148,9 +151,9 @@ function SketchComponent({axes, files}){
                 </Col>
                 {sketch && <Col>{sketch}</Col>}
                 <Col xs="auto">
-                    <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 1 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz+1)}>
+                    {/* <Button variant='light' className='rounded-circle' style={{'visibility': chosenViz !== 1 ? 'visible' : 'hidden'}} onClick={() => setChosenViz(chosenViz+1)}>
                         <i className="bi bi-arrow-right"></i>
-                    </Button>
+                    </Button> */}
                 </Col>
             </Row>
         </>

@@ -6,9 +6,9 @@ import * as P5Class from "p5"
 import MidiWriter from 'midi-writer-js';
 
 export function sketch(p5){
-    let data = [] // File paths and friendly names for participant biometrics
-    let axes = []
-    let prefixPath = `${window.location.protocol}//${window.location.hostname}` // This is the prefix for the file server
+    let data = []; // File paths and friendly names for participant biometrics
+    // Color chosen for visualization
+    let axisChoice;
 
     // sonificationRunning is used when the window becomes visible after being minimized
     // or after the tab was switched to a different one. This way we can check if we are
@@ -46,20 +46,16 @@ export function sketch(p5){
         }
     });
 
-    // Color chosen for visualization
-    let axisChoice;
     p5.updateWithProps = props => {
-        if(axes.length == 0){ // This will be updated only once
-            axes = props.axes;
-            // Temporarily, choosing 1st color. Later, this will be a query that returns a specific color before
-            // updateWithProps runs.
-            axisChoice = axes[0];
-            // Along with axes we can be certain the data array can be initialized
-            data = props.files
+        if(props.files){ 
+            data = props.files;
             // Loading first file as to have something to demonstrate
             // Then continuing with the setup
-            table = p5.loadTable(`${prefixPath}/${data[0].path}`, 'csv', 'header', () => {console.log('Done loading')}) 
-        }        
+            table = p5.loadTable(`${process.env.REACT_APP_DATASTORE}/${data[0].path}`, 'csv', 'header', () => {console.log('Done loading')}) 
+        }
+        if(props.color){
+            axisChoice = props.color;
+        }
     };
 
     let table
@@ -73,10 +69,10 @@ export function sketch(p5){
     // so it sounds a lot more harmonic
     let arrayOfFrequencies = [];
 
-    let samplingRate = 100 // Not really the sampling rate, but rather every how many lines do we take into account.
-    let min = [1000, 1000, 1000] // index 0 is HR, index 1 is SC, index 2 is TEMP
-    let max = [0, 0, 0]
-    let repNo = 0, numberOfReps = 0, frameNo = 0, frameRate = 25
+    let samplingRate = 100; // Not really the sampling rate, but rather every how many lines do we take into account.
+    let min = [1000, 1000, 1000]; // index 0 is HR, index 1 is SC, index 2 is TEMP
+    let max = [0, 0, 0];
+    let repNo = 0, numberOfReps = 0, frameNo = 0, frameRate = 25;
     
     // All of the following are handlers for GUI components,
     // so we can enable/disable them or otherwise modify them, when needed
@@ -98,10 +94,8 @@ export function sketch(p5){
 
     p5.preload = () => {
         // p5.soundFormats('mp3', 'ogg');
-        // sound = p5.loadSound(`${prefixPath}/data/assets/HEART-loop`);
-        // boot = p5.loadSound(`${prefixPath}/data/assets/TR-909Kick`);
-        sound = p5.loadSound(`${prefixPath}/data/assets/HEART-loop.mp3`);
-        boot = p5.loadSound(`${prefixPath}/data/assets/TR-909Kick.mp3`);
+        sound = p5.loadSound(`${process.env.REACT_APP_DATASTORE}/data/assets/HEART-loop.mp3`);
+        boot = p5.loadSound(`${process.env.REACT_APP_DATASTORE}/data/assets/TR-909Kick.mp3`);
     }
 
     function findMinMax(){ // finds minimum and maximum values of all biometrics
@@ -111,9 +105,9 @@ export function sketch(p5){
         max = [0, 0, 0]
         for(let i = 0; i < table.getRowCount(); i += samplingRate){
             for(let j = 0; j < 3; j++){
-                currval = parseFloat(table.get(i, j))
-                min[j] = (() => {return currval < min[j] ? currval : min[j]})()
-                max[j] = (() => {return currval > max[j] ? currval : max[j]})()
+                currval = parseFloat(table.get(i, j));
+                min[j] = (() => {return currval < min[j] ? currval : min[j]})();
+                max[j] = (() => {return currval > max[j] ? currval : max[j]})();
             }
             numberOfReps++
         }
@@ -197,7 +191,7 @@ export function sketch(p5){
         // All available options are fetched, and a dropdown menu is created.
         fileSelect = p5.createSelect().parent(row).addClass('p5GUI-item')
         for(let i = 0; i < data.length; i++){
-            fileSelect.option(data[i].name, i) 
+            fileSelect.option(data[i].friendly_name, i) 
         }
         // Disabling some of the GUI's functionality while loading the participant's biometric data
         fileSelect.changed(() => {
@@ -206,7 +200,7 @@ export function sketch(p5){
             biometricRadio.attribute('disabled', '')
             heartTypeRadio.attribute('disabled', '')
             console.log('Loading ', data[fileSelect.value()].path)
-            table = p5.loadTable(`${prefixPath}/${data[fileSelect.value()].path}`, 'csv', 'header', () => {
+            table = p5.loadTable(`${process.env.REACT_APP_DATASTORE}/${data[fileSelect.value()].path}`, 'csv', 'header', () => {
                 findMinMax()
                 playButton.removeAttribute('disabled')
                 playAndExportButton.removeAttribute('disabled')
@@ -375,12 +369,12 @@ export function sketch(p5){
     }
 
     p5.setup = () => {
-        console.log('setup')
+        console.log('setup');
         // Canvas width is the width of its container, which has the id mentioned below.
         // This way the canvas and the GUI do not overlap
-        let parentElem = p5.select('#sketch-canvas-container').elt
-        let canvasWidth = parentElem.clientWidth
-        p5.createCanvas(canvasWidth, 600)
+        let parentElem = p5.select('#sketch-canvas-container').elt;
+        let canvasWidth = parentElem.clientWidth;
+        p5.createCanvas(canvasWidth, 600);
 
         // Setting up the canvas recorder, now that the canvas has been created
         p5.setFrameRate(frameRate);
@@ -441,10 +435,12 @@ export function sketch(p5){
         initArrayOfFreq();
         setAudio();
 
+        console.log(`axisColor: ${axisChoice}`);
+
         // Initializing canvas appearance
         gradient = p5.drawingContext.createLinearGradient(p5.width/2, 0, p5.width/2, p5.height) // This is used when all axes are used in the visualization
         initializeVisuals() 
-        p5.noLoop()
+        p5.noLoop();
     }
 
     p5.windowResized = () => {
@@ -454,7 +450,7 @@ export function sketch(p5){
         }
     }
 
-    p5.draw = () => {    
+    p5.draw = () => {
         if(repNo < numberOfReps){
             if(frameNo % frameRate == 0){ // Every second
                 // Reading a new line from the csv and updating the sonifying element (oscillator, playback rate or sound loop interval)
@@ -675,10 +671,10 @@ export function sketch(p5){
     function createColors(){
         if(old_colors.length !== 0){
             old_colors[0] = new_colors[0];
-            new_colors[0] = createColor((repNo+1)*samplingRate, axisChoice.color);
+            new_colors[0] = createColor((repNo+1)*samplingRate, axisChoice);
         }else{
-            old_colors[0] = createColor(repNo*samplingRate, axisChoice.color);
-            new_colors[0] = createColor((repNo+1)*samplingRate, axisChoice.color);
+            old_colors[0] = createColor(repNo*samplingRate, axisChoice);
+            new_colors[0] = createColor((repNo+1)*samplingRate, axisChoice);
         }
     }
     

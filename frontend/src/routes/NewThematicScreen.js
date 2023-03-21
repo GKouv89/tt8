@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 
-import { getThematics, getAxisNames, getContentOfThematic, getThematicEpisodes, getAxisColors, AllAxesColors, AllThematicColors } from '../data.js'
+import { getThematics } from '../data.js'
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from "react-router-dom"
 
