@@ -1,8 +1,7 @@
-import React, { Component, useEffect, useState } from 'react'
+import React, { useEffect, useState, createContext, useContext } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 
 import Breadcrumb from '../Component/Breadcrumb';
-import ContentSquare, { EmptySquare, SpecialUseSquare } from '../Component/ContentSquare';
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import Container from 'react-bootstrap/Container';
@@ -10,23 +9,24 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner';
-// import Alert from 'react-bootstrap/Alert';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 
-import { getStudioContent, getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
+import { getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
 import * as single from '../sketches/singularParticipantSketch'
 import * as episode from '../sketches/episodeSketch'
-import CloseButton from 'react-bootstrap/CloseButton';
+import { fetchSceneMaterial } from '../api/calls';
+
+const IDContext = createContext({});
 
 export default function StudioWrapper(){
-    let {thematicID, episodeID} = useParams();
+    let {thematicID, sessionID, episodeID} = useParams();
     const [searchParams] = useSearchParams();
-    console.log(searchParams.get('axis'));
+    const axis = searchParams.get('axis');
 
     return(
         <>
-            <Studio themid={thematicID} epid={episodeID}/>
+            <Studio themid={thematicID} epid={episodeID} sessionID={sessionID} axis={axis}/>
         </>
     );
 }
@@ -61,7 +61,7 @@ function sketchChoice(chosenViz, axes, files){
     }
 }
 
-function Studio(props){
+function Studio({themid, epid, sessionID, axis}){
     // The data for sonification and visualization are loaded here
     // So we can avoid reload every time we change the sonification/visualization given
     // Here we store the axes and the file paths/names for the sketch
@@ -70,15 +70,17 @@ function Studio(props){
     const [showRecToast, setRecToast] = useState(true);
 
     // Setting paths for breadcrumb buttons
-    const newClassName = "thematic" + props.themid; 
+    const newClassName = "thematic" + themid; 
     document.body.className = newClassName; // CSS class for background color
-    const eppath = `/${props.themid}/episodes/${props.epid}`;
+    const eppath = `/${themid}`;
 
     // Loading data, this will be a fetch call in the near future
     // This runs just once, when the component renders
     useEffect(() => {
-        let axes = getAxisColorsAndNames(props.epid)
-        let files = getAllEpisodeBiometrics(props.epid)
+        fetchSceneMaterial(themid, sessionID, epid, axis)
+            .then((ret) => console.log(ret));
+        let axes = getAxisColorsAndNames(epid)
+        let files = getAllEpisodeBiometrics(epid)
         setData({axes: axes, files: files})
     }, [])
 
@@ -110,21 +112,8 @@ function Studio(props){
             <Container fluid>
                 <Container className="flex-column" fluid>
                     <Row>
-                        <Breadcrumb path={eppath} themid={props.themid}/>                
+                        <Breadcrumb path={eppath} themid={themid}/>
                     </Row>
-                            {/* <Alert variant='warning' onClose={() => setShowAlert(false)} dismissible>
-                                    <Alert.Heading>
-                                        Αναπαραγωγή οπτικοποιήσεων & ηχοποιήσεων
-                                    </Alert.Heading>
-                                    <p>
-                                        Η αναπαραγωγή των οπτικοποιήσεων και ηχοποιήσεων απαιτούν την παραμονή σας σε αυτή την καρτέλα.
-                                    </p>
-                                    <hr />
-                                    <p>
-                                        Αν αλλάξετε καρτέλα ή ελαχιστοποιήσετε το παράθυρο, απλώς θα γίνει παύση της αναπαραγωγής. Η αναπαραγωγή θα συνεχιστεί κανονικά με
-                                        την επιστροφή σας στην τρέχουσα καρτέλα.
-                                    </p>
-                                </Alert>                 */}
                     {
                         data && data.files.length ? <SketchComponent axes={data.axes} files={data.files}/> : <h1>Προς το παρόν, δεν υπάρχουν οπτικοποιήσεις και ηχοποιήσεις για αυτό το επεισόδιο.</h1>
                     }

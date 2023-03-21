@@ -59,13 +59,13 @@ function ThematicGridHeader(props){
   );
 }
 
-function ThematicGridBody( {id, sessionData} ){  
+function ThematicGridBody( {id, sessionData, startingKey} ){  
   const [contentArray, setContentArray] = useState(null);
 
   const createContentArray = () => {
     let content = [];
     sessionData.scenes.map((scene, idx) => { 
-        content.push(<EpisodeSquare key={idx} thematicid={id} sessionid={sessionData.session} epno={scene.episode_id_in_session} axes={scene.axis} />);
+        content.push(<EpisodeSquare key={startingKey++} cardKey={startingKey++} thematicid={id} sessionid={sessionData.session} epno={scene.episode_id_in_session} axes={scene.axis} />);
     });  
     return content;
   }
@@ -115,7 +115,7 @@ function EpisodeSquare(props){
   return(<>
     {
     loaded && 
-    <Col xxl={2} className="border border-light gridsquare m-0 p-0">
+    <Col key={props.cardKey} xxl={2} className="border border-light gridsquare m-0 p-0">
       <Card className="gridsquare episode-tile-new border-light">
         <Card.Body style={gradient ? {backgroundImage: myGradientString} : {backgroundColor: myGradientString}}
           className="episode-tile-new"
@@ -127,8 +127,8 @@ function EpisodeSquare(props){
           {
               props.axes.map((axis, idx) => {
               return <>
-                <Link key={idx} to={`/${props.thematicid}/sessions/${props.sessionid}/episodes/${props.epno}/studio?axis=${axis.axis_id_in_thematic}`}>
-                  <Card.Link style={{'color': 'black'}}>Άξονας {axis.axis_id_in_thematic}</Card.Link>
+                <Link key={idx} style={{'color': 'black'}} to={`/${props.thematicid}/sessions/${props.sessionid}/episodes/${props.epno}/studio?axis=${axis.axis_id_in_thematic}`}>
+                  <Card.Text style={{'color': 'black'}}>Άξονας {axis.axis_id_in_thematic}</Card.Text>
                 </Link>
               </>
             })
@@ -189,7 +189,7 @@ function ThematicGrid(props) {
               <ThematicGridHeader name={content.name} id={props.id}/>
             </Row>
             <Row>
-              <ThematicGridBody id={props.id} sessionData={data[0]}/>
+              <ThematicGridBody id={props.id} sessionData={data[0]} startingKey={0}/>
             </Row>
           </Container>
         </Container>
