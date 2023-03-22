@@ -80,9 +80,9 @@ function Studio({themid, epid, sessionID, axis}){
     useEffect(() => {
         fetchSceneMaterial(themid, sessionID, epid, axis)
             .then((ret) => {
-                const material = ret.material.map((mat, idx) => {mat.path = mat.path.replace('https://transitionto8.athenarc.gr/', ''); return mat;});
+                // const material = ret.material.map((mat, idx) => {mat.path = mat.path.replace('https://transitionto8.athenarc.gr/', ''); return mat;});
                 setColor(ret.color);
-                setFiles(material);
+                setFiles(ret.material);
             })
             .catch((err) => console.error(err));
     }, []);

@@ -51,7 +51,7 @@ export function sketch(p5){
             data = props.files;
             // Loading first file as to have something to demonstrate
             // Then continuing with the setup
-            table = p5.loadTable(`${process.env.REACT_APP_DATASTORE}/${data[0].path}`, 'csv', 'header', () => {console.log('Done loading')}) 
+            table = p5.loadTable(`${data[0].path}`, 'csv', 'header', () => {console.log('Done loading')}) 
         }
         if(props.color){
             axisChoice = props.color;
@@ -94,8 +94,8 @@ export function sketch(p5){
 
     p5.preload = () => {
         // p5.soundFormats('mp3', 'ogg');
-        sound = p5.loadSound(`${process.env.REACT_APP_DATASTORE}/data/assets/HEART-loop.mp3`);
-        boot = p5.loadSound(`${process.env.REACT_APP_DATASTORE}/data/assets/TR-909Kick.mp3`);
+        sound = p5.loadSound(`${process.env.REACT_APP_DATASTORE}/assets/HEART-loop.mp3`);
+        boot = p5.loadSound(`${process.env.REACT_APP_DATASTORE}/assets/TR-909Kick.mp3`);
     }
 
     function findMinMax(){ // finds minimum and maximum values of all biometrics

@@ -14,8 +14,10 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-DOMAIN_DIR = "https://transitionto8.athenarc.gr/data"
-# DATA_DIR = Path('/data')
+
+# Not hardcoded, so we can have a different file for dev server and for prod server
+with open('./etc/datastore.txt') as f:
+    DATASTORE = f.read().strip()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/

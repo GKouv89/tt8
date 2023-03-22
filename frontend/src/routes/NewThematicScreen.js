@@ -171,11 +171,7 @@ function ThematicGrid(props) {
   useEffect(() => {
     fetchThematicScenes(props.id, [1, 2])
     .then((ret) => {
-      let sortedRet = [
-        {'session': ret[0].session, 'scenes': sortData(ret[0].scenes)}, 
-        {'session': ret[1].session, 'scenes': sortData(ret[1].scenes)}
-      ]; 
-      setData(sortedRet);})
+      setData(ret);})
     .catch(err => console.error(err));
   }, []);
 
