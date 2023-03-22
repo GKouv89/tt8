@@ -6,11 +6,11 @@ import * as P5Class from "p5"
 import MidiWriter from 'midi-writer-js';
 
 export function sketch(p5){
-    let prefixPath = `${window.location.protocol}//${window.location.hostname}`; // This is the prefix for the file server
+    // let prefixPath = `${window.location.protocol}//${window.location.hostname}`; // This is the prefix for the file server
     let filepaths = [];
     let tables = [];
 
-    let axes = [];
+    let axisColor;
 
     let sonificationRunning = false, isPaused = false, isForcedRecStop = false;
     document.addEventListener("visibilitychange", () => {
@@ -43,7 +43,7 @@ export function sketch(p5){
     });
 
     function loadFile(idx){
-        tables.push(p5.loadTable(`${prefixPath}/${filepaths[idx].path}`, 'csv', 'header', () => {
+        tables.push(p5.loadTable(`${filepaths[idx].path}`, 'csv', 'header', () => {
             if(idx == filepaths.length - 1){ // Base case: if we have loaded the last file, go on with finding min & max values
                 moreSetup();
             }else{ // otherwise proceed with loading next file
@@ -65,7 +65,6 @@ export function sketch(p5){
         // numberOfReps = 20; // DEBUGGING
         let rowContainer = p5.select('#sketch-ribbon-container');
         biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer); /* .parent(guiContainer).addClass('column-item') */
-        // GUI creation takes place here because the available axes must be loaded before we create the corresponding radio button
         GUIcontainer = p5.createDiv().addClass('parentContainer').style('width', '50%');
         studioContainer = createGUI().parent(GUIcontainer).addClass('p5EpisodeGUI-column-item');
         // Positioning the GUI buttons right above the canvas
@@ -99,14 +98,15 @@ export function sketch(p5){
     }
     
     p5.updateWithProps = props => {
-        if(axes.length == 0){ // This will be updated only once
-            axes = props.axes;
-            // Along with axes we can be certain the data array can be initialized
+        if(props.color){
+            axisColor = props.color;
+        }
+        if(props.files){
             filepaths = props.files;
             // Loading all files from the get go
             // This will call itself recursively
             loadFile(0);
-        }        
+        }
     }
         
     let min , max
@@ -127,7 +127,6 @@ export function sketch(p5){
     // the visualization and sonification parameters.
     
     let gradient
-    let axisColor;
     
     let oscillators = [] // One per participant
     let envelopes = [] // One per participant
@@ -296,8 +295,6 @@ export function sketch(p5){
         downloadVideoButton.mousePressed(() => {exportVid(videoBlob)})
         downloadVideoButton.attribute('disabled', '')
         
-        axisColor = axes[0].color;
-
         // GUI element for changing the starting C.
         // User inputs a number from 0 to 8
         tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item');
