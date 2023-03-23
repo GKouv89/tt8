@@ -60,9 +60,8 @@ export function sketch(p5){
 
     function moreSetup(){
         findMinMax();
-        numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate);
+        numberOfReps = p5.ceil(tables[0].getRowCount()/samplingRate);
         console.log('NUMBER OF REPS: ', numberOfReps);
-        // numberOfReps = 20; // DEBUGGING
         let rowContainer = p5.select('#sketch-ribbon-container');
         biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer); /* .parent(guiContainer).addClass('column-item') */
         GUIcontainer = p5.createDiv().addClass('parentContainer').style('width', '50%');
@@ -158,18 +157,18 @@ export function sketch(p5){
         // The following arrays contain the minimum and maximum of all biometrics PER PARTICIPANT
         // 1st dimension (row): biometric
         // 2nd dimension (column): participant
-        min = Array(tables[0].getColumnCount())
-        max = Array(tables[0].getColumnCount())
+        min = Array(tables[0].getColumnCount());
+        max = Array(tables[0].getColumnCount());
         for(let i = 0; i < min.length; i++){
-            min[i] = Array(tables.length).fill(1000)
-            max[i] = Array(tables.length).fill(0)
+            min[i] = Array(tables.length).fill(1000);
+            max[i] = Array(tables.length).fill(0);
         }
         for(let f = 0; f < tables.length; f++){
             for(let i = 0; i < tables[f].getRowCount(); i += samplingRate){
                 for(let j = 0; j < tables[f].getColumnCount(); j++){
-                    currval = parseFloat(tables[f].get(i, j))
-                    min[j][f] = (() => {return currval < min[j][f] ? currval : min[j][f]})()
-                    max[j][f] = (() => {return currval > max[j][f] ? currval : max[j][f]})()
+                    currval = parseFloat(tables[f].get(i, j));
+                    min[j][f] = (() => {return currval < min[j][f] ? currval : min[j][f]})();
+                    max[j][f] = (() => {return currval > max[j][f] ? currval : max[j][f]})();
                 }
             }
         }
@@ -436,7 +435,7 @@ export function sketch(p5){
         // But it's value isn't valid!
         // So, initializing it as 1 here, and assigning it its proper value once
         // everything loads.
-        numberOfReps = 1 
+        numberOfReps = 1;
         
         recorder = new P5Class.SoundRecorder()
     }
@@ -518,7 +517,11 @@ export function sketch(p5){
         if(setupFinished){
             if(repNo < numberOfReps){
                 console.log('repNo: ', repNo);
-                handleGradient();
+                // edge case: handleGradient always produces the next color,
+                // but right at our last rep, there is no other color to produce
+                if(repNo !== numberOfReps - 1){
+                    handleGradient();
+                }
                 // Every second we read another line from the CSV 
                 // So every second, we redetermine what the participant's heart rate is
                 // and this changes each loop's interval, effective immediately,
@@ -607,7 +610,6 @@ export function sketch(p5){
         playAndExportButton.removeAttribute('disabled');
         initializeVisuals();
         handleAudio();
-        // numberOfReps = 20
         console.timeEnd('sonification');
         if(isRecording){
             recorder.stop(); // Stopping the sound recorder manually.
