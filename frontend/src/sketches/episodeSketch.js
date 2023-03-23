@@ -61,7 +61,7 @@ export function sketch(p5){
     function moreSetup(){
         findMinMax();
         numberOfReps = p5.ceil(tables[0].getRowCount()/samplingRate);
-        console.log('NUMBER OF REPS: ', numberOfReps);
+        // console.log('NUMBER OF REPS: ', numberOfReps);
         let rowContainer = p5.select('#sketch-ribbon-container');
         biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer); /* .parent(guiContainer).addClass('column-item') */
         GUIcontainer = p5.createDiv().addClass('parentContainer').style('width', '50%');
@@ -516,7 +516,7 @@ export function sketch(p5){
     p5.draw = () => {    
         if(setupFinished){
             if(repNo < numberOfReps){
-                console.log('repNo: ', repNo);
+                // console.log('repNo: ', repNo);
                 // edge case: handleGradient always produces the next color,
                 // but right at our last rep, there is no other color to produce
                 if(repNo !== numberOfReps - 1){

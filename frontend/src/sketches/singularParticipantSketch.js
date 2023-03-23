@@ -94,13 +94,17 @@ export function sketch(p5){
 
     p5.preload = () => {
         // p5.soundFormats('mp3', 'ogg');
-        sound = p5.loadSound(`http://localhost/data/assets/HEART-loop.mp3`);
-        boot = p5.loadSound(`http://localhost/data/assets/TR-909Kick.mp3`);
+        sound = p5.loadSound(`https://transitionto8.athenarc.gr/data/assets/HEART-loop.mp3`);
+        // sound = p5.loadSound(`http://localhost/data/assets/HEART-loop.mp3`);
+        boot = p5.loadSound(`https://transitionto8.athenarc.gr/data/assets/TR-909Kick.mp3`);
+        // boot = p5.loadSound(`http://localhost/data/assets/TR-909Kick.mp3`);
     }
 
     function findMinMax(){ // finds minimum and maximum values of all biometrics
         // for any given participant, to later use them in mapping.
         let currval;
+        // Resetting, in case we loaded a different file
+        numberOfReps = 0;
         min = [1000, 1000, 1000] // index 0 is HR, index 1 is SC, index 2 is TEMP
         max = [0, 0, 0]
         for(let i = 0; i < table.getRowCount(); i += samplingRate){
@@ -200,13 +204,13 @@ export function sketch(p5){
             biometricRadio.attribute('disabled', '')
             heartTypeRadio.attribute('disabled', '')
             console.log('Loading ', data[fileSelect.value()].path)
-            table = p5.loadTable(`${process.env.REACT_APP_DATASTORE}/${data[fileSelect.value()].path}`, 'csv', 'header', () => {
-                findMinMax()
-                playButton.removeAttribute('disabled')
-                playAndExportButton.removeAttribute('disabled')
-                biometricRadio.removeAttribute('disabled')
-                heartTypeRadio.removeAttribute('disabled')
-                initializeVisuals()
+            table = p5.loadTable(`${data[fileSelect.value()].path}`, 'csv', 'header', () => {
+                findMinMax();
+                playButton.removeAttribute('disabled');
+                playAndExportButton.removeAttribute('disabled');
+                biometricRadio.removeAttribute('disabled');
+                heartTypeRadio.removeAttribute('disabled');
+                initializeVisuals();
             })
         })
     
@@ -450,7 +454,7 @@ export function sketch(p5){
 
     p5.draw = () => {
         if(repNo < numberOfReps){
-            console.log(repNo);
+            // console.log(repNo);
             if(frameNo % frameRate == 0){ // Every second
                 // Reading a new line from the csv and updating the sonifying element (oscillator, playback rate or sound loop interval)
                 setAudio();
