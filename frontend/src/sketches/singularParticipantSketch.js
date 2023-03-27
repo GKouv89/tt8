@@ -94,10 +94,10 @@ export function sketch(p5){
 
     p5.preload = () => {
         // p5.soundFormats('mp3', 'ogg');
-        sound = p5.loadSound(`https://transitionto8.athenarc.gr/data/assets/HEART-loop.mp3`);
-        // sound = p5.loadSound(`http://localhost/data/assets/HEART-loop.mp3`);
-        boot = p5.loadSound(`https://transitionto8.athenarc.gr/data/assets/TR-909Kick.mp3`);
-        // boot = p5.loadSound(`http://localhost/data/assets/TR-909Kick.mp3`);
+        // sound = p5.loadSound(`https://transitionto8.athenarc.gr/data/assets/HEART-loop.mp3`);
+        sound = p5.loadSound(`http://localhost/data/assets/HEART-loop.mp3`);
+        // boot = p5.loadSound(`https://transitionto8.athenarc.gr/data/assets/TR-909Kick.mp3`);
+        boot = p5.loadSound(`http://localhost/data/assets/TR-909Kick.mp3`);
     }
 
     function findMinMax(){ // finds minimum and maximum values of all biometrics

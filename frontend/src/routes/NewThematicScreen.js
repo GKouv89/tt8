@@ -164,10 +164,6 @@ function ThematicGrid(props) {
 
   const [data, setData] = useState(null);
 
-  const sortData = (arr) =>  {
-    return arr.sort((a, b) => a.episode_id_in_session - b.episode_id_in_session);
-  }
-
   useEffect(() => {
     fetchThematicScenes(props.id, [1, 2])
     .then((ret) => {

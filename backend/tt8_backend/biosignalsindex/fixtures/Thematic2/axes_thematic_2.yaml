@@ -1,0 +1,50 @@
+---
+- model: biosignalsindex.Axis
+  fields:
+    thematic: 2
+    axis_id_in_thematic: 1
+    title: Συνθήκες εργασίας
+    color: "#A3B1C1"
+- model: biosignalsindex.Axis
+  fields:
+    thematic: 2
+    axis_id_in_thematic: 2
+    title: Ασφάλεια και προστασία στην εργασία
+    color: "#C7A34F"
+- model: biosignalsindex.Axis
+  fields:
+    thematic: 2
+    axis_id_in_thematic: 3
+    title: Ευθύνες ατομικές
+    color: "#A39C8C"
+- model: biosignalsindex.Axis
+  fields:
+    thematic: 2
+    axis_id_in_thematic: 4
+    title: Ευθύνες ιθύνοντων φορέων
+    color: "#638C7D"
+- model: biosignalsindex.Axis
+  fields:
+    thematic: 2
+    axis_id_in_thematic: 5
+    title: Σύγκρουση
+    color: "#C75E5E"
+- model: biosignalsindex.Axis
+  fields:
+    thematic: 2
+    axis_id_in_thematic: 6
+    title: Συμμετοχικότητα/συνεργασία
+    color: "#8CD7A9" 
+- model: biosignalsindex.Axis
+  fields:
+    thematic: 2
+    axis_id_in_thematic: 7
+    title: Αρνητικά συναισθήματα
+    color: "#D7B98C"
+- model: biosignalsindex.Axis
+  fields:
+    thematic: 2
+    axis_id_in_thematic: 8
+    title: Θετικά συναισθήματα
+    color: "#FFFFFF"
+...

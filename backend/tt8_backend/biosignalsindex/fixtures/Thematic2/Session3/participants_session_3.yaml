@@ -1,0 +1,16 @@
+- fields:
+    sensor_id_in_session: '1'
+    session: 3
+  model: biosignalsindex.Participant
+- fields:
+    sensor_id_in_session: '2'
+    session: 3
+  model: biosignalsindex.Participant
+- fields:
+    sensor_id_in_session: '3'
+    session: 3
+  model: biosignalsindex.Participant
+- fields:
+    sensor_id_in_session: '4'
+    session: 3
+  model: biosignalsindex.Participant

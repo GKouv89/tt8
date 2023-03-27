@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'corsheaders',
+    'django_dumpdata_one',
 ]
 
 MIDDLEWARE = [
