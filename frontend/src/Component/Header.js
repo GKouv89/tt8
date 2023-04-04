@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useParams , useLocation} from 'react-router-dom'
+import React from 'react';
+import { Outlet } from 'react-router-dom'
 
 import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
+import Breadcrumb from './Breadcrumbs';
 
 function ButtonLogo() {
     return (
@@ -68,7 +69,6 @@ function ButtonLogo() {
                 </Row>
             </Container>
         </Container>
-
     );
 }
 
@@ -93,6 +93,8 @@ export default function Header () {
                     <ButtonLogo />
                 </Navbar>
             </LinkContainer>
+            <Breadcrumb />
+            <Outlet />
         </>
     );
 }

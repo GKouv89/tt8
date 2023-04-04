@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'
+import { useLoaderData, Link, useParams } from 'react-router-dom'
 import Collapse from 'react-bootstrap/Collapse'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -9,18 +9,18 @@ import Button from 'react-bootstrap/Button'
 
 import { getThematics } from '../data.js'
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from "react-router-dom"
 
 import { fetchThematicScenes } from '../api/calls';
+import Breadcrumbs from '../Component/Breadcrumbs.js';
 
-export default function ThematicScreenWrapper(props){
-    let {thematicID} = useParams();
-    return (
-      <ThematicGrid {...props}
-      id={thematicID}
-      />
-    );
-}
+// export default function ThematicScreenWrapper(props){
+//     let {thematicID} = useParams();
+//     return (
+//       <ThematicGrid {...props}
+//       id={thematicID}
+//       />
+//     );
+// }
 
 function Description(props){
   return (
@@ -35,27 +35,6 @@ function Description(props){
       </Card>
     </Collapse>
   </>
-  );
-}
-
-function ThematicGridHeader(props){
-  return(
-    <Container>
-      <Row className="border border-light justify-content-between">
-        <Col xxl={4}>
-          <Button variant={"thematic" + props.id}>
-            {props.name}
-          </Button>
-        </Col>
-        <Col xxl={4}>
-            <LinkContainer to="/">
-              <Button variant='light' className="rounded-0">
-                Πίσω στις θεματικές
-              </Button>
-            </LinkContainer>
-        </Col>
-      </Row>
-    </Container>
   );
 }
 
@@ -127,7 +106,7 @@ function EpisodeSquare(props){
           {
               props.axes.map((axis, idx) => {
               return <>
-                <Link key={idx} style={{'color': 'black'}} to={`/${props.thematicid}/sessions/${props.sessionid}/episodes/${props.epno}/studio?axis=${axis.axis_id_in_thematic}`}>
+                <Link key={idx} style={{'color': 'black'}} to={`sessions/${props.sessionid}/episodes/${props.epno}/studio?axis=${axis.axis_id_in_thematic}`}>
                   <Card.Text style={{'color': 'black'}}>Άξονας {axis.axis_id_in_thematic}</Card.Text>
                 </Link>
               </>
@@ -156,36 +135,23 @@ function EmptySquare(){
   );
 }
 
-function ThematicGrid(props) {
-  let newClassName="thematic" + props.id;
+export default function ThematicGrid(props) {
+  let {thematicID} = useParams();
+
+  let newClassName="thematic" + thematicID;
   document.body.className=newClassName;
   let content = getThematics();
-  content = content[props.id - 1];
+  content = content[thematicID - 1];
 
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetchThematicScenes(props.id, [1, 2])
-    .then((ret) => {
-      setData(ret);})
-    .catch(err => console.error(err));
-  }, []);
+  const data = useLoaderData();
 
   return (
-    <>
-      {
-        data &&   
-        <Container fluid>
-          <Container className="flex-column">
-            <Row>
-              <ThematicGridHeader name={content.name} id={props.id}/>
-            </Row>
-            <Row>
-              <ThematicGridBody id={props.id} sessionData={data[0]} startingKey={0}/>
-            </Row>
-          </Container>
-        </Container>
-      }
-    </>
+    <Container fluid>
+      <Container className="flex-column">
+        <Row>
+          <ThematicGridBody id={thematicID} sessionData={data[0]} startingKey={0}/>
+        </Row>
+      </Container>
+    </Container>
   );  
 }

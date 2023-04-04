@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext, useContext } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 
-import Breadcrumb from '../Component/Breadcrumb';
+import Breadcrumbs from '../Component/Breadcrumbs';
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import Container from 'react-bootstrap/Container';
@@ -115,11 +115,10 @@ function Studio({themid, epid, sessionID, axis}){
             <Container fluid>
                 <Container className="flex-column" fluid>
                     <Row>
-                        <Breadcrumb path={eppath} themid={themid}/>
+                        {
+                            color && files ? <SketchComponent color={color} files={files}/> : <h1>Προς το παρόν, δεν υπάρχουν οπτικοποιήσεις και ηχοποιήσεις για αυτό το επεισόδιο.</h1>
+                        }
                     </Row>
-                    {
-                        color && files ? <SketchComponent color={color} files={files}/> : <h1>Προς το παρόν, δεν υπάρχουν οπτικοποιήσεις και ηχοποιήσεις για αυτό το επεισόδιο.</h1>
-                    }
                 </Container>
             </Container>
         </>

@@ -8,6 +8,20 @@ div#root{
   height: 100%;
 }
 
+.crumb {
+  color: black;
+  text-decoration: none;
+}
+
+.crumb:hover {
+  text-decoration: underline;
+  color: black;
+}
+
+.current {
+  color: #333333;
+}
+
 .filter1 {
   background-color: #943853;
   border-color: #943853;
