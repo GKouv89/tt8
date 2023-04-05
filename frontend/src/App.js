@@ -35,7 +35,7 @@ const router = createBrowserRouter(
         }}
         handle ={{
           crumb: (params) => [
-            <NavLink className='crumb' to="/">Αρχική</NavLink>,
+            <NavLink className='crumb' to="/">Index</NavLink>,
             <NavLink className='current' to={params.thematicID}>{getThematics()[params.thematicID - 1].name}</NavLink>
           ],
         }}
@@ -46,7 +46,7 @@ const router = createBrowserRouter(
         handle = {{
           crumb: (params) => 
             [
-            <NavLink className='crumb' to="/">Αρχική</NavLink>,
+            <NavLink className='crumb' to="/">Index</NavLink>,
             <NavLink className='crumb' to={`${params.thematicID}`}>{getThematics()[params.thematicID - 1].name}</NavLink>,
             <NavLink className='current' to={`${params.thematicID}/sessions/${params.sessionID}/episodes/${params.episodeID}/studio`}>Episode {params.episodeID}</NavLink>]
           ,

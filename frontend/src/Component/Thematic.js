@@ -51,7 +51,7 @@ export default function Thematic(props){
                   </Col>
                   <Col xxl={12} className="align-self-center">
                     <LinkContainer to={`${props.thematic._id}`}>
-                      <Button size="lg" variant="dark">Περισσότερα</Button>
+                      <Button size="lg" variant="dark">More</Button>
                     </LinkContainer>
                   </Col>
                 </Row>

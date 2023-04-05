@@ -10,14 +10,20 @@ export default function Breadcrumbs(){
     .filter((match) => Boolean(match.handle?.crumb))
     .map((match) => match.handle.crumb(match.params));
   
-  return(
-    <Container fluid>
+  const length = crumbs.length;
+
+  if(length !== 0){
+    return(
+      <Container fluid>
        <Row className='border border-light breadcrumb'>
           {crumbs.map((crumb, index) => {
-              return crumb.map((navlink) => <Col className='breadcrumb-item' xs={1} key={index}>{navlink}</Col>)
+              return crumb.map((navlink) => <Col className='breadcrumb-item' xs={'auto'} key={index}>{navlink}</Col>)
             })
           }
        </Row>
-     </Container>
-  );
+      </Container>
+    );
+  }else{
+    return(<></>);
+  }
 }
