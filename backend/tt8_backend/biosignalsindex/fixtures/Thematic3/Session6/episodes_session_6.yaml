@@ -1,0 +1,40 @@
+- fields:
+    axis: [21]
+    episode_id_in_session: '105'
+    session: 6
+  model: biosignalsindex.Episode
+- fields:
+    axis: [17, 19]
+    episode_id_in_session: '14'
+    session: 6
+  model: biosignalsindex.Episode
+- fields:
+    axis: [22]
+    episode_id_in_session: '29'
+    session: 6
+  model: biosignalsindex.Episode
+- fields:
+    axis: [17]
+    episode_id_in_session: '15'
+    session: 6
+  model: biosignalsindex.Episode
+- fields:
+    axis: [21]
+    episode_id_in_session: '37'
+    session: 6
+  model: biosignalsindex.Episode
+- fields:
+    axis: [17]
+    episode_id_in_session: '12'
+    session: 6
+  model: biosignalsindex.Episode
+- fields:
+    axis: [19]
+    episode_id_in_session: '13'
+    session: 6
+  model: biosignalsindex.Episode
+- fields:
+    axis: [19]
+    episode_id_in_session: '21'
+    session: 6
+  model: biosignalsindex.Episode

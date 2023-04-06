@@ -211,8 +211,8 @@ export function sketch(p5){
             let square = p5.createDiv().addClass('p5EpisodeGUI-row-item').addClass('greyRibbon').parent(container)
             p5.createDiv(`P${idx+1}`).addClass('p5EpisodeGUI-column-item').parent(square)
             for(let i = 0; i < tables[idx].getColumnCount(); i++){
-                p5.createDiv(`${biometricNames[i]}: [${min[i][idx]}, ${max[i][idx]}]`).addClass('p5EpisodeGUI-column-item').parent(square)
-                biometricCurrentValues[i][idx] = p5.createP(`Currently: ${table.get(repNo, i)}`).addClass('p5EpisodeGUI-column-item').parent(square)
+                p5.createDiv(`${biometricNames[i]}: [${min[i][idx].toFixed(2)}, ${max[i][idx].toFixed(2)}]`).addClass('p5EpisodeGUI-column-item').parent(square)
+                biometricCurrentValues[i][idx] = p5.createP(`Currently: ${parseFloat(table.get(repNo, i)).toFixed(2)}`).addClass('p5EpisodeGUI-column-item').parent(square)
             }
         })
         return container
@@ -222,7 +222,7 @@ export function sketch(p5){
         tables.map((table, idx) => {
             // console.log('In updateCurrentBiometricValues, with repNo = ', repNo);
             for(let i = 0; i < table.getColumnCount(); i++){
-                biometricCurrentValues[i][idx].html(`Currently: ${table.get(repNo*samplingRate, i)}`)
+                biometricCurrentValues[i][idx].html(`Currently: ${parseFloat(table.get(repNo*samplingRate, i)).toFixed(2)}`)
             }
         })
     }
