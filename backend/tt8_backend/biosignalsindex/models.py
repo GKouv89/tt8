@@ -37,6 +37,7 @@ class Episode(models.Model):
 		related_name = 'episodes',
 	)
 	axis = models.ManyToManyField('Axis', related_name = 'episodes')
+	is_superepisode = models.BooleanField(default=True)
 	episode_id_in_session = models.IntegerField()
 
 class ParticipantMaterial(models.Model):
