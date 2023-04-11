@@ -90,7 +90,7 @@ export function sketch(p5){
         const table = tables[idx];
         const biosignalIdx = getBiosignalIdx();
         p5.beginShape();
-        let x, y;
+        let x, y, currval;
         const rowCount = table.getRowCount();
         const participantCanvasHeight = p5.height/tables.length;
         const participantLowerHeight = idx*participantCanvasHeight;

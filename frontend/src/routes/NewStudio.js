@@ -44,6 +44,9 @@ export default function Studio(){
             .catch((err) => console.error(err));
     }, []);
 
+    let newClassName="thematic" + thematicID;
+    document.body.className=newClassName;
+    
     return(
         <>
             <ToastContainer>
@@ -109,9 +112,6 @@ function SketchComponent({color, files}){
                 </Col>
                 <Col xs={'auto'}>
                     <ButtonGroup>
-                        {/* <Button key={0} active>Heart Rate</Button>
-                        <Button key={1}>Galvanic Skin Response</Button>
-                        <Button key={2}>Temperature</Button> */}
                         {biosignals.map((signal, idx) => (
                             <ToggleButton
                                 key={idx}
