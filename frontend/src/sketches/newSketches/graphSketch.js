@@ -8,6 +8,9 @@ export function sketch(p5){
     let filepaths = [];
     let tables = [];
     let biosignal;
+    let min, max;
+
+    const samplingRate = 128;
 
     let dataLoaded = false;
     
@@ -23,23 +26,57 @@ export function sketch(p5){
         // This one changes on the click of a button, so we must update it often
         if(props.biosignal){
             biosignal = props.biosignal;
-            console.log(`biosignal: ${biosignal}`);
-            // Draw needs to run once to plot the new graphs
+            // Update minimum and maximum values for new biometric
+            findMinMax();
+            // Draw needs to run again to plot the new graphs
             p5.loop();
         }
     };
 
     const loadFile = (idx) => {
-        console.log('load');
         tables.push(p5.loadTable(`${filepaths[idx].path}`, 'csv', 'header', () => {
             if(idx == filepaths.length - 1){ // Base case: if we have loaded the last file, go on with finding min & max values
                 dataLoaded = true;
+                findMinMax();
                 // Run draw once more with the data we have
                 p5.loop();
             }else{ // otherwise proceed with loading next file
                 loadFile(idx+1);
             }
         }))
+    }
+
+    const getBiosignalIdx = () => {
+        switch(biosignal){
+            case 'HR':
+                return 0;
+            case 'GSR':
+                return 1;
+            case 'Temp':
+                return 2;
+            default:
+                console.log('why?');
+                break;
+        }
+    }
+
+    const findMinMax = () => {
+        // Resetting min and max vars
+        min = 10000;
+        max = 0;
+        // Finding min and max from all tables
+        // for chosen biometric
+        const biosignalIdx = getBiosignalIdx();
+        let currval, currtable;
+        for(let f = 0; f < tables.length; f++){
+            currtable = tables[f];
+            console.log(currtable.getRowCount());
+            for (let row = 0; row < currtable.getRowCount(); row += samplingRate){
+                currval = parseFloat(currtable.get(row, biosignalIdx));
+                min = (() => {return currval < min ? currval : min})();
+                max = (() => {return currval > max ? currval : max})();
+            }
+        }
     }
 
     p5.setup = () => {
@@ -49,17 +86,39 @@ export function sketch(p5){
         p5.noLoop();
     }
 
+    const plotGraph = (idx) => {
+        const table = tables[idx];
+        const biosignalIdx = getBiosignalIdx();
+        p5.beginShape();
+        let x, y;
+        const rowCount = table.getRowCount();
+        const participantCanvasHeight = p5.height/tables.length;
+        const participantLowerHeight = idx*participantCanvasHeight;
+        const participantHigherHeight = (idx+1)*participantCanvasHeight;
+        for (let row = 0; row < rowCount; row++)
+        {
+            currval = table.get(row, biosignalIdx);
+            x = p5.map(row, 0, rowCount, 0, p5.width);
+            y = p5.map(currval, min, max, participantHigherHeight, participantLowerHeight);
+            p5.vertex(x, y);
+        }
+        p5.endShape();
+    }
+
     p5.draw = () => {
         p5.background('white');
         if(dataLoaded){
-            const canvas_height = p5.height;
             const canvas_width = p5.width;
             const participantCount = tables.length;
-            const participantCanvasHeight = canvas_height/participantCount;
+            const participantCanvasHeight = p5.height/participantCount;
             for (const x of Array(participantCount).keys()){
                 p5.line(0, x*participantCanvasHeight, canvas_width, x*participantCanvasHeight);
+                p5.stroke('red');
+                plotGraph(x);
+                p5.stroke('black');
             }
-            p5.noLoop();
+            if(p5.isLooping())
+                p5.noLoop();
         }
     }
 }
