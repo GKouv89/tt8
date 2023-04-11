@@ -12,7 +12,7 @@ import {
 
 import ThematicGrid from './routes/NewThematicScreen.js';
 import Thematics from './routes/Thematics.js';
-import StudioWrapper from './routes/Studio';
+import Studio from './routes/NewStudio';
 
 import { getThematics } from './data';
 import ThemeProvider from 'react-bootstrap/ThemeProvider';
@@ -42,7 +42,7 @@ const router = createBrowserRouter(
       />
       <Route 
         path=":thematicID/sessions/:sessionID/episodes/:episodeID/studio" 
-        element={<StudioWrapper />}
+        element={<Studio />}
         handle = {{
           crumb: (params) => 
             [
