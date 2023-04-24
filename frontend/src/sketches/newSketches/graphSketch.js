@@ -72,14 +72,10 @@ export function sketch(p5){
             currtable = tables[f];
             console.log(currtable.getRowCount());
             for (let row = 0; row < currtable.getRowCount(); row++){
-            // for (let row = 0; row < currtable.getRowCount(); row += samplingRate){
                 currval = parseFloat(currtable.get(row, biosignalIdx));
                 min = (() => {return currval < min ? currval : min})();
                 max = (() => {return currval > max ? currval : max})();
             }
-            console.log('Min and max after iterating table no ', f);
-            console.log('min: ', min);
-            console.log('max: ', max);
         }
     }
 
@@ -99,27 +95,12 @@ export function sketch(p5){
         const participantCanvasHeight = p5.height/tables.length;
         const participantLowerHeight = idx*participantCanvasHeight;
         const participantHigherHeight = (idx+1)*participantCanvasHeight;
-        if(idx == 5){
-            console.log('overall height: ', p5.height);
-            console.log('participantCanvasHeight: ', participantCanvasHeight);
-            console.log('participantLowerHeight: ', participantLowerHeight);
-            console.log('participantHigherHeight: ', participantHigherHeight);    
-        }
-        let prevval = -1;
-        if(idx == 5)
-        {
-            console.log('min: ', min);
-            console.log('max: ', max);
-        }
         for (let row = 0; row < rowCount; row++)
         {
             currval = table.get(row, biosignalIdx);
             x = p5.map(row, 0, rowCount, 0, p5.width);
             y = p5.map(currval, min, max, participantHigherHeight, participantLowerHeight);
-            if(idx == 5 && currval !== prevval)
-                console.log(`current value is: ${currval}, mapped to: ${y}`);
             p5.vertex(x, y);
-            prevval = currval;
         }
         p5.endShape();
     }
