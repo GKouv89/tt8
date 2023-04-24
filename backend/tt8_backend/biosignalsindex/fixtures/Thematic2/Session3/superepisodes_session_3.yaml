@@ -1,0 +1,55 @@
+- fields:
+    axis: [11]
+    episode_id_in_session: '49'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [16]
+    episode_id_in_session: '83'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [11]
+    episode_id_in_session: '91'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [15]
+    episode_id_in_session: '67'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [14]
+    episode_id_in_session: '89'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [10]
+    episode_id_in_session: '34'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [10]
+    episode_id_in_session: '38'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [9]
+    episode_id_in_session: '36'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [10]
+    episode_id_in_session: '35'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [15]
+    episode_id_in_session: '81'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [12]
+    episode_id_in_session: '48'
+    session: 3
+  model: biosignalsindex.Episode
