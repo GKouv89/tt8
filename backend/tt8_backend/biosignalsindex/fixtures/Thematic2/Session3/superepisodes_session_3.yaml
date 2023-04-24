@@ -1,6 +1,16 @@
 - fields:
+    axis: [11]
+    episode_id_in_session: '49'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
     axis: [16]
     episode_id_in_session: '83'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [11]
+    episode_id_in_session: '91'
     session: 3
   model: biosignalsindex.Episode
 - fields:
@@ -26,6 +36,11 @@
 - fields:
     axis: [9]
     episode_id_in_session: '36'
+    session: 3
+  model: biosignalsindex.Episode
+- fields:
+    axis: [10]
+    episode_id_in_session: '35'
     session: 3
   model: biosignalsindex.Episode
 - fields:
