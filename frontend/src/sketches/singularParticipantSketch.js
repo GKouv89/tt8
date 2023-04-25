@@ -691,21 +691,37 @@ export function sketch(p5){
     // If all biometrics are selected, then they are all mapped to a brightness value (a number in the range [0, 100])
     // then an average value is calculated and that is used as the brightness of the color being created
     function createColor(repNo, color){
-        let c;
+        let c, new_brightness;
         switch(biometricRadio.value()){
             case 'heart':
-                c = p5.color(p5.hue(color), p5.saturation(color), p5.constrain(p5.map(table.get(repNo, 0), min[0], max[0], 0, 100), 0, 100));
+                new_brightness = p5.constrain(p5.map(table.get(repNo, 0), min[0], max[0], 0, 100), 0, 100);
+                if(isNaN(new_brightness)){
+                    new_brightness = p5.brightness(color);
+                }
+                c = p5.color(p5.hue(color), p5.saturation(color), new_brightness);
                 break;
             case 'gsr':
-                c = p5.color(p5.hue(color), p5.saturation(color), p5.constrain(p5.map(table.get(repNo, 1), min[1], max[1], 0, 100), 0, 100));
+                new_brightness = p5.constrain(p5.map(table.get(repNo, 1), min[1], max[1], 0, 100), 0, 100);
+                if(isNaN(new_brightness)){
+                    new_brightness = p5.brightness(color);
+                }
+                c = p5.color(p5.hue(color), p5.saturation(color), new_brightness);
                 break;  
             case 'temp':
-                c = p5.color(p5.hue(color), p5.saturation(color), p5.constrain(p5.map(table.get(repNo, 2), min[2], max[2], 0, 100), 0, 100));
+                new_brightness = p5.constrain(p5.map(table.get(repNo, 2), min[2], max[2], 0, 100), 0, 100);
+                if(isNaN(new_brightness)){
+                    new_brightness = p5.brightness(color);
+                }
+                c = p5.color(p5.hue(color), p5.saturation(color), new_brightness);
                 break;
             case 'all':
                 let brightnesses = 0
                 for(let i = 0; i < 2; i++){
-                    brightnesses += p5.constrain(p5.map(table.get(repNo, i), min[i], max[i], 0, 100), 0, 100);
+                    new_brightness = p5.constrain(p5.map(table.get(repNo, i), min[i], max[i], 0, 100), 0, 100)
+                    if(isNaN(new_brightness)){
+                        new_brightness = p5.brightness(color);
+                    }
+                    brightnesses += new_brightness;
                 }
                 c = p5.color(p5.hue(color), p5.saturation(color), brightnesses/3);
                 break;
