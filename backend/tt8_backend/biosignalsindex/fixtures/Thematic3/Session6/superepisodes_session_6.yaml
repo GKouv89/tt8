@@ -19,13 +19,33 @@
     session: 6
   model: biosignalsindex.Episode
 - fields:
+    axis: [22]
+    episode_id_in_session: '32'
+    session: 6
+  model: biosignalsindex.Episode
+- fields:
+    axis: [19]
+    episode_id_in_session: '16'
+    session: 6
+  model: biosignalsindex.Episode
+- fields:
     axis: [21]
     episode_id_in_session: '37'
     session: 6
   model: biosignalsindex.Episode
 - fields:
+    axis: [22]
+    episode_id_in_session: '9'
+    session: 6
+  model: biosignalsindex.Episode
+- fields:
     axis: [17]
     episode_id_in_session: '12'
+    session: 6
+  model: biosignalsindex.Episode
+- fields:
+    axis: [18]
+    episode_id_in_session: '39'
     session: 6
   model: biosignalsindex.Episode
 - fields:
