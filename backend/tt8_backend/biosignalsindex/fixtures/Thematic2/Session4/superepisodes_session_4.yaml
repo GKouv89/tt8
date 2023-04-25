@@ -1,0 +1,15 @@
+- fields:
+    axis: [16]
+    episode_id_in_session: '135'
+    session: 4
+  model: biosignalsindex.Episode
+- fields:
+    axis: [10]
+    episode_id_in_session: '48'
+    session: 4
+  model: biosignalsindex.Episode
+- fields:
+    axis: [13]
+    episode_id_in_session: '68'
+    session: 4
+  model: biosignalsindex.Episode
