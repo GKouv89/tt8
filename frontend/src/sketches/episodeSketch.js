@@ -454,6 +454,10 @@ export function sketch(p5){
             gradient = p5.drawingContext.createLinearGradient(0, p5.height/2, p5.width, p5.height/2);
             if(tables.length !== 1){           
                 tables.map((_, idx) => {
+                    console.log(`idx: ${idx}`);
+                    console.log(`tables.length: ${tables.length}`);
+                    console.log(`old_colors: `, old_colors);
+                    console.log(`old_colors[${idx}]: (${p5.hue(old_colors[idx])}, ${p5.saturation(old_colors[idx])}, ${p5.brightness(old_colors[idx])})`);
                     gradient.addColorStop(idx/(tables.length - 1), old_colors[idx])
                 })
             }else{ // Edge case, only 1 participant
@@ -544,11 +548,23 @@ export function sketch(p5){
     
     function createColor(repNo, colorNo){
         // Mapping a biometric (temporarily hardcoded, always the heartbeat) to a number in brightness' valid range of values.
-        let brightnesses = 0, bioCount = tables[colorNo].getColumnCount()
+        let brightnesses = 0, bioCount = tables[colorNo].getColumnCount();
+        // console.log(`bioCount: ${bioCount}`);
         for(let i = 0; i < bioCount; i++){
-            brightnesses += p5.constrain(p5.map(tables[colorNo].get(repNo, i), min[i][colorNo], max[i][colorNo], 0, 100), 0, 100)
+            let new_brightness = p5.constrain(p5.map(tables[colorNo].get(repNo, i), min[i][colorNo], max[i][colorNo], 0, 100), 0, 100);
+            if(isNaN(new_brightness)){
+                // case where at least one biometric in an episode presents absolutely zero fluctuation.
+                // we then use the default fluctuation. 
+                new_brightness = p5.brightness(axisColor);
+            }
+            console.log(`new_brightness: ${new_brightness}`);
+            // brightnesses += p5.constrain(p5.map(tables[colorNo].get(repNo, i), min[i][colorNo], max[i][colorNo], 0, 100), 0, 100)
+            brightnesses += new_brightness;
         }
-        return p5.color(p5.hue(axisColor), p5.saturation(axisColor), brightnesses/bioCount)
+        // console.log(`Color: (${p5.hue(axisColor)}, ${p5.saturation(axisColor)}, brightness)`);
+        // console.log(`brightnesses: ${brightnesses}`);
+        // console.log(`result: ${brightnesses/bioCount}`);
+        return p5.color(p5.hue(axisColor), p5.saturation(axisColor), brightnesses/bioCount);
     }
     
     function createColors(){
