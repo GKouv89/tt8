@@ -14,22 +14,6 @@ import { fetchThematicScenes } from '../api/calls';
 import SessionTabs from '../Component/SessionTabs.js';
 import ScrollSpy from "react-ui-scrollspy";
 
-function Description(props){
-  return (
-  <>
-    <Collapse in={props.open} className={"thematic" + props.id}>
-      <Card>
-          <Card.Body >
-              <Card.Text>
-              {props.desc}
-              </Card.Text>
-          </Card.Body>
-      </Card>
-    </Collapse>
-  </>
-  );
-}
-
 function ThematicGridBody( {id, sessionData, startingKey} ){  
   const [contentArray, setContentArray] = useState(null);
 
@@ -136,8 +120,6 @@ function EmptySquare(){
 export default function ThematicGrid(props) {
   let {thematicID} = useParams();
 
-  let newClassName="thematic" + thematicID;
-  document.body.className=newClassName;
   let content = getThematics();
   content = content[thematicID - 1];
 

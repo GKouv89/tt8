@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
+
+import './fonts/AeonikPro-Regular.woff';
+import './fonts/AeonikPro-Regular.woff2';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from './Component/Header';

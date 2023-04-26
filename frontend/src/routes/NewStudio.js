@@ -17,6 +17,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { fetchSceneMaterial } from '../api/calls';
 
 import * as graph from '../sketches/newSketches/graphSketch.js';
+import * as gradient from '../sketches/newSketches/colorVisSketch.js';
 import { ToggleButton } from 'react-bootstrap';
 
 export default function Studio(){
@@ -44,8 +45,8 @@ export default function Studio(){
             .catch((err) => console.error(err));
     }, []);
 
-    let newClassName="thematic" + thematicID;
-    document.body.className=newClassName;
+    // let newClassName="thematic" + thematicID;
+    // document.body.className=newClassName;
     
     return(
         <>
@@ -80,12 +81,13 @@ export default function Studio(){
                         >
                             <Tab eventKey="graph" title="Graph">
                             {
-                                color && files ? <SketchComponent color={color} files={files}/> : <></>                                
+                                color && files ? <SketchComponent color={color} files={files} sketch={'graph'}/> : <></>                                
                             }
                             </Tab>
-                            <Tab eventKey="waveform" title="Waveform" disabled>
-                            </Tab>
-                            <Tab eventKey="color" title="Color" disabled>
+                            <Tab eventKey="color" title="Color">
+                            {
+                                color && files ? <SketchComponent color={color} files={files} sketch={'color'} /> : <></>
+                            }
                             </Tab>
                         </Tabs> 
                     </Row>
@@ -95,7 +97,19 @@ export default function Studio(){
     );
 }
 
-function SketchComponent({color, files}){
+const sketchChoice = (color, files, sketch, biosignal) => {
+    switch(sketch){
+        case 'graph':
+            return <ReactP5Wrapper sketch={graph.sketch} color={color} files={files} biosignal={biosignal}/>
+        case 'color':
+            return <ReactP5Wrapper sketch={gradient.sketch} color={color} files={files} biosignal={biosignal}/>
+        default:
+            console.log('whyyyyyy');
+            break;
+    }
+}
+
+function SketchComponent({color, files, sketch}){
     const [biosignal, setBiosignal] = useState('HR');
 
     const biosignals = [
@@ -108,7 +122,9 @@ function SketchComponent({color, files}){
         <Container>
             <Row className='justify-content-between'>
                 <Col xs={'auto'} id='parent_col'>
-                    <ReactP5Wrapper sketch={graph.sketch} color={color} files={files} biosignal={biosignal}/>
+                    {
+                        sketchChoice(color, files, sketch, biosignal)
+                    }
                 </Col>
                 <Col xs={'auto'}>
                     <ButtonGroup>

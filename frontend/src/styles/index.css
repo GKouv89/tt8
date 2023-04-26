@@ -1,11 +1,42 @@
+@font-face {
+  font-family: "Aeonik Pro";
+  src: url('../fonts/AeonikPro-Regular.woff2') format('woff2'),
+      url('../fonts/AeonikPro-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: "Aeonik Pro";
+  src: url('../fonts/AeonikPro-Bold.woff2') format('woff2'),
+      url('../fonts/AeonikPro-Bold.woff') format('woff');
+  font-weight: bold;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: #C2C2C2;
 }
 
 div#root{
   height: 100%;
+}
+
+.nav-item:hover {
+  background-color: #FDFB85;
+  border-color: #FDFB85;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  color: black;
+}
+
+.nav-link {
+  color: black;
+  text-decoration: underline;
+}
+
+.nav-link.active {
+  text-decoration: none;
 }
 
 .crumb {
@@ -75,18 +106,18 @@ div#root{
 }
 
 .btn-thematic1 {
-  background-color: #8D6EF4;
-  border-color: #8D6EF4;
+  background-color: #9CB083;
+  border-color: #9CB083;
 }
 
 .btn-thematic2 {
-  background-color: #EB7943;
-  border-color: #EB7943;
+  background-color: #AA6DC7;
+  border-color: #AA6DC7;
 }
 
 .btn-thematic3 {
-  background-color: #D2DED7;
-  border-color: #D2DED7;
+  background-color: #A5A796;
+  border-color: #A5A796;
 }
 
 .btn-logobutton-top, .btn-logobutton-top:hover{
@@ -120,18 +151,18 @@ div#root{
 }
 
 .thematic1 {
-  background-color: #8D6EF4;
-  border-color: #8D6EF4;
+  background-color: #9CB083;
+  border-color: #9CB083;
 }
 
 .thematic2 {
-  background-color: #EB7943;
-  border-color: #EB7943;
+  background-color: #AA6DC7;
+  border-color: #AA6DC7;
 }
 
 .thematic3 {
-  background-color: #D2DED7;
-  border-color: #D2DED7;
+  background-color: #A5A796;
+  border-color: #A5A796;
 }
 
 .descselected {

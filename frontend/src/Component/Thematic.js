@@ -28,7 +28,6 @@ function CustomToggle({ children, eventKey, class_id, handleClick, activeKey}) {
 }
 
 export default function Thematic(props){ 
-  // console.log("hostname: " + );
   return(
     <Card className={"flex-fill thematic" + props.thematic._id} >
       <Card.Header as="div" className={"thematic" + props.thematic._id}>
