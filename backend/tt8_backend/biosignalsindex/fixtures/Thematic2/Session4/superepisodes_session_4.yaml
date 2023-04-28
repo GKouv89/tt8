@@ -13,3 +13,18 @@
     episode_id_in_session: '68'
     session: 4
   model: biosignalsindex.Episode
+- fields:
+    axis: [15]
+    episode_id_in_session: '125'
+    session: 4
+  model: biosignalsindex.Episode
+- fields:
+    axis: [9]
+    episode_id_in_session: '75'
+    session: 4
+  model: biosignalsindex.Episode
+- fields:
+    axis: [9]
+    episode_id_in_session: '40'
+    session: 4
+  model: biosignalsindex.Episode

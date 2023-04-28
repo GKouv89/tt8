@@ -28,3 +28,9 @@
     is_superepisode: false
     session: 5
   model: biosignalsindex.Episode
+- fields:
+    axis: [20]
+    episode_id_in_session: '51'
+    is_superepisode: false
+    session: 5
+  model: biosignalsindex.Episode
