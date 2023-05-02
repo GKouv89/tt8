@@ -1,7 +1,6 @@
 import '../p5.sound.min.js'
 import '../p5.dom.min.js'
 import '../p5.js'
-import * as P5Class from "p5"
 
 export function sketch(p5){
     let axisChoice;
@@ -89,6 +88,7 @@ export function sketch(p5){
         p5.noLoop();
     }
 
+    let indicatorWidth; 
     const plotGraph = (idx) => {
         const table = tables[idx];
         const biosignalIdx = getBiosignalIdx();
@@ -101,7 +101,7 @@ export function sketch(p5){
         for (let row = 0; row < rowCount; row++)
         {
             currval = table.get(row, biosignalIdx);
-            x = p5.map(row, 0, rowCount, 0, p5.width);
+            x = p5.map(row, 0, rowCount, indicatorWidth, p5.width);
             y = p5.map(currval, min, max, participantHigherHeight, participantLowerHeight);
             p5.vertex(x, y);
         }
@@ -111,11 +111,15 @@ export function sketch(p5){
     p5.draw = () => {
         p5.background('white');
         if(dataLoaded){
+            indicatorWidth = p5.floor(p5.width/10);
+            // Participant indicators
             const canvas_width = p5.width;
             const participantCount = tables.length;
             const participantCanvasHeight = p5.height/participantCount;
+            p5.stroke('black');
             for (const x of Array(participantCount).keys()){
                 p5.line(0, x*participantCanvasHeight, canvas_width, x*participantCanvasHeight);
+                participantIndicator(x);
                 p5.stroke('red');
                 plotGraph(x);
                 p5.stroke('black');
@@ -123,5 +127,16 @@ export function sketch(p5){
             if(p5.isLooping())
                 p5.noLoop();
         }
+    }
+
+    const participantIndicator = (idx) => {
+        const participantCanvasHeight = p5.height/tables.length;
+        p5.fill(p5.color('#c2c2c2'));
+        p5.rect(0, idx*participantCanvasHeight, indicatorWidth, participantCanvasHeight);
+        p5.fill(p5.color('black'));
+        p5.textSize(indicatorWidth/3);
+        p5.textAlign(p5.CENTER, p5.CENTER);
+        p5.text(`${filepaths[idx].participant}`, indicatorWidth/2, idx*participantCanvasHeight + participantCanvasHeight/2);
+        p5.fill(p5.color('white'));
     }
 }
