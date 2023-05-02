@@ -95,13 +95,21 @@ export function sketch(p5){
         p5.noLoop();
     }
 
+    const headerPadding = 50;
     let paddingHeight, participantOverallHeight, indicatorWidth; 
     p5.draw = () => {
         p5.background(p5.color('#c2c2c2'));
         if(dataLoaded){
+            const canvas_width = p5.width;
+            p5.fill(p5.color('#c2c2c2'));
+            p5.rect(0, 0, canvas_width, headerPadding);
+            p5.fill(p5.color('black'));
+            p5.textSize(32);
+            p5.textAlign(p5.LEFT, p5.CENTER);
+            p5.text(`Participants`, 0, 25);
+
             paddingHeight = 20;
-            participantOverallHeight = (p5.height - (tables.length - 1)*paddingHeight)/tables.length;
-            console.log(participantOverallHeight);
+            participantOverallHeight = (p5.height - headerPadding - (tables.length - 1)*paddingHeight)/tables.length;
             indicatorWidth = p5.floor(p5.width/10);
             tables.map((table, idx) => {
                 participantIndicator(idx);
@@ -114,16 +122,16 @@ export function sketch(p5){
     const participantIndicator = (idx) => {
         p5.stroke(p5.color('black'));
         p5.fill(p5.color('#c2c2c2'));
-        p5.rect(0, idx*(participantOverallHeight + paddingHeight), indicatorWidth, participantOverallHeight);
+        p5.rect(0, headerPadding + idx*(participantOverallHeight + paddingHeight), indicatorWidth, participantOverallHeight);
         p5.fill(p5.color('black'));
         p5.textSize(indicatorWidth/3);
         p5.textAlign(p5.CENTER, p5.CENTER);
-        p5.text(`${filepaths[idx].participant}`, indicatorWidth/2, idx*(participantOverallHeight + paddingHeight) + participantOverallHeight/2);
+        p5.text(`${filepaths[idx].participant}`, indicatorWidth/2, headerPadding + idx*(participantOverallHeight + paddingHeight) + participantOverallHeight/2);
     }
 
     const createGradient = (table, idx) => {
         const x = indicatorWidth;
-        const y = idx * (paddingHeight + participantOverallHeight);
+        const y = headerPadding + idx * (paddingHeight + participantOverallHeight);
         const w = p5.width;
         const h = participantOverallHeight;
         const x0 = indicatorWidth;
