@@ -95,26 +95,40 @@ export function sketch(p5){
         p5.noLoop();
     }
 
-    let paddingHeight, participantOverallHeight;
+    let paddingHeight, participantOverallHeight, indicatorWidth; 
     p5.draw = () => {
         p5.background(p5.color('#c2c2c2'));
         if(dataLoaded){
             paddingHeight = 20;
             participantOverallHeight = (p5.height - (tables.length - 1)*paddingHeight)/tables.length;
             console.log(participantOverallHeight);
+            indicatorWidth = p5.floor(p5.width/10);
             tables.map((table, idx) => {
+                participantIndicator(idx);
                 createGradient(table, idx);
             })
             p5.noLoop();
         }
     }
 
+    const participantIndicator = (idx) => {
+        p5.stroke(p5.color('black'));
+        p5.fill(p5.color('#c2c2c2'));
+        p5.rect(0, idx*(participantOverallHeight + paddingHeight), indicatorWidth, participantOverallHeight);
+        p5.fill(p5.color('black'));
+        p5.textSize(indicatorWidth/3);
+        p5.textAlign(p5.CENTER, p5.CENTER);
+        p5.text(`${filepaths[idx].participant}`, indicatorWidth/2, idx*(participantOverallHeight + paddingHeight) + participantOverallHeight/2);
+        // p5.fill(p5.color('white'));
+        // p5.noStroke(p5.color('black'));
+    }
+
     const createGradient = (table, idx) => {
-        const x = 0;
+        const x = indicatorWidth;
         const y = idx * (paddingHeight + participantOverallHeight);
         const w = p5.width;
         const h = participantOverallHeight;
-        const x0 = 0;
+        const x0 = indicatorWidth;
         const x1 = p5.width;
         const y0 = y + h/2;
         const y1 = y0;
@@ -133,7 +147,6 @@ export function sketch(p5){
             prevval = currval;
         }
         context.fillStyle = gradient;
-        p5.noStroke();
         p5.rect(x, y, w, h);
     }
 }
