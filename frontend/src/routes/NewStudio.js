@@ -6,8 +6,7 @@ import { ReactP5Wrapper } from 'react-p5-wrapper';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button'
-import Spinner from 'react-bootstrap/Spinner';
+import Stack from 'react-bootstrap/Stack';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Tabs from 'react-bootstrap/Tabs';
@@ -20,6 +19,37 @@ import * as graph from '../sketches/newSketches/graphSketch.js';
 import * as gradient from '../sketches/newSketches/colorVisSketch.js';
 import { ToggleButton } from 'react-bootstrap';
 
+function PlaybackRecToasts(){
+    const [showPlayToast, setShowPlayToast] = useState(true);
+    const [showRecToast, setRecToast] = useState(true);
+
+    return(
+        <ToastContainer>
+            <Toast key={0} show={showPlayToast} bg={'warning'} onClose={() =>setShowPlayToast(false)}>
+                <Toast.Header style={{'justifyContent': 'space-between'}}>
+                    <strong>Playback</strong>
+                </Toast.Header>
+                <Toast.Body>
+                    <small>
+                        Playback is paused when the current browser tab is switched or minimized.
+                    </small>
+                </Toast.Body>
+            </Toast>
+            <Toast key={1} show={showRecToast} onClose={() => setRecToast(false)} bg={'danger'}>
+                <Toast.Header style={{'justifyContent': 'space-between'}}>
+                    <strong>Recording</strong>
+                </Toast.Header>
+                <Toast.Body>
+                    <small>
+                        Recording is reset when the current browser tab is switched or minimized.
+                        Don't worry, you can restart again.
+                    </small>
+                </Toast.Body>
+            </Toast>
+        </ToastContainer>
+    );
+}
+
 export default function Studio(){
     let {thematicID, sessionID, episodeID} = useParams();
     const [searchParams] = useSearchParams();
@@ -30,9 +60,7 @@ export default function Studio(){
     // Here we store the axes and the file paths/names for the sketch
     const [color, setColor] = useState(null);
     const [files, setFiles] = useState(null);
-    const [showPlayToast, setShowPlayToast] = useState(true);
-    const [showRecToast, setRecToast] = useState(true);
-
+    
     // Loading data, this will be a fetch call in the near future
     // This runs just once, when the component renders
     useEffect(() => {
@@ -45,72 +73,8 @@ export default function Studio(){
             .catch((err) => console.error(err));
     }, []);
 
-    // let newClassName="thematic" + thematicID;
-    // document.body.className=newClassName;
-    
-    return(
-        <>
-            <ToastContainer>
-                <Toast key={0} show={showPlayToast} bg={'warning'} onClose={() =>setShowPlayToast(false)}>
-                    <Toast.Header style={{'justifyContent': 'space-between'}}>
-                        <strong>Playback</strong>
-                    </Toast.Header>
-                    <Toast.Body>
-                        <small>
-                            Playback is paused when the current browser tab is switched or minimized.
-                        </small>
-                    </Toast.Body>
-                </Toast>
-                <Toast key={1} show={showRecToast} onClose={() => setRecToast(false)} bg={'danger'}>
-                    <Toast.Header style={{'justifyContent': 'space-between'}}>
-                        <strong>Recording</strong>
-                    </Toast.Header>
-                    <Toast.Body>
-                        <small>
-                            Recording is reset when the current browser tab is switched or minimized.
-                            Don't worry, you can restart again.
-                        </small>
-                    </Toast.Body>
-                </Toast>
-            </ToastContainer>
-            <Container fluid>
-                <Container className="flex-column" fluid>
-                    <Row>
-                        <Tabs
-                            defaultActiveKey="graph"
-                        >
-                            <Tab eventKey="graph" title="Graph">
-                            {
-                                color && files ? <SketchComponent color={color} files={files} sketch={'graph'}/> : <></>                                
-                            }
-                            </Tab>
-                            <Tab eventKey="color" title="Color">
-                            {
-                                color && files ? <SketchComponent color={color} files={files} sketch={'color'} /> : <></>
-                            }
-                            </Tab>
-                        </Tabs> 
-                    </Row>
-                </Container>
-            </Container>
-        </>
-    );
-}
-
-const sketchChoice = (color, files, sketch, biosignal) => {
-    switch(sketch){
-        case 'graph':
-            return <ReactP5Wrapper sketch={graph.sketch} color={color} files={files} biosignal={biosignal}/>
-        case 'color':
-            return <ReactP5Wrapper sketch={gradient.sketch} color={color} files={files} biosignal={biosignal}/>
-        default:
-            console.log('whyyyyyy');
-            break;
-    }
-}
-
-function SketchComponent({color, files, sketch}){
     const [biosignal, setBiosignal] = useState('HR');
+    const [activeSketch, setActiveSketch] = useState('graph');
 
     const biosignals = [
         {name: 'Heart Rate', value: 'HR'},
@@ -119,31 +83,67 @@ function SketchComponent({color, files, sketch}){
     ];
 
     return(
-        <Container>
-            <Row className='justify-content-between'>
-                <Col xs={'auto'} id='parent_col'>
-                    {
-                        sketchChoice(color, files, sketch, biosignal)
-                    }
-                </Col>
-                <Col xs={'auto'}>
-                    <ButtonGroup>
-                        {biosignals.map((signal, idx) => (
-                            <ToggleButton
-                                key={idx}
-                                id={`radio-${idx}`}
-                                type="radio"
-                                name="radio"
-                                value={signal.value}
-                                checked={biosignal === signal.value}
-                                onChange={(e) => setBiosignal(e.currentTarget.value)}
+        <>
+            <PlaybackRecToasts />
+            <Container fluid>
+                <Container className="flex-column" fluid>
+                    <Row>
+                        <Col>
+                            <Tabs
+                                defaultActiveKey="graph"
                             >
-                                {signal.name}
-                            </ToggleButton>                            
-                        ))}
-                    </ButtonGroup>
-                </Col>
-            </Row>
-        </Container>
-    )
+                                <Tab eventKey="graph" title="Graph">
+                                {
+                                    color && files ? <SketchComponent color={color} files={files} sketch={'graph'} biosignal={biosignal}/> : <></>                                
+                                }
+                                </Tab>
+                                <Tab eventKey="color" title="Color">
+                                {
+                                    color && files ? <SketchComponent color={color} files={files} sketch={'color'} biosignal={biosignal}/> : <></>
+                                }
+                                </Tab>
+                            </Tabs> 
+                        </Col>
+                        <Col xs={'auto'}>
+                            <ButtonGroup>
+                                {biosignals.map((signal, idx) => (
+                                    <ToggleButton
+                                        key={idx}
+                                        id={`radio-${idx}`}
+                                        type="radio"
+                                        name="radio"
+                                        value={signal.value}
+                                        checked={biosignal === signal.value}
+                                        onChange={(e) => {setBiosignal(e.currentTarget.value);}}
+                                    >
+                                        {signal.name}
+                                    </ToggleButton>                            
+                                ))}
+                            </ButtonGroup>
+                        </Col>
+                    </Row>
+                </Container>
+            </Container>
+        </>
+    );
+}
+
+function SketchComponent({color, files, sketch, biosignal}){
+    const sketchChoice = () => {
+        switch(sketch){
+            case 'graph':
+                console.log('sketch choice says: graph!');
+                return <ReactP5Wrapper sketch={graph.sketch} color={color} files={files} biosignal={biosignal}/>
+            case 'color':
+                console.log('sketch choice says: color!');
+                return <ReactP5Wrapper sketch={gradient.sketch} color={color} files={files} biosignal={biosignal}/>
+            default:
+                console.log('whyyyyyy');
+                break;
+        }
+    }
+
+    return(
+        sketchChoice()        
+    );
 }

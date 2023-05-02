@@ -80,9 +80,12 @@ export function sketch(p5){
     }
 
     p5.setup = () => {
-        const parent_col = p5.select('#parent_col');
-        const canvas_height = window.innerHeight - parent_col.elt.offsetTop;
-        p5.createCanvas(600, canvas_height);
+        // const parent_col = p5.select('#parent_col');
+        // const canvas_height = window.innerHeight - parent_col.elt.offsetTop;
+        const canvas_height = window.innerHeight;
+        // const canvas_width = window.innerWidth;
+        const canvas_width = 600;
+        p5.createCanvas(canvas_width, canvas_height);
         p5.noLoop();
     }
 
