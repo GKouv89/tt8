@@ -85,14 +85,13 @@ export function sketch(p5){
 
     p5.setup = () => {
         p5.colorMode(p5.HSB);
-        const canvas_height = window.innerHeight;
-        // const sibling_col = p5.select('#sibling_col');
-        // const canvas_width = window.innerWidth  - sibling_col.elt.clientWidth;        
-        // const canvas_width = window.innerWidth;
-        const canvas_width = 600;
-        // console.log('sibling_col: ', sibling_col.elt.clientWidth);
-        console.log('canvas_width: ', canvas_width);
-        p5.createCanvas(canvas_width, canvas_height);
+        const parent_col_width = p5.select('#tabColumn').elt.offsetWidth;
+        const canvas_height = window.innerHeight - p5.select('#tabColumn').elt.offsetTop - p5.select('.nav-item').elt.offsetHeight;
+        // const canvas_height = window.innerHeight;
+        const canvas_width = parent_col_width - 100; // the subtraction prevents the elements of the other column from wrapping. Not foolproof.
+        const canvas = p5.createCanvas(canvas_width, canvas_height);
+        canvas.style('display', 'block');
+        canvas.style('margin', '0');
         p5.noLoop();
     }
 

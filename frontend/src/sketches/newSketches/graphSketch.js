@@ -70,7 +70,6 @@ export function sketch(p5){
         let currval, currtable;
         for(let f = 0; f < tables.length; f++){
             currtable = tables[f];
-            console.log(currtable.getRowCount());
             for (let row = 0; row < currtable.getRowCount(); row++){
                 currval = parseFloat(currtable.get(row, biosignalIdx));
                 min = (() => {return currval < min ? currval : min})();
@@ -80,12 +79,13 @@ export function sketch(p5){
     }
 
     p5.setup = () => {
-        // const parent_col = p5.select('#parent_col');
-        // const canvas_height = window.innerHeight - parent_col.elt.offsetTop;
+        console.log('In graph sketch.');
+        const parent_col_width = p5.select('#tabColumn').elt.offsetWidth;
         const canvas_height = window.innerHeight;
-        // const canvas_width = window.innerWidth;
-        const canvas_width = 600;
-        p5.createCanvas(canvas_width, canvas_height);
+        const canvas_width = parent_col_width - 100; // the subtraction prevents the elements of the other column from wrapping. Not foolproof.
+        const canvas = p5.createCanvas(canvas_width, canvas_height);
+        canvas.style('margin', '0');
+        canvas.style('display', 'block');
         p5.noLoop();
     }
 

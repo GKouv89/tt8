@@ -88,9 +88,10 @@ export default function Studio(){
             <Container fluid>
                 <Container className="flex-column" fluid>
                     <Row>
-                        <Col>
+                        <Col id='tabColumn'>
                             <Tabs
                                 defaultActiveKey="graph"
+                                id='tabs'
                             >
                                 <Tab eventKey="graph" title="Graph">
                                 {
@@ -144,6 +145,10 @@ function SketchComponent({color, files, sketch, biosignal}){
     }
 
     return(
-        sketchChoice()        
+        <Container fluid>
+            {
+                sketchChoice()        
+            }
+        </Container>
     );
 }
