@@ -95,9 +95,9 @@ export function sketch(p5){
         p5.beginShape();
         let x, y, currval;
         const rowCount = table.getRowCount();
-        const participantCanvasHeight = p5.height/tables.length;
-        const participantLowerHeight = idx*participantCanvasHeight;
-        const participantHigherHeight = (idx+1)*participantCanvasHeight;
+        const participantCanvasHeight = (p5.height - headerPadding)/tables.length;
+        const participantLowerHeight = headerPadding + idx*participantCanvasHeight;
+        const participantHigherHeight = headerPadding + (idx+1)*participantCanvasHeight;
         for (let row = 0; row < rowCount; row++)
         {
             currval = table.get(row, biosignalIdx);
@@ -108,17 +108,25 @@ export function sketch(p5){
         p5.endShape();
     }
 
+    const headerPadding = 50;
     p5.draw = () => {
         p5.background('white');
         if(dataLoaded){
             indicatorWidth = p5.floor(p5.width/10);
-            // Participant indicators
+            // Header
             const canvas_width = p5.width;
+            p5.fill(p5.color('#c2c2c2'));
+            p5.rect(0, 0, canvas_width, headerPadding);
+            p5.fill(p5.color('black'));
+            p5.textSize(32);
+            p5.textAlign(p5.LEFT, p5.CENTER);
+            p5.text(`Participants`, 0, 25);
+            p5.fill(p5.color('white'));
             const participantCount = tables.length;
-            const participantCanvasHeight = p5.height/participantCount;
+            const participantCanvasHeight = (p5.height - headerPadding)/participantCount;
             p5.stroke('black');
             for (const x of Array(participantCount).keys()){
-                p5.line(0, x*participantCanvasHeight, canvas_width, x*participantCanvasHeight);
+                p5.line(0, headerPadding + x*participantCanvasHeight, canvas_width, headerPadding + x*participantCanvasHeight);
                 participantIndicator(x);
                 p5.stroke('red');
                 plotGraph(x);
@@ -130,13 +138,14 @@ export function sketch(p5){
     }
 
     const participantIndicator = (idx) => {
-        const participantCanvasHeight = p5.height/tables.length;
+        console.log('In participant indicator');
+        const participantCanvasHeight = (p5.height - headerPadding)/tables.length;
         p5.fill(p5.color('#c2c2c2'));
-        p5.rect(0, idx*participantCanvasHeight, indicatorWidth, participantCanvasHeight);
+        p5.rect(0, headerPadding +  idx*participantCanvasHeight, indicatorWidth, participantCanvasHeight);
         p5.fill(p5.color('black'));
         p5.textSize(indicatorWidth/3);
         p5.textAlign(p5.CENTER, p5.CENTER);
-        p5.text(`${filepaths[idx].participant}`, indicatorWidth/2, idx*participantCanvasHeight + participantCanvasHeight/2);
+        p5.text(`${filepaths[idx].participant}`, indicatorWidth/2, headerPadding + idx*participantCanvasHeight + participantCanvasHeight/2);
         p5.fill(p5.color('white'));
     }
 }

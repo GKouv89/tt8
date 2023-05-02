@@ -119,8 +119,6 @@ export function sketch(p5){
         p5.textSize(indicatorWidth/3);
         p5.textAlign(p5.CENTER, p5.CENTER);
         p5.text(`${filepaths[idx].participant}`, indicatorWidth/2, idx*(participantOverallHeight + paddingHeight) + participantOverallHeight/2);
-        // p5.fill(p5.color('white'));
-        // p5.noStroke(p5.color('black'));
     }
 
     const createGradient = (table, idx) => {
