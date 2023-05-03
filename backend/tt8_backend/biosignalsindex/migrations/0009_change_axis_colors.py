@@ -4,13 +4,13 @@ from django.db import migrations
 
 def change_colors(apps, schema_editor):
     axis_colors_dict = {
-        1: '#FA2410',
-        2: '#F99300',
-        3: '#FCE520',
-        4: '#62AA2D',
-        5: '#038CCA',
-        6: '#002789',
-        7: '#8400AB',
+        1: '#fb6e61',
+        2: '#fcc26e',
+        3: '#fdfc70',
+        4: '#a3d184',
+        5: '#bfeaf5',
+        6: '#425fa8',
+        7: '#b667cd',
         8: '#FFFFFF'
     }
     Axis = apps.get_model('biosignalsindex', 'Axis')

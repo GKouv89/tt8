@@ -88,20 +88,35 @@ export function sketch(p5){
         p5.noLoop();
     }
 
-    let indicatorWidth; 
     const plotGraph = (idx) => {
         const table = tables[idx];
         const biosignalIdx = getBiosignalIdx();
-        p5.beginShape();
         let x, y, currval;
         const rowCount = table.getRowCount();
+        const paddingTopBottomRight = 10; 
+        const paddingLeft = 50;
+        // Draw axes
         const participantCanvasHeight = (p5.height - headerPadding)/tables.length;
-        const participantLowerHeight = headerPadding + idx*participantCanvasHeight;
-        const participantHigherHeight = headerPadding + (idx+1)*participantCanvasHeight;
+        const participantLowerHeight = headerPadding + idx*participantCanvasHeight + paddingTopBottomRight;
+        const participantHigherHeight = headerPadding + (idx+1)*participantCanvasHeight - paddingTopBottomRight;
+        const participantMinWidth = indicatorWidth + paddingLeft;
+        const participantMaxWidth = p5.width - paddingTopBottomRight;
+        // y axis
+        p5.stroke(p5.color('black'));
+        p5.line(participantMinWidth, participantHigherHeight, participantMinWidth, participantLowerHeight);
+        // x axis
+        p5.line(participantMinWidth, participantHigherHeight, participantMaxWidth, participantHigherHeight);
+        p5.textSize(11);
+        p5.fill(p5.color('black'));
+        p5.text(`${p5.floor(min)}`, participantMinWidth - 20, participantHigherHeight);
+        p5.text(`${p5.floor(max)}`, participantMinWidth - 20, participantLowerHeight);
+        p5.fill(p5.color('white'));
+        p5.stroke(p5.color('red'));
+        p5.beginShape();
         for (let row = 0; row < rowCount; row++)
         {
             currval = table.get(row, biosignalIdx);
-            x = p5.map(row, 0, rowCount, indicatorWidth, p5.width);
+            x = p5.map(row, 0, rowCount, participantMinWidth, participantMaxWidth);
             y = p5.map(currval, min, max, participantHigherHeight, participantLowerHeight);
             p5.vertex(x, y);
         }
@@ -137,6 +152,7 @@ export function sketch(p5){
         }
     }
 
+    let indicatorWidth; 
     const participantIndicator = (idx) => {
         console.log('In participant indicator');
         const participantCanvasHeight = (p5.height - headerPadding)/tables.length;
