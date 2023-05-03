@@ -3,10 +3,11 @@ import { useParams, useSearchParams } from 'react-router-dom'
 
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
+import Stack from 'react-bootstrap/Stack';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Stack from 'react-bootstrap/Stack';
+import Button from 'react-bootstrap/Button';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Tabs from 'react-bootstrap/Tabs';
@@ -74,7 +75,6 @@ export default function Studio(){
     }, []);
 
     const [biosignal, setBiosignal] = useState('HR');
-    const [activeSketch, setActiveSketch] = useState('graph');
 
     const biosignals = [
         {name: 'Heart Rate', value: 'HR'},
@@ -106,21 +106,32 @@ export default function Studio(){
                             </Tabs> 
                         </Col>
                         <Col xs={'auto'}>
-                            <ButtonGroup>
-                                {biosignals.map((signal, idx) => (
-                                    <ToggleButton
-                                        key={idx}
-                                        id={`radio-${idx}`}
-                                        type="radio"
-                                        name="radio"
-                                        value={signal.value}
-                                        checked={biosignal === signal.value}
-                                        onChange={(e) => {setBiosignal(e.currentTarget.value);}}
-                                    >
-                                        {signal.name}
-                                    </ToggleButton>                            
-                                ))}
-                            </ButtonGroup>
+                                <div class="d-flex flex-column justify-content-evenly" style={{'height': '100%'}}>
+                                    <div class="d-flex">
+                                        <ButtonGroup>
+                                            {biosignals.map((signal, idx) => (
+                                                <ToggleButton
+                                                    key={idx}
+                                                    id={`radio-${idx}`}
+                                                    type="radio"
+                                                    name="radio"
+                                                    value={signal.value}
+                                                    checked={biosignal === signal.value}
+                                                    onChange={(e) => {setBiosignal(e.currentTarget.value);}}
+                                                >
+                                                    {signal.name}
+                                                </ToggleButton>                            
+                                            ))}
+                                        </ButtonGroup>
+                                    </div>
+                                    {
+                                        files && files.map((file, idx) => (
+                                            <div class="row">
+                                                <Button key={idx}>Participant {file.participant} Sonification</Button>
+                                            </div>
+                                        ))                                    
+                                    }
+                                </div>
                         </Col>
                     </Row>
                 </Container>
