@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 
 import { fetchSceneMaterial } from '../api/calls';
 import Visualization from '../Component/Studio/Visualization';
 import Sonification from '../Component/Studio/Sonification';
 import { Container } from 'react-bootstrap';
+import { ParticipantContext } from '../context/ParticipantContext';
 
 export default function Studio(){
     let {thematicID, sessionID, episodeID} = useParams();
@@ -25,17 +26,43 @@ export default function Studio(){
                 // const material = ret.material.map((mat, idx) => {mat.path = mat.path.replace('https://transitionto8.athenarc.gr/', ''); return mat;});
                 setColor(ret.color);
                 setFiles(ret.material);
+                setData(ret.material);
             })
             .catch((err) => console.error(err));
     }, []);
 
-    const [component, setComponent] = useState('visualization');
+    const [participant, setParticipant] = useState(null);
+    const [data, setData] = useState(null);
+    const chooseData = (participant) =>{
+        if(participant){
+            files.forEach(file => {
+                if(file.participant === participant)
+                {
+                    setData(file.path);
+                }
+            });
+        }else{
+            setData(files);
+        }
+    }
 
     return(
         <Container fluid>
-            {
-                component == 'visualization' ? <Visualization files={files} color={color} callback={() => setComponent('sonification')}/> : <Sonification callback={() => setComponent('visualization')}/>
-            }
+            <ParticipantContext.Provider value={{color, participant, setParticipant, data, chooseData}}>
+                <SonVizWrapper />
+            </ParticipantContext.Provider>
         </Container>
+    );
+}
+
+function SonVizWrapper(){
+    const {participant} = useContext(ParticipantContext);
+
+    return(
+        <>
+        {
+            participant ? <Sonification/> : <Visualization />
+        }
+        </>
     );
 }

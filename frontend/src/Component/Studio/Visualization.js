@@ -8,11 +8,12 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import * as graph from '../../sketches/newSketches/graphSketch.js';
 import * as gradient from '../../sketches/newSketches/colorVisSketch.js';
-import { ToggleButton } from 'react-bootstrap';
+import BiosignalToggle from './BiosignalToggle.js';
+import { ParticipantContext } from '../../context/ParticipantContext.js';
+import { useContext } from 'react';
 
 function SketchComponent({color, files, sketch, biosignal}){
     const sketchChoice = () => {
@@ -38,14 +39,10 @@ function SketchComponent({color, files, sketch, biosignal}){
     );
 }
 
-export default function Visualization({files, color, callback}){
+export default function Visualization(){
     const [biosignal, setBiosignal] = useState('HR');
 
-    const biosignals = [
-        {name: 'Heart Rate', value: 'HR'},
-        {name: 'Galvanic Skin Response', value: 'GSR'},
-        {name: 'Temperature', value: 'Temp'},
-    ];
+    const {participant, setParticipant, color, data, chooseData} = useContext(ParticipantContext);
 
     return(
         <Container fluid>
@@ -57,12 +54,12 @@ export default function Visualization({files, color, callback}){
                     >
                         <Tab eventKey="graph" title="Graph">
                         {
-                            color && files ? <SketchComponent color={color} files={files} sketch={'graph'} biosignal={biosignal}/> : <></>                                
+                            color && data ? <SketchComponent color={color} files={data} sketch={'graph'} biosignal={biosignal}/> : <></>                                
                         }
                         </Tab>
                         <Tab eventKey="color" title="Color">
                         {
-                            color && files ? <SketchComponent color={color} files={files} sketch={'color'} biosignal={biosignal}/> : <></>
+                            color && data ? <SketchComponent color={color} files={data} sketch={'color'} biosignal={biosignal}/> : <></>
                         }
                         </Tab>
                     </Tabs> 
@@ -70,30 +67,17 @@ export default function Visualization({files, color, callback}){
                 <Col xs={'auto'}>
                         <div class="d-flex flex-column justify-content-evenly" style={{'height': '100%'}}>
                             <div class="d-flex">
-                                <ButtonGroup>
-                                    {biosignals.map((signal, idx) => (
-                                        <ToggleButton
-                                            key={idx}
-                                            id={`radio-${idx}`}
-                                            type="radio"
-                                            name="radio"
-                                            value={signal.value}
-                                            checked={biosignal === signal.value}
-                                            onChange={(e) => {setBiosignal(e.currentTarget.value);}}
-                                        >
-                                            {signal.name}
-                                        </ToggleButton>                            
-                                    ))}
-                                </ButtonGroup>
+                                <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
                             </div>
                             {
-                                files && files.map((file, idx) => (
+                                data && data.map((d, idx) => (
                                     <div class="row">
                                         <Button 
                                             key={idx}
-                                            onClick={callback}
+                                            // onClick={() => {callback(); participant = file.participant}}
+                                            onClick = {() => {setParticipant(d.participant); chooseData(d.participant);}}
                                         >
-                                            Participant {file.participant} Sonification
+                                            Participant {d.participant} Sonification
                                         </Button>
                                     </div>
                                 ))                                    
