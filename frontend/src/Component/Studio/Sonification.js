@@ -11,7 +11,7 @@ import BiosignalToggle from './BiosignalToggle';
 import { ButtonGroup, ToggleButton } from 'react-bootstrap';
 import { useContext } from 'react';
 import {ParticipantContext} from '../../context/ParticipantContext';
-import { SoundContext } from '../../context/SonificationContext';
+import { SoundContext } from '../../context/SoundContext';
 
 function HeartRateGUI() {
     const [asset, setAsset] = useState('heart');
