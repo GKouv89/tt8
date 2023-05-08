@@ -116,6 +116,8 @@ export function sketch(p){
     }
 
     p.setup = () => {
+        p.getAudioContext().suspend();
+
         p.createCanvas(200, 200);
         p.background('black');
         p.setFrameRate(frameRate);
@@ -138,6 +140,7 @@ export function sketch(p){
     }
 
     p.draw = () => {
+        console.log('Audio context state: ', p.getAudioContext().state);
         if(toPlay && playing == false){
             playSound();
         }else if(playing && toPlay == false){
@@ -213,6 +216,7 @@ export function sketch(p){
     }
 
     const playSound = () => {
+        p.getAudioContext().resume();
         switch(sound){
             case 'heart':
                 heart.loop();
@@ -229,6 +233,8 @@ export function sketch(p){
     }
 
     const stopSound = () => {
+        p.getAudioContext().suspend();
+        console.log('hi! time to stop sound');
         switch(sound){
             case 'heart':
                 heart.stop();
@@ -248,6 +254,7 @@ export function sketch(p){
         stopSound();
         frameNo = 0;
         repNo = 0;
+        console.log('reset done!');
         p.hasEnded();
     }
 }
