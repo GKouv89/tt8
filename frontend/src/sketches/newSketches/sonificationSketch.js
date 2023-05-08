@@ -39,7 +39,18 @@ export function sketch(p){
             reset();
             props.setToReset(false);
         }
+        if(props.setProgress) {
+            p.setProgress = props.setProgress;
+        }
     }
+
+    let progress = 0;
+    // We want the progress bar to move a certain amount every rep.
+    // Here we fine how much it has to move per rep.
+    let percent;
+    const findProgressPercent = () => {
+        percent =  100/numberOfReps;
+    }    
 
     let min, max, numberOfReps, repNo = 0;
     const samplingRate = 128;
@@ -57,6 +68,7 @@ export function sketch(p){
             }
             numberOfReps++;
         }
+        findProgressPercent();
     }
 
     const getBiosignalIdx = () => {
@@ -140,7 +152,6 @@ export function sketch(p){
     }
 
     p.draw = () => {
-        console.log('Audio context state: ', p.getAudioContext().state);
         if(toPlay && playing == false){
             playSound();
         }else if(playing && toPlay == false){
@@ -150,6 +161,9 @@ export function sketch(p){
             if(repNo < numberOfReps){
                 if(frameNo % frameRate == 0){
                     setAudio();
+                    // Increase progress bar
+                    progress += percent;
+                    p.setProgress(progress);
                     repNo++;
                 }
                 frameNo++;
@@ -254,6 +268,8 @@ export function sketch(p){
         stopSound();
         frameNo = 0;
         repNo = 0;
+        progress = 0;
+        p.setProgress(0);
         console.log('reset done!');
         p.hasEnded();
     }

@@ -9,6 +9,8 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import BiosignalToggle from './BiosignalToggle';
 import { ButtonGroup, ToggleButton } from 'react-bootstrap';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+
 import { useContext } from 'react';
 import {ParticipantContext} from '../../context/ParticipantContext';
 import { SoundContext } from '../../context/SoundContext';
@@ -148,6 +150,9 @@ function Player(){
     // are also passed as props to the sketch, so it changes its sound appropriately.
     const [biosignal, setBiosignal] = useState('HR');
     const [sound, setSound] = useState(null);
+
+    const [progress, setProgress] = useState(0);
+    
     // These props control the playback buttons appearance and act as 'signals' to the
     // sketch to start, pause and stop playback.
     const [playing, setPlaying] = useState(false);
@@ -212,7 +217,8 @@ function Player(){
                     <Col xs={6}>
                         <Stack gap={3}>
                             <h2>Participant {participant}</h2>
-                            {file && <ReactP5Wrapper sketch={son.sketch} biosignal={biosignal} file={file} sound={sound} toPlay={playing} toReset={toReset} setToReset={setToReset} hasEnded={stopSonificationCallback}/>}
+                            {file && <ReactP5Wrapper sketch={son.sketch} biosignal={biosignal} file={file} sound={sound} toPlay={playing} toReset={toReset} setToReset={setToReset} hasEnded={stopSonificationCallback} setProgress={setProgress}/>}
+                            <ProgressBar id="progress-bar" now={progress} />
                         </Stack>
                     </Col>
                     <Col xs={6}>
