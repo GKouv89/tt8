@@ -4,7 +4,7 @@ import '../p5.js'
 import * as P5Class from "p5"
 
 export function sketch(p){
-    let toPlay, playing = false, setUpComplete = false;
+    let toPlay, playing = false, setUpComplete = false, isRecording = false;
     let biosignal;
     let sound;
     let table;
@@ -41,6 +41,18 @@ export function sketch(p){
         }
         if(props.setProgress) {
             p.setProgress = props.setProgress;
+        }
+        if(props.recording !== undefined){
+            if(isRecording !== props.recording){
+                if(isRecording){
+                    // stop recording
+                    stopRecordingSound();
+                }else{
+                    // start recording
+                    recordSound();
+                }
+                isRecording = props.recording;
+            }
         }
         if(props.cleanUpCode){
             p.cleanUpCode = props.cleanUpCode;
@@ -97,6 +109,7 @@ export function sketch(p){
     }
 
     let heart, kick, kickLoop, pseudoOscillator, oscillator;
+    let recorder;
     p.preload = () => {
         // heart = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/HEART-loop.mp3`);
         heart = p.loadSound(`http://localhost/data/assets/HEART-loop.mp3`);
@@ -145,6 +158,10 @@ export function sketch(p){
         p.background('black');
         p.setFrameRate(frameRate);
 
+        // An issue with heart sometimes starting multiple playbacks
+        // has probably been resolved with this line
+        heart.playMode('restart');
+
         initArrayOfFreq();
         oscillator = new P5Class.Oscillator();
         oscillator.freq(220);
@@ -159,6 +176,9 @@ export function sketch(p){
         pseudoOscillator.freq(5);
         pseudoOscillator.amp(0.01);
 
+        // This will be used for recording the audio of the sketch
+        recorder = new P5Class.SoundRecorder();
+
         setUpComplete = true;
     }
 
@@ -171,6 +191,7 @@ export function sketch(p){
         if(playing){
             if(repNo < numberOfReps){
                 if(frameNo % frameRate == 0){
+                    console.log('draw');
                     setAudio();
                     // Increase progress bar
                     progress += percent;
@@ -238,6 +259,17 @@ export function sketch(p){
                 oscillator.freq(freq, 0.1);
                 break;  
         }
+    }
+
+    let recording;
+    const recordSound = () => {
+        recording = new P5Class.SoundFile();
+        recorder.record(recording);
+    }
+
+    const stopRecordingSound = () => {
+        recorder.stop();
+        p.save(recording, 'sonification.wav');
     }
 
     const playSound = () => {

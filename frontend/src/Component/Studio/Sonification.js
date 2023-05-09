@@ -19,12 +19,13 @@ import { SoundContext } from '../../context/SoundContext';
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import * as son from '../../sketches/newSketches/sonificationSketch.js';
-import { LinkContainer } from 'react-router-bootstrap';
+import ListGroup from 'react-bootstrap/ListGroup';
 import { useNavigate } from 'react-router-dom';
 
 function PlaybackRecToasts(){
     const [showPlayToast, setShowPlayToast] = useState(true);
     const [showRecToast, setRecToast] = useState(true);
+    const [showPauseToast, setShowPauseToast] = useState(true);
 
     return(
         <ToastContainer>
@@ -46,6 +47,16 @@ function PlaybackRecToasts(){
                     <small>
                         Recording is reset when the current browser tab is switched or minimized.
                         Don't worry, you can restart again.
+                    </small>
+                </Toast.Body>
+            </Toast>
+            <Toast key={2} show={showPauseToast} onClose={() => setShowPauseToast(false)} bg={'info'}>
+                <Toast.Header style={{'justifyContent': 'space-between'}}>
+                    <strong>Pause when recording</strong>
+                </Toast.Header>
+                <Toast.Body>
+                    <small>
+                        You can freely pause when recording, but the pause won't be audible in the sound file produced!
                     </small>
                 </Toast.Body>
             </Toast>
@@ -144,7 +155,7 @@ function GSRTempGUI(){
     );
 }
 
-function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, stopSonificationCallback, setToReset}){
+function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, stopSonificationCallback, toReset, setToReset, recording, setRecording}){
     return(
         <Col xs={6}>
             <Container>
@@ -177,6 +188,9 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                                     }
                                     setPlaying(!playing);
                                 }}
+                                // disabled when toReset is true makes sure there won't be a race condition
+                                // when the sketch is cleaning up after itself.
+                                disabled={toReset}
                             >
                                 {!playing ? <i class="bi bi-play-fill"></i> : <i class="bi bi-pause-fill"></i>}
                             </Button>
@@ -185,7 +199,6 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                             <Button 
                                 disabled={!canStop}
                                 onClick={() => {
-                                    stopSonificationCallback();
                                     // If the sonification is stopped from the click of this button,
                                     // then the sketch must be 'notified' to clean up the sonification.
                                     // (stop the sound, perhaps a running recording and what not)
@@ -198,7 +211,9 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                             </Button>
                         </Col>
                         <Col xs={'auto'}>
-                            <Button disabled><i class="bi bi-record-fill"></i></Button>
+                            <Button
+                                onClick={() => setRecording(!recording)}
+                            ><i class="bi bi-record-fill" style={{color: recording ? 'red' : 'white'}}></i></Button>
                         </Col>
                     </Row>
                     <Row>
@@ -215,7 +230,9 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
     );
 }
 
-function Sketch({biosignal, sound, playing, toReset, setToReset, stopSonificationCallback, setProgress}){
+function Sketch({biosignal, sound, playing, toReset, setToReset, stopSonificationCallback, setProgress, recording}){
+    console.log('Hello from sketch component.');
+    
     const navigate = useNavigate();
     
     const {participant, data, setParticipant} = useContext(ParticipantContext);
@@ -247,7 +264,8 @@ function Sketch({biosignal, sound, playing, toReset, setToReset, stopSonificatio
                 hasEnded={stopSonificationCallback} 
                 setProgress={setProgress} 
                 cleanUp={cleanUp} 
-                cleanUpCode={cleanUpCode} 
+                cleanUpCode={cleanUpCode}
+                recording={recording}
             />}
         </>
     );
@@ -295,7 +313,8 @@ function Player(){
     // The setToReset state setter is also passed as a prop, so that the sketch
     // can 'notify' the component of the successful halt of the sonification.
     const [toReset, setToReset] = useState(false);
-    // const [recording, setRecording] = useState(false);
+
+    const [recording, setRecording] = useState(false);
 
     const stopSonificationCallback = () => {
         // This is called either on the click of the stop Button
@@ -303,6 +322,9 @@ function Player(){
         // running its complete course (passed as a callback, hence the name).
         setPlaying(false);
         setCanStop(false);
+        if(recording){
+            setRecording(false);
+        }
     }
 
     return(
@@ -330,6 +352,7 @@ function Player(){
                                 toReset={toReset}
                                 setToReset={setToReset}
                                 stopSonificationCallback={stopSonificationCallback}
+                                recording={recording}
                             />
                         </Stack>
                     </Col>
@@ -343,7 +366,10 @@ function Player(){
                         canStop={canStop}
                         setCanStop={setCanStop}
                         stopSonificationCallback={stopSonificationCallback}
+                        toReset={toReset}
                         setToReset={setToReset}
+                        recording={recording}
+                        setRecording={setRecording}
                     />
                 </Row>
             </Container>
