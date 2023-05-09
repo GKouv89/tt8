@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { useParams } from 'react-router-dom';
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import Container from 'react-bootstrap/Container';
@@ -14,6 +14,7 @@ import * as gradient from '../../sketches/newSketches/colorVisSketch.js';
 import BiosignalToggle from './BiosignalToggle.js';
 import { ParticipantContext } from '../../context/ParticipantContext.js';
 import { useContext } from 'react';
+import { LinkContainer } from 'react-router-bootstrap';
 
 function SketchComponent({color, files, sketch, biosignal}){
     const sketchChoice = () => {
@@ -40,10 +41,11 @@ function SketchComponent({color, files, sketch, biosignal}){
 }
 
 export default function Visualization(){
+    console.log('hi from visualizations');
     const [biosignal, setBiosignal] = useState('HR');
 
-    const {participant, setParticipant, color, data, chooseData} = useContext(ParticipantContext);
-
+    const {setParticipant, color, data, chooseData} = useContext(ParticipantContext);
+    console.log('data: ', data);
     return(
         <Container fluid>
             <Row>
@@ -72,13 +74,16 @@ export default function Visualization(){
                             {
                                 data && data.map((d, idx) => (
                                     <div class="row">
-                                        <Button 
-                                            key={idx}
-                                            // onClick={() => {callback(); participant = file.participant}}
-                                            onClick = {() => {setParticipant(d.participant); chooseData(d.participant);}}
-                                        >
-                                            Participant {d.participant} Sonification
-                                        </Button>
+                                        <LinkContainer to={`../sonifications/${d.participant}`}>
+                                            <Button 
+                                                key={idx}
+                                                onClick = {() => {
+                                                    setParticipant(d.participant); 
+                                                }}
+                                            >
+                                                Participant {d.participant} Sonification
+                                            </Button>
+                                        </LinkContainer>
                                     </div>
                                 ))                                    
                             }

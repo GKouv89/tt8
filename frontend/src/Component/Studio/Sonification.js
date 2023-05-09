@@ -12,11 +12,15 @@ import { ButtonGroup, ToggleButton } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
 import { useContext } from 'react';
-import {ParticipantContext} from '../../context/ParticipantContext';
+import { ParticipantContext } from '../../context/ParticipantContext';
+import { CleanupContext } from '../../context/CleanupContext';
 import { SoundContext } from '../../context/SoundContext';
+
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import * as son from '../../sketches/newSketches/sonificationSketch.js';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 function PlaybackRecToasts(){
     const [showPlayToast, setShowPlayToast] = useState(true);
@@ -141,17 +145,23 @@ function GSRTempGUI(){
 }
 
 function Player(){
-    const {participant, data, setParticipant, chooseData} = useContext(ParticipantContext);
+    const navigate = useNavigate();
+
+    const {participant, data, setParticipant} = useContext(ParticipantContext);
+    const {cleanUp, setCleanUp, cleanUpPath, setCleanUpPath} = useContext(CleanupContext);
+    console.log("Hello from sonification");
+
     // This state variable was used to avoid a possible race condition
     // when the sketch wrapper directly accepted the data variable as a prop.
-    const [file, setFile] = useState(data);
+    const [file, _] = useState(participant ? data.find(element => element.participant === participant).path : null);
+
+    // This is the percentage of the progress bar
+    const [progress, setProgress] = useState(0);
 
     // These props are related to the toggle button groups and
     // are also passed as props to the sketch, so it changes its sound appropriately.
     const [biosignal, setBiosignal] = useState('HR');
     const [sound, setSound] = useState(null);
-
-    const [progress, setProgress] = useState(0);
     
     // These props control the playback buttons appearance and act as 'signals' to the
     // sketch to start, pause and stop playback.
@@ -166,32 +176,12 @@ function Player(){
     const [toReset, setToReset] = useState(false);
     // const [recording, setRecording] = useState(false);
 
-    // This state variable is used to handle proper clean up
-    // when a user clicks the 'back to visualization' button
-    // while the sonification is still running.
-    // The bare minimum cleanup is to run the code 
-    // which normally runs when the stop button is called.
-    const [cleanUp, setCleanUp] = useState(false);
-    useEffect(() => {
-        if(cleanUp === true){
-            console.log('time to reset!');
-            setToReset(true);
-        }
-    }, [cleanUp]);
-
-    // The sketch has been notified to run its usual reset code
-    // and has notified the component that it's done doing so 
-    // by setting toReset's value equal to false.
-    // cleanUp's true value indicates that we are at the stage of
-    // cleaning up the sonification and now the necessary
-    // context changes to go back to the visualization must run.
-    useEffect(() => {
-        if(toReset === false && cleanUp === true){
-            console.log('back to visualizations!');
-            setParticipant(null); 
-            chooseData(null);
-        }
-    }, [toReset]);
+    function cleanUpCode(){
+        setParticipant(null); 
+        setCleanUp(false);
+        // once we're done cleaning up, navigate back to the proper component
+        navigate(cleanUpPath);
+    }
 
     const stopSonificationCallback = () => {
         // This is called either on the click of the stop Button
@@ -207,7 +197,10 @@ function Player(){
                 <Row>
                     <Col xs={'auto'}>
                         <Button 
-                            onClick={() => {setCleanUp(true);}}>
+                            onClick={() => {
+                                setCleanUpPath('../visualizations');
+                                setCleanUp(true);
+                            }}>
                             <i class="bi bi-arrow-left"></i>
                             &nbsp; Back to collective visualization
                         </Button>
@@ -217,7 +210,19 @@ function Player(){
                     <Col xs={6}>
                         <Stack gap={3}>
                             <h2>Participant {participant}</h2>
-                            {file && <ReactP5Wrapper sketch={son.sketch} biosignal={biosignal} file={file} sound={sound} toPlay={playing} toReset={toReset} setToReset={setToReset} hasEnded={stopSonificationCallback} setProgress={setProgress}/>}
+                            {file && <ReactP5Wrapper 
+                                sketch={son.sketch} 
+                                biosignal={biosignal} 
+                                file={file} 
+                                sound={sound} 
+                                toPlay={playing} 
+                                toReset={toReset} 
+                                setToReset={setToReset} 
+                                hasEnded={stopSonificationCallback} 
+                                setProgress={setProgress} 
+                                cleanUp={cleanUp} 
+                                cleanUpCode={cleanUpCode} 
+                            />}
                             <ProgressBar id="progress-bar" now={progress} />
                         </Stack>
                     </Col>

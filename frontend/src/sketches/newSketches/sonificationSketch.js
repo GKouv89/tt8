@@ -42,6 +42,17 @@ export function sketch(p){
         if(props.setProgress) {
             p.setProgress = props.setProgress;
         }
+        if(props.cleanUpCode){
+            p.cleanUpCode = props.cleanUpCode;
+        }
+        if(props.cleanUp !== undefined){
+            if(props.cleanUp === true){
+                console.log('Time to clean everything up!');
+                console.log('value: ', props.cleanUp);
+                reset();
+                p.cleanUpCode();    
+            }
+        }
     }
 
     let progress = 0;

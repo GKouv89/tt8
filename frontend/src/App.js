@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useContext } from 'react';
 import './App.css';
 
 import './fonts/AeonikPro-Regular.woff';
@@ -12,17 +12,48 @@ import {
   Route, 
   createRoutesFromElements,
   RouterProvider,
-  NavLink} from 'react-router-dom';
+  NavLink,
+  useLocation,
+  useNavigate,
+  matchPath
+} from 'react-router-dom';
 
 import ThematicGrid from './routes/NewThematicScreen.js';
 import Thematics from './routes/Thematics.js';
 import Studio from './routes/NewStudio';
+import Sonification from './Component/Studio/Sonification';
 
 import { getThematics } from './data';
 import ThemeProvider from 'react-bootstrap/ThemeProvider';
+import Button from 'react-bootstrap/Button';
 
 import { fetchThematicScenes } from './api/calls';
-import Col from 'react-bootstrap/Col';
+
+import { CleanupContext } from './context/CleanupContext';
+import Visualization from './Component/Studio/Visualization';
+
+function MyCustomNavlink({className, to, children}){
+  const navigate = useNavigate();
+  const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
+  const matchPathResult = matchPath(
+  {       
+      path: ":thematicID/sessions/:sessionID/episodes/:episodeID/sonifications/:participantID",
+  }, useLocation().pathname);
+  
+  function onClickHandler(){
+      if(matchPathResult !== null){
+        setCleanUpPath(to);
+        setCleanUp(true);
+      }else{
+        navigate(to);
+      }
+  }
+
+  return(
+    // <NavLink className={className} to={to} onClick={onClickHandler}>{children}</NavLink>
+    <Button variant="outline-dark" size="sm" onClick={() => onClickHandler()} disabled={className === 'current'}>{children}</Button>
+  );
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,37 +70,48 @@ const router = createBrowserRouter(
         }}
         handle ={{
           crumb: (params) => [
-            <NavLink className='crumb' to="/">Index</NavLink>,
-            <NavLink className='current' to={params.thematicID}>{getThematics()[params.thematicID - 1].name}</NavLink>
+            <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
+            <MyCustomNavlink className='current' to={`/${params.thematicID}`}>{getThematics()[params.thematicID - 1].name}</MyCustomNavlink>
           ],
         }}
       />
-      <Route 
-        path=":thematicID/sessions/:sessionID/episodes/:episodeID/studio" 
+      <Route
+        path=":thematicID/sessions/:sessionID/episodes/:episodeID" 
         element={<Studio />}
         handle = {{
           crumb: (params) => 
             [
-            <NavLink className='crumb' to="/">Index</NavLink>,
-            <NavLink className='crumb' to={`${params.thematicID}`}>{getThematics()[params.thematicID - 1].name}</NavLink>,
-            <NavLink className='current' to={`${params.thematicID}/sessions/${params.sessionID}/episodes/${params.episodeID}/studio`}>Episode {params.episodeID}</NavLink>]
+            <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
+            <MyCustomNavlink className='crumb' to={`/${params.thematicID}`}>{getThematics()[params.thematicID - 1].name}</MyCustomNavlink>,
+            <MyCustomNavlink className='current' to={`/${params.thematicID}/sessions/${params.sessionID}/episodes/${params.episodeID}/studio`}>Episode {params.episodeID}</MyCustomNavlink>]
           ,
         }}
-      />
+      >
+        <Route
+          path="visualizations"
+          element={<Visualization />}
+        />
+        <Route
+          path="sonifications/:participantID"
+          element={<Sonification />}
+        />
+      </Route>
     </Route> 
   )
 );
 
-class App extends Component {
-  render() {
-    return (
-      <ThemeProvider breakpoints={['xs', 'xxl']}>
-        <div className="App d-flex flex-column">
+function App() {
+  const [cleanUp, setCleanUp] = useState(false);
+  const [cleanUpPath, setCleanUpPath] = useState("../visualizations");
+  return (
+    <ThemeProvider breakpoints={['xs', 'xxl']}>
+      <div className="App d-flex flex-column">
+          <CleanupContext.Provider value={{cleanUp, setCleanUp, cleanUpPath, setCleanUpPath}}>
             <RouterProvider router={router} />
-        </div>
-      </ThemeProvider>
-    );
-  }
+          </CleanupContext.Provider>
+      </div>
+    </ThemeProvider>
+  );
 }
 
 export default App;

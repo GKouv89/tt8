@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { useMatches, Link } from 'react-router-dom';
+import { useMatches } from 'react-router-dom';
 
 export default function Breadcrumbs(){
   const matches = useMatches();

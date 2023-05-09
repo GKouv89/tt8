@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useLoaderData, Link, useParams } from 'react-router-dom'
-import Collapse from 'react-bootstrap/Collapse'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
 
 import { getThematics } from '../data.js'
-import { LinkContainer } from 'react-router-bootstrap';
 
-import { fetchThematicScenes } from '../api/calls';
 import SessionTabs from '../Component/SessionTabs.js';
 import ScrollSpy from "react-ui-scrollspy";
 
@@ -88,7 +84,7 @@ function EpisodeSquare(props){
           {
               props.axes.map((axis, idx) => {
               return <>
-                <Link key={idx} style={{'color': 'black'}} to={`sessions/${props.sessionid}/episodes/${props.epno}/studio?axis=${axis.axis_id_in_thematic}`}>
+                <Link key={idx} style={{'color': 'black'}} to={`sessions/${props.sessionid}/episodes/${props.epno}/visualizations?axis=${axis.axis_id_in_thematic}`}>
                   <Card.Text style={{'color': 'black'}}>Axis {axis.axis_id_in_thematic}</Card.Text>
                 </Link>
               </>
