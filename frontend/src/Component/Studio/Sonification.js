@@ -144,19 +144,140 @@ function GSRTempGUI(){
     );
 }
 
-function Player(){
-    const navigate = useNavigate();
+function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, stopSonificationCallback, setToReset}){
+    return(
+        <Col xs={6}>
+            <Container>
+                <Row>
+                    <Col xs={'auto'}>
+                        <h2>Choose Biosignal</h2>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={'auto'}>
+                        <BiosignalToggle biosignal={biosignal} callback={setBiosignal} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={'auto'}>
+                        <h2>Choose your sound</h2>
+                    </Col>
+                </Row>
+                <SoundContext.Provider value={{sound, setSound, playing}}>
+                    {biosignal === 'HR' ? <HeartRateGUI /> : <GSRTempGUI />}
+                </SoundContext.Provider>
+                <hr></hr>
+                <Stack gap={3}>
+                    <Row>
+                        <Col xs={'auto'}>
+                            <Button
+                                onClick={() => {
+                                    if(!playing){
+                                        setCanStop(true);
+                                    }
+                                    setPlaying(!playing);
+                                }}
+                            >
+                                {!playing ? <i class="bi bi-play-fill"></i> : <i class="bi bi-pause-fill"></i>}
+                            </Button>
+                        </Col>
+                        <Col xs={'auto'}>
+                            <Button 
+                                disabled={!canStop}
+                                onClick={() => {
+                                    stopSonificationCallback();
+                                    // If the sonification is stopped from the click of this button,
+                                    // then the sketch must be 'notified' to clean up the sonification.
+                                    // (stop the sound, perhaps a running recording and what not)
+                                    // If the sonification were to naturally end, the reset state variable
+                                    // need not be modified.
+                                    setToReset(true);
+                                }}
+                            >
+                                <i class="bi bi-stop-fill"></i>
+                            </Button>
+                        </Col>
+                        <Col xs={'auto'}>
+                            <Button disabled><i class="bi bi-record-fill"></i></Button>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={'auto'}>
+                            <Button disabled>
+                                <i class="bi bi-download"></i>  
+                                &nbsp;Download Recording
+                            </Button>
+                        </Col>
+                    </Row>
+                </Stack>
+            </Container>
+        </Col>
+    );
+}
 
+function Sketch({biosignal, sound, playing, toReset, setToReset, stopSonificationCallback, setProgress}){
+    const navigate = useNavigate();
+    
     const {participant, data, setParticipant} = useContext(ParticipantContext);
-    const {cleanUp, setCleanUp, cleanUpPath, setCleanUpPath} = useContext(CleanupContext);
-    console.log("Hello from sonification");
 
     // This state variable was used to avoid a possible race condition
     // when the sketch wrapper directly accepted the data variable as a prop.
     const [file, _] = useState(participant ? data.find(element => element.participant === participant).path : null);
 
+    const {cleanUp, setCleanUp, cleanUpPath} = useContext(CleanupContext);
+
+    function cleanUpCode(){
+        setParticipant(null); 
+        setCleanUp(false);
+        // once we're done cleaning up, navigate back to the proper component
+        navigate(cleanUpPath);
+    }
+
+    return(
+        <>
+            <h2>Participant {participant}</h2>
+            {file && <ReactP5Wrapper 
+                sketch={son.sketch} 
+                biosignal={biosignal} 
+                file={file} 
+                sound={sound} 
+                toPlay={playing} 
+                toReset={toReset} 
+                setToReset={setToReset} 
+                hasEnded={stopSonificationCallback} 
+                setProgress={setProgress} 
+                cleanUp={cleanUp} 
+                cleanUpCode={cleanUpCode} 
+            />}
+        </>
+    );
+}
+
+function Progress({progress}){
+    return(
+        <ProgressBar id="progress-bar" now={progress} />
+    );
+}
+
+function SketchAndProgress(props){
+    
     // This is the percentage of the progress bar
     const [progress, setProgress] = useState(0);
+    
+    return(
+        <>
+            <Sketch
+                {...props}
+                setProgress={setProgress}
+            />
+            <Progress progress={progress}/>
+        </>
+    );
+}
+
+function Player(){
+    const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
+    console.log("Hello from player component");
 
     // These props are related to the toggle button groups and
     // are also passed as props to the sketch, so it changes its sound appropriately.
@@ -175,13 +296,6 @@ function Player(){
     // can 'notify' the component of the successful halt of the sonification.
     const [toReset, setToReset] = useState(false);
     // const [recording, setRecording] = useState(false);
-
-    function cleanUpCode(){
-        setParticipant(null); 
-        setCleanUp(false);
-        // once we're done cleaning up, navigate back to the proper component
-        navigate(cleanUpPath);
-    }
 
     const stopSonificationCallback = () => {
         // This is called either on the click of the stop Button
@@ -209,89 +323,28 @@ function Player(){
                 <Row>
                     <Col xs={6}>
                         <Stack gap={3}>
-                            <h2>Participant {participant}</h2>
-                            {file && <ReactP5Wrapper 
-                                sketch={son.sketch} 
-                                biosignal={biosignal} 
-                                file={file} 
-                                sound={sound} 
-                                toPlay={playing} 
-                                toReset={toReset} 
-                                setToReset={setToReset} 
-                                hasEnded={stopSonificationCallback} 
-                                setProgress={setProgress} 
-                                cleanUp={cleanUp} 
-                                cleanUpCode={cleanUpCode} 
-                            />}
-                            <ProgressBar id="progress-bar" now={progress} />
+                            <SketchAndProgress 
+                                biosignal={biosignal}
+                                sound={sound}
+                                playing={playing}
+                                toReset={toReset}
+                                setToReset={setToReset}
+                                stopSonificationCallback={stopSonificationCallback}
+                            />
                         </Stack>
                     </Col>
-                    <Col xs={6}>
-                        <Container>
-                            <Row>
-                                <Col xs={'auto'}>
-                                    <h2>Choose Biosignal</h2>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col xs={'auto'}>
-                                    <BiosignalToggle biosignal={biosignal} callback={setBiosignal} />
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col xs={'auto'}>
-                                    <h2>Choose your sound</h2>
-                                </Col>
-                            </Row>
-                            <SoundContext.Provider value={{sound, setSound, playing}}>
-                                {biosignal === 'HR' ? <HeartRateGUI /> : <GSRTempGUI />}
-                            </SoundContext.Provider>
-                            <hr></hr>
-                            <Stack gap={3}>
-                                <Row>
-                                    <Col xs={'auto'}>
-                                        <Button
-                                            onClick={() => {
-                                                if(!playing){
-                                                    setCanStop(true);
-                                                }
-                                                setPlaying(!playing);
-                                            }}
-                                        >
-                                            {!playing ? <i class="bi bi-play-fill"></i> : <i class="bi bi-pause-fill"></i>}
-                                        </Button>
-                                    </Col>
-                                    <Col xs={'auto'}>
-                                        <Button 
-                                            disabled={!canStop}
-                                            onClick={() => {
-                                                stopSonificationCallback();
-                                                // If the sonification is stopped from the click of this button,
-                                                // then the sketch must be 'notified' to clean up the sonification.
-                                                // (stop the sound, perhaps a running recording and what not)
-                                                // If the sonification were to naturally end, the reset state variable
-                                                // need not be modified.
-                                                setToReset(true);
-                                            }}
-                                        >
-                                            <i class="bi bi-stop-fill"></i>
-                                        </Button>
-                                    </Col>
-                                    <Col xs={'auto'}>
-                                        <Button disabled><i class="bi bi-record-fill"></i></Button>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={'auto'}>
-                                        <Button disabled>
-                                            <i class="bi bi-download"></i>  
-                                            &nbsp;Download Recording
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Stack>
-                        </Container>
-                    </Col>
+                    <PlayerGUI 
+                        biosignal={biosignal}
+                        setBiosignal={setBiosignal}
+                        sound={sound}
+                        setSound={setSound}
+                        playing={playing}
+                        setPlaying={setPlaying}
+                        canStop={canStop}
+                        setCanStop={setCanStop}
+                        stopSonificationCallback={stopSonificationCallback}
+                        setToReset={setToReset}
+                    />
                 </Row>
             </Container>
         </>
