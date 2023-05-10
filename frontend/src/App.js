@@ -50,7 +50,6 @@ function MyCustomNavlink({className, to, children}){
   }
 
   return(
-    // <NavLink className={className} to={to} onClick={onClickHandler}>{children}</NavLink>
     <Button variant="outline-dark" size="sm" onClick={() => onClickHandler()} disabled={className === 'current'}>{children}</Button>
   );
 }

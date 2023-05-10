@@ -9,6 +9,8 @@ export function sketch(p){
     let sound;
     let table;
     let filePath;
+    let downloadStatus;
+    let namingData; 
     p.updateWithProps = props => {
         if(props.biosignal){
             const old_biosignal = biosignal;
@@ -16,8 +18,8 @@ export function sketch(p){
                 biosignal = props.biosignal;
             }
         }
-        if(props.hasEnded){
-            p.hasEnded = props.hasEnded;
+        if(props.stopSonificationCallback){
+            p.stopSonificationCallback = props.stopSonificationCallback;
         }
         if(props.toPlay !== undefined){
             toPlay = props.toPlay;
@@ -45,25 +47,33 @@ export function sketch(p){
         if(props.recording !== undefined){
             if(isRecording !== props.recording){
                 if(isRecording){
-                    // stop recording
                     stopRecordingSound();
                 }else{
-                    // start recording
                     recordSound();
                 }
                 isRecording = props.recording;
             }
+        }
+        if(props.download !== undefined){
+            if(downloadStatus === 'available' && props.download === 'downloading'){
+                downloadSound();
+            }
+            downloadStatus = props.download;
+        }
+        if(props.setDownload){
+            p.setDownload = props.setDownload;
         }
         if(props.cleanUpCode){
             p.cleanUpCode = props.cleanUpCode;
         }
         if(props.cleanUp !== undefined){
             if(props.cleanUp === true){
-                console.log('Time to clean everything up!');
-                console.log('value: ', props.cleanUp);
                 reset();
                 p.cleanUpCode();    
             }
+        }
+        if(namingData === undefined && props.namingData){
+            namingData = props.namingData;
         }
     }
 
@@ -191,7 +201,6 @@ export function sketch(p){
         if(playing){
             if(repNo < numberOfReps){
                 if(frameNo % frameRate == 0){
-                    console.log('draw');
                     setAudio();
                     // Increase progress bar
                     progress += percent;
@@ -265,14 +274,23 @@ export function sketch(p){
     const recordSound = () => {
         recording = new P5Class.SoundFile();
         recorder.record(recording);
+        p.setDownload('empty');
     }
 
     const stopRecordingSound = () => {
         recorder.stop();
-        p.save(recording, 'sonification.wav');
+        p.setDownload('available');
+    }
+
+    const downloadSound = () =>{
+        // Format: THXSYEPZ_ParticipantFSonification.wav
+        const recordingName = `TH${namingData.thematicID}S${namingData.sessionID}EP${namingData.episodeID}_Participant${namingData.participant}Sonification.wav`;
+        p.save(recording, recordingName);
+        p.setDownload('available');
     }
 
     const playSound = () => {
+        console.log('playsound');
         p.getAudioContext().resume();
         switch(sound){
             case 'heart':
@@ -291,7 +309,6 @@ export function sketch(p){
 
     const stopSound = () => {
         p.getAudioContext().suspend();
-        console.log('hi! time to stop sound');
         switch(sound){
             case 'heart':
                 heart.stop();
@@ -314,6 +331,6 @@ export function sketch(p){
         progress = 0;
         p.setProgress(0);
         console.log('reset done!');
-        p.hasEnded();
+        p.stopSonificationCallback();
     }
 }

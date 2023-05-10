@@ -19,8 +19,7 @@ import { SoundContext } from '../../context/SoundContext';
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import * as son from '../../sketches/newSketches/sonificationSketch.js';
-import ListGroup from 'react-bootstrap/ListGroup';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function PlaybackRecToasts(){
     const [showPlayToast, setShowPlayToast] = useState(true);
@@ -155,7 +154,7 @@ function GSRTempGUI(){
     );
 }
 
-function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, stopSonificationCallback, toReset, setToReset, recording, setRecording}){
+function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, stopSonificationCallback, toReset, setToReset, recording, setRecording, download, setDownload}){
     return(
         <Col xs={6}>
             <Container>
@@ -218,9 +217,21 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                     </Row>
                     <Row>
                         <Col xs={'auto'}>
-                            <Button disabled>
+                            <Button 
+                                disabled={download === 'empty'}
+                                onClick={() => setDownload('downloading')}
+                            >
                                 <i class="bi bi-download"></i>  
                                 &nbsp;Download Recording
+                            </Button>
+                        </Col>
+                        <Col xs={'auto'}>
+                            <Button 
+                                variant="outline-dark" 
+                                disabled={download === 'empty'}
+                                onClick={() => {setDownload('empty')}}
+                            >
+                                <i class="bi bi-trash3"></i>
                             </Button>
                         </Col>
                     </Row>
@@ -230,9 +241,9 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
     );
 }
 
-function Sketch({biosignal, sound, playing, toReset, setToReset, stopSonificationCallback, setProgress, recording}){
-    console.log('Hello from sketch component.');
-    
+function Sketch({playing, ...props}){ 
+    const {thematicID, sessionID, episodeID} = useParams();
+    console.log(`Params: ${thematicID} ${sessionID} ${episodeID}`);
     const navigate = useNavigate();
     
     const {participant, data, setParticipant} = useContext(ParticipantContext);
@@ -242,6 +253,13 @@ function Sketch({biosignal, sound, playing, toReset, setToReset, stopSonificatio
     const [file, _] = useState(participant ? data.find(element => element.participant === participant).path : null);
 
     const {cleanUp, setCleanUp, cleanUpPath} = useContext(CleanupContext);
+
+    const namingData = {
+        'thematicID': thematicID,
+        'sessionID': sessionID,
+        'episodeID': episodeID,
+        'participant': participant
+    }
 
     function cleanUpCode(){
         setParticipant(null); 
@@ -254,18 +272,13 @@ function Sketch({biosignal, sound, playing, toReset, setToReset, stopSonificatio
         <>
             <h2>Participant {participant}</h2>
             {file && <ReactP5Wrapper 
+                {...props}
                 sketch={son.sketch} 
-                biosignal={biosignal} 
                 file={file} 
-                sound={sound} 
-                toPlay={playing} 
-                toReset={toReset} 
-                setToReset={setToReset} 
-                hasEnded={stopSonificationCallback} 
-                setProgress={setProgress} 
+                toPlay={playing}
                 cleanUp={cleanUp} 
                 cleanUpCode={cleanUpCode}
-                recording={recording}
+                namingData = {namingData}
             />}
         </>
     );
@@ -295,7 +308,6 @@ function SketchAndProgress(props){
 
 function Player(){
     const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
-    console.log("Hello from player component");
 
     // These props are related to the toggle button groups and
     // are also passed as props to the sketch, so it changes its sound appropriately.
@@ -315,6 +327,12 @@ function Player(){
     const [toReset, setToReset] = useState(false);
 
     const [recording, setRecording] = useState(false);
+
+    // Possible state values
+    // empty (means that download and clear button are disabled)
+    // available (makes download and clear button available)
+    // downloading (becomes active on click)
+    const [download, setDownload] = useState('empty');
 
     const stopSonificationCallback = () => {
         // This is called either on the click of the stop Button
@@ -353,6 +371,8 @@ function Player(){
                                 setToReset={setToReset}
                                 stopSonificationCallback={stopSonificationCallback}
                                 recording={recording}
+                                download={download}
+                                setDownload={setDownload}
                             />
                         </Stack>
                     </Col>
@@ -370,6 +390,8 @@ function Player(){
                         setToReset={setToReset}
                         recording={recording}
                         setRecording={setRecording}
+                        download={download}
+                        setDownload={setDownload}
                     />
                 </Row>
             </Container>
