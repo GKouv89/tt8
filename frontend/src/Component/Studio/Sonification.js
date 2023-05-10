@@ -242,8 +242,16 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
 }
 
 function Sketch({playing, ...props}){ 
-    const {thematicID, sessionID, episodeID} = useParams();
-    console.log(`Params: ${thematicID} ${sessionID} ${episodeID}`);
+    // the parameters are packed into an object
+    // which the sketch uses to name the downloaded WAV files appropriately
+    const {thematicID, sessionID, episodeID, participantID} = useParams();
+    const namingData = {
+        'thematicID': thematicID,
+        'sessionID': sessionID,
+        'episodeID': episodeID,
+        'participant': participantID
+    }
+
     const navigate = useNavigate();
     
     const {participant, data, setParticipant} = useContext(ParticipantContext);
@@ -253,13 +261,6 @@ function Sketch({playing, ...props}){
     const [file, _] = useState(participant ? data.find(element => element.participant === participant).path : null);
 
     const {cleanUp, setCleanUp, cleanUpPath} = useContext(CleanupContext);
-
-    const namingData = {
-        'thematicID': thematicID,
-        'sessionID': sessionID,
-        'episodeID': episodeID,
-        'participant': participant
-    }
 
     function cleanUpCode(){
         setParticipant(null); 
@@ -340,9 +341,6 @@ function Player(){
         // running its complete course (passed as a callback, hence the name).
         setPlaying(false);
         setCanStop(false);
-        if(recording){
-            setRecording(false);
-        }
     }
 
     return(
