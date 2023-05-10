@@ -24,6 +24,9 @@ export function sketch(p){
         if(props.toPlay !== undefined){
             toPlay = props.toPlay;
         }
+        if(props.setToPlay){
+            p.setToPlay = props.setToPlay;
+        }
         if(props.sound){
             if(setUpComplete && props.sound !== sound && props.sound !== 'heart' && props.sound !== 'drum'){
                 oscillator.setType(props.sound);
@@ -43,6 +46,9 @@ export function sketch(p){
         }
         if(props.setProgress) {
             p.setProgress = props.setProgress;
+        }
+        if(props.setRecording) {
+            p.setRecording = props.setRecording;
         }
         if(props.recording !== undefined){
             if(isRecording !== props.recording){
@@ -76,6 +82,26 @@ export function sketch(p){
             namingData = props.namingData;
         }
     }
+
+    document.addEventListener("visibilitychange", () => {
+        if(document.visibilityState == "hidden"){
+            if(playing){    
+                // The original idea was to simply notify the Player component of the pause
+                // by manipulating the 'playing' state variable
+                // but the changes are not applied until the user switches back to the tab,
+                // and so the sound keeps playing.
+                // So, we do, in fact, notify the component, so that the GUI can be properly rerendered
+                // but we manually handle the local variables controlling the draw function
+                // as well as manually stop the sound.
+                // Putting the event listener in the Player component was tested and made zero difference.
+                // We do not wish to automatically continue with playback on tab return
+                p.setToPlay(false);
+                toPlay = false;
+                stopSound();
+            }
+        }
+    });
+
 
     let progress = 0;
     // We want the progress bar to move a certain amount every rep.
@@ -290,7 +316,6 @@ export function sketch(p){
     }
 
     const playSound = () => {
-        console.log('playsound');
         p.getAudioContext().resume();
         switch(sound){
             case 'heart':

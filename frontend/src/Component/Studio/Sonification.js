@@ -23,7 +23,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 function PlaybackRecToasts(){
     const [showPlayToast, setShowPlayToast] = useState(true);
-    const [showRecToast, setRecToast] = useState(true);
     const [showPauseToast, setShowPauseToast] = useState(true);
 
     return(
@@ -34,28 +33,20 @@ function PlaybackRecToasts(){
                 </Toast.Header>
                 <Toast.Body>
                     <small>
-                        Playback is paused when the current browser tab is switched or minimized.
+                        Playback is paused when the current browser tab is switched or minimized. 
+                        This limitation, if not enforced, would give a false duration to the playbacks and recordings
+                        produced, due to most browsers' power saving settings.
                     </small>
                 </Toast.Body>
             </Toast>
-            <Toast key={1} show={showRecToast} onClose={() => setRecToast(false)} bg={'danger'}>
-                <Toast.Header style={{'justifyContent': 'space-between'}}>
-                    <strong>Recording</strong>
-                </Toast.Header>
-                <Toast.Body>
-                    <small>
-                        Recording is reset when the current browser tab is switched or minimized.
-                        Don't worry, you can restart again.
-                    </small>
-                </Toast.Body>
-            </Toast>
-            <Toast key={2} show={showPauseToast} onClose={() => setShowPauseToast(false)} bg={'info'}>
+            <Toast key={1} show={showPauseToast} onClose={() => setShowPauseToast(false)} bg={'info'}>
                 <Toast.Header style={{'justifyContent': 'space-between'}}>
                     <strong>Pause when recording</strong>
                 </Toast.Header>
                 <Toast.Body>
                     <small>
                         You can freely pause when recording, but the pause won't be audible in the sound file produced!
+                        This allows us to keep recording your sound file even if you accidentaly switch tabs or minimize your browser.
                     </small>
                 </Toast.Body>
             </Toast>
@@ -154,7 +145,7 @@ function GSRTempGUI(){
     );
 }
 
-function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, stopSonificationCallback, toReset, setToReset, recording, setRecording, download, setDownload}){
+function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, toReset, setToReset, recording, setRecording, download, setDownload}){
     return(
         <Col xs={6}>
             <Container>
@@ -241,7 +232,7 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
     );
 }
 
-function Sketch({playing, ...props}){ 
+function Sketch({playing, setPlaying, ...props}){ 
     // the parameters are packed into an object
     // which the sketch uses to name the downloaded WAV files appropriately
     const {thematicID, sessionID, episodeID, participantID} = useParams();
@@ -277,6 +268,7 @@ function Sketch({playing, ...props}){
                 sketch={son.sketch} 
                 file={file} 
                 toPlay={playing}
+                setToPlay={setPlaying}
                 cleanUp={cleanUp} 
                 cleanUpCode={cleanUpCode}
                 namingData = {namingData}
@@ -317,7 +309,8 @@ function Player(){
     
     // These props control the playback buttons appearance and act as 'signals' to the
     // sketch to start, pause and stop playback.
-    const [playing, setPlaying] = useState(false);
+    const [playing, setPlaying] = useState(false);    
+    
     // 'Can stop' indicates that the sonification has at some point started and is either
     // a) actively playing or b) paused. In these two cases, the stop button should be available. 
     const [canStop, setCanStop] = useState(false);
@@ -365,10 +358,12 @@ function Player(){
                                 biosignal={biosignal}
                                 sound={sound}
                                 playing={playing}
+                                setPlaying={setPlaying}
                                 toReset={toReset}
                                 setToReset={setToReset}
                                 stopSonificationCallback={stopSonificationCallback}
                                 recording={recording}
+                                setRecording={setRecording}
                                 download={download}
                                 setDownload={setDownload}
                             />
@@ -383,7 +378,6 @@ function Player(){
                         setPlaying={setPlaying}
                         canStop={canStop}
                         setCanStop={setCanStop}
-                        stopSonificationCallback={stopSonificationCallback}
                         toReset={toReset}
                         setToReset={setToReset}
                         recording={recording}
