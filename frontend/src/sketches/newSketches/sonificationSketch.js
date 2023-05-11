@@ -28,6 +28,10 @@ export function sketch(p){
             p.setToPlay = props.setToPlay;
         }
         if(props.sound){
+            if(setUpComplete && props.sound !== sound){
+                stopSound();
+                playSound(props.sound);
+            }
             if(setUpComplete && props.sound !== sound && props.sound !== 'heart' && props.sound !== 'drum'){
                 oscillator.setType(props.sound);
             }
@@ -153,7 +157,7 @@ export function sketch(p){
         kick = p.loadSound(`http://localhost/data/assets/TR-909Kick.mp3`);
     }
 
-    const frameRate = 25;
+    const frameRate = 30;
     let frameNo = 0;
 
     let arrayOfFrequencies;
@@ -187,10 +191,12 @@ export function sketch(p){
         }
     }
 
+    const binSize = 256;
+    let fftObj;
     p.setup = () => {
         p.getAudioContext().suspend();
 
-        p.createCanvas(200, 200);
+        p.createCanvas(binSize - 1, binSize - 1);
         p.background('black');
         p.setFrameRate(frameRate);
 
@@ -215,15 +221,18 @@ export function sketch(p){
         // This will be used for recording the audio of the sketch
         recorder = new P5Class.SoundRecorder();
 
+        fftObj = new P5Class.FFT(0, binSize);
+
         setUpComplete = true;
     }
 
     p.draw = () => {
         if(toPlay && playing == false){
-            playSound();
+            playSound(sound);
         }else if(playing && toPlay == false){
             stopSound();
         }
+        visualizer();
         if(playing){
             if(repNo < numberOfReps){
                 if(frameNo % frameRate == 0){
@@ -315,7 +324,10 @@ export function sketch(p){
         p.setDownload('available');
     }
 
-    const playSound = () => {
+    // This takes an arg while stopSound does not
+    // This is to aid in switching sound while audio is playing
+    // In that case, the props.sound value is passed rather than the current one.
+    const playSound = (sound) => {
         p.getAudioContext().resume();
         switch(sound){
             case 'heart':
@@ -350,6 +362,7 @@ export function sketch(p){
     }
 
     const reset = () => {
+        p.background('black');
         stopSound();
         frameNo = 0;
         repNo = 0;
@@ -357,5 +370,20 @@ export function sketch(p){
         p.setProgress(0);
         console.log('reset done!');
         p.stopSonificationCallback();
+    }
+
+    const visualizer = () => {
+        p.background('black');
+        if(playing){
+            const spectrum = fftObj.analyze();
+            for(let i = 0; i < spectrum.length; i++){
+                p.stroke(p.color('white'));
+                const x = p.map(i, 0, spectrum.length, 0, p.width);
+                const y = p.map(spectrum[i], 0, 255, p.height, 0);
+                if(y !== p.height){
+                    p.line(x, p.height, x, y);
+                }
+            }
+        }
     }
 }

@@ -14,7 +14,6 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import { useContext } from 'react';
 import { ParticipantContext } from '../../context/ParticipantContext';
 import { CleanupContext } from '../../context/CleanupContext';
-import { SoundContext } from '../../context/SoundContext';
 
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
@@ -54,24 +53,11 @@ function PlaybackRecToasts(){
     );
 }
 
-function HeartRateGUI() {
-    const [asset, setAsset] = useState('heart');
-
+function HeartRateGUI({sound, setSound}) {
     const sounds = [
         {name: 'Heart Sound', value: 'heart'},
         {name: 'Drum Kick', value: 'drum'},
     ];
-
-    const {setSound, playing} = useContext(SoundContext);
-
-    // Setting default sound on component render.
-    useEffect(() => {
-        setSound('heart');
-    }, []);
-
-    useEffect(() => {
-        setSound(asset);
-    }, [asset]);
 
     return(
         <Row>
@@ -84,9 +70,8 @@ function HeartRateGUI() {
                             type="radio"
                             name="soundRadio"
                             value={s.value}
-                            checked={asset === s.value}
-                            onChange={(e) => {setAsset(e.currentTarget.value);}}
-                            disabled={playing}
+                            checked={sound === s.value}
+                            onChange={(e) => {setSound(e.currentTarget.value);}}
                         >
                             {s.name}
                         </ToggleButton>                            
@@ -97,8 +82,8 @@ function HeartRateGUI() {
     );
 }
 
-function GSRTempGUI(){
-    const [oscillator, setOscillator] = useState('sine');
+function GSRTempGUI({sound, setSound}){
+    // setSound('sine');
 
     const oscillators = [
         {name: 'Sine', value: 'sine'},
@@ -107,16 +92,16 @@ function GSRTempGUI(){
         {name: 'Triangle', value: 'triangle'},
     ];
 
-    const {setSound, playing} = useContext(SoundContext);
+    // const {setSound, playing} = useContext(SoundContext);
 
-    // Setting default sound on component render.
-    useEffect(() => {
-        setSound('sine');
-    }, []);
+    // // Setting default sound on component render.
+    // useEffect(() => {
+    //     setSound('sine');
+    // }, []);
 
-    useEffect(() => {
-        setSound(oscillator);
-    }, [oscillator]);
+    // useEffect(() => {
+    //     setSound(oscillator);
+    // }, [oscillator]);
 
     return(
         <Row>
@@ -132,9 +117,9 @@ function GSRTempGUI(){
                             type="radio"
                             name="oscRadio"
                             value={osc.value}
-                            checked={oscillator === osc.value}
-                            onChange={(e) => {setOscillator(e.currentTarget.value);}}
-                            disabled={playing}
+                            checked={sound === osc.value}
+                            onChange={(e) => {setSound(e.currentTarget.value);}}
+                            // disabled={playing}
                         >
                             {osc.name}
                         </ToggleButton>            
@@ -146,6 +131,21 @@ function GSRTempGUI(){
 }
 
 function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, toReset, setToReset, recording, setRecording, download, setDownload}){
+    const callback = (val) => {
+        const old_biosignal = biosignal;
+        setBiosignal(val);
+        if(old_biosignal !== 'HR' && val !== 'HR'){
+            // When changing between GSR and Temperature,
+            // there is no reason to change the type of the oscillator
+            return;
+        }
+        if(val == 'HR'){
+            setSound('heart');
+        }else{
+            setSound('sine');
+        }
+    }
+
     return(
         <Col xs={6}>
             <Container>
@@ -156,7 +156,7 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                 </Row>
                 <Row>
                     <Col xs={'auto'}>
-                        <BiosignalToggle biosignal={biosignal} callback={setBiosignal} />
+                        <BiosignalToggle biosignal={biosignal} callback={callback}/>
                     </Col>
                 </Row>
                 <Row>
@@ -164,9 +164,7 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                         <h2>Choose your sound</h2>
                     </Col>
                 </Row>
-                <SoundContext.Provider value={{sound, setSound, playing}}>
-                    {biosignal === 'HR' ? <HeartRateGUI /> : <GSRTempGUI />}
-                </SoundContext.Provider>
+                {biosignal === 'HR' ? <HeartRateGUI sound={sound} setSound={setSound}/> : <GSRTempGUI sound={sound} setSound={setSound}/>}
                 <hr></hr>
                 <Stack gap={3}>
                     <Row>
@@ -305,7 +303,7 @@ function Player(){
     // These props are related to the toggle button groups and
     // are also passed as props to the sketch, so it changes its sound appropriately.
     const [biosignal, setBiosignal] = useState('HR');
-    const [sound, setSound] = useState(null);
+    const [sound, setSound] = useState('heart');
     
     // These props control the playback buttons appearance and act as 'signals' to the
     // sketch to start, pause and stop playback.
