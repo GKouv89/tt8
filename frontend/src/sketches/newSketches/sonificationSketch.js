@@ -29,8 +29,14 @@ export function sketch(p){
         }
         if(props.sound){
             if(setUpComplete && props.sound !== sound){
-                stopSound();
-                playSound(props.sound);
+                if(props.sound !== 'heart' && props.sound !== 'drum' && sound !== 'heart' && sound !== 'drum'){
+                    // In this case, we are just changing the oscillator's type
+                    // No need to stop audio whatsoever
+                    oscillator.setType(props.sound);
+                }else{
+                    stopSound();
+                    playSound(props.sound);
+                }
             }
             if(setUpComplete && props.sound !== sound && props.sound !== 'heart' && props.sound !== 'drum'){
                 oscillator.setType(props.sound);
@@ -345,6 +351,7 @@ export function sketch(p){
     }
 
     const stopSound = () => {
+        p.soundOut;
         p.getAudioContext().suspend();
         switch(sound){
             case 'heart':
@@ -367,6 +374,7 @@ export function sketch(p){
         frameNo = 0;
         repNo = 0;
         progress = 0;
+        setAudio();
         p.setProgress(0);
         console.log('reset done!');
         p.stopSonificationCallback();
