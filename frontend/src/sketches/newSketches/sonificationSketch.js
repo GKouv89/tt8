@@ -390,7 +390,7 @@ export function sketch(p){
     const stopSound = () => {
         switch(sound){
             case 'heart':
-                heartGain.amp(0, 0, 0.02);
+                heartGain.amp(0, 0.1, 0.02);
                 heart.stop(0.2);
                 break;
             case 'drum':

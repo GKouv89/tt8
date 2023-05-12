@@ -10,6 +10,7 @@ import Button from 'react-bootstrap/Button';
 import BiosignalToggle from './BiosignalToggle';
 import { ButtonGroup, ToggleButton } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import Form from 'react-bootstrap/Form';
 
 import { useContext } from 'react';
 import { ParticipantContext } from '../../context/ParticipantContext';
@@ -19,37 +20,61 @@ import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import * as son from '../../sketches/newSketches/sonificationSketch.js';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ReminderContext } from '../../context/ReminderContext';
 
 function PlaybackRecToasts(){
-    const [showPlayToast, setShowPlayToast] = useState(true);
-    const [showPauseToast, setShowPauseToast] = useState(true);
+    const toasts = [
+        {
+            'key': 0, 
+            'heading': 'Playback' ,
+            'variant': 'warning',
+            'body': 'Playback is paused when the current browser tab is switched or minimized. \
+                    This limitation, if not enforced, would give a false duration to the playbacks and recordings\
+                    produced, due to most browsers\' power saving settings.'
+        },
+        {
+            'key': 1, 
+            'heading': 'Pause when recording' ,
+            'variant': 'info',
+            'body': 'You can freely pause when recording, but the pause won\'t be audible in the sound file produced!\
+                    This allows us to keep recording your sound file even if you accidentaly switch tabs or minimize your browser.'
+        },
+    ];
 
+    const {showReminders} = useContext(ReminderContext);
+    const [visibleToasts, setVisibleToasts] = useState(toasts.map((toast) => {return parseInt(toast.key)}));
+    
     return(
-        <ToastContainer>
-            <Toast key={0} show={showPlayToast} bg={'warning'} onClose={() =>setShowPlayToast(false)}>
-                <Toast.Header style={{'justifyContent': 'space-between'}}>
-                    <strong>Playback</strong>
-                </Toast.Header>
-                <Toast.Body>
-                    <small>
-                        Playback is paused when the current browser tab is switched or minimized. 
-                        This limitation, if not enforced, would give a false duration to the playbacks and recordings
-                        produced, due to most browsers' power saving settings.
-                    </small>
-                </Toast.Body>
-            </Toast>
-            <Toast key={1} show={showPauseToast} onClose={() => setShowPauseToast(false)} bg={'info'}>
-                <Toast.Header style={{'justifyContent': 'space-between'}}>
-                    <strong>Pause when recording</strong>
-                </Toast.Header>
-                <Toast.Body>
-                    <small>
-                        You can freely pause when recording, but the pause won't be audible in the sound file produced!
-                        This allows us to keep recording your sound file even if you accidentaly switch tabs or minimize your browser.
-                    </small>
-                </Toast.Body>
-            </Toast>
-        </ToastContainer>
+        <>
+            {
+                showReminders ? 
+                    <ToastContainer>
+                        {
+                            toasts.map((toast) => 
+                                (<Toast 
+                                    key={toast.key} 
+                                    show={visibleToasts.includes(toast.key)} 
+                                    bg={toast.variant} 
+                                    onClose={() => {
+                                        setVisibleToasts(
+                                            visibleToasts.filter(t =>
+                                                t !== toast.key
+                                            )
+                                        );
+                                    }}>
+                                    <Toast.Header style={{'justifyContent': 'space-between'}}>
+                                        <strong>{toast.heading}</strong>
+                                    </Toast.Header>
+                                    <Toast.Body>
+                                        <small>{toast.body}</small>
+                                    </Toast.Body>
+                                </Toast>
+                            ))
+                        }
+                    </ToastContainer>
+                : <></> 
+            }
+        </>
     );
 }
 
@@ -91,17 +116,6 @@ function GSRTempGUI({sound, setSound}){
         {name: 'Sawtooth', value: 'sawtooth'},
         {name: 'Triangle', value: 'triangle'},
     ];
-
-    // const {setSound, playing} = useContext(SoundContext);
-
-    // // Setting default sound on component render.
-    // useEffect(() => {
-    //     setSound('sine');
-    // }, []);
-
-    // useEffect(() => {
-    //     setSound(oscillator);
-    // }, [oscillator]);
 
     return(
         <Row>
@@ -297,6 +311,22 @@ function SketchAndProgress(props){
     );
 }
 
+function ShowToastsToggle(){
+    const {showReminders, setShowReminders} = useContext(ReminderContext);
+
+    return (
+        <Form>
+          <Form.Switch 
+            label="Show reminders."
+            checked={showReminders}
+            onChange={() => {
+                setShowReminders(!showReminders);
+            }}
+          />
+        </Form>
+      );
+}
+
 function Player(){
     const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
 
@@ -337,7 +367,7 @@ function Player(){
     return(
         <>
             <Container fluid>
-                <Row>
+                <Row style={{'justify-content': 'space-between'}}>
                     <Col xs={'auto'}>
                         <Button 
                             onClick={() => {
@@ -347,6 +377,9 @@ function Player(){
                             <i class="bi bi-arrow-left"></i>
                             &nbsp; Back to collective visualization
                         </Button>
+                    </Col>
+                    <Col xs={'auto'}>
+                        <ShowToastsToggle />
                     </Col>
                 </Row>
                 <Row>
@@ -390,10 +423,21 @@ function Player(){
 }
 
 export default function Sonification(){
+    const [showReminders, setShowReminders] = useState((window.localStorage.showToasts === 'true'));
+    
+    if(window.localStorage.getItem("showToasts") === null){
+        window.localStorage.setItem("showToasts", true);        
+        setShowReminders(true);
+    }else{
+        window.localStorage.setItem("showToasts", showReminders);
+    }
+
     return (
         <>
-            <PlaybackRecToasts />
-            <Player />
+            <ReminderContext.Provider value={{showReminders, setShowReminders}}>
+                <PlaybackRecToasts />
+                <Player />
+            </ReminderContext.Provider>
         </>
     );
 }
