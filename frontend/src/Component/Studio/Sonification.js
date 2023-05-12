@@ -328,8 +328,6 @@ function ShowToastsToggle(){
 }
 
 function Player(){
-    const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
-
     // These props are related to the toggle button groups and
     // are also passed as props to the sketch, so it changes its sound appropriately.
     const [biosignal, setBiosignal] = useState('HR');
@@ -365,64 +363,47 @@ function Player(){
     }
 
     return(
-        <>
-            <Container fluid>
-                <Row style={{'justify-content': 'space-between'}}>
-                    <Col xs={'auto'}>
-                        <Button 
-                            onClick={() => {
-                                setCleanUpPath('../visualizations');
-                                setCleanUp(true);
-                            }}>
-                            <i class="bi bi-arrow-left"></i>
-                            &nbsp; Back to collective visualization
-                        </Button>
-                    </Col>
-                    <Col xs={'auto'}>
-                        <ShowToastsToggle />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={6}>
-                        <Stack gap={3}>
-                            <SketchAndProgress 
-                                biosignal={biosignal}
-                                sound={sound}
-                                playing={playing}
-                                setPlaying={setPlaying}
-                                toReset={toReset}
-                                setToReset={setToReset}
-                                stopSonificationCallback={stopSonificationCallback}
-                                recording={recording}
-                                setRecording={setRecording}
-                                download={download}
-                                setDownload={setDownload}
-                            />
-                        </Stack>
-                    </Col>
-                    <PlayerGUI 
+        <Row>
+            <Col xs={6}>
+                <Stack gap={3}>
+                    <SketchAndProgress 
                         biosignal={biosignal}
-                        setBiosignal={setBiosignal}
                         sound={sound}
-                        setSound={setSound}
                         playing={playing}
                         setPlaying={setPlaying}
-                        canStop={canStop}
-                        setCanStop={setCanStop}
                         toReset={toReset}
                         setToReset={setToReset}
+                        stopSonificationCallback={stopSonificationCallback}
                         recording={recording}
                         setRecording={setRecording}
                         download={download}
                         setDownload={setDownload}
                     />
-                </Row>
-            </Container>
-        </>
+                </Stack>
+            </Col>
+            <PlayerGUI 
+                biosignal={biosignal}
+                setBiosignal={setBiosignal}
+                sound={sound}
+                setSound={setSound}
+                playing={playing}
+                setPlaying={setPlaying}
+                canStop={canStop}
+                setCanStop={setCanStop}
+                toReset={toReset}
+                setToReset={setToReset}
+                recording={recording}
+                setRecording={setRecording}
+                download={download}
+                setDownload={setDownload}
+            />
+        </Row>
     )
 }
 
 export default function Sonification(){
+    const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
+
     const [showReminders, setShowReminders] = useState((window.localStorage.showToasts === 'true'));
     
     if(window.localStorage.getItem("showToasts") === null){
@@ -436,7 +417,24 @@ export default function Sonification(){
         <>
             <ReminderContext.Provider value={{showReminders, setShowReminders}}>
                 <PlaybackRecToasts />
-                <Player />
+                <Container fluid>
+                    <Row style={{'justify-content': 'space-between'}}>
+                        <Col xs={'auto'}>
+                            <Button 
+                                onClick={() => {
+                                    setCleanUpPath('../visualizations');
+                                    setCleanUp(true);
+                                }}>
+                                <i class="bi bi-arrow-left"></i>
+                                &nbsp; Back to collective visualization
+                            </Button>
+                        </Col>
+                        <Col xs={'auto'}>
+                            <ShowToastsToggle />
+                        </Col>
+                    </Row>
+                    <Player />
+                </Container>
             </ReminderContext.Provider>
         </>
     );
