@@ -28,7 +28,7 @@ export function sketch(p){
             p.setToPlay = props.setToPlay;
         }
         if(props.sound){
-            if(setUpComplete && props.sound !== sound){
+            if(setUpComplete && playing && props.sound !== sound){
                 if(props.sound !== 'heart' && props.sound !== 'drum' && sound !== 'heart' && sound !== 'drum'){
                     // In this case, we are just changing the oscillator's type
                     // No need to stop audio whatsoever
@@ -199,6 +199,8 @@ export function sketch(p){
 
     const binSize = 256;
     let fftObj;
+    let heartGain, kickGain, oscGain;
+    let gainNode;
     p.setup = () => {
         p.getAudioContext().suspend();
 
@@ -206,34 +208,61 @@ export function sketch(p){
         p.background('black');
         p.setFrameRate(frameRate);
 
+        gainNode = new P5Class.Gain();
+        gainNode.connect();
+        gainNode.amp(0); 
+
         // An issue with heart sometimes starting multiple playbacks
         // has probably been resolved with this line
         heart.playMode('restart');
 
-        initArrayOfFreq();
-        oscillator = new P5Class.Oscillator();
-        oscillator.freq(220);
-        oscillator.amp(0.2);
+        heartGain = new P5Class.Gain();
+        heartGain.amp(0);
+
+        heart.disconnect();
+        heartGain.setInput(heart);
+        heartGain.connect(gainNode);
 
         kickLoop = new P5Class.SoundLoop(() => {
             kick.play(); 
         }, genPeriod());
 
         kickLoop.bpm = 0;
+        kick.disconnect();
         pseudoOscillator = new P5Class.Oscillator('sine');
         pseudoOscillator.freq(5);
         pseudoOscillator.amp(0.01);
+        pseudoOscillator.disconnect();
+
+        kickGain = new P5Class.Gain();
+        kickGain.amp(0);
+        kickGain.setInput(kick);
+        kickGain.setInput(pseudoOscillator);
+        kickGain.connect(gainNode);
+
+        initArrayOfFreq();
+        oscillator = new P5Class.Oscillator();
+        oscillator.disconnect();
+
+        oscGain = new P5Class.Gain();
+        oscGain.amp(0);
+        oscGain.setInput(oscillator);
+        oscGain.connect(gainNode);
 
         // This will be used for recording the audio of the sketch
+        // recorder = new P5Class.SoundRecorder(gainNode);
         recorder = new P5Class.SoundRecorder();
 
         fftObj = new P5Class.FFT(0, binSize);
+
+        setAudio();
 
         setUpComplete = true;
     }
 
     p.draw = () => {
         if(toPlay && playing == false){
+            console.log('time to play!');
             playSound(sound);
         }else if(playing && toPlay == false){
             stopSound();
@@ -334,37 +363,47 @@ export function sketch(p){
     // This is to aid in switching sound while audio is playing
     // In that case, the props.sound value is passed rather than the current one.
     const playSound = (sound) => {
-        p.getAudioContext().resume();
+        setAudio();
+        if(p.getAudioContext().state !== 'running'){
+            console.log('context about to start');
+            p.userStartAudio();
+        }
         switch(sound){
             case 'heart':
-                heart.loop();
+                heartGain.amp(0.8, 0.2, 0.03);
+                heart.loop(0.2);
                 break;
             case 'drum':
-                kickLoop.start();
-                pseudoOscillator.start();
+                kickGain.amp(0.8, 0.1, 0.03);
+                kickLoop.start(0.2);
+                pseudoOscillator.start(0.2);
                 break;
             default: 
-                oscillator.start();
+                oscGain.amp(0.8, 0.1, 0.03);
+                oscillator.start(0.2);
                 break;
         }
+        gainNode.amp(0.8, 0.1, 0.01);
         playing = true;
     }
 
     const stopSound = () => {
-        p.soundOut;
-        p.getAudioContext().suspend();
         switch(sound){
             case 'heart':
-                heart.stop();
+                heartGain.amp(0, 0, 0.02);
+                heart.stop(0.2);
                 break;
             case 'drum':
-                kickLoop.stop();
-                pseudoOscillator.stop();
+                kickGain.amp(0, 0.2, 0.03);
+                kickLoop.stop(0.2);
+                pseudoOscillator.stop(0.2);
                 break;
             default:
-                oscillator.stop();
+                oscGain.amp(0, 0.1, 0.02);
+                oscillator.stop(0.2);
                 break;
         }
+        gainNode.amp(0, 0.1, 0.01);
         playing = false;
     }
 
@@ -374,7 +413,6 @@ export function sketch(p){
         frameNo = 0;
         repNo = 0;
         progress = 0;
-        setAudio();
         p.setProgress(0);
         console.log('reset done!');
         p.stopSonificationCallback();
