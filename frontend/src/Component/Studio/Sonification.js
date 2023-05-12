@@ -19,7 +19,7 @@ import { CleanupContext } from '../../context/CleanupContext';
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import * as son from '../../sketches/newSketches/sonificationSketch.js';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { ReminderContext } from '../../context/ReminderContext';
 
 function PlaybackRecToasts(){
@@ -405,6 +405,7 @@ export default function Sonification(){
     const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
 
     const [showReminders, setShowReminders] = useState((window.localStorage.showToasts === 'true'));
+    const [searchParams] = useSearchParams();
     
     if(window.localStorage.getItem("showToasts") === null){
         window.localStorage.setItem("showToasts", true);        
@@ -422,7 +423,7 @@ export default function Sonification(){
                         <Col xs={'auto'}>
                             <Button 
                                 onClick={() => {
-                                    setCleanUpPath('../visualizations');
+                                    setCleanUpPath(`../visualizations?${searchParams}`);
                                     setCleanUp(true);
                                 }}>
                                 <i class="bi bi-arrow-left"></i>

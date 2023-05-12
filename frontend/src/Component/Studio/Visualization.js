@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import Container from 'react-bootstrap/Container';
@@ -15,6 +15,7 @@ import BiosignalToggle from './BiosignalToggle.js';
 import { ParticipantContext } from '../../context/ParticipantContext.js';
 import { useContext } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 
 function SketchComponent({color, files, sketch, biosignal}){
     const sketchChoice = () => {
@@ -41,11 +42,16 @@ function SketchComponent({color, files, sketch, biosignal}){
 }
 
 export default function Visualization(){
-    console.log('hi from visualizations');
     const [biosignal, setBiosignal] = useState('HR');
 
-    const {setParticipant, color, data, chooseData} = useContext(ParticipantContext);
-    console.log('data: ', data);
+    const [searchParams] = useSearchParams();
+    // useEffect(() => {
+    //     console.log('vis rerender');
+    //     console.log('searchParams: ', searchParams);
+    // });
+
+
+    const {setParticipant, color, data} = useContext(ParticipantContext);
     return(
         <Container fluid>
             <Row>
@@ -74,16 +80,16 @@ export default function Visualization(){
                             {
                                 data && data.map((d, idx) => (
                                     <div class="row">
-                                        <LinkContainer to={`../sonifications/${d.participant}`}>
-                                            <Button 
-                                                key={idx}
-                                                onClick = {() => {
-                                                    setParticipant(d.participant); 
-                                                }}
-                                            >
-                                                Participant {d.participant} Sonification
-                                            </Button>
-                                        </LinkContainer>
+                                            <Link to={`../sonifications/${d.participant}?${searchParams}`}>
+                                                <Button 
+                                                    key={idx}
+                                                    onClick = {() => {
+                                                        setParticipant(d.participant); 
+                                                    }}
+                                                >
+                                                    Participant {d.participant} Sonification
+                                                </Button>
+                                            </Link>
                                     </div>
                                 ))                                    
                             }

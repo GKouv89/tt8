@@ -6,7 +6,6 @@ import { Container } from 'react-bootstrap';
 import { ParticipantContext } from '../context/ParticipantContext';
 
 export default function Studio(){
-    console.log('hi from studio');
     let {thematicID, sessionID, episodeID} = useParams();
     const [searchParams] = useSearchParams();
     const axis = searchParams.get('axis');
@@ -17,11 +16,15 @@ export default function Studio(){
     const [color, setColor] = useState(null);
     const [data, setData] = useState(null);
     
+    // useEffect(() => {
+    //     console.log('studio rerender');
+    //     console.log('searchParams: ', searchParams);
+    // });
+
     // This runs just once, when the component renders
     useEffect(() => {
         fetchSceneMaterial(thematicID, sessionID, episodeID, axis)
             .then((ret) => {
-                // const material = ret.material.map((mat, idx) => {mat.path = mat.path.replace('https://transitionto8.athenarc.gr/', ''); return mat;});
                 setColor(ret.color);
                 setData(ret.material);
             })
