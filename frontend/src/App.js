@@ -18,9 +18,9 @@ import {
   matchPath
 } from 'react-router-dom';
 
-import ThematicGrid from './routes/NewThematicScreen.js';
+import ThematicGrid from './routes/ThematicScreen.js';
 import Thematics from './routes/Thematics.js';
-import Studio from './routes/NewStudio';
+import Studio from './routes/Studio';
 import Sonification from './Component/Studio/Sonification';
 
 import { getThematics } from './data';

@@ -1,6 +1,6 @@
-import '../p5.sound.min.js'
-import '../p5.dom.min.js'
-import '../p5.js'
+import '../lib/p5.sound.min.js'
+import '../lib/p5.dom.min.js'
+import '../lib/p5.js'
 import * as P5Class from "p5"
 
 export function sketch(p){
