@@ -1,0 +1,241 @@
+- fields:
+    biosignal: ALL
+    episode: 64
+    file_type: RAW
+    friendly_name: Sensor 1 All Biometrics
+    participant: 26
+    path: Thematic2/Session2/Scene135/Scene135AllSensor1.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 64
+    file_type: RAW
+    friendly_name: Sensor 2 All Biometrics
+    participant: 27
+    path: Thematic2/Session2/Scene135/Scene135AllSensor2.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 64
+    file_type: RAW
+    friendly_name: Sensor 3 All Biometrics
+    participant: 28
+    path: Thematic2/Session2/Scene135/Scene135AllSensor3.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 64
+    file_type: RAW
+    friendly_name: Sensor 5 All Biometrics
+    participant: 29
+    path: Thematic2/Session2/Scene135/Scene135AllSensor5.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 64
+    file_type: RAW
+    friendly_name: Sensor 6 All Biometrics
+    participant: 30
+    path: Thematic2/Session2/Scene135/Scene135AllSensor6.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 65
+    file_type: RAW
+    friendly_name: Sensor 1 All Biometrics
+    participant: 26
+    path: Thematic2/Session2/Scene48/Scene48AllSensor1.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 65
+    file_type: RAW
+    friendly_name: Sensor 2 All Biometrics
+    participant: 27
+    path: Thematic2/Session2/Scene48/Scene48AllSensor2.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 65
+    file_type: RAW
+    friendly_name: Sensor 3 All Biometrics
+    participant: 28
+    path: Thematic2/Session2/Scene48/Scene48AllSensor3.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 65
+    file_type: RAW
+    friendly_name: Sensor 5 All Biometrics
+    participant: 29
+    path: Thematic2/Session2/Scene48/Scene48AllSensor5.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 65
+    file_type: RAW
+    friendly_name: Sensor 6 All Biometrics
+    participant: 30
+    path: Thematic2/Session2/Scene48/Scene48AllSensor6.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 66
+    file_type: RAW
+    friendly_name: Sensor 1 All Biometrics
+    participant: 26
+    path: Thematic2/Session2/Scene68/Scene68AllSensor1.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 66
+    file_type: RAW
+    friendly_name: Sensor 2 All Biometrics
+    participant: 27
+    path: Thematic2/Session2/Scene68/Scene68AllSensor2.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 66
+    file_type: RAW
+    friendly_name: Sensor 3 All Biometrics
+    participant: 28
+    path: Thematic2/Session2/Scene68/Scene68AllSensor3.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 66
+    file_type: RAW
+    friendly_name: Sensor 5 All Biometrics
+    participant: 29
+    path: Thematic2/Session2/Scene68/Scene68AllSensor5.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 66
+    file_type: RAW
+    friendly_name: Sensor 6 All Biometrics
+    participant: 30
+    path: Thematic2/Session2/Scene68/Scene68AllSensor6.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 71
+    file_type: RAW
+    friendly_name: Sensor 1 All Biometrics
+    participant: 26
+    path: Thematic2/Session2/Scene125/Scene125AllSensor1.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 71
+    file_type: RAW
+    friendly_name: Sensor 2 All Biometrics
+    participant: 27
+    path: Thematic2/Session2/Scene125/Scene125AllSensor2.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 71
+    file_type: RAW
+    friendly_name: Sensor 3 All Biometrics
+    participant: 28
+    path: Thematic2/Session2/Scene125/Scene125AllSensor3.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 71
+    file_type: RAW
+    friendly_name: Sensor 5 All Biometrics
+    participant: 29
+    path: Thematic2/Session2/Scene125/Scene125AllSensor5.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 71
+    file_type: RAW
+    friendly_name: Sensor 6 All Biometrics
+    participant: 30
+    path: Thematic2/Session2/Scene125/Scene125AllSensor6.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 72
+    file_type: RAW
+    friendly_name: Sensor 1 All Biometrics
+    participant: 26
+    path: Thematic2/Session2/Scene75/Scene75AllSensor1.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 72
+    file_type: RAW
+    friendly_name: Sensor 2 All Biometrics
+    participant: 27
+    path: Thematic2/Session2/Scene75/Scene75AllSensor2.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 72
+    file_type: RAW
+    friendly_name: Sensor 3 All Biometrics
+    participant: 28
+    path: Thematic2/Session2/Scene75/Scene75AllSensor3.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 72
+    file_type: RAW
+    friendly_name: Sensor 5 All Biometrics
+    participant: 29
+    path: Thematic2/Session2/Scene75/Scene75AllSensor5.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 72
+    file_type: RAW
+    friendly_name: Sensor 6 All Biometrics
+    participant: 30
+    path: Thematic2/Session2/Scene75/Scene75AllSensor6.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 73
+    file_type: RAW
+    friendly_name: Sensor 1 All Biometrics
+    participant: 26
+    path: Thematic2/Session2/Scene40/Scene40AllSensor1.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 73
+    file_type: RAW
+    friendly_name: Sensor 2 All Biometrics
+    participant: 27
+    path: Thematic2/Session2/Scene40/Scene40AllSensor2.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 73
+    file_type: RAW
+    friendly_name: Sensor 3 All Biometrics
+    participant: 28
+    path: Thematic2/Session2/Scene40/Scene40AllSensor3.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 73
+    file_type: RAW
+    friendly_name: Sensor 5 All Biometrics
+    participant: 29
+    path: Thematic2/Session2/Scene40/Scene40AllSensor5.csv
+  model: biosignalsindex.ParticipantMaterial
+- fields:
+    biosignal: ALL
+    episode: 73
+    file_type: RAW
+    friendly_name: Sensor 6 All Biometrics
+    participant: 30
+    path: Thematic2/Session2/Scene40/Scene40AllSensor6.csv
+  model: biosignalsindex.ParticipantMaterial
+

@@ -14,7 +14,7 @@ class BiometricsView(generics.ListAPIView):
             session = SociodramaSession.objects.get(Q(thematic=thematicID) & Q(session_id_in_thematic=sessionID))
             try:
                 scene = session.episodes.get(episode_id_in_session=sceneID)
-                return scene.material.filter(file_type=ParticipantMaterial.RAW)
+                return scene.material.filter(file_type=ParticipantMaterial.RAW).order_by('participant__sensor_id_in_session')
             except:
                 return None
         except:
@@ -40,7 +40,7 @@ class SessionScenesView(generics.ListAPIView):
     def get_queryset(self, thematicID, sessionID):
         try: 
             session = SociodramaSession.objects.get(Q(thematic=thematicID) & Q(session_id_in_thematic=sessionID))
-            return session.episodes.all()
+            return session.episodes.order_by('episode_id_in_session')
         except:
             return None
         

@@ -1,191 +1,100 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom'
-import Collapse from 'react-bootstrap/Collapse'
+import React, { useState, useEffect } from 'react';
+import { useLoaderData, Link, useParams } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
-import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
-import Modal from 'react-bootstrap/Modal'
-import Image from 'react-bootstrap/Image'
 
-import { getThematics, getAxisNames, getContentOfThematic, getThematicEpisodes, getAxisColors, AllAxesColors, AllThematicColors } from '../data.js'
-import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from "react-router-dom"
-import { CloseButton } from 'react-bootstrap';
+import { getThematics } from '../data.js'
 
-export default function ThematicScreenWrapper(props){
-    let {thematicID} = useParams();
-    return (
-      <ThematicGrid {...props}
-      id={thematicID}
-      />
-    );
-}
+import SessionTabs from '../Component/SessionTabs.js';
+import ScrollSpy from "react-ui-scrollspy";
 
-function Description(props){
-  return (
-  <>
-    <Collapse in={props.open} className={"thematic" + props.id}>
-      <Card>
-          <Card.Body >
-              <Card.Text>
-              {props.desc}
-              </Card.Text>
-          </Card.Body>
-      </Card>
-    </Collapse>
-  </>
-  );
-}
+function ThematicGridBody( {id, sessionData, startingKey} ){  
+  const [contentArray, setContentArray] = useState(null);
 
-function ThematicGridHeader(props){
-  return(
-    <Container>
-      <Row className="border border-light">
-        <Col xxl={4} className={(props.open) ? "border border-light descselected" : "border border-light"}>
-          <Button
-            onClick={props.callback}
-            aria-controls="example-collapse-text"
-            aria-expanded={props.open}
-            variant={(props.open) ? "descselected": "thematic" + props.id}
-          >
-            {props.name}
-            {
-             (props.open) ? <i className="bi bi-x-lg"></i> : <i className="bi bi-plus-lg"></i>
-            }
-          </Button>
-        </Col>
-        <ColorFilterColumnWrapper id={props.id} callback={props.cfcallback}/>
-        <Col xxl={4}>
-            <LinkContainer to="/">
-              <Button variant='light' className="rounded-0">
-                Πίσω στις θεματικές
-              </Button>
-            </LinkContainer>
-        </Col>
-      </Row>
-    </Container>
-  );
-}
-
-function ThematicGridBody(props){
-  const gridSize = 30;
-  let content = getContentOfThematic(props.id);
-  let episodes = getThematicEpisodes(props.id);
-  let numberOfSquares = content.length + episodes.length;
-  let numberOfPadding = gridSize - numberOfSquares;
-  
-  const makeRandomGridOrder = (gridSize) => {
-    let allMyIndices = [...Array(gridSize).keys()].map(i => i);
-    var r, rand;
-    r = [];
-    while (allMyIndices.length){
-        rand = Math.floor(Math.random()*allMyIndices.length);
-        r.push(allMyIndices.splice(rand,1).pop());
-    }
-    return r;
-  }
-
-  const makePaddedGridContent = (content, episodes, numberOfPadding) => {
-    let contentArray = [];
-    content.map((content, idx) => 
-      {
-        if(content.type == 'text' & content.subtype == 'quote'){
-          contentArray.push(<QuoteSquare filter={props.filter} content={content}/>);
-        }else if(content.type == 'img'){
-          contentArray.push(<ImageSquare filter={props.filter} content={content}/>);
-        }else{
-          contentArray.push(<GridSquare filter={props.filter} content={content}/>);
-        }
-      }
-    );
-    episodes.map((episodeno, idx) => (
-      contentArray.push(<EpisodeSquare thematicid={props.id} epno={episodeno} />)
-    ));
-    for(let x = 0; x < numberOfPadding; x++){
-      contentArray.push(<EmptySquare />);
-    }
-    return contentArray;
-  }
-
-  const filterContent = (content, axis_id) => {
-    let newContent = [];
-    for(let x = 0; x < content.length; x++){
-      if(content[x]._axis_id == axis_id){
-        newContent.push(content[x]);
+  const createContentArray = () => {
+    let content = [];
+    if(sessionData.scenes.length !== 0){
+      sessionData.scenes.map((scene, idx) => { 
+        content.push(<EpisodeSquare key={startingKey++} cardKey={startingKey++} thematicid={id} sessionid={sessionData.session} epno={scene.episode_id_in_session} axes={scene.axis} />);
+      });  
+    }else{
+      for(let i = 0; i < 24; i++){
+        content.push(<EmptySquare />);
       }
     }
-    return newContent;
+    return content;
   }
 
-  let gridOrder = makeRandomGridOrder(gridSize);
-  let gridContent = makePaddedGridContent(content, episodes, numberOfPadding);
-  let newContent;
-  if(props.filter != 'None'){
-    newContent = filterContent(content, props.filter);
-  }
+  useEffect(() => { 
+      setContentArray(createContentArray());
+  }, []);
 
   return(
-    <>
-      <Container>
-        <Row className="border border-light">
-          {gridContent}
-        </Row>
-      </Container>
-    </>
-  );
-}
-
-function GridSquare(props){
-  return(
-    <>
-      <Col xxl={2} className="border border-light gridsquare m-0 p-0">
-        <Card className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? "border-light gridsquare axis" + props.content._axis_id : "empty"}>
-          <Card.Body 
-            className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? "axis" + props.content._axis_id : "empty"}
-            as="button"
-            disabled={(props.filter == props.content._axis_id || props.filter == 'None') ? false: true}
-            >
-          </Card.Body>
-        </Card>
-      </Col>
-    </>
+        <Container className="justify-content-start">
+          <Row className="justify-content-start">
+            <Col><h1 align="left">Session {sessionData.session}</h1></Col>
+          </Row>
+          <Row className="border border-light">
+            {contentArray}
+          </Row>
+        </Container>    
   );
 }
 
 function EpisodeSquare(props){
   const [mouseOver, setMouseOver] = useState(false);
+  const [gradient, setGradient] = useState(false);
+  const [myGradientString, setMyGradientString] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
-  let myEpisodeColors = getAxisColors(props.epno);
-  let myGradientString = "linear-gradient(";
-  for(let i = 0; i < myEpisodeColors.length; i++){
-    console.log(AllAxesColors[myEpisodeColors[i] - 1]);
-    myGradientString = myGradientString + AllAxesColors[myEpisodeColors[i] - 1] + " " + i*15 +"%, ";
-  }
-  myGradientString = myGradientString + AllThematicColors[props.thematicid - 1] + " " + myEpisodeColors.length*15 + "%)" ;
-  console.log(myGradientString);
+  useEffect(() => {
+    const myEpisodeColors = props.axes.map((axis) => axis.color);
+    let tempString;
+    if(myEpisodeColors.length > 1){
+      setGradient(true);
+      const percent = 100/myEpisodeColors.length;
+      tempString = "linear-gradient(";
+      myEpisodeColors.map((color, idx) => { tempString += `${color} ${idx*percent}%, `; });
+      tempString = tempString.slice(0, -2);
+      tempString += ")";
+    }else{
+      tempString = myEpisodeColors[0];
+    }
+    setMyGradientString(tempString);
+  }, []);
 
-  return(
-    <>
-      <Col xxl={2} className="border border-light gridsquare m-0 p-0">
-        <Card className="gridsquare episode-tile-new border-light">
-          <Card.Body style={(mouseOver) ? {backgroundColor: "white"} : {backgroundImage: myGradientString}}
-            className="episode-tile-new"
-            as="button"
-            onMouseOver={() => setMouseOver(true)}
-            onMouseOut={() => setMouseOver(false)}
-            >
-            <Link to={`/${props.thematicid}/episodes/${props.epno}`} style={{color: "black", textDecoration: (mouseOver) ? "underline" : "none"}}>
-              Επεισόδιο {props.epno}
-            </Link>
-          </Card.Body>
-        </Card>
-      </Col>
-    </>
-  );
+  useEffect(() => {
+    myGradientString && setLoaded(true);
+  }, [myGradientString]);
+
+  return(<>
+    {
+    loaded && 
+    <Col key={props.cardKey} xxl={2} className="border border-light gridsquare m-0 p-0">
+      <Card className="gridsquare episode-tile-new border-light">
+        <Card.Body style={gradient ? {backgroundImage: myGradientString} : {backgroundColor: myGradientString}}
+          className="episode-tile-new"
+          as="button"
+          onMouseOver={() => setMouseOver(true)}
+          onMouseOut={() => setMouseOver(false)}
+          >
+          <Card.Title>Episode {props.epno} </Card.Title>
+          {
+              props.axes.map((axis, idx) => {
+              return <>
+                <Link key={idx} style={{'color': 'black'}} to={`sessions/${props.sessionid}/episodes/${props.epno}/visualizations?axis=${axis.axis_id_in_thematic}`}>
+                  <Card.Text style={{'color': 'black'}}>Axis {axis.axis_id_in_thematic}</Card.Text>
+                </Link>
+              </>
+            })
+          }
+        </Card.Body>
+      </Card>
+    </Col>
+    }
+  </>);
 }
 
 function EmptySquare(){
@@ -204,206 +113,28 @@ function EmptySquare(){
   );
 }
 
-function QuoteModal(props) {
-  return (
-    <Modal
-      show={props.show}
-      onHide={props.onHide}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <CloseButton onClick={props.onHide} variant="white"/>
-      <Modal.Body className="modal-quote">
-        {props.text}
-      </Modal.Body>
-    </Modal>
-  );
-}
+export default function ThematicGrid(props) {
+  let {thematicID} = useParams();
 
-function QuoteSquare(props){
-  const [quoteVisible, setQuoteVisible] = useState(false);
-  const [modalShow, setModalShow] = useState(false);
-  const [cardClassName, setCardClassName] = useState("gridsquare border-light m-0 p-0 axis" + props.content._axis_id);
-  const [quoteClassName, setQuoteClassName] = useState("quote-truncate empty");
-
-  const showQuote = () => {
-    setQuoteVisible(true);
-    setCardClassName("gridsquare border-light m-0 p-0 quote");
-    setQuoteClassName("quote-truncate");
-  }
-
-  const hideQuote = () => {
-    setQuoteVisible(false);
-    setCardClassName("gridsquare border-light m-0 p-0 axis" + props.content._axis_id);
-    setQuoteClassName("quote-truncate empty");
-  }
-
-  return(
-    <>
-      <Col xxl={2} className="border border-light gridsquare m-0 p-0">
-        <Card as="button" 
-          className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? cardClassName : "empty"}
-          onMouseOver={() => showQuote(true)} 
-          onMouseOut={() => hideQuote(false)}
-          onClick={() => setModalShow(true)}
-          disabled={(props.filter == props.content._axis_id || props.filter == 'None') ? false: true}
-          >
-          <Card.Body>
-            <Card.Text className={quoteClassName}>
-              {props.content.desc}
-            </Card.Text>
-          </Card.Body>
-        </Card>
-        <QuoteModal show={modalShow} onHide={() => setModalShow(false)} text={props.content.desc}/>
-      </Col>
-    </>
-  )
-}
-
-function ImageModal(props) {
-  return (
-    <Modal
-      show={props.show}
-      onHide={props.onHide}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <CloseButton onClick={props.onHide} variant="white"/>
-      <Modal.Body className="modal-image">
-        <Image src={`${window.location.protocol}//${window.location.hostname}/${props.path}`} alt="Modal image" fluid={true}/>
-        {props.desc}
-      </Modal.Body>
-    </Modal>
-  );
-}
-
-function ImageSquare(props){
-  const [imageVisible, setImageVisible] = useState(false);
-  const [cardClassName, setCardClassName] = useState("gridsquare border-light m-0 p-0 axis" + props.content._axis_id);
-  const [imageClassName, setImageClassName] = useState("my-auto image-square empty");
-  const [modalShow, setModalShow] = useState(false);
-
-  const showImage = () => {
-    setImageVisible(true);
-    setImageClassName("my-auto h-100");
-  }
-
-  const hideImage = () => {
-    setImageVisible(false);
-    setCardClassName("gridsquare border-light m-0 p-0 axis" + props.content._axis_id);
-    setImageClassName("empty");
-  }
-
-  console.log(`${window.location.protocol}//${window.location.hostname}/${props.content.path}`);
-  return(
-    <>
-      <Col xxl={2} className="border border-light gridsquare m-0 p-0">
-        <Card
-          className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? cardClassName : "empty"}>
-          <Card.Body as="button" 
-          onMouseOver={() => showImage(true)} 
-          onMouseOut={() => hideImage(false)}
-          onClick={() => setModalShow(true)}
-          className={(props.filter == props.content._axis_id) || (props.filter == 'None') ? cardClassName : "empty"} 
-          disabled={(props.filter == props.content._axis_id || props.filter == 'None') ? false: true}>
-            <Card.Img src={`${window.location.protocol}//${window.location.hostname}/${props.content.path}`} alt="Card Image" className={imageClassName}/>
-          </Card.Body>
-        </Card>
-        <ImageModal show={modalShow} onHide={() => setModalShow(false)} img={props.content.path} desc={props.content.desc} path={props.content.path}/>
-      </Col>
-    </>
-  )
-}
-
-function ColorFilter(props){
-  const [expanded, setExpanded] = useState(false);
-  const [hovered, setHovered] = useState('None');
-  let axisnames = getAxisNames();
-
-  return (
-    <>
-      <DropdownButton id="dropdown-item-button" variant={(expanded) ? "descselected" : "thematic" + props.id } onClick={() => setExpanded(!expanded)} title="Φίλτρα">
-        {axisnames.map((name, idx) => 
-          <Dropdown.Item key={idx} as="button" className={"filter" + (++idx)} onMouseOver={() => setHovered(idx)} onMouseOut={() => setHovered('None')} onClick={() => props.callback((idx))}>
-            <p style={{visibility: (hovered == idx) ? "visible": "hidden"}}>
-              {name}
-            </p>
-          </Dropdown.Item>)}
-      </DropdownButton>    
-    </>
-  );
-}
-
-function ClearFilter(props){
-  return (
-    <>
-      <Button variant="descselected" onClick={() => props.callback()}> 
-        Πίσω
-        <i className="bi bi-arrow-left"></i>
-      </Button>
-    </>
-  );
-}
-
-function ColorFilterColumnWrapper(props){
-  const [filterChosen, setFilterChosen] = useState(false);
-  const [colorChosen, setColorChosen] = useState('None');
-
-  const clearFilterCallback = () => {
-    setFilterChosen(!filterChosen);
-    setColorChosen('None');
-    props.callback('None');
-  }
-
-  const filterCallback = (id) => {
-    setFilterChosen(!filterChosen);
-    setColorChosen(id);
-    props.callback(id);
-  }
-  console.log('filterchosen: ' + filterChosen);
-  console.log('colorchosen: ' + colorChosen);
-  return (
-    <>
-      <Col xxl={4} className={(filterChosen) ? "border border-light descselected" : "border border-light"}>
-      {
-        (filterChosen) ?  <ClearFilter callback={clearFilterCallback}/> : <ColorFilter id={props.id} callback={filterCallback} />
-      }
-      </Col>
-    </>
-  );
-}
-
-function ThematicGrid(props) {
-  let newClassName="thematic" + props.id;
-  document.body.className=newClassName;
   let content = getThematics();
-  content = content[props.id - 1];
+  content = content[thematicID - 1];
 
-  const [open, setOpen] = useState(false);
-  const descButtonCallback = () => {
-    console.log(open);
-    setOpen(!open);
-  }
+  const data = useLoaderData();
 
-  const [filteredAxis, setFilteredAxis] = useState('None');
-  const colorFilterCallback = (val) => {
-    setFilteredAxis(val);
-  }
-  console.log('filteredAxis: ' + filteredAxis);
   return (
     <Container fluid>
       <Container className="flex-column">
-        <Row>
-          <Description id={props.id} desc={content.desc} open={open}/>
+        <Row key={0}>
+          <SessionTabs />
         </Row>
-        <Row>
-          <ThematicGridHeader name={content.name} desc={content.desc} id={props.id} callback={descButtonCallback} cfcallback={colorFilterCallback} open={open}/>
-        </Row>
-        <Row>
-          <ThematicGridBody id={props.id} filter={filteredAxis}/>
-        </Row>
+        <ScrollSpy>
+          <Row key={1} id="first">
+            <ThematicGridBody key={0} id={thematicID} sessionData={data[0]} startingKey={0}/>
+          </Row>
+          <Row key={2} id="second">
+            <ThematicGridBody key={1} id={thematicID} sessionData={data[1]} startingKey={data[0].length}/>
+          </Row>
+        </ScrollSpy>
       </Container>
     </Container>
   );  

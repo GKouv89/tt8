@@ -3,8 +3,6 @@ import Accordion from 'react-bootstrap/Accordion'
 
 import Thematic from '../Component/Thematic.js'
 
-
-
 export default function Thematics(props){
   const [activeKey, setActiveKey] = useState('None');
   

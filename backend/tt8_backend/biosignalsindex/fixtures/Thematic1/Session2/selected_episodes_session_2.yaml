@@ -1,0 +1,18 @@
+- fields:
+    axis: [4]
+    episode_id_in_session: '22'
+    is_superepisode: false
+    session: 2
+  model: biosignalsindex.Episode
+- fields:
+    axis: [7]
+    episode_id_in_session: '55'
+    is_superepisode: false
+    session: 2
+  model: biosignalsindex.Episode
+- fields:
+    axis: [8]
+    episode_id_in_session: '66'
+    is_superepisode: false
+    session: 2
+  model: biosignalsindex.Episode

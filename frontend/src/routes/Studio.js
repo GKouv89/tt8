@@ -1,8 +1,7 @@
-import React, { Component, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState, createContext, useContext } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
 
-import Breadcrumb from '../Component/Breadcrumb';
-import ContentSquare, { EmptySquare, SpecialUseSquare } from '../Component/ContentSquare';
+import Breadcrumbs from '../Component/Breadcrumbs';
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import Container from 'react-bootstrap/Container';
@@ -10,25 +9,29 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner';
-// import Alert from 'react-bootstrap/Alert';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 
-import { getStudioContent, getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
+import { getAxisColorsAndNames, getAllEpisodeBiometrics } from '../data';
 import * as single from '../sketches/singularParticipantSketch'
 import * as episode from '../sketches/episodeSketch'
-import CloseButton from 'react-bootstrap/CloseButton';
+import { fetchSceneMaterial } from '../api/calls';
+
+const IDContext = createContext({});
 
 export default function StudioWrapper(){
-    let {thematicID, episodeID} = useParams();
+    let {thematicID, sessionID, episodeID} = useParams();
+    const [searchParams] = useSearchParams();
+    const axis = searchParams.get('axis');
+
     return(
         <>
-            <Studio themid={thematicID} epid={episodeID}/>
+            <Studio themid={thematicID} epid={episodeID} sessionID={sessionID} axis={axis}/>
         </>
     );
 }
 
-function sketchChoice(chosenViz, axes, files){
+function sketchChoice(chosenViz, color, files){
     // According to which sketch is used, a different row/column layout is preferred
     // and is returned bundled with the sketch wrapper        
     switch(chosenViz){
@@ -38,7 +41,7 @@ function sketchChoice(chosenViz, axes, files){
                 <Container>
                     <Row className='align-items-center'>
                         <Col id="sketch-canvas-container">
-                            <ReactP5Wrapper sketch={single.sketch} axes={axes} files={files}/>
+                            <ReactP5Wrapper sketch={single.sketch} color={color} files={files}/>
                         </Col>
                         <Col id="sketch-gui-container"></Col> 
                     </Row>
@@ -49,7 +52,7 @@ function sketchChoice(chosenViz, axes, files){
                 <Container className='flex-column'>
                     <Row id="sketch-ribbon-container"></Row>
                     <Row id="sketch-canvas-container-large">
-                        <ReactP5Wrapper sketch={episode.sketch} axes={axes} files={files}/>
+                        <ReactP5Wrapper sketch={episode.sketch} color={color} files={files}/>
                     </Row>
                 </Container>
             );
@@ -58,26 +61,31 @@ function sketchChoice(chosenViz, axes, files){
     }
 }
 
-function Studio(props){
+function Studio({themid, epid, sessionID, axis}){
     // The data for sonification and visualization are loaded here
     // So we can avoid reload every time we change the sonification/visualization given
     // Here we store the axes and the file paths/names for the sketch
-    const [data, setData] = useState(null);
+    const [color, setColor] = useState(null);
+    const [files, setFiles] = useState(null);
     const [showPlayToast, setShowPlayToast] = useState(true);
     const [showRecToast, setRecToast] = useState(true);
 
     // Setting paths for breadcrumb buttons
-    const newClassName = "thematic" + props.themid; 
+    const newClassName = "thematic" + themid; 
     document.body.className = newClassName; // CSS class for background color
-    const eppath = `/${props.themid}/episodes/${props.epid}`;
+    const eppath = `/${themid}`;
 
     // Loading data, this will be a fetch call in the near future
     // This runs just once, when the component renders
     useEffect(() => {
-        let axes = getAxisColorsAndNames(props.epid)
-        let files = getAllEpisodeBiometrics(props.epid)
-        setData({axes: axes, files: files})
-    }, [])
+        fetchSceneMaterial(themid, sessionID, epid, axis)
+            .then((ret) => {
+                // const material = ret.material.map((mat, idx) => {mat.path = mat.path.replace('https://transitionto8.athenarc.gr/', ''); return mat;});
+                setColor(ret.color);
+                setFiles(ret.material);
+            })
+            .catch((err) => console.error(err));
+    }, []);
 
     return(
         <>
@@ -107,31 +115,17 @@ function Studio(props){
             <Container fluid>
                 <Container className="flex-column" fluid>
                     <Row>
-                        <Breadcrumb path={eppath} themid={props.themid}/>                
+                        {
+                            color && files ? <SketchComponent color={color} files={files}/> : <h1>Προς το παρόν, δεν υπάρχουν οπτικοποιήσεις και ηχοποιήσεις για αυτό το επεισόδιο.</h1>
+                        }
                     </Row>
-                            {/* <Alert variant='warning' onClose={() => setShowAlert(false)} dismissible>
-                                    <Alert.Heading>
-                                        Αναπαραγωγή οπτικοποιήσεων & ηχοποιήσεων
-                                    </Alert.Heading>
-                                    <p>
-                                        Η αναπαραγωγή των οπτικοποιήσεων και ηχοποιήσεων απαιτούν την παραμονή σας σε αυτή την καρτέλα.
-                                    </p>
-                                    <hr />
-                                    <p>
-                                        Αν αλλάξετε καρτέλα ή ελαχιστοποιήσετε το παράθυρο, απλώς θα γίνει παύση της αναπαραγωγής. Η αναπαραγωγή θα συνεχιστεί κανονικά με
-                                        την επιστροφή σας στην τρέχουσα καρτέλα.
-                                    </p>
-                                </Alert>                 */}
-                    {
-                        data && data.files.length ? <SketchComponent axes={data.axes} files={data.files}/> : <h1>Προς το παρόν, δεν υπάρχουν οπτικοποιήσεις και ηχοποιήσεις για αυτό το επεισόδιο.</h1>
-                    }
                 </Container>
             </Container>
         </>
     );
 }
 
-function SketchComponent({axes, files}){
+function SketchComponent({color, files}){
     // Integer state for chosenViz is which 'screen' we're currently at
     const [chosenViz, setChosenViz] = useState(0); 
     // Here we store a reference (?) to the ReactP5Wrapper object of the chosen sketch
@@ -141,7 +135,7 @@ function SketchComponent({axes, files}){
     // If the 'screen' changes, then we can also set the sketch anew
     // This is called also on the 1st render of the component to show the 1st sketch
     useEffect(() => {
-        setSketch(sketchChoice(chosenViz, axes, files))
+        setSketch(sketchChoice(chosenViz, color, files))
     }, [chosenViz])
 
     // The 3rd column is space for the GUI that will be created from the sketch, hence its emptiness

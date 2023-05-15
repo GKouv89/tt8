@@ -6,11 +6,11 @@ import * as P5Class from "p5"
 import MidiWriter from 'midi-writer-js';
 
 export function sketch(p5){
-    let prefixPath = `${window.location.protocol}//${window.location.hostname}`; // This is the prefix for the file server
+    // let prefixPath = `${window.location.protocol}//${window.location.hostname}`; // This is the prefix for the file server
     let filepaths = [];
     let tables = [];
 
-    let axes = [];
+    let axisColor;
 
     let sonificationRunning = false, isPaused = false, isForcedRecStop = false;
     document.addEventListener("visibilitychange", () => {
@@ -43,7 +43,7 @@ export function sketch(p5){
     });
 
     function loadFile(idx){
-        tables.push(p5.loadTable(`${prefixPath}/${filepaths[idx].path}`, 'csv', 'header', () => {
+        tables.push(p5.loadTable(`${filepaths[idx].path}`, 'csv', 'header', () => {
             if(idx == filepaths.length - 1){ // Base case: if we have loaded the last file, go on with finding min & max values
                 moreSetup();
             }else{ // otherwise proceed with loading next file
@@ -60,12 +60,10 @@ export function sketch(p5){
 
     function moreSetup(){
         findMinMax();
-        numberOfReps = p5.floor(tables[0].getRowCount()/samplingRate);
-        console.log('NUMBER OF REPS: ', numberOfReps);
-        // numberOfReps = 20; // DEBUGGING
+        numberOfReps = p5.ceil(tables[0].getRowCount()/samplingRate);
+        // console.log('NUMBER OF REPS: ', numberOfReps);
         let rowContainer = p5.select('#sketch-ribbon-container');
         biometricAnalyticsContainer = createBiometricValueRibbon().parent(rowContainer); /* .parent(guiContainer).addClass('column-item') */
-        // GUI creation takes place here because the available axes must be loaded before we create the corresponding radio button
         GUIcontainer = p5.createDiv().addClass('parentContainer').style('width', '50%');
         studioContainer = createGUI().parent(GUIcontainer).addClass('p5EpisodeGUI-column-item');
         // Positioning the GUI buttons right above the canvas
@@ -99,14 +97,15 @@ export function sketch(p5){
     }
     
     p5.updateWithProps = props => {
-        if(axes.length == 0){ // This will be updated only once
-            axes = props.axes;
-            // Along with axes we can be certain the data array can be initialized
+        if(props.color){
+            axisColor = props.color;
+        }
+        if(props.files){
             filepaths = props.files;
             // Loading all files from the get go
             // This will call itself recursively
             loadFile(0);
-        }        
+        }
     }
         
     let min , max
@@ -127,7 +126,6 @@ export function sketch(p5){
     // the visualization and sonification parameters.
     
     let gradient
-    let axisColor;
     
     let oscillators = [] // One per participant
     let envelopes = [] // One per participant
@@ -159,18 +157,18 @@ export function sketch(p5){
         // The following arrays contain the minimum and maximum of all biometrics PER PARTICIPANT
         // 1st dimension (row): biometric
         // 2nd dimension (column): participant
-        min = Array(tables[0].getColumnCount())
-        max = Array(tables[0].getColumnCount())
+        min = Array(tables[0].getColumnCount());
+        max = Array(tables[0].getColumnCount());
         for(let i = 0; i < min.length; i++){
-            min[i] = Array(tables.length).fill(1000)
-            max[i] = Array(tables.length).fill(0)
+            min[i] = Array(tables.length).fill(1000);
+            max[i] = Array(tables.length).fill(0);
         }
         for(let f = 0; f < tables.length; f++){
             for(let i = 0; i < tables[f].getRowCount(); i += samplingRate){
                 for(let j = 0; j < tables[f].getColumnCount(); j++){
-                    currval = parseFloat(tables[f].get(i, j))
-                    min[j][f] = (() => {return currval < min[j][f] ? currval : min[j][f]})()
-                    max[j][f] = (() => {return currval > max[j][f] ? currval : max[j][f]})()
+                    currval = parseFloat(tables[f].get(i, j));
+                    min[j][f] = (() => {return currval < min[j][f] ? currval : min[j][f]})();
+                    max[j][f] = (() => {return currval > max[j][f] ? currval : max[j][f]})();
                 }
             }
         }
@@ -213,8 +211,8 @@ export function sketch(p5){
             let square = p5.createDiv().addClass('p5EpisodeGUI-row-item').addClass('greyRibbon').parent(container)
             p5.createDiv(`P${idx+1}`).addClass('p5EpisodeGUI-column-item').parent(square)
             for(let i = 0; i < tables[idx].getColumnCount(); i++){
-                p5.createDiv(`${biometricNames[i]}: [${min[i][idx]}, ${max[i][idx]}]`).addClass('p5EpisodeGUI-column-item').parent(square)
-                biometricCurrentValues[i][idx] = p5.createP(`Currently: ${table.get(repNo, i)}`).addClass('p5EpisodeGUI-column-item').parent(square)
+                p5.createDiv(`${biometricNames[i]}: [${min[i][idx].toFixed(2)}, ${max[i][idx].toFixed(2)}]`).addClass('p5EpisodeGUI-column-item').parent(square)
+                biometricCurrentValues[i][idx] = p5.createP(`Currently: ${parseFloat(table.get(repNo, i)).toFixed(2)}`).addClass('p5EpisodeGUI-column-item').parent(square)
             }
         })
         return container
@@ -224,7 +222,7 @@ export function sketch(p5){
         tables.map((table, idx) => {
             // console.log('In updateCurrentBiometricValues, with repNo = ', repNo);
             for(let i = 0; i < table.getColumnCount(); i++){
-                biometricCurrentValues[i][idx].html(`Currently: ${table.get(repNo*samplingRate, i)}`)
+                biometricCurrentValues[i][idx].html(`Currently: ${parseFloat(table.get(repNo*samplingRate, i)).toFixed(2)}`)
             }
         })
     }
@@ -296,8 +294,6 @@ export function sketch(p5){
         downloadVideoButton.mousePressed(() => {exportVid(videoBlob)})
         downloadVideoButton.attribute('disabled', '')
         
-        axisColor = axes[0].color;
-
         // GUI element for changing the starting C.
         // User inputs a number from 0 to 8
         tempContainer = p5.createDiv().parent(container).addClass('p5EpisodeGUI-column-item');
@@ -439,7 +435,7 @@ export function sketch(p5){
         // But it's value isn't valid!
         // So, initializing it as 1 here, and assigning it its proper value once
         // everything loads.
-        numberOfReps = 1 
+        numberOfReps = 1;
         
         recorder = new P5Class.SoundRecorder()
     }
@@ -458,6 +454,10 @@ export function sketch(p5){
             gradient = p5.drawingContext.createLinearGradient(0, p5.height/2, p5.width, p5.height/2);
             if(tables.length !== 1){           
                 tables.map((_, idx) => {
+                    console.log(`idx: ${idx}`);
+                    console.log(`tables.length: ${tables.length}`);
+                    console.log(`old_colors: `, old_colors);
+                    console.log(`old_colors[${idx}]: (${p5.hue(old_colors[idx])}, ${p5.saturation(old_colors[idx])}, ${p5.brightness(old_colors[idx])})`);
                     gradient.addColorStop(idx/(tables.length - 1), old_colors[idx])
                 })
             }else{ // Edge case, only 1 participant
@@ -520,8 +520,12 @@ export function sketch(p5){
     p5.draw = () => {    
         if(setupFinished){
             if(repNo < numberOfReps){
-                console.log('repNo: ', repNo);
-                handleGradient();
+                // console.log('repNo: ', repNo);
+                // edge case: handleGradient always produces the next color,
+                // but right at our last rep, there is no other color to produce
+                if(repNo !== numberOfReps - 1){
+                    handleGradient();
+                }
                 // Every second we read another line from the CSV 
                 // So every second, we redetermine what the participant's heart rate is
                 // and this changes each loop's interval, effective immediately,
@@ -544,11 +548,23 @@ export function sketch(p5){
     
     function createColor(repNo, colorNo){
         // Mapping a biometric (temporarily hardcoded, always the heartbeat) to a number in brightness' valid range of values.
-        let brightnesses = 0, bioCount = tables[colorNo].getColumnCount()
+        let brightnesses = 0, bioCount = tables[colorNo].getColumnCount();
+        // console.log(`bioCount: ${bioCount}`);
         for(let i = 0; i < bioCount; i++){
-            brightnesses += p5.constrain(p5.map(tables[colorNo].get(repNo, i), min[i][colorNo], max[i][colorNo], 0, 100), 0, 100)
+            let new_brightness = p5.constrain(p5.map(tables[colorNo].get(repNo, i), min[i][colorNo], max[i][colorNo], 0, 100), 0, 100);
+            if(isNaN(new_brightness)){
+                // case where at least one biometric in an episode presents absolutely zero fluctuation.
+                // we then use the default fluctuation. 
+                new_brightness = p5.brightness(axisColor);
+            }
+            console.log(`new_brightness: ${new_brightness}`);
+            // brightnesses += p5.constrain(p5.map(tables[colorNo].get(repNo, i), min[i][colorNo], max[i][colorNo], 0, 100), 0, 100)
+            brightnesses += new_brightness;
         }
-        return p5.color(p5.hue(axisColor), p5.saturation(axisColor), brightnesses/bioCount)
+        // console.log(`Color: (${p5.hue(axisColor)}, ${p5.saturation(axisColor)}, brightness)`);
+        // console.log(`brightnesses: ${brightnesses}`);
+        // console.log(`result: ${brightnesses/bioCount}`);
+        return p5.color(p5.hue(axisColor), p5.saturation(axisColor), brightnesses/bioCount);
     }
     
     function createColors(){
@@ -610,7 +626,6 @@ export function sketch(p5){
         playAndExportButton.removeAttribute('disabled');
         initializeVisuals();
         handleAudio();
-        // numberOfReps = 20
         console.timeEnd('sonification');
         if(isRecording){
             recorder.stop(); // Stopping the sound recorder manually.
