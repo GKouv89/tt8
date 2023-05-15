@@ -47,13 +47,18 @@ export function sketch(p5){
         })
     }
 
+    // when participant is defined,
+    // we find the containing row by id
+    // then we adjust the sketch's width
+    // according to said row's width.
+    // participant is passed through props
+    // and is not available when setup runs
+    // so in order to avoid a race condition
+    // this must take place once props are updated
     function readjustCanvas(participant) {
-        console.log(p5.select(`#myRow-${participant}`).elt.clientWidth);
-        console.log(p5.width);
-        // canvas.parent(`myRow-${participant}`);
         canvas.parent(`visColumn-${participant}`);
+        p5.resizeCanvas(p5.select(`#visColumn-${participant}`).elt.clientWidth, p5.height);
         canvas.style('display', 'flex');
-        // canvas.style('position', 'absolute');
     }
 
     const getBiosignalIdx = () => {
@@ -88,10 +93,9 @@ export function sketch(p5){
     let canvas;
     p5.setup = () => {
         p5.colorMode(p5.HSB);
-        // const parent_col_width = window.innerWidth - p5.select(`.sonButtonColumn`).elt.clientWidth - p5.select('.participantNoColumn').elt.clientWidth;
         const parent_col_width = window.innerWidth - p5.select(`.sonButtonColumn`).elt.clientWidth ;
         const canvas_height = 100; // arbitrary
-        const canvas_width = parent_col_width - 150; // the subtraction prevents the elements of the other column from wrapping. Not foolproof.
+        const canvas_width = parent_col_width ; // the subtraction prevents the elements of the other column from wrapping. Not foolproof.
         canvas = p5.createCanvas(canvas_width, canvas_height);
         p5.noLoop();
     }

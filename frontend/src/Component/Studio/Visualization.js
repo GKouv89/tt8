@@ -46,25 +46,31 @@ function VisualizationRow({id, biosignal, sketch, participant, file}){
     const {setParticipant, color} = useContext(ParticipantContext);
 
     return(
-        <Container fluid style={{'margin': '0px', 'padding': '0px'}}>
-            <Row id={`myRow-${participant}`} style={{'align-items': 'center', 'margin': '0px', 'padding': '0px', 'flex-wrap': 'nowrap'}}>
-                <Col id={`visColumn-${participant}`} xs={11} style={{'margin': '0px', 'padding': '0px'}}>
+        <Container fluid className="m-0 p-0">
+            <Row id={`myRow-${participant}`} className="align-items-center m-0 p-0 flex-nowrap">
+                <Col id={`visColumn-${participant}`} xs={10} className="m-0 p-0">
                     <SketchComponent biosignal={biosignal} sketch={sketch} color={color} file={file} participant={participant}/>                                
                 </Col>
-                <Col xs={1} className="sonButtonColumn" style={{'margin': '0px', 'padding': '0px'}}>
-                    <Stack direction='horizontal' gap={4}>
-                        <h3>{id}</h3>
-                        <Link to={`../sonifications/${participant}?${searchParams}`}>
-                            <Button 
-                                variant='dark'
-                                onClick = {() => {
-                                    setParticipant(participant); 
-                                }}
-                            >
-                                Sonify
-                            </Button>
-                        </Link>
-                    </Stack>
+                <Col xs={2} className="sonButtonColumn m-0 p-0">
+                    <Container fluid>
+                        <Row className="justify-content-center">
+                            <Col>
+                                <h3>{id}</h3>
+                            </Col>
+                            <Col xs={'auto'}>
+                                <Link to={`../sonifications/${participant}?${searchParams}`}>
+                                    <Button 
+                                        variant='dark'
+                                        onClick = {() => {
+                                            setParticipant(participant); 
+                                        }}
+                                    >
+                                        Sonify
+                                    </Button>
+                                </Link>
+                            </Col>                    
+                        </Row>
+                    </Container>
                 </Col>
             </Row>
         </Container>
@@ -90,14 +96,13 @@ export default function Visualization(){
                         </Tab> */}
                         <Tab eventKey="color" title="Color">
                         {
-                            <Container fluid style={{'margin': '10px 0px', 'padding': '0px'}}>
-                                <Row key={0} style={{'justify-content': 'space-between', 'margin': '10px 0px', 'padding': '0px'}}>
+                            <Container fluid className="p-0" style={{'margin': '10px 0px'}}>
+                                <Row key={0} className="p-0 justify-content-between" style={{'margin': '10px 0px'}}>
                                     <Col xs={'auto'}>
-                                        <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
+                                            <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
                                     </Col>
-                                    <Col xs={1}>
-                                        {/* <h2>Participants</h2> */}
-                                        <p>Participants</p>
+                                    <Col xs={'auto'}>
+                                        <h2>Participants</h2>
                                     </Col>
                                 </Row>
                                 <Stack gap={2}>
