@@ -4,23 +4,30 @@ import '../lib/p5.js'
 
 export function sketch(p5){
     let axisChoice;
-    let filepaths = [];
-    let tables = [];
+    let filepath;
+    let table;
+    let participant;
     let biosignal;
     let min, max;
 
-    const samplingRate = 128;
-
     let dataLoaded = false;
-    
+    let active;
+
     p5.updateWithProps = props => {
         // These two are only initialized once, hence the two checks.
-        if(filepaths.length == 0 && props.files){ 
-            filepaths = props.files;
-            loadFile(0);
+        if(filepath === undefined && props.file){ 
+            filepath = props.file;
+            loadFile();
+        }
+        if(participant === undefined && props.participant){
+            participant = props.participant;
+            readjustCanvas(props.participant);
         }
         if(axisChoice === undefined && props.color){
             axisChoice = props.color;
+        }
+        if(props.active === 'graph'){
+            readjustCanvas(participant);
         }
         // This one changes on the click of a button, so we must update it often
         if(props.biosignal){
@@ -32,17 +39,27 @@ export function sketch(p5){
         }
     };
 
-    const loadFile = (idx) => {
-        tables.push(p5.loadTable(`${filepaths[idx].path}`, 'csv', 'header', () => {
-            if(idx == filepaths.length - 1){ // Base case: if we have loaded the last file, go on with finding min & max values
-                dataLoaded = true;
-                findMinMax();
-                // Run draw once more with the data we have
-                p5.loop();
-            }else{ // otherwise proceed with loading next file
-                loadFile(idx+1);
-            }
-        }))
+    const loadFile = () => {
+        table = p5.loadTable(filepath, 'csv', 'header', () => {
+            dataLoaded = true;
+            findMinMax();
+            // Run draw once more with the data we have
+            p5.loop();
+        })
+    }
+
+    // when participant is defined,
+    // we find the containing row by id
+    // then we adjust the sketch's width
+    // according to said row's width.
+    // participant is passed through props
+    // and is not available when setup runs
+    // so in order to avoid a race condition
+    // this must take place once props are updated
+    function readjustCanvas(participant) {
+        p5.resizeCanvas(p5.select(`#visColumn-graph-${participant}`).elt.clientWidth, p5.height);
+        canvas.style('display', 'flex');
+        // p5.redraw();
     }
 
     const getBiosignalIdx = () => {
@@ -66,40 +83,34 @@ export function sketch(p5){
         // Finding min and max from all tables
         // for chosen biometric
         const biosignalIdx = getBiosignalIdx();
-        let currval, currtable;
-        for(let f = 0; f < tables.length; f++){
-            currtable = tables[f];
-            for (let row = 0; row < currtable.getRowCount(); row++){
-                currval = parseFloat(currtable.get(row, biosignalIdx));
-                min = (() => {return currval < min ? currval : min})();
-                max = (() => {return currval > max ? currval : max})();
-            }
+        let currval;
+        for (let row = 0; row < table.getRowCount(); row++){
+            currval = parseFloat(table.get(row, biosignalIdx));
+            min = (() => {return currval < min ? currval : min})();
+            max = (() => {return currval > max ? currval : max})();
         }
     }
 
+    let canvas;
     p5.setup = () => {
-        console.log('In graph sketch.');
-        const parent_col_width = p5.select('#tabColumn').elt.offsetWidth;
-        const canvas_height = window.innerHeight;
-        const canvas_width = parent_col_width - 100; // the subtraction prevents the elements of the other column from wrapping. Not foolproof.
-        const canvas = p5.createCanvas(canvas_width, canvas_height);
-        canvas.style('margin', '0');
-        canvas.style('display', 'block');
+        const parent_col_width = window.innerWidth - p5.select(`.sonButtonColumn`).elt.clientWidth ;
+        const canvas_height = 200; // arbitrary
+        const canvas_width = parent_col_width; 
+        canvas = p5.createCanvas(canvas_width, canvas_height);
         p5.noLoop();
     }
 
-    const plotGraph = (idx) => {
-        const table = tables[idx];
+    const plotGraph = () => {
         const biosignalIdx = getBiosignalIdx();
         let x, y, currval;
         const rowCount = table.getRowCount();
         const paddingTopBottomRight = 10; 
         const paddingLeft = 50;
         // Draw axes
-        const participantCanvasHeight = (p5.height - headerPadding)/tables.length;
-        const participantLowerHeight = headerPadding + idx*participantCanvasHeight + paddingTopBottomRight;
-        const participantHigherHeight = headerPadding + (idx+1)*participantCanvasHeight - paddingTopBottomRight;
-        const participantMinWidth = indicatorWidth + paddingLeft;
+        const participantCanvasHeight = p5.height;
+        const participantLowerHeight = paddingTopBottomRight;
+        const participantHigherHeight = participantCanvasHeight - paddingTopBottomRight;
+        const participantMinWidth = paddingLeft;
         const participantMaxWidth = p5.width - paddingTopBottomRight;
         // y axis
         p5.stroke(p5.color('black'));
@@ -123,45 +134,12 @@ export function sketch(p5){
         p5.endShape();
     }
 
-    const headerPadding = 50;
     p5.draw = () => {
+        console.log('draw graph');
         p5.background('white');
         if(dataLoaded){
-            indicatorWidth = p5.floor(p5.width/10);
-            // Header
-            const canvas_width = p5.width;
-            p5.fill(p5.color('#c2c2c2'));
-            p5.rect(0, 0, canvas_width, headerPadding);
-            p5.fill(p5.color('black'));
-            p5.textSize(32);
-            p5.textAlign(p5.LEFT, p5.CENTER);
-            p5.text(`Participants`, 0, 25);
-            p5.fill(p5.color('white'));
-            const participantCount = tables.length;
-            const participantCanvasHeight = (p5.height - headerPadding)/participantCount;
-            p5.stroke('black');
-            for (const x of Array(participantCount).keys()){
-                p5.line(0, headerPadding + x*participantCanvasHeight, canvas_width, headerPadding + x*participantCanvasHeight);
-                participantIndicator(x);
-                p5.stroke('red');
-                plotGraph(x);
-                p5.stroke('black');
-            }
-            if(p5.isLooping())
-                p5.noLoop();
+            plotGraph();
+            p5.noLoop();
         }
-    }
-
-    let indicatorWidth; 
-    const participantIndicator = (idx) => {
-        console.log('In participant indicator');
-        const participantCanvasHeight = (p5.height - headerPadding)/tables.length;
-        p5.fill(p5.color('#c2c2c2'));
-        p5.rect(0, headerPadding +  idx*participantCanvasHeight, indicatorWidth, participantCanvasHeight);
-        p5.fill(p5.color('black'));
-        p5.textSize(indicatorWidth/3);
-        p5.textAlign(p5.CENTER, p5.CENTER);
-        p5.text(`${filepaths[idx].participant}`, indicatorWidth/2, headerPadding + idx*participantCanvasHeight + participantCanvasHeight/2);
-        p5.fill(p5.color('white'));
     }
 }

@@ -36,6 +36,9 @@ export function sketch(p5){
             p5.drawingContext.clearRect(0, 0, p5.width, p5.height);
             p5.loop();
         }
+        if(props.active === 'color'){
+            readjustCanvas(participant);
+        }
     };
 
     const loadFile = () => {
@@ -56,9 +59,9 @@ export function sketch(p5){
     // so in order to avoid a race condition
     // this must take place once props are updated
     function readjustCanvas(participant) {
-        canvas.parent(`visColumn-${participant}`);
-        p5.resizeCanvas(p5.select(`#visColumn-${participant}`).elt.clientWidth, p5.height);
+        p5.resizeCanvas(p5.select(`#visColumn-color-${participant}`).elt.clientWidth, p5.height);
         canvas.style('display', 'flex');
+        p5.redraw();
     }
 
     const getBiosignalIdx = () => {
@@ -103,7 +106,6 @@ export function sketch(p5){
     p5.draw = () => {
         p5.background(p5.color('#c2c2c2'));
         if(dataLoaded){
-
             createGradient();
             p5.noLoop();
         }
