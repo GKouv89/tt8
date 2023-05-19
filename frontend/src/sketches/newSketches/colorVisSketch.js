@@ -10,10 +10,11 @@ export function sketch(p5){
     let biosignal;
     let min, max;
 
-    const samplingRate = 128;
-
     let dataLoaded = false;
-    
+    let active;
+
+    let noFluctuation = false;
+
     p5.updateWithProps = props => {
         // These two are only initialized once, hence the two checks.
         if(filepath === undefined && props.file){ 
@@ -22,7 +23,6 @@ export function sketch(p5){
         }
         if(participant === undefined && props.participant){
             participant = props.participant;
-            readjustCanvas(props.participant);
         }
         if(axisChoice === undefined && props.color){
             axisChoice = props.color;
@@ -36,8 +36,15 @@ export function sketch(p5){
             p5.drawingContext.clearRect(0, 0, p5.width, p5.height);
             p5.loop();
         }
-        if(props.active === 'color'){
-            readjustCanvas(participant);
+        if(props.active === 'color' && participant !== undefined){
+            if(active !== props.active){
+                readjustCanvas(participant);
+                active = props.active;
+            }
+        }
+        if(props.active === 'graph'){
+            active = props.active;
+            p5.noLoop();
         }
     };
 
@@ -60,8 +67,6 @@ export function sketch(p5){
     // this must take place once props are updated
     function readjustCanvas(participant) {
         p5.resizeCanvas(p5.select(`#visColumn-color-${participant}`).elt.clientWidth, p5.height);
-        canvas.style('display', 'flex');
-        p5.redraw();
     }
 
     const getBiosignalIdx = () => {
@@ -82,6 +87,7 @@ export function sketch(p5){
         // Resetting min and max vars
         min = 10000;
         max = 0;
+        noFluctuation = false;
         // Finding min and max from all tables
         // for chosen biometric
         const biosignalIdx = getBiosignalIdx();
@@ -91,15 +97,20 @@ export function sketch(p5){
             min = (() => {return currval < min ? currval : min})();
             max = (() => {return currval > max ? currval : max})();
         }
+        if(min === max){
+            noFluctuation = true;
+        }
     }
 
-    let canvas;
     p5.setup = () => {
         p5.colorMode(p5.HSB);
-        const parent_col_width = window.innerWidth - p5.select(`.sonButtonColumn`).elt.clientWidth ;
+        
+        // width is roughly 11 twelvthes, as it should because of flexbox.
+        // this will change later, but it is good enough for setup
+        const parent_col_width = 11*p5.select('#rowContainer-color').elt.clientWidth/12;
         const canvas_height = 100; // arbitrary
-        const canvas_width = parent_col_width ; // the subtraction prevents the elements of the other column from wrapping. Not foolproof.
-        canvas = p5.createCanvas(canvas_width, canvas_height);
+        
+        p5.createCanvas(parent_col_width, canvas_height);
         p5.noLoop();
     }
 
@@ -107,7 +118,16 @@ export function sketch(p5){
         p5.background(p5.color('#c2c2c2'));
         if(dataLoaded){
             createGradient();
-            p5.noLoop();
+            if(participant !== undefined){
+                // the grid is adjusting on the first render
+                // at some point, all columns take the width they must
+                // the draw loop is running, and when this happens,
+                // the change is detected and the width is also adjusted appropriately.
+                const parent_col_width = p5.select(`#visColumn-color-${participant}`).elt.clientWidth;
+                if(parent_col_width !== p5.width){
+                    readjustCanvas(participant);
+                }
+            }
         }
     }
 
@@ -124,17 +144,21 @@ export function sketch(p5){
         let gradient = context.createLinearGradient(x0, y0, x1, y1);
         let colorStopPercent, brightness;
         const biosignalIdx = getBiosignalIdx();
-        let currval, prevval = -1;
-        for(let i = 0; i < table.getRowCount(); i+=samplingRate){
-            currval = p5.floor(table.get(i, biosignalIdx));
-            if(currval !== prevval){
-                brightness = p5.map(currval, min, max, 0, 100);
-                colorStopPercent = p5.map(i, 0, table.getRowCount(), 0, 1);
-                gradient.addColorStop(colorStopPercent, p5.color(p5.hue(axisChoice), p5.saturation(axisChoice), brightness));    
+        if(noFluctuation){
+            p5.fill(axisChoice);
+        }else{
+            let currval, prevval = -1;
+            for(let i = 0; i < table.getRowCount(); i+=20){
+                currval = parseFloat(table.get(i, biosignalIdx)).toFixed(2);
+                if(currval !== prevval){
+                    brightness = p5.map(currval, min, max, 0, 100);
+                    colorStopPercent = p5.map(i, 0, table.getRowCount(), 0, 1);
+                    gradient.addColorStop(colorStopPercent, p5.color(p5.hue(axisChoice), p5.saturation(axisChoice), brightness));
+                }
+                prevval = currval;
             }
-            prevval = currval;
+            context.fillStyle = gradient;
         }
-        context.fillStyle = gradient;
         p5.rect(x, y, w, h);
     }
 }

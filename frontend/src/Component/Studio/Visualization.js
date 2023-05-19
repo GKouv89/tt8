@@ -39,25 +39,25 @@ function VisualizationRow({participant, sketch, ...props}){
     }
 
     return(
-        <Container fluid className="m-0 p-0">
-            <Row id={`myRow-${sketch}-${participant}`} className="align-items-center m-0 p-0 flex-nowrap">
-                <Col id={`visColumn-${sketch}-${participant}`} xs={11} className="m-0 p-0">
-                    {sketchChoice()}
-                </Col>
-                <Col xs={1} className="sonButtonColumn m-0 p-0">
-                    <Link to={`../sonifications/${participant}?${searchParams}`}>
-                        <Button 
-                            variant='dark'
-                            onClick = {() => {
-                                setParticipant(participant); 
-                            }}
-                        >
-                            Sonify
-                        </Button>
-                    </Link>
-                </Col>
-            </Row>
-        </Container>
+        <Row 
+            id={`myRow-${sketch}-${participant}`} 
+            className="align-items-center m-0 px-0 py-2 ">
+            <Col xs={11} id={`visColumn-${sketch}-${participant}`} className="m-0 p-0">
+                {sketchChoice()}
+            </Col>
+            <Col xs={1} id={`sonifyColumn-${sketch}-${participant}`} className="m-0 p-0">
+                <Link to={`../sonifications/${participant}?${searchParams}`}>
+                    <Button 
+                        variant='dark'
+                        onClick = {() => {
+                            setParticipant(participant); 
+                        }}
+                    >
+                        Sonify
+                    </Button>
+                </Link>
+            </Col>
+        </Row>
     );
 }
 
@@ -65,13 +65,16 @@ function Content({sketch, biosignal, active}) {
     const {data} = useContext(ParticipantContext);
 
     return(
-        <Stack gap={2}>
+        <Container 
+            id={`rowContainer-${sketch}`}
+            fluid
+        >
             {
                 data && data.map((d, idx) => {
-                    return <VisualizationRow key={idx + 1} id={idx + 1} biosignal={biosignal} sketch={sketch} participant={d.participant} file={d.path} active={active}/>
+                    return <VisualizationRow id={idx + 1} key={idx + 1} biosignal={biosignal} sketch={sketch} participant={d.participant} file={d.path} active={active}/>
                 })
             }
-        </Stack>
+        </Container>
     );
 }
 
@@ -79,9 +82,13 @@ export default function Visualization(){
     const [biosignal, setBiosignal] = useState('HR');
     const [active, setActive] = useState('graph');
 
+    useEffect(() => {
+        console.log('active: ', active);
+    }, [active]);
+
     return(
         <Tab.Container 
-            defaultActiveKey="color"
+            defaultActiveKey="graph"
             activeKey={active}
             onSelect={(k) => setActive(k)}
         >
@@ -99,8 +106,8 @@ export default function Visualization(){
                 <Col xs={'auto'}>
                     <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
                 </Col>
-            </Row>
-            <Row>
+             </Row>
+             <Row>
                 <Tab.Content>
                     <Tab.Pane eventKey="graph">
                         <Content sketch={"graph"} biosignal={biosignal} active={active}/>
