@@ -12,13 +12,13 @@ import Nav from 'react-bootstrap/Nav';
 import * as graph from '../../sketches/newSketches/graphSketch.js';
 import * as gradient from '../../sketches/newSketches/colorVisSketch.js';
 import BiosignalToggle from './BiosignalToggle.js';
-import { ParticipantContext } from '../../context/ParticipantContext.js';
+import { DataContext } from '../../context/DataContext.js';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-function VisualizationRow({participant, sketch, id, ...props}){
+function VisualizationRow({sketch, id, ...props}){
     const [searchParams] = useSearchParams();
-    const {setParticipant, color} = useContext(ParticipantContext);
+    const {color} = useContext(DataContext);
 
     const sketchChoice = () => {
         const state = {
@@ -48,9 +48,9 @@ function VisualizationRow({participant, sketch, id, ...props}){
                 <Link to={`../sonifications/${id}?${searchParams}`}>
                     <Button 
                         variant='dark'
-                        onClick = {() => {
-                            setParticipant(id); 
-                        }}
+                        // onClick = {() => {
+                        //     setParticipant(id); 
+                        // }}
                     >
                         Sonify
                     </Button>
@@ -61,7 +61,7 @@ function VisualizationRow({participant, sketch, id, ...props}){
 }
 
 function Content({sketch, biosignal}) {
-    const {data} = useContext(ParticipantContext);
+    const {data} = useContext(DataContext);
 
     return(
         <Container 

@@ -3,7 +3,7 @@ import { Outlet, useParams, useSearchParams } from 'react-router-dom'
 
 import { fetchSceneMaterial } from '../api/calls';
 import { Container } from 'react-bootstrap';
-import { ParticipantContext } from '../context/ParticipantContext';
+import { DataContext } from '../context/DataContext';
 
 export default function Studio(){
     let {thematicID, sessionID, episodeID} = useParams();
@@ -16,11 +16,6 @@ export default function Studio(){
     const [color, setColor] = useState(null);
     const [data, setData] = useState(null);
     
-    // useEffect(() => {
-    //     console.log('studio rerender');
-    //     console.log('searchParams: ', searchParams);
-    // });
-
     // This runs just once, when the component renders
     useEffect(() => {
         fetchSceneMaterial(thematicID, sessionID, episodeID, axis)
@@ -31,13 +26,11 @@ export default function Studio(){
             .catch((err) => console.error(err));
     }, []);
 
-    const [participant, setParticipant] = useState(null);
-
     return(
         <Container fluid>
-            <ParticipantContext.Provider value={{color, participant, setParticipant, data}}>
+            <DataContext.Provider value={{color, data}}>
                 {data && <Outlet />}
-            </ParticipantContext.Provider>
+            </DataContext.Provider>
         </Container>
     );
 }

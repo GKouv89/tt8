@@ -13,7 +13,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import Form from 'react-bootstrap/Form';
 
 import { useContext } from 'react';
-import { ParticipantContext } from '../../context/ParticipantContext';
+import { DataContext } from '../../context/DataContext';
 import { CleanupContext } from '../../context/CleanupContext';
 
 import { ReactP5Wrapper } from 'react-p5-wrapper';
@@ -262,7 +262,7 @@ function Sketch({playing, setPlaying, ...props}){
 
     const navigate = useNavigate();
     
-    const {participant, data, setParticipant} = useContext(ParticipantContext);
+    const {data} = useContext(DataContext);
 
     // This state variable was used to avoid a possible race condition
     // when the sketch wrapper directly accepted the data variable as a prop.
@@ -271,7 +271,6 @@ function Sketch({playing, setPlaying, ...props}){
     const {cleanUp, setCleanUp, cleanUpPath} = useContext(CleanupContext);
 
     function cleanUpCode(){
-        setParticipant(null); 
         setCleanUp(false);
         // once we're done cleaning up, navigate back to the proper component
         navigate(cleanUpPath);
