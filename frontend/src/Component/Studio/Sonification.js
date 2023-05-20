@@ -22,6 +22,8 @@ import * as son from '../../sketches/newSketches/sonificationSketch.js';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { ReminderContext } from '../../context/ReminderContext';
 
+const variant = "dark";
+
 function PlaybackRecToasts(){
     const toasts = [
         {
@@ -91,6 +93,7 @@ function HeartRateGUI({sound, setSound}) {
                     {sounds.map((s, idx) => (
                         <ToggleButton
                             key={idx}
+                            variant={variant}
                             id={`sound-radio-${idx}`}
                             type="radio"
                             name="soundRadio"
@@ -108,8 +111,6 @@ function HeartRateGUI({sound, setSound}) {
 }
 
 function GSRTempGUI({sound, setSound}){
-    // setSound('sine');
-
     const oscillators = [
         {name: 'Sine', value: 'sine'},
         {name: 'Square', value: 'square'},
@@ -127,13 +128,13 @@ function GSRTempGUI({sound, setSound}){
                     {oscillators.map((osc, idx) => (
                         <ToggleButton
                             key={idx}
+                            variant={variant}
                             id={`osc-radio-${idx}`}
                             type="radio"
                             name="oscRadio"
                             value={osc.value}
                             checked={sound === osc.value}
                             onChange={(e) => {setSound(e.currentTarget.value);}}
-                            // disabled={playing}
                         >
                             {osc.name}
                         </ToggleButton>            
@@ -184,6 +185,7 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                     <Row>
                         <Col xs={'auto'}>
                             <Button
+                                variant={variant}
                                 onClick={() => {
                                     if(!playing){
                                         setCanStop(true);
@@ -199,6 +201,7 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                         </Col>
                         <Col xs={'auto'}>
                             <Button 
+                                variant={variant}
                                 disabled={!canStop}
                                 onClick={() => {
                                     // If the sonification is stopped from the click of this button,
@@ -214,6 +217,7 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                         </Col>
                         <Col xs={'auto'}>
                             <Button
+                                variant={variant}
                                 onClick={() => setRecording(!recording)}
                             ><i class="bi bi-record-fill" style={{color: recording ? 'red' : 'white'}}></i></Button>
                         </Col>
@@ -221,6 +225,7 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                     <Row>
                         <Col xs={'auto'}>
                             <Button 
+                                variant={variant}
                                 disabled={download === 'empty'}
                                 onClick={() => setDownload('downloading')}
                             >
@@ -261,7 +266,7 @@ function Sketch({playing, setPlaying, ...props}){
 
     // This state variable was used to avoid a possible race condition
     // when the sketch wrapper directly accepted the data variable as a prop.
-    const [file, _] = useState(participant ? data[participant - 1].path : null);
+    const [file, _] = useState(participantID ? data[participantID - 1].path : null);
 
     const {cleanUp, setCleanUp, cleanUpPath} = useContext(CleanupContext);
 
@@ -274,7 +279,7 @@ function Sketch({playing, setPlaying, ...props}){
 
     return(
         <>
-            <h2>Participant {participant}</h2>
+            <h2>Participant {participantID}</h2>
             {file && <ReactP5Wrapper 
                 {...props}
                 sketch={son.sketch} 
@@ -364,7 +369,7 @@ function Player(){
 
     return(
         <Row>
-            <Col xs={6}>
+            <Col xs={6} id='playerContainer'>
                 <Stack gap={3}>
                     <SketchAndProgress 
                         biosignal={biosignal}
@@ -422,6 +427,7 @@ export default function Sonification(){
                     <Row style={{'justify-content': 'space-between'}}>
                         <Col xs={'auto'}>
                             <Button 
+                                variant={variant}
                                 onClick={() => {
                                     setCleanUpPath(`../visualizations?${searchParams}`);
                                     setCleanUp(true);

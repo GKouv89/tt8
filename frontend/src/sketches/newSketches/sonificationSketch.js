@@ -93,6 +93,15 @@ export function sketch(p){
         }
     }
 
+    const resizeObserver = new ResizeObserver((entries) => {
+        entries.forEach(entry => {
+            p.resizeCanvas(entry.contentRect.width, p.height);
+        });
+    });
+
+    const querySelector = document.querySelector('#playerContainer');
+    resizeObserver.observe(querySelector);
+
     document.addEventListener("visibilitychange", () => {
         if(document.visibilityState == "hidden"){
             if(playing){    
@@ -197,14 +206,15 @@ export function sketch(p){
         }
     }
 
-    const binSize = 256;
+    const binSize = 128;
     let fftObj;
     let heartGain, kickGain, oscGain;
     let gainNode;
     p.setup = () => {
         p.getAudioContext().suspend();
 
-        p.createCanvas(binSize - 1, binSize - 1);
+        p.createCanvas(p.select('#playerContainer').elt.clientWidth, 256);
+
         p.background('black');
         p.setFrameRate(frameRate);
 
@@ -253,7 +263,7 @@ export function sketch(p){
         // recorder = new P5Class.SoundRecorder(gainNode);
         recorder = new P5Class.SoundRecorder();
 
-        fftObj = new P5Class.FFT(0, binSize);
+        fftObj = new P5Class.FFT(0.8, binSize);
 
         setAudio();
 
@@ -420,16 +430,19 @@ export function sketch(p){
 
     const visualizer = () => {
         p.background('black');
-        if(playing){
-            const spectrum = fftObj.analyze();
-            for(let i = 0; i < spectrum.length; i++){
-                p.stroke(p.color('white'));
-                const x = p.map(i, 0, spectrum.length, 0, p.width);
-                const y = p.map(spectrum[i], 0, 255, p.height, 0);
-                if(y !== p.height){
-                    p.line(x, p.height, x, y);
-                }
-            }
+        const paddingLeftRight = p.width*0.05;
+        const minX = paddingLeftRight;
+        const maxX = p.width - paddingLeftRight;
+        const lineWidth = (maxX - minX)  / binSize;
+        const minY = 10;
+
+        const spectrum = fftObj.analyze();
+        p.noStroke();
+        p.fill(p.color('white'));
+        for(let i = 0; i < spectrum.length; i++){
+            const x = minX + i*lineWidth;
+            const y = p.map(spectrum[i], 0, 255, p.height - minY, 0);
+            p.rect(x, y, lineWidth - 2, p.height - y);
         }
     }
 }
