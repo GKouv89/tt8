@@ -12,6 +12,7 @@ export default function BiosignalToggle({biosignal, callback}){
         <ButtonGroup>
             {biosignals.map((signal, idx) => (
                 <ToggleButton
+                    variant='dark'
                     key={idx}
                     id={`radio-${idx}`}
                     type="radio"

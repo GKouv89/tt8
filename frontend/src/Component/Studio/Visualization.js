@@ -6,26 +6,31 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+import Nav from 'react-bootstrap/Nav';
 
 import * as graph from '../../sketches/newSketches/graphSketch.js';
 import * as gradient from '../../sketches/newSketches/colorVisSketch.js';
 import BiosignalToggle from './BiosignalToggle.js';
-import { ParticipantContext } from '../../context/ParticipantContext.js';
+import { DataContext } from '../../context/DataContext.js';
 import { useContext } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 
-function SketchComponent({color, files, sketch, biosignal}){
+function VisualizationRow({sketch, id, ...props}){
+    const [searchParams] = useSearchParams();
+    const {color} = useContext(DataContext);
+
     const sketchChoice = () => {
+        const state = {
+            id: id,
+            color: color,
+            ...props            
+        }
         switch(sketch){
             case 'graph':
-                console.log('sketch choice says: graph!');
-                return <ReactP5Wrapper sketch={graph.sketch} color={color} files={files} biosignal={biosignal}/>
+                return <ReactP5Wrapper {...state} sketch={graph.sketch}/>
             case 'color':
-                console.log('sketch choice says: color!');
-                return <ReactP5Wrapper sketch={gradient.sketch} color={color} files={files} biosignal={biosignal}/>
+                return <ReactP5Wrapper {...state} sketch={gradient.sketch}/>
             default:
                 console.log('whyyyyyy');
                 break;
@@ -33,9 +38,40 @@ function SketchComponent({color, files, sketch, biosignal}){
     }
 
     return(
-        <Container fluid>
+        <Row 
+            id={`myRow-${sketch}-${id}`} 
+            className="align-items-center m-0 px-0 py-2 ">
+            <Col xs={11} id={`visColumn-${sketch}-${id}`} className="m-0 p-0">
+                {sketchChoice()}
+            </Col>
+            <Col xs={1} id={`sonifyColumn-${sketch}-${id}`} className="m-0 p-0">
+                <Link to={`../sonifications/${id}?${searchParams}`}>
+                    <Button 
+                        variant='dark'
+                        // onClick = {() => {
+                        //     setParticipant(id); 
+                        // }}
+                    >
+                        Sonify
+                    </Button>
+                </Link>
+            </Col>
+        </Row>
+    );
+}
+
+function Content({sketch, biosignal}) {
+    const {data} = useContext(DataContext);
+
+    return(
+        <Container 
+            id={`rowContainer-${sketch}`}
+            fluid
+        >
             {
-                sketchChoice()        
+                data && data.map((d, idx) => {
+                    return <VisualizationRow id={idx + 1} key={idx + 1} biosignal={biosignal} sketch={sketch} file={d.path}/>
+                })
             }
         </Container>
     );
@@ -43,59 +79,39 @@ function SketchComponent({color, files, sketch, biosignal}){
 
 export default function Visualization(){
     const [biosignal, setBiosignal] = useState('HR');
+    const [active, setActive] = useState('graph');
 
-    const [searchParams] = useSearchParams();
-    // useEffect(() => {
-    //     console.log('vis rerender');
-    //     console.log('searchParams: ', searchParams);
-    // });
-
-
-    const {setParticipant, color, data} = useContext(ParticipantContext);
     return(
-        <Container fluid>
+        <Tab.Container 
+            defaultActiveKey="graph"
+            activeKey={active}
+            onSelect={(k) => setActive(k)}
+        >
             <Row>
-                <Col id='tabColumn'>
-                    <Tabs
-                        defaultActiveKey="graph"
-                        id='tabs'
-                    >
-                        <Tab eventKey="graph" title="Graph">
-                        {
-                            color && data ? <SketchComponent color={color} files={data} sketch={'graph'} biosignal={biosignal}/> : <></>                                
-                        }
-                        </Tab>
-                        <Tab eventKey="color" title="Color">
-                        {
-                            color && data ? <SketchComponent color={color} files={data} sketch={'color'} biosignal={biosignal}/> : <></>
-                        }
-                        </Tab>
-                    </Tabs> 
+                <Col>
+                    <Nav variant="tabs">
+                        <Nav.Item>
+                            <Nav.Link eventKey="graph">Graph</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link eventKey="color">Color</Nav.Link>
+                        </Nav.Item>
+                    </Nav>
                 </Col>
                 <Col xs={'auto'}>
-                        <div class="d-flex flex-column justify-content-evenly" style={{'height': '100%'}}>
-                            <div class="d-flex">
-                                <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
-                            </div>
-                            {
-                                data && data.map((d, idx) => (
-                                    <div class="row">
-                                            <Link to={`../sonifications/${d.participant}?${searchParams}`}>
-                                                <Button 
-                                                    key={idx}
-                                                    onClick = {() => {
-                                                        setParticipant(d.participant); 
-                                                    }}
-                                                >
-                                                    Participant {d.participant} Sonification
-                                                </Button>
-                                            </Link>
-                                    </div>
-                                ))                                    
-                            }
-                        </div>
+                    <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
                 </Col>
+             </Row>
+             <Row>
+                <Tab.Content>
+                    <Tab.Pane eventKey="graph">
+                        <Content sketch={"graph"} biosignal={biosignal} active={active}/>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="color">
+                        <Content sketch={"color"} biosignal={biosignal} active={active}/>
+                    </Tab.Pane>
+                </Tab.Content>
             </Row>
-        </Container>
+        </Tab.Container>
     );
 }

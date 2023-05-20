@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-export const ParticipantContext = createContext({
+export const DataContext = createContext({
     'participant': null,
     'color': null,
     'data': null
