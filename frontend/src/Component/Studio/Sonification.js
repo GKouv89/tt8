@@ -261,7 +261,7 @@ function Sketch({playing, setPlaying, ...props}){
 
     // This state variable was used to avoid a possible race condition
     // when the sketch wrapper directly accepted the data variable as a prop.
-    const [file, _] = useState(participant ? data.find(element => element.participant === participant).path : null);
+    const [file, _] = useState(participant ? data[participant - 1].path : null);
 
     const {cleanUp, setCleanUp, cleanUpPath} = useContext(CleanupContext);
 

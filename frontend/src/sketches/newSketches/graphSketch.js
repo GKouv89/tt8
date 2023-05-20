@@ -2,76 +2,55 @@ import '../lib/p5.sound.min.js'
 import '../lib/p5.dom.min.js'
 import '../lib/p5.js'
 
-export function sketch(p5){
+export function sketch(p){
     let axisChoice;
     let filepath;
     let table;
-    let participant; // Searches for appropriate grid row to adjust width
     let id; // Is the participant number displayed on the canvas
     let biosignal;
     let min, max;
 
     let dataLoaded = false;
-    let active;
-
     let noFluctuation = false;
 
-    p5.updateWithProps = props => {
+    p.updateWithProps = props => {
         // These two are only initialized once, hence the two checks.
         if(filepath === undefined && props.file){ 
             filepath = props.file;
-            loadFile();
-        }
-        if(participant === undefined && props.participant){
-            participant = props.participant;
+            table = p.loadTable(props.file, 'csv', 'header', () => {
+                findMinMax();
+                dataLoaded = true;
+            })
         }
         if(axisChoice === undefined && props.color){
             axisChoice = props.color;
         }
-        if(props.active === 'graph' && participant !== undefined){
-            if(active !== props.active){
-                readjustCanvas(participant);
-                active = props.active;
-            }
-        }
-        if(props.active === 'color'){
-            active = props.active;
-            p5.noLoop();
-        }
         // This one changes on the click of a button, so we must update it often
-        if(props.biosignal !== biosignal){
+        if(biosignal === undefined){
             biosignal = props.biosignal;
+        }else if(biosignal !== undefined && biosignal !== props.biosignal){
+            biosignal = props.biosignal;
+            // Draw needs to run again to plot the new graphs
+            dataLoaded = false;
+            p.loop();
             // Update minimum and maximum values for new biometric
             findMinMax();
-            // Draw needs to run again to plot the new graphs
-            p5.loop();
+            dataLoaded = true;
         }
+
         if(id === undefined){
             id = props.id;
         }
     };
 
-    const loadFile = () => {
-        table = p5.loadTable(filepath, 'csv', 'header', () => {
-            dataLoaded = true;
-            findMinMax();
-            // Run draw once more with the data we have
-            p5.loop();
-        })
-    }
+    const resizeObserver = new ResizeObserver((entries) => {
+        entries.forEach(entry => {
+            p.resizeCanvas(entry.contentRect.width, p.height);
+        });
+    });
 
-    // when participant is defined,
-    // we find the containing row by id
-    // then we adjust the sketch's width
-    // according to said row's width.
-    // participant is passed through props
-    // and is not available when setup runs
-    // so in order to avoid a race condition
-    // this must take place once props are updated
-    
-    function readjustCanvas(participant) {
-        p5.resizeCanvas(p5.select(`#visColumn-graph-${participant}`).elt.clientWidth, p5.height);
-    }
+    const querySelector = document.querySelector('#visColumn-graph-1');
+    resizeObserver.observe(querySelector);
 
     const getBiosignalIdx = () => {
         switch(biosignal){
@@ -106,10 +85,10 @@ export function sketch(p5){
         }
     }
 
-    p5.setup = () => {
-        const parent_col_width = 11*p5.select('#rowContainer-graph').elt.clientWidth/12;
+    p.setup = () => {
+        const first_col_width = p.select('#visColumn-graph-1').elt.clientWidth;
         const canvas_height = 225;
-        p5.createCanvas(parent_col_width, canvas_height);
+        p.createCanvas(first_col_width, canvas_height);
     }
 
     const plotGraph = () => {
@@ -119,66 +98,57 @@ export function sketch(p5){
         const paddingTopBottomRight = 10; 
         const paddingLeft = 50;
         const titleHeight = 25;
-        const participantCanvasHeight = p5.height;
+        const participantCanvasHeight = p.height;
         const participantLowerHeight = paddingTopBottomRight + titleHeight;
         const participantHigherHeight = participantCanvasHeight - paddingTopBottomRight;
         const participantMinWidth = paddingLeft;
-        const participantMaxWidth = p5.width - paddingTopBottomRight;
+        const participantMaxWidth = p.width - paddingTopBottomRight;
         // Draw title
-        p5.textAlign(p5.CENTER);
-        p5.textSize(16);
-        p5.stroke('black');
-        p5.fill('black');
-        p5.text(`Participant ${id}`, p5.width /2, (paddingTopBottomRight + titleHeight) / 2);
+        p.textAlign(p.CENTER);
+        p.textSize(16);
+        p.stroke('black');
+        p.fill('black');
+        p.text(`Participant ${id}`, p.width /2, (paddingTopBottomRight + titleHeight) / 2);
         // Draw axes
         // y axis
-        p5.stroke(p5.color('black'));
-        p5.line(participantMinWidth, participantHigherHeight, participantMinWidth, participantLowerHeight);
+        p.stroke(p.color('black'));
+        p.line(participantMinWidth, participantHigherHeight, participantMinWidth, participantLowerHeight);
         // x axis
-        p5.line(participantMinWidth, participantHigherHeight, participantMaxWidth, participantHigherHeight);
+        p.line(participantMinWidth, participantHigherHeight, participantMaxWidth, participantHigherHeight);
         // in case there is no fluctuation of the biosignal,
         // there is only one value on the y axis
-        p5.textSize(11);
-        p5.fill(p5.color('black'));
+        p.textSize(11);
+        p.fill(p.color('black'));
         if(noFluctuation){
-            p5.text(`${p5.floor(min)}`, participantMinWidth - 20, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
+            p.text(`${p.floor(min)}`, participantMinWidth - 20, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
         }else{
-            p5.text(`${p5.floor(min)}`, participantMinWidth - 20, participantHigherHeight);
-            p5.text(`${p5.floor(max)}`, participantMinWidth - 20, participantLowerHeight);
+            p.text(`${p.floor(min)}`, participantMinWidth - 20, participantHigherHeight);
+            p.text(`${p.floor(max)}`, participantMinWidth - 20, participantLowerHeight);
         }        
 
-        p5.fill(p5.color('white'));
-        p5.stroke(p5.color('red'));
+        p.fill(p.color('white'));
+        p.stroke(p.color('red'));
         if(noFluctuation){
-            p5.line(participantMinWidth, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2, participantMaxWidth,participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
+            p.line(participantMinWidth, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2, participantMaxWidth,participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
         }else{
-            p5.beginShape();
+            p.beginShape();
             for (let row = 0; row < rowCount; row++)
             {
                 currval = table.get(row, biosignalIdx);
-                x = p5.map(row, 0, rowCount, participantMinWidth, participantMaxWidth);
-                y = p5.map(currval, min, max, participantHigherHeight, participantLowerHeight);
+                x = p.map(row, 0, rowCount, participantMinWidth, participantMaxWidth);
+                y = p.map(currval, min, max, participantHigherHeight, participantLowerHeight);
                 
-                p5.vertex(x, y);
+                p.vertex(x, y);
             }
-            p5.endShape();
+            p.endShape();
         }
     }
 
-    p5.draw = () => {
-        p5.background('white');
+    p.draw = () => {
         if(dataLoaded){
+            p.background('white');
             plotGraph();
-            if(participant !== undefined){
-                // the grid is adjusting on the first render
-                // at some point, all columns take the width they must
-                // the draw loop is running, and when this happens,
-                // the change is detected and the width is also adjusted appropriately.
-                const parent_col_width = p5.select(`#visColumn-graph-${participant}`).elt.clientWidth;
-                if(parent_col_width !== p5.width){
-                    readjustCanvas(participant);
-                }
-            }
+            p.noLoop();
         }
     }
 }

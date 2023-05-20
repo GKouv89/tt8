@@ -5,7 +5,6 @@ import { ReactP5Wrapper } from 'react-p5-wrapper';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
@@ -17,13 +16,13 @@ import { ParticipantContext } from '../../context/ParticipantContext.js';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-function VisualizationRow({participant, sketch, ...props}){
+function VisualizationRow({participant, sketch, id, ...props}){
     const [searchParams] = useSearchParams();
     const {setParticipant, color} = useContext(ParticipantContext);
 
     const sketchChoice = () => {
         const state = {
-            participant: participant,
+            id: id,
             color: color,
             ...props            
         }
@@ -40,17 +39,17 @@ function VisualizationRow({participant, sketch, ...props}){
 
     return(
         <Row 
-            id={`myRow-${sketch}-${participant}`} 
+            id={`myRow-${sketch}-${id}`} 
             className="align-items-center m-0 px-0 py-2 ">
-            <Col xs={11} id={`visColumn-${sketch}-${participant}`} className="m-0 p-0">
+            <Col xs={11} id={`visColumn-${sketch}-${id}`} className="m-0 p-0">
                 {sketchChoice()}
             </Col>
-            <Col xs={1} id={`sonifyColumn-${sketch}-${participant}`} className="m-0 p-0">
-                <Link to={`../sonifications/${participant}?${searchParams}`}>
+            <Col xs={1} id={`sonifyColumn-${sketch}-${id}`} className="m-0 p-0">
+                <Link to={`../sonifications/${id}?${searchParams}`}>
                     <Button 
                         variant='dark'
                         onClick = {() => {
-                            setParticipant(participant); 
+                            setParticipant(id); 
                         }}
                     >
                         Sonify
@@ -61,7 +60,7 @@ function VisualizationRow({participant, sketch, ...props}){
     );
 }
 
-function Content({sketch, biosignal, active}) {
+function Content({sketch, biosignal}) {
     const {data} = useContext(ParticipantContext);
 
     return(
@@ -71,7 +70,7 @@ function Content({sketch, biosignal, active}) {
         >
             {
                 data && data.map((d, idx) => {
-                    return <VisualizationRow id={idx + 1} key={idx + 1} biosignal={biosignal} sketch={sketch} participant={d.participant} file={d.path} active={active}/>
+                    return <VisualizationRow id={idx + 1} key={idx + 1} biosignal={biosignal} sketch={sketch} file={d.path}/>
                 })
             }
         </Container>
@@ -81,10 +80,6 @@ function Content({sketch, biosignal, active}) {
 export default function Visualization(){
     const [biosignal, setBiosignal] = useState('HR');
     const [active, setActive] = useState('graph');
-
-    useEffect(() => {
-        console.log('active: ', active);
-    }, [active]);
 
     return(
         <Tab.Container 
