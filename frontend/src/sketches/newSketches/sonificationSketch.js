@@ -131,7 +131,7 @@ export function sketch(p){
     }    
 
     let min, max, numberOfReps, repNo = 0;
-    const samplingRate = 128;
+    const samplingRate = 127;
     function findMinMax(){ // finds minimum and maximum values of all biometrics
         // for any given participant, to later use them in mapping.
         let currval;
