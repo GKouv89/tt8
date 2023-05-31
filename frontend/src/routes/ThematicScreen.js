@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useLoaderData, Link, useParams } from 'react-router-dom'
+import { useLoaderData, Link, useParams, useNavigate } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 
-import { getThematics } from '../data.js'
+import { thematics } from './Thematics'
 
-import SessionTabs from '../Component/SessionTabs.js';
-import ScrollSpy from "react-ui-scrollspy";
-
-function ThematicGridBody( {id, sessionData, startingKey} ){  
+function ThematicGridBody(){  
   const [contentArray, setContentArray] = useState(null);
 
   const createContentArray = () => {
@@ -27,9 +24,9 @@ function ThematicGridBody( {id, sessionData, startingKey} ){
     return content;
   }
 
-  useEffect(() => { 
-      setContentArray(createContentArray());
-  }, []);
+  // useEffect(() => { 
+  setContentArray(createContentArray());
+  // }, []);
 
   return(
         <Container className="justify-content-start">
@@ -43,58 +40,72 @@ function ThematicGridBody( {id, sessionData, startingKey} ){
   );
 }
 
-function EpisodeSquare(props){
-  const [mouseOver, setMouseOver] = useState(false);
-  const [gradient, setGradient] = useState(false);
-  const [myGradientString, setMyGradientString] = useState(null);
-  const [loaded, setLoaded] = useState(false);
+// function EpisodeSquare(props){
+//   const [gradient, setGradient] = useState(false);
+//   const [myGradientString, setMyGradientString] = useState(null);
+//   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    const myEpisodeColors = props.axes.map((axis) => axis.color);
-    let tempString;
-    if(myEpisodeColors.length > 1){
-      setGradient(true);
-      const percent = 100/myEpisodeColors.length;
-      tempString = "linear-gradient(";
-      myEpisodeColors.map((color, idx) => { tempString += `${color} ${idx*percent}%, `; });
-      tempString = tempString.slice(0, -2);
-      tempString += ")";
-    }else{
-      tempString = myEpisodeColors[0];
-    }
-    setMyGradientString(tempString);
-  }, []);
+//   useEffect(() => {
+//     const myEpisodeColors = props.axes.map((axis) => axis.color);
+//     let tempString;
+//     if(myEpisodeColors.length > 1){
+//       setGradient(true);
+//       const percent = 100/myEpisodeColors.length;
+//       tempString = "linear-gradient(";
+//       myEpisodeColors.map((color, idx) => { tempString += `${color} ${idx*percent}%, `; });
+//       tempString = tempString.slice(0, -2);
+//       tempString += ")";
+//     }else{
+//       tempString = myEpisodeColors[0];
+//     }
+//     setMyGradientString(tempString);
+//   }, []);
 
-  useEffect(() => {
-    myGradientString && setLoaded(true);
-  }, [myGradientString]);
+//   useEffect(() => {
+//     myGradientString && setLoaded(true);
+//   }, [myGradientString]);
 
-  return(<>
-    {
-    loaded && 
-    <Col key={props.cardKey} xxl={2} className="border border-light gridsquare m-0 p-0">
-      <Card className="gridsquare episode-tile-new border-light">
-        <Card.Body style={gradient ? {backgroundImage: myGradientString} : {backgroundColor: myGradientString}}
+//   return(<>
+//     {
+//     loaded && 
+//     <Col key={props.cardKey} xxl={2} className="border border-light gridsquare m-0 p-0">
+//       <Card className="gridsquare episode-tile-new border-light">
+//         <Card.Body style={gradient ? {backgroundImage: myGradientString} : {backgroundColor: myGradientString}}
+//           className="episode-tile-new"
+//           as="button"
+//           >
+//           <Card.Title>Episode {props.epno} </Card.Title>
+//           {
+//               props.axes.map((axis, idx) => {
+//               return <>
+//                 <Link key={idx} style={{'color': 'black'}} to={`sessions/${props.sessionid}/episodes/${props.epno}/visualizations?axis=${axis.axis_id_in_thematic}`}>
+//                   <Card.Text style={{'color': 'black'}}>Axis {axis.axis_id_in_thematic}</Card.Text>
+//                 </Link>
+//               </>
+//             })
+//           }
+//         </Card.Body>
+//       </Card>
+//     </Col>
+//     }
+//   </>);
+// }
+
+function EpisodeSquare({episode, axisID, axisColor}){
+  const navigate = useNavigate();
+  const path = `axes/${axisID}/episodes/${episode.ep_id}/visualizations?epid=${episode.episode_id_in_session}&sessid=${episode.session}`
+
+  return(
+    <Card className="gridsquare episode-tile-new border-light">
+        <Card.Body style={{backgroundColor: axisColor}}
           className="episode-tile-new"
           as="button"
-          onMouseOver={() => setMouseOver(true)}
-          onMouseOut={() => setMouseOver(false)}
-          >
-          <Card.Title>Episode {props.epno} </Card.Title>
-          {
-              props.axes.map((axis, idx) => {
-              return <>
-                <Link key={idx} style={{'color': 'black'}} to={`sessions/${props.sessionid}/episodes/${props.epno}/visualizations?axis=${axis.axis_id_in_thematic}`}>
-                  <Card.Text style={{'color': 'black'}}>Axis {axis.axis_id_in_thematic}</Card.Text>
-                </Link>
-              </>
-            })
-          }
+          onClick={() => {navigate(path)}}
+        >
+          <Card.Title>Episode {episode.ep_id} </Card.Title>
         </Card.Body>
-      </Card>
-    </Col>
-    }
-  </>);
+    </Card>
+  );
 }
 
 function EmptySquare(){
@@ -113,28 +124,46 @@ function EmptySquare(){
   );
 }
 
-export default function ThematicGrid(props) {
+function AxisRow({axis}){
+  return(
+    <Container fluid>
+      <Row className="mb-1">
+        <Col xs={'auto'}><h1 className="h2">Axis {axis.axis_id_in_thematic}: {axis.title}</h1></Col>
+      </Row>
+      <Row>
+        {
+          axis.episodes.map((episode, idx) => {
+            return (
+              <Col key={idx} md={2} className="border border-light gridsquare mx-3 mb-3 p-0">
+                <EpisodeSquare episode={episode} axisID={axis.axis_id_in_thematic} axisColor={axis.color}/>
+              </Col>
+            )
+          })
+        }
+      </Row>
+    </Container>
+  ); 
+}
+
+export default function ThematicGrid() {
   let {thematicID} = useParams();
 
-  let content = getThematics();
-  content = content[thematicID - 1];
+  const currThematic = thematics[thematicID - 1];
 
   const data = useLoaderData();
 
   return (
     <Container fluid>
-      <Container className="flex-column">
-        <Row key={0}>
-          <SessionTabs />
-        </Row>
-        <ScrollSpy>
-          <Row key={1} id="first">
-            <ThematicGridBody key={0} id={thematicID} sessionData={data[0]} startingKey={0}/>
-          </Row>
-          <Row key={2} id="second">
-            <ThematicGridBody key={1} id={thematicID} sessionData={data[1]} startingKey={data[0].length}/>
-          </Row>
-        </ScrollSpy>
+      <Container className="flex-column" fluid>
+        {
+          data.map(((d, idx) => {
+            return (
+              <Row key={idx}>
+                <AxisRow axis={d}/>
+              </Row>
+            )
+          }))
+        }
       </Container>
     </Container>
   );  

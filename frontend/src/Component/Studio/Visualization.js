@@ -48,9 +48,6 @@ function VisualizationRow({sketch, id, ...props}){
                 <Link to={`../sonifications/${id}?${searchParams}`}>
                     <Button 
                         variant='dark'
-                        // onClick = {() => {
-                        //     setParticipant(id); 
-                        // }}
                     >
                         Sonify
                     </Button>
