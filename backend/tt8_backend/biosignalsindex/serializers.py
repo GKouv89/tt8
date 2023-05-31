@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Axis, ParticipantMaterial, Episode
+from .models import Axis, ParticipantMaterial, Episode, SociodramaSession
 from tt8_backend.settings import DATASTORE
 
 class EpisodeBiometricsSerializer(serializers.ModelSerializer):
@@ -32,6 +32,11 @@ class CustomEpisodeSerializer(serializers.ListSerializer):
         return new_data
 
 class EpisodeSerializer(serializers.ModelSerializer):
+    session = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='session_id_in_thematic'
+    )
+
     class Meta:
         model = Episode
         fields = ['episode_id_in_session', 'session']

@@ -37,7 +37,7 @@ class BiometricsView(generics.ListAPIView):
 class ThematicEpisodesView(generics.ListAPIView):
     def get_queryset(self, thematicID):
         try: 
-            axes = Axis.objects.filter(thematic=thematicID).prefetch_related("episodes")
+            axes = Axis.objects.filter(thematic=thematicID).prefetch_related("episodes").prefetch_related("episodes__session")
             return axes.order_by('axis_id_in_thematic')
         except:
             return None
