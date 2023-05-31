@@ -81,7 +81,7 @@ const router = createBrowserRouter(
             [
             <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
             <MyCustomNavlink className='crumb' to={`/${params.thematicID}`}>{thematics[params.thematicID - 1].name}</MyCustomNavlink>,
-            <MyCustomNavlink className='current' to={`/${params.thematicID}/axes/${params.axisID}/episodes/${params.episodeID}/studio`}>Episode {params.episodeID}</MyCustomNavlink>]
+            <MyCustomNavlink className='current' to={`/${params.thematicID}/axes/${params.axisID}/episodes/${params.episodeID}/studio`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>]
           ,
         }}
       >
