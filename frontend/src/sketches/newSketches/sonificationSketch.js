@@ -6,12 +6,11 @@ import * as P5Class from "p5"
 let toWav = require('audiobuffer-to-wav')
 
 export function sketch(p){
-    let toPlay, playing = false, setUpComplete = false, isRecording = false;
+    let toPlay, playing = false, setUpComplete = false;
     let biosignal;
     let sound;
     let table;
     let filePath;
-    // let downloadStatus;
     let namingData; 
     p.updateWithProps = props => {
         if(props.biosignal){
@@ -58,19 +57,6 @@ export function sketch(p){
         }
         if(props.setProgress) {
             p.setProgress = props.setProgress;
-        }
-        if(props.setRecording) {
-            p.setRecording = props.setRecording;
-        }
-        if(props.recording !== undefined){
-            if(isRecording !== props.recording){
-                if(isRecording){
-                    stopRecordingSound();
-                }else{
-                    recordSound();
-                }
-                isRecording = props.recording;
-            }
         }
         if(props.downloadRequested !== undefined && props.downloadRequested === true){
             downloadSound();
@@ -163,7 +149,6 @@ export function sketch(p){
     }
 
     let heart, kick, kickLoop, pseudoOscillator, oscillator;
-    let recorder;
     p.preload = () => {
         // heart = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/HEART-loop.mp3`);
         heart = p.loadSound(`http://localhost/data/assets/HEART-loop.mp3`);
@@ -257,10 +242,6 @@ export function sketch(p){
         oscGain.amp(0);
         oscGain.setInput(oscillator);
         oscGain.connect(gainNode);
-
-        // This will be used for recording the audio of the sketch
-        // recorder = new P5Class.SoundRecorder(gainNode);
-        recorder = new P5Class.SoundRecorder();
 
         fftObj = new P5Class.FFT(0.8, binSize);
 
@@ -404,12 +385,6 @@ export function sketch(p){
                 // triggers the playback of a file
                 // We must then map the heart rate to this time period.
                 kickLoop.interval = genPeriod();
-                // In case we're recording, we also export MIDI
-                // If interval changes, tempo changes
-                // if(isRecording){
-                //     console.log(parseInt(table.get(repNo*samplingRate, 0)));
-                //     recordingTrack.setTempo(parseInt(table.get(repNo*samplingRate, 0)));
-                // }
                 break;
             default:
                 // GSR and Temperature sonification consists of mapping the biometric value to the oscillator frequency
@@ -425,20 +400,7 @@ export function sketch(p){
         }
     }
 
-    // let recording;
-    // const recordSound = () => {
-    //     recording = new P5Class.SoundFile();
-    //     recorder.record(recording);
-    //     p.setDownload('empty');
-    // }
-
-    // const stopRecordingSound = () => {
-    //     recorder.stop();
-    //     p.setDownload('available');
-    // }
-
     const downloadSound = () =>{
-        // p.save(recording, recordingName);
         offlineSonificationCreation();
         p.setDownloadRequested(false);
     }
