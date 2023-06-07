@@ -242,10 +242,10 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
 function Sketch({playing, setPlaying, ...props}){ 
     // the parameters are packed into an object
     // which the sketch uses to name the downloaded WAV files appropriately
-    const {thematicID, sessionID, episodeID, participantID} = useParams();
+    const {thematicID, axisID, episodeID, participantID} = useParams();
     const namingData = {
         'thematicID': thematicID,
-        'sessionID': sessionID,
+        'axisID': axisID,
         'episodeID': episodeID,
         'participant': participantID
     }

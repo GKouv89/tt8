@@ -333,7 +333,7 @@ export function sketch(p){
 
     function encodeAndSave(buffer){
         // Format: THXSYEPZ_ParticipantFSonification.wav
-        const recordingName = `TH${namingData.thematicID}S${namingData.sessionID}EP${namingData.episodeID}_Participant${namingData.participant}_${sound}Sonification.wav`;
+        const recordingName = `TH${namingData.thematicID}Axis${namingData.axisID}EP${namingData.episodeID}_Participant${namingData.participant}_${sound}Sonification.wav`;
         const arrayBuffer = toWav(buffer);
         const blob = new Blob([arrayBuffer], { type: 'audio/wav'});
         const a = document.createElement('a');
@@ -344,97 +344,6 @@ export function sketch(p){
         a.click();
         a.remove();
     }
-
-    // function offlineOscillator(offlineCtx) {
-    //     let offlineosc = offlineCtx.createOscillator();
-    //     offlineosc.type = 'sine';
-    //     offlineosc.connect(offlineCtx.destination);
-    //     const currentTime = offlineCtx.currentTime;
-    //     offlineosc.start(currentTime);
-    //     const minFreq = arrayOfFrequencies[0];
-    //     const maxFreq = arrayOfFrequencies[arrayOfFrequencies.length - 1];
-    //     const bioIdx = getBiosignalIdx();
-    //     let freq;
-    //     for(let i = 0; i < numberOfReps; i++){
-    //         freq = p.constrain(p.map(table.get(i*samplingRate, bioIdx), min[bioIdx], max[bioIdx], minFreq, maxFreq), minFreq, maxFreq);
-    //         freq = quantizeFrequency(freq);
-    //         offlineosc.frequency.setValueAtTime(freq, currentTime + i);
-    //     }
-    //     offlineosc.stop(currentTime + numberOfReps);
-
-    // }
-
-    // function offlineHeartBeat() {
-    //     const source = offlineCtx.createBufferSource();
-    //     source.buffer = heart.buffer;
-    //     source.loop = true;
-    //     const currentTime = offlineCtx.currentTime;
-    //     source.connect(offlineCtx.destination);
-    //     source.start(currentTime);
-    //     let rate;
-    //     const bioIdx = getBiosignalIdx();
-    //     for(let i = 0; i < numberOfReps; i++){
-    //         rate = p.constrain(p.map(table.get(i*samplingRate, bioIdx), min[bioIdx], max[bioIdx], 0.5, 1.25), 0.5, 1.25);
-    //         source.playbackRate.setValueAtTime(rate, currentTime + i);
-    //     }
-    //     source.stop(currentTime + numberOfReps);
-    //     offlineCtx
-    //         .startRendering()
-    //         .then((renderedBuffer) => {
-    //             const arrayBuffer = toWav(renderedBuffer);
-    //             const blob = new Blob([arrayBuffer], { type: 'audio/wav'});
-    //             const a = document.createElement('a');
-    //             a.download = `test.wav`;
-    //             a.href = URL.createObjectURL(blob);
-    //             a.textContent = 'download the offline audio';
-    //             document.body.appendChild(a);
-    //             a.click();
-    //             a.remove();
-    //         })
-    //         .catch((err) => {
-    //             console.error(`Rendering failed: ${err}`);
-    //         });
-    // }
-
-    // function offlineDrumKick(){
-    //     let offlineCtx = new OfflineAudioContext(2, numberOfReps * 44100, 44100);
-    //     const currentTime = offlineCtx.currentTime;
-    //     console.log('kick.duration: ', kick.buffer.duration);
-        
-    //     const source = offlineCtx.createBufferSource();
-    //     source.buffer = kick.buffer;
-    //     source.loop = true;
-    //     source.connect(offlineCtx.destination);
-    //     source.start(currentTime);
-    //     source.stop(currentTime + numberOfReps);
-
-    //     const numberOfPlaybacks = numberOfReps/kick.buffer.duration;
-    //     let bpm, overallBeats, ratio;
-    //     const bioIdx = getBiosignalIdx();
-    //     for(let i = 0; i < numberOfReps; i++){
-    //         bpm = table.get(i*samplingRate, bioIdx);
-    //         overallBeats = (numberOfReps * bpm)/60;
-    //         ratio = overallBeats/numberOfPlaybacks;
-    //         source.playbackRate.setValueAtTime(ratio, currentTime + i);
-    //     }
-                
-    //     offlineCtx
-    //         .startRendering()
-    //         .then((renderedBuffer) => {
-    //             const arrayBuffer = toWav(renderedBuffer);
-    //             const blob = new Blob([arrayBuffer], { type: 'audio/wav'});
-    //             const a = document.createElement('a');
-    //             a.download = `test.wav`;
-    //             a.href = URL.createObjectURL(blob);
-    //             a.textContent = 'download the offline audio';
-    //             document.body.appendChild(a);
-    //             a.click();
-    //             a.remove();
-    //         })
-    //         .catch((err) => {
-    //             console.error(`Rendering failed: ${err}`);
-    //         });
-    // }
 
     p.draw = () => {
         if(toPlay && playing == false){
