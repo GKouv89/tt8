@@ -153,6 +153,7 @@ export function sketch(p){
         // heart = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/HEART-loop.mp3`);
         heart = p.loadSound(`http://localhost/data/assets/HEART-loop.mp3`);
         // kick = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/TR-909Kick.mp3`);
+        // kick = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/TR-909Kick - Copy.mp3`);
         kick = p.loadSound(`http://localhost/data/assets/TR-909Kick - Copy.mp3`);
     }
 
@@ -264,6 +265,9 @@ export function sketch(p){
                 let rate;
                 for(let i = 0; i < numberOfReps; i++){
                     rate = p.constrain(p.map(table.get(i*samplingRate, bioIdx), min[bioIdx], max[bioIdx], 0.5, 1.25), 0.5, 1.25);
+                    if(isNaN(rate)){
+                        rate = 1;
+                    }
                     heartSource.playbackRate.setValueAtTime(rate, currentTime + i);
                 }
                 heartSource.stop(currentTime + numberOfReps);
@@ -295,7 +299,13 @@ export function sketch(p){
                 let freq;
                 for(let i = 0; i < numberOfReps; i++){
                     freq = p.constrain(p.map(table.get(i*samplingRate, bioIdx), min[bioIdx], max[bioIdx], minFreq, maxFreq), minFreq, maxFreq);
-                    freq = quantizeFrequency(freq);
+                    if(isNaN(freq)){
+                        // set freq to the min freq available
+                        // pretty arbitrary really
+                        freq = minFreq;
+                    }else{
+                        freq = quantizeFrequency(freq);
+                    }
                     offlineosc.frequency.setValueAtTime(freq, currentTime + i);
                 }
                 offlineosc.stop(currentTime + numberOfReps);
@@ -376,8 +386,12 @@ export function sketch(p){
                 // and all we must do is map the heart rate's value
                 // to the range [0.5, 1.2]
                 // and change the playback rate accordingly
-                const rate = p.constrain(p.map(val, min[bioIdx], max[bioIdx], 0.5, 1.25), 0.5, 1.25);
-                heart.rate(rate);
+                let rate = p.constrain(p.map(val, min[bioIdx], max[bioIdx], 0.5, 1.25), 0.5, 1.25);
+                if(isNaN(rate)){
+                    console.log('rate is nan');
+                }else{
+                    heart.rate(rate);
+                }
                 break;
             case 'drum':
                 // Sonifying heart rate with a kick sound
@@ -394,7 +408,12 @@ export function sketch(p){
                 const minFreq = arrayOfFrequencies[0];
                 const maxFreq = arrayOfFrequencies[arrayOfFrequencies.length - 1];
                 freq = p.constrain(p.map(val, min[bioIdx], max[bioIdx], minFreq, maxFreq), minFreq, maxFreq);
-                freq = quantizeFrequency(freq);
+                if(isNaN(freq)){
+                    console.log('freq is nan');
+                    freq = minFreq;
+                }else{
+                    freq = quantizeFrequency(freq);
+                }
                 oscillator.freq(freq, 0.1);
                 break;  
         }
