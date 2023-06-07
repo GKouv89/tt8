@@ -2,6 +2,8 @@ import '../lib/p5.sound.min.js'
 import '../lib/p5.dom.min.js'
 import '../lib/p5.js'
 import * as P5Class from "p5"
+// import * as bufferToWav from 'audiobuffer-to-wav'
+let toWav = require('audiobuffer-to-wav')
 
 export function sketch(p){
     let toPlay, playing = false, setUpComplete = false, isRecording = false;
@@ -9,7 +11,7 @@ export function sketch(p){
     let sound;
     let table;
     let filePath;
-    let downloadStatus;
+    // let downloadStatus;
     let namingData; 
     p.updateWithProps = props => {
         if(props.biosignal){
@@ -70,14 +72,11 @@ export function sketch(p){
                 isRecording = props.recording;
             }
         }
-        if(props.download !== undefined){
-            if(downloadStatus === 'available' && props.download === 'downloading'){
-                downloadSound();
-            }
-            downloadStatus = props.download;
+        if(props.downloadRequested !== undefined && props.downloadRequested === true){
+            downloadSound();
         }
-        if(props.setDownload){
-            p.setDownload = props.setDownload;
+        if(props.setDownloadRequested){
+            p.setDownloadRequested = props.setDownloadRequested;
         }
         if(props.cleanUpCode){
             p.cleanUpCode = props.cleanUpCode;
@@ -169,7 +168,7 @@ export function sketch(p){
         // heart = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/HEART-loop.mp3`);
         heart = p.loadSound(`http://localhost/data/assets/HEART-loop.mp3`);
         // kick = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/TR-909Kick.mp3`);
-        kick = p.loadSound(`http://localhost/data/assets/TR-909Kick.mp3`);
+        kick = p.loadSound(`http://localhost/data/assets/TR-909Kick - Copy.mp3`);
     }
 
     const frameRate = 30;
@@ -266,9 +265,176 @@ export function sketch(p){
         fftObj = new P5Class.FFT(0.8, binSize);
 
         setAudio();
-
         setUpComplete = true;
     }
+
+
+    function offlineSonificationCreation() {
+        const offlineCtx = new OfflineAudioContext(2, numberOfReps * 44100, 44100);
+        const currentTime = offlineCtx.currentTime;
+        const bioIdx = getBiosignalIdx();
+        switch(sound){
+            case 'heart':
+                const heartSource = offlineCtx.createBufferSource();
+                heartSource.buffer = heart.buffer;
+                heartSource.loop = true;
+                heartSource.connect(offlineCtx.destination);
+                heartSource.start(currentTime);
+                let rate;
+                for(let i = 0; i < numberOfReps; i++){
+                    rate = p.constrain(p.map(table.get(i*samplingRate, bioIdx), min[bioIdx], max[bioIdx], 0.5, 1.25), 0.5, 1.25);
+                    heartSource.playbackRate.setValueAtTime(rate, currentTime + i);
+                }
+                heartSource.stop(currentTime + numberOfReps);
+                break;
+            case 'drum':
+                const kickSource = offlineCtx.createBufferSource();
+                kickSource.buffer = kick.buffer;
+                kickSource.loop = true;
+                kickSource.connect(offlineCtx.destination);
+                kickSource.start(currentTime);
+                kickSource.stop(currentTime + numberOfReps);
+
+                const numberOfPlaybacks = numberOfReps/kick.buffer.duration;
+                let bpm, overallBeats, ratio;
+                for(let i = 0; i < numberOfReps; i++){
+                    bpm = table.get(i*samplingRate, bioIdx);
+                    overallBeats = (numberOfReps * bpm)/60;
+                    ratio = overallBeats/numberOfPlaybacks;
+                    kickSource.playbackRate.setValueAtTime(ratio, currentTime + i);
+                }
+                break;
+            default:
+                let offlineosc = offlineCtx.createOscillator();
+                offlineosc.type = sound;
+                offlineosc.connect(offlineCtx.destination);
+                offlineosc.start(currentTime);
+                const minFreq = arrayOfFrequencies[0];
+                const maxFreq = arrayOfFrequencies[arrayOfFrequencies.length - 1];
+                let freq;
+                for(let i = 0; i < numberOfReps; i++){
+                    freq = p.constrain(p.map(table.get(i*samplingRate, bioIdx), min[bioIdx], max[bioIdx], minFreq, maxFreq), minFreq, maxFreq);
+                    freq = quantizeFrequency(freq);
+                    offlineosc.frequency.setValueAtTime(freq, currentTime + i);
+                }
+                offlineosc.stop(currentTime + numberOfReps);
+                break;
+        }
+
+        offlineCtx
+            .startRendering()
+            .then((renderedBuffer) => {
+                encodeAndSave(renderedBuffer);
+            })
+            .catch((err) => {
+                console.error(`Rendering failed: ${err}`);
+            });
+    }
+
+    function encodeAndSave(buffer){
+        // Format: THXSYEPZ_ParticipantFSonification.wav
+        const recordingName = `TH${namingData.thematicID}S${namingData.sessionID}EP${namingData.episodeID}_Participant${namingData.participant}_${sound}Sonification.wav`;
+        const arrayBuffer = toWav(buffer);
+        const blob = new Blob([arrayBuffer], { type: 'audio/wav'});
+        const a = document.createElement('a');
+        a.download = recordingName;
+        a.href = URL.createObjectURL(blob);
+        a.textContent = 'download the offline audio';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+
+    // function offlineOscillator(offlineCtx) {
+    //     let offlineosc = offlineCtx.createOscillator();
+    //     offlineosc.type = 'sine';
+    //     offlineosc.connect(offlineCtx.destination);
+    //     const currentTime = offlineCtx.currentTime;
+    //     offlineosc.start(currentTime);
+    //     const minFreq = arrayOfFrequencies[0];
+    //     const maxFreq = arrayOfFrequencies[arrayOfFrequencies.length - 1];
+    //     const bioIdx = getBiosignalIdx();
+    //     let freq;
+    //     for(let i = 0; i < numberOfReps; i++){
+    //         freq = p.constrain(p.map(table.get(i*samplingRate, bioIdx), min[bioIdx], max[bioIdx], minFreq, maxFreq), minFreq, maxFreq);
+    //         freq = quantizeFrequency(freq);
+    //         offlineosc.frequency.setValueAtTime(freq, currentTime + i);
+    //     }
+    //     offlineosc.stop(currentTime + numberOfReps);
+
+    // }
+
+    // function offlineHeartBeat() {
+    //     const source = offlineCtx.createBufferSource();
+    //     source.buffer = heart.buffer;
+    //     source.loop = true;
+    //     const currentTime = offlineCtx.currentTime;
+    //     source.connect(offlineCtx.destination);
+    //     source.start(currentTime);
+    //     let rate;
+    //     const bioIdx = getBiosignalIdx();
+    //     for(let i = 0; i < numberOfReps; i++){
+    //         rate = p.constrain(p.map(table.get(i*samplingRate, bioIdx), min[bioIdx], max[bioIdx], 0.5, 1.25), 0.5, 1.25);
+    //         source.playbackRate.setValueAtTime(rate, currentTime + i);
+    //     }
+    //     source.stop(currentTime + numberOfReps);
+    //     offlineCtx
+    //         .startRendering()
+    //         .then((renderedBuffer) => {
+    //             const arrayBuffer = toWav(renderedBuffer);
+    //             const blob = new Blob([arrayBuffer], { type: 'audio/wav'});
+    //             const a = document.createElement('a');
+    //             a.download = `test.wav`;
+    //             a.href = URL.createObjectURL(blob);
+    //             a.textContent = 'download the offline audio';
+    //             document.body.appendChild(a);
+    //             a.click();
+    //             a.remove();
+    //         })
+    //         .catch((err) => {
+    //             console.error(`Rendering failed: ${err}`);
+    //         });
+    // }
+
+    // function offlineDrumKick(){
+    //     let offlineCtx = new OfflineAudioContext(2, numberOfReps * 44100, 44100);
+    //     const currentTime = offlineCtx.currentTime;
+    //     console.log('kick.duration: ', kick.buffer.duration);
+        
+    //     const source = offlineCtx.createBufferSource();
+    //     source.buffer = kick.buffer;
+    //     source.loop = true;
+    //     source.connect(offlineCtx.destination);
+    //     source.start(currentTime);
+    //     source.stop(currentTime + numberOfReps);
+
+    //     const numberOfPlaybacks = numberOfReps/kick.buffer.duration;
+    //     let bpm, overallBeats, ratio;
+    //     const bioIdx = getBiosignalIdx();
+    //     for(let i = 0; i < numberOfReps; i++){
+    //         bpm = table.get(i*samplingRate, bioIdx);
+    //         overallBeats = (numberOfReps * bpm)/60;
+    //         ratio = overallBeats/numberOfPlaybacks;
+    //         source.playbackRate.setValueAtTime(ratio, currentTime + i);
+    //     }
+                
+    //     offlineCtx
+    //         .startRendering()
+    //         .then((renderedBuffer) => {
+    //             const arrayBuffer = toWav(renderedBuffer);
+    //             const blob = new Blob([arrayBuffer], { type: 'audio/wav'});
+    //             const a = document.createElement('a');
+    //             a.download = `test.wav`;
+    //             a.href = URL.createObjectURL(blob);
+    //             a.textContent = 'download the offline audio';
+    //             document.body.appendChild(a);
+    //             a.click();
+    //             a.remove();
+    //         })
+    //         .catch((err) => {
+    //             console.error(`Rendering failed: ${err}`);
+    //         });
+    // }
 
     p.draw = () => {
         if(toPlay && playing == false){
@@ -350,23 +516,22 @@ export function sketch(p){
         }
     }
 
-    let recording;
-    const recordSound = () => {
-        recording = new P5Class.SoundFile();
-        recorder.record(recording);
-        p.setDownload('empty');
-    }
+    // let recording;
+    // const recordSound = () => {
+    //     recording = new P5Class.SoundFile();
+    //     recorder.record(recording);
+    //     p.setDownload('empty');
+    // }
 
-    const stopRecordingSound = () => {
-        recorder.stop();
-        p.setDownload('available');
-    }
+    // const stopRecordingSound = () => {
+    //     recorder.stop();
+    //     p.setDownload('available');
+    // }
 
     const downloadSound = () =>{
-        // Format: THXSYEPZ_ParticipantFSonification.wav
-        const recordingName = `TH${namingData.thematicID}S${namingData.sessionID}EP${namingData.episodeID}_Participant${namingData.participant}Sonification.wav`;
-        p.save(recording, recordingName);
-        p.setDownload('available');
+        // p.save(recording, recordingName);
+        offlineSonificationCreation();
+        p.setDownloadRequested(false);
     }
 
     // This takes an arg while stopSound does not

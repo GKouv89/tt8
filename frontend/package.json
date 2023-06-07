@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "audiobuffer-to-wav": "^1.0.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.8.2",
     "midi-writer-js": "^2.1.4",

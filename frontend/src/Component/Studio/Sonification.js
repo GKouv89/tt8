@@ -145,7 +145,7 @@ function GSRTempGUI({sound, setSound}){
     );
 }
 
-function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, toReset, setToReset, recording, setRecording, download, setDownload}){
+function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, toReset, setToReset, recording, setRecording, downloadRequested, setDownloadRequested}){
     const callback = (val) => {
         const old_biosignal = biosignal;
         setBiosignal(val);
@@ -226,20 +226,10 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                         <Col xs={'auto'}>
                             <Button 
                                 variant={variant}
-                                disabled={download === 'empty'}
-                                onClick={() => setDownload('downloading')}
+                                onClick={() => setDownloadRequested(true)}
                             >
                                 <i class="bi bi-download"></i>  
-                                &nbsp;Download Recording
-                            </Button>
-                        </Col>
-                        <Col xs={'auto'}>
-                            <Button 
-                                variant="outline-dark" 
-                                disabled={download === 'empty'}
-                                onClick={() => {setDownload('empty')}}
-                            >
-                                <i class="bi bi-trash3"></i>
+                                &nbsp;Download {sound} sound
                             </Button>
                         </Col>
                     </Row>
@@ -352,11 +342,9 @@ function Player(){
 
     const [recording, setRecording] = useState(false);
 
-    // Possible state values
-    // empty (means that download and clear button are disabled)
-    // available (makes download and clear button available)
-    // downloading (becomes active on click)
-    const [download, setDownload] = useState('empty');
+    // When user clicks download button, the sketch must receive a notification
+    // to prepare the offline buffer, encode the file, and download. 
+    const [downloadRequested, setDownloadRequested] = useState(false);
 
     const stopSonificationCallback = () => {
         // This is called either on the click of the stop Button
@@ -380,8 +368,8 @@ function Player(){
                         stopSonificationCallback={stopSonificationCallback}
                         recording={recording}
                         setRecording={setRecording}
-                        download={download}
-                        setDownload={setDownload}
+                        downloadRequested={downloadRequested}
+                        setDownloadRequested={setDownloadRequested}
                     />
                 </Stack>
             </Col>
@@ -398,8 +386,8 @@ function Player(){
                 setToReset={setToReset}
                 recording={recording}
                 setRecording={setRecording}
-                download={download}
-                setDownload={setDownload}
+                downloadRequested={downloadRequested}
+                setDownloadRequested={setDownloadRequested}
             />
         </Row>
     )
