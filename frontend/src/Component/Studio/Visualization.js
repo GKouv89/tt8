@@ -30,7 +30,23 @@ function VisualizationRow({sketch, id, ...props}){
             case 'graph':
                 return <ReactP5Wrapper {...state} sketch={graph.sketch}/>
             case 'color':
-                return <ReactP5Wrapper {...state} sketch={gradient.sketch}/>
+                return (
+                    <Container 
+                        fluid
+                        className='m-0 p-0'
+                    >
+                        <Row>
+                            <Col xs={'auto'}>
+                                <h2 class="h5">Participant {id}</h2>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12}>
+                                <ReactP5Wrapper {...state} sketch={gradient.sketch}/>
+                            </Col>
+                        </Row>
+                    </Container>
+                )
             default:
                 console.log('whyyyyyy');
                 break;

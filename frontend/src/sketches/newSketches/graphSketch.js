@@ -66,6 +66,21 @@ export function sketch(p){
         }
     }
 
+    const getBiosignalMU = () => {
+        switch(biosignal){
+            case 'HR':
+                return 'Beats Per Minute (BPM)';
+            case 'GSR':
+                return 'Micro-Siemens (uS)';
+            case 'Temp':
+                return 'Celcius (C)';
+            default:
+                console.log('why?');
+                break;
+        }
+    }
+
+
     const findMinMax = () => {
         // Resetting min and max vars
         min = 10000;
@@ -87,7 +102,8 @@ export function sketch(p){
 
     p.setup = () => {
         const first_col_width = p.select('#visColumn-graph-1').elt.clientWidth;
-        const canvas_height = 225;
+        // const canvas_height = 225;
+        const canvas_height = 250;
         p.createCanvas(first_col_width, canvas_height);
     }
 
@@ -98,9 +114,10 @@ export function sketch(p){
         const paddingTopBottomRight = 10; 
         const paddingLeft = 50;
         const titleHeight = 25;
+        const xAxisSpace = 25;
         const participantCanvasHeight = p.height;
         const participantLowerHeight = paddingTopBottomRight + titleHeight;
-        const participantHigherHeight = participantCanvasHeight - paddingTopBottomRight;
+        const participantHigherHeight = participantCanvasHeight - paddingTopBottomRight - xAxisSpace;
         const participantMinWidth = paddingLeft;
         const participantMaxWidth = p.width - paddingTopBottomRight;
         // Draw title
@@ -117,14 +134,39 @@ export function sketch(p){
         p.line(participantMinWidth, participantHigherHeight, participantMaxWidth, participantHigherHeight);
         // in case there is no fluctuation of the biosignal,
         // there is only one value on the y axis
-        p.textSize(11);
+        p.textSize(13);
         p.fill(p.color('black'));
         if(noFluctuation){
-            p.text(`${p.floor(min)}`, participantMinWidth - 20, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
+            p.text(`${min.toFixed(2)}`, participantMinWidth - 20, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
         }else{
-            p.text(`${p.floor(min)}`, participantMinWidth - 20, participantHigherHeight);
-            p.text(`${p.floor(max)}`, participantMinWidth - 20, participantLowerHeight);
+            p.text(`${min.toFixed(2)}`, participantMinWidth - 20, participantHigherHeight);
+            p.text(`${max.toFixed(2)}`, participantMinWidth - 20, participantLowerHeight);
         }        
+        // X axis values
+        p.text('0', participantMinWidth + 5, participantCanvasHeight - xAxisSpace + 5);
+        const numberOfReps = p.ceil(table.getRowCount()/128);
+        p.text(`${numberOfReps}`, participantMaxWidth - 5, participantCanvasHeight - xAxisSpace + 5);
+
+        // Draw measurement unit
+        p.push();
+        const angle = p.radians(270);
+        p.rotate(angle);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.translate(-170, -180);
+        p.stroke('black');
+        p.fill('black');
+        p.textSize(14);
+        p.text(getBiosignalMU(), participantMinWidth, participantHigherHeight - 20);
+        p.pop();
+
+        // Draw time unit
+        p.push();
+        p.textAlign(p.CENTER);
+        p.stroke('black');
+        p.fill('black');
+        p.textSize(14);
+        p.text('Time (sec)', p.width /2, participantCanvasHeight - paddingTopBottomRight);
+        p.pop();
 
         p.fill(p.color('white'));
         p.stroke(p.color('red'));
