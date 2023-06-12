@@ -2,14 +2,15 @@ import '../lib/p5.sound.min.js'
 import '../lib/p5.dom.min.js'
 import '../lib/p5.js'
 import * as P5Class from "p5"
+// import * as bufferToWav from 'audiobuffer-to-wav'
+let toWav = require('audiobuffer-to-wav')
 
 export function sketch(p){
-    let toPlay, playing = false, setUpComplete = false, isRecording = false;
+    let toPlay, playing = false, setUpComplete = false;
     let biosignal;
     let sound;
     let table;
     let filePath;
-    let downloadStatus;
     let namingData; 
     p.updateWithProps = props => {
         if(props.biosignal){
@@ -57,27 +58,11 @@ export function sketch(p){
         if(props.setProgress) {
             p.setProgress = props.setProgress;
         }
-        if(props.setRecording) {
-            p.setRecording = props.setRecording;
+        if(props.downloadRequested !== undefined && props.downloadRequested === true){
+            downloadSound();
         }
-        if(props.recording !== undefined){
-            if(isRecording !== props.recording){
-                if(isRecording){
-                    stopRecordingSound();
-                }else{
-                    recordSound();
-                }
-                isRecording = props.recording;
-            }
-        }
-        if(props.download !== undefined){
-            if(downloadStatus === 'available' && props.download === 'downloading'){
-                downloadSound();
-            }
-            downloadStatus = props.download;
-        }
-        if(props.setDownload){
-            p.setDownload = props.setDownload;
+        if(props.setDownloadRequested){
+            p.setDownloadRequested = props.setDownloadRequested;
         }
         if(props.cleanUpCode){
             p.cleanUpCode = props.cleanUpCode;
@@ -164,12 +149,12 @@ export function sketch(p){
     }
 
     let heart, kick, kickLoop, pseudoOscillator, oscillator;
-    let recorder;
     p.preload = () => {
         // heart = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/HEART-loop.mp3`);
         heart = p.loadSound(`http://localhost/data/assets/HEART-loop.mp3`);
         // kick = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/TR-909Kick.mp3`);
-        kick = p.loadSound(`http://localhost/data/assets/TR-909Kick.mp3`);
+        // kick = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/TR-909Kick - Copy.mp3`);
+        kick = p.loadSound(`http://localhost/data/assets/TR-909Kick - Copy.mp3`);
     }
 
     const frameRate = 30;
@@ -259,15 +244,96 @@ export function sketch(p){
         oscGain.setInput(oscillator);
         oscGain.connect(gainNode);
 
-        // This will be used for recording the audio of the sketch
-        // recorder = new P5Class.SoundRecorder(gainNode);
-        recorder = new P5Class.SoundRecorder();
-
         fftObj = new P5Class.FFT(0.8, binSize);
 
         setAudio();
-
         setUpComplete = true;
+    }
+
+
+    function offlineSonificationCreation() {
+        const offlineCtx = new OfflineAudioContext(2, numberOfReps * 44100, 44100);
+        const currentTime = offlineCtx.currentTime;
+        const bioIdx = getBiosignalIdx();
+        switch(sound){
+            case 'heart':
+                const heartSource = offlineCtx.createBufferSource();
+                heartSource.buffer = heart.buffer;
+                heartSource.loop = true;
+                heartSource.connect(offlineCtx.destination);
+                heartSource.start(currentTime);
+                let rate;
+                for(let i = 0; i < numberOfReps; i++){
+                    rate = p.constrain(p.map(table.get(i*samplingRate, bioIdx), min[bioIdx], max[bioIdx], 0.5, 1.25), 0.5, 1.25);
+                    if(isNaN(rate)){
+                        rate = 1;
+                    }
+                    heartSource.playbackRate.setValueAtTime(rate, currentTime + i);
+                }
+                heartSource.stop(currentTime + numberOfReps);
+                break;
+            case 'drum':
+                const kickSource = offlineCtx.createBufferSource();
+                kickSource.buffer = kick.buffer;
+                kickSource.loop = true;
+                kickSource.connect(offlineCtx.destination);
+                kickSource.start(currentTime);
+                kickSource.stop(currentTime + numberOfReps);
+
+                const numberOfPlaybacks = numberOfReps/kick.buffer.duration;
+                let bpm, overallBeats, ratio;
+                for(let i = 0; i < numberOfReps; i++){
+                    bpm = table.get(i*samplingRate, bioIdx);
+                    overallBeats = (numberOfReps * bpm)/60;
+                    ratio = overallBeats/numberOfPlaybacks;
+                    kickSource.playbackRate.setValueAtTime(ratio, currentTime + i);
+                }
+                break;
+            default:
+                let offlineosc = offlineCtx.createOscillator();
+                offlineosc.type = sound;
+                offlineosc.connect(offlineCtx.destination);
+                offlineosc.start(currentTime);
+                const minFreq = arrayOfFrequencies[0];
+                const maxFreq = arrayOfFrequencies[arrayOfFrequencies.length - 1];
+                let freq;
+                for(let i = 0; i < numberOfReps; i++){
+                    freq = p.constrain(p.map(table.get(i*samplingRate, bioIdx), min[bioIdx], max[bioIdx], minFreq, maxFreq), minFreq, maxFreq);
+                    if(isNaN(freq)){
+                        // set freq to the min freq available
+                        // pretty arbitrary really
+                        freq = minFreq;
+                    }else{
+                        freq = quantizeFrequency(freq);
+                    }
+                    offlineosc.frequency.setValueAtTime(freq, currentTime + i);
+                }
+                offlineosc.stop(currentTime + numberOfReps);
+                break;
+        }
+
+        offlineCtx
+            .startRendering()
+            .then((renderedBuffer) => {
+                encodeAndSave(renderedBuffer);
+            })
+            .catch((err) => {
+                console.error(`Rendering failed: ${err}`);
+            });
+    }
+
+    function encodeAndSave(buffer){
+        // Format: THXSYEPZ_ParticipantFSonification.wav
+        const recordingName = `TH${namingData.thematicID}Axis${namingData.axisID}EP${namingData.episodeID}_Participant${namingData.participant}_${sound}Sonification.wav`;
+        const arrayBuffer = toWav(buffer);
+        const blob = new Blob([arrayBuffer], { type: 'audio/wav'});
+        const a = document.createElement('a');
+        a.download = recordingName;
+        a.href = URL.createObjectURL(blob);
+        a.textContent = 'download the offline audio';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
     }
 
     p.draw = () => {
@@ -320,8 +386,12 @@ export function sketch(p){
                 // and all we must do is map the heart rate's value
                 // to the range [0.5, 1.2]
                 // and change the playback rate accordingly
-                const rate = p.constrain(p.map(val, min[bioIdx], max[bioIdx], 0.5, 1.25), 0.5, 1.25);
-                heart.rate(rate);
+                let rate = p.constrain(p.map(val, min[bioIdx], max[bioIdx], 0.5, 1.25), 0.5, 1.25);
+                if(isNaN(rate)){
+                    console.log('rate is nan');
+                }else{
+                    heart.rate(rate);
+                }
                 break;
             case 'drum':
                 // Sonifying heart rate with a kick sound
@@ -329,12 +399,6 @@ export function sketch(p){
                 // triggers the playback of a file
                 // We must then map the heart rate to this time period.
                 kickLoop.interval = genPeriod();
-                // In case we're recording, we also export MIDI
-                // If interval changes, tempo changes
-                // if(isRecording){
-                //     console.log(parseInt(table.get(repNo*samplingRate, 0)));
-                //     recordingTrack.setTempo(parseInt(table.get(repNo*samplingRate, 0)));
-                // }
                 break;
             default:
                 // GSR and Temperature sonification consists of mapping the biometric value to the oscillator frequency
@@ -344,29 +408,20 @@ export function sketch(p){
                 const minFreq = arrayOfFrequencies[0];
                 const maxFreq = arrayOfFrequencies[arrayOfFrequencies.length - 1];
                 freq = p.constrain(p.map(val, min[bioIdx], max[bioIdx], minFreq, maxFreq), minFreq, maxFreq);
-                freq = quantizeFrequency(freq);
+                if(isNaN(freq)){
+                    console.log('freq is nan');
+                    freq = minFreq;
+                }else{
+                    freq = quantizeFrequency(freq);
+                }
                 oscillator.freq(freq, 0.1);
                 break;  
         }
     }
 
-    let recording;
-    const recordSound = () => {
-        recording = new P5Class.SoundFile();
-        recorder.record(recording);
-        p.setDownload('empty');
-    }
-
-    const stopRecordingSound = () => {
-        recorder.stop();
-        p.setDownload('available');
-    }
-
     const downloadSound = () =>{
-        // Format: THXSYEPZ_ParticipantFSonification.wav
-        const recordingName = `TH${namingData.thematicID}S${namingData.sessionID}EP${namingData.episodeID}_Participant${namingData.participant}Sonification.wav`;
-        p.save(recording, recordingName);
-        p.setDownload('available');
+        offlineSonificationCreation();
+        p.setDownloadRequested(false);
     }
 
     // This takes an arg while stopSound does not
