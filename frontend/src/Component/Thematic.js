@@ -56,7 +56,7 @@ export default function Thematic(props){
                 </Row>
                </Col>
                <Col xxl={6}>
-                 <img src={props.thematic.img_path} width={"100%"} alt="Thematic Picture"/>
+                 <img src={props.thematic.img_source} width={"100%"} alt="Thematic Picture"/>
                </Col>
             </Row>
           </Container>

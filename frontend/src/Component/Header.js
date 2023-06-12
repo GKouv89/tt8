@@ -91,7 +91,7 @@ export default function Header () {
     const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
     const matchPathResult = matchPath(
     {       
-        path: ":thematicID/sessions/:sessionID/episodes/:episodeID/sonifications/:participantID",
+        path: ":thematicID/axes/:axisID/episodes/:episodeID/sonifications/:participantID",
     }, useLocation().pathname);
     
     function onClickHandler(){

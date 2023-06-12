@@ -15,7 +15,7 @@ export default function Breadcrumbs(){
   if(length !== 0){
     return(
       <Container fluid>
-       <Row className='border border-light breadcrumb'>
+       <Row key={0} className='border border-light breadcrumb'>
           {crumbs.map((crumb, index) => {
               return crumb.map((navlink) => <Col className='breadcrumb-item' xs={'auto'} key={index}>{navlink}</Col>)
             })

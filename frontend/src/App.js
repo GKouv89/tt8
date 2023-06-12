@@ -19,15 +19,14 @@ import {
 } from 'react-router-dom';
 
 import ThematicGrid from './routes/ThematicScreen.js';
-import Thematics from './routes/Thematics.js';
+import Thematics, { thematics } from './routes/Thematics.js';
 import Studio from './routes/Studio';
 import Sonification from './Component/Studio/Sonification';
 
-import { getThematics } from './data';
 import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import Button from 'react-bootstrap/Button';
 
-import { fetchThematicScenes } from './api/calls';
+import { fetchThematicEpisodes } from './api/calls';
 
 import { CleanupContext } from './context/CleanupContext';
 import Visualization from './Component/Studio/Visualization';
@@ -37,7 +36,7 @@ function MyCustomNavlink({className, to, children}){
   const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
   const matchPathResult = matchPath(
   {       
-      path: ":thematicID/sessions/:sessionID/episodes/:episodeID/sonifications/:participantID",
+      path: ":thematicID/axes/:axisID/episodes/:episodeID/sonifications/:participantID",
   }, useLocation().pathname);
   
   function onClickHandler(){
@@ -59,30 +58,30 @@ const router = createBrowserRouter(
     <Route path="/" element={<Header />}>
       <Route 
         index
-        element={<Thematics thematics={getThematics()}/>} 
+        element={<Thematics/>} 
       />
       <Route 
         path=":thematicID" 
-        element={<ThematicGrid colCount={12} gridSize={120}/>} 
+        element={<ThematicGrid/>} 
         loader = {async ({ params }) => {
-          return fetchThematicScenes(params.thematicID, [1, 2]);
+          return fetchThematicEpisodes(params.thematicID);
         }}
         handle ={{
           crumb: (params) => [
             <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
-            <MyCustomNavlink className='current' to={`/${params.thematicID}`}>{getThematics()[params.thematicID - 1].name}</MyCustomNavlink>
+            <MyCustomNavlink className='current' to={`/${params.thematicID}`}>{thematics[params.thematicID - 1].name}</MyCustomNavlink>
           ],
         }}
       />
       <Route
-        path=":thematicID/sessions/:sessionID/episodes/:episodeID" 
+        path=":thematicID/axes/:axisID/episodes/:episodeID" 
         element={<Studio />}
         handle = {{
           crumb: (params) => 
             [
             <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
-            <MyCustomNavlink className='crumb' to={`/${params.thematicID}`}>{getThematics()[params.thematicID - 1].name}</MyCustomNavlink>,
-            <MyCustomNavlink className='current' to={`/${params.thematicID}/sessions/${params.sessionID}/episodes/${params.episodeID}/studio`}>Episode {params.episodeID}</MyCustomNavlink>]
+            <MyCustomNavlink className='crumb' to={`/${params.thematicID}`}>{thematics[params.thematicID - 1].name}</MyCustomNavlink>,
+            <MyCustomNavlink className='current' to={`/${params.thematicID}/axes/${params.axisID}/episodes/${params.episodeID}/studio`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>]
           ,
         }}
       >
@@ -103,7 +102,7 @@ function App() {
   const [cleanUp, setCleanUp] = useState(false);
   const [cleanUpPath, setCleanUpPath] = useState("../visualizations");
   return (
-    <ThemeProvider breakpoints={['xs', 'xxl']}>
+    <ThemeProvider breakpoints={['xs', 'md', 'xxl']}>
       <div className="App d-flex flex-column">
           <CleanupContext.Provider value={{cleanUp, setCleanUp, cleanUpPath, setCleanUpPath}}>
             <RouterProvider router={router} />

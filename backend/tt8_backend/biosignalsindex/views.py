@@ -1,10 +1,10 @@
 # from django.shortcuts import render
-from .models import SociodramaSession, ParticipantMaterial
+from .models import SociodramaSession, ParticipantMaterial, Axis
 from django.db.models import Q
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import EpisodeBiometricsSerializer, SceneSerializer
+from .serializers import EpisodeBiometricsSerializer, AxisSerializer
 # Create your views here.
 
 class BiometricsView(generics.ListAPIView):
@@ -32,25 +32,26 @@ class BiometricsView(generics.ListAPIView):
                    return Response(status=status.HTTP_404_NOT_FOUND)
             return Response(response_enhanced)
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_404_NOT_FOUND)       
 
-class SessionScenesView(generics.ListAPIView):
-    serializer_class = SceneSerializer
-    
-    def get_queryset(self, thematicID, sessionID):
+class ThematicEpisodesView(generics.ListAPIView):
+    def get_queryset(self, thematicID):
         try: 
-            session = SociodramaSession.objects.get(Q(thematic=thematicID) & Q(session_id_in_thematic=sessionID))
-            return session.episodes.order_by('episode_id_in_session')
+            axes = Axis.objects.filter(thematic=thematicID).prefetch_related("episodes").prefetch_related("episodes__session")
+            return axes.order_by('axis_id_in_thematic')
         except:
             return None
         
-    def list(self, request, thematicID, sessionID):
-        queryset = self.get_queryset(thematicID, sessionID)
+    def list(self, _, thematicID):
+        queryset = self.get_queryset(thematicID)
         if queryset is not None:
-            serializer = SceneSerializer(queryset, many=True)
+            serializer = AxisSerializer(queryset, many=True)
             return Response(serializer.data)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+    
+
     
     
     
