@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import Toast from 'react-bootstrap/Toast';
-import ToastContainer from 'react-bootstrap/ToastContainer';
 import Container from 'react-bootstrap/Container';
 import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';
@@ -10,7 +8,6 @@ import Button from 'react-bootstrap/Button';
 import BiosignalToggle from './BiosignalToggle';
 import { ButtonGroup, ToggleButton } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import Form from 'react-bootstrap/Form';
 
 import { useContext } from 'react';
 import { DataContext } from '../../context/DataContext';
@@ -20,6 +17,7 @@ import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import * as son from '../../sketches/newSketches/sonificationSketch.js';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { thematics } from '../../routes/Thematics.js';
 
 const variant = "dark";
 
@@ -64,7 +62,7 @@ function GSRTempGUI({sound, setSound}){
     return(
         <Row>
             <Col xs={'auto'}>
-                <h3>Oscillators:</h3>
+                <h3 class='h4'>Oscillators:</h3>
             </Col>
             <Col xs={'auto'}>
                 <ButtonGroup>
@@ -89,6 +87,24 @@ function GSRTempGUI({sound, setSound}){
 }
 
 function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, toReset, setToReset, setDownloadRequested}){
+    const {thematicID, axisID, episodeID, participantID} = useParams();
+
+    const {data} = useContext(DataContext);
+    const file = participantID ? data[participantID - 1].path : null;
+
+    const thematicName = thematics[thematicID-1].name;
+    const fileName = `${thematicName}_Axis${axisID}_Episode${episodeID}_Participant${participantID}.csv`;
+
+    const downloadFile = () => {
+        const a = document.createElement('a');
+        a.download = fileName;
+        a.href = file;
+        a.textContent = 'download the participant\'s raw data';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+
     const callback = (val) => {
         const old_biosignal = biosignal;
         setBiosignal(val);
@@ -109,17 +125,17 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
             <Container>
                 <Row>
                     <Col xs={'auto'}>
-                        <h2>Choose Biosignal</h2>
+                        <h2 class='h3'>Choose Biosignal</h2>
                     </Col>
                 </Row>
-                <Row>
+                <Row className='pb-2'>
                     <Col xs={'auto'}>
                         <BiosignalToggle biosignal={biosignal} callback={callback}/>
                     </Col>
                 </Row>
                 <Row>
                     <Col xs={'auto'}>
-                        <h2>Choose your sound</h2>
+                        <h2 class='h3'>Choose your sound</h2>
                     </Col>
                 </Row>
                 {biosignal === 'HR' ? <HeartRateGUI sound={sound} setSound={setSound}/> : <GSRTempGUI sound={sound} setSound={setSound}/>}
@@ -158,15 +174,29 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
                                 <i class="bi bi-stop-fill"></i>
                             </Button>
                         </Col>
-                    </Row>
-                    <Row>
                         <Col xs={'auto'}>
                             <Button 
                                 variant={variant}
                                 onClick={() => setDownloadRequested(true)}
                             >
                                 <i class="bi bi-download"></i>  
-                                &nbsp;Download {sound} sound
+                                {/* &nbsp;{sound.charAt(0).toUpperCase() + sound.slice(1)} sound (WAV) */}
+                                &nbsp; Current sonification (WAV)
+                            </Button>
+                        </Col>
+                        <Col xs={'auto'}>
+                            {/* <Button
+                                variant={variant}
+                                onClick={() => downloadFile()}
+                            >
+                                <i class="bi bi-download"></i>
+                                &nbsp;Raw
+                            </Button> */}
+                            <Button
+                                variant={variant}
+                                onClick={() => downloadFile()}
+                            >
+                                <i class="bi bi-filetype-csv">&nbsp;Data</i>
                             </Button>
                         </Col>
                     </Row>

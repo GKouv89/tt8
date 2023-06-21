@@ -28,7 +28,8 @@ SECRET_KEY = 'django-insecure-v=q%g#@73h(6ee!vi!t-+*3o#0($e+o_9a1s*2h=^q)hn23*^#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+]
 
 
 # Application definition
@@ -59,7 +60,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
+     'http://localhost:3000',
+     'http://localhost',
 ]
 
 ROOT_URLCONF = 'tt8_backend.urls'
