@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useLoaderData, Link, useParams, useNavigate } from 'react-router-dom'
+import React from 'react';
+import { useLoaderData, useParams, useNavigate } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 
-import { thematics } from './Thematics'
+import { thematics_alt } from './Thematics';
 
 function EpisodeSquare({episode, axisID, axisColor}){
   const navigate = useNavigate();
@@ -35,10 +35,18 @@ function EpisodeSquare({episode, axisID, axisColor}){
 }
 
 function AxisRow({axis}){
+  const {thematicID} = useParams();
+
+  const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${thematics_alt[thematicID-1]}/axis-${axis.axis_id_in_thematic}/`;
+
   return(
     <Container fluid>
       <Row className="mb-1">
-        <Col xs={'auto'}><h1 className="h2">Axis {axis.axis_id_in_thematic}: {axis.title}</h1></Col>
+        <Col xs={'auto'}>
+          <h1 className="h2">
+            <a href={url} target="_blank">Axis {axis.axis_id_in_thematic}: {axis.title}</a>
+          </h1>
+        </Col>
       </Row>
       <Row>
         {

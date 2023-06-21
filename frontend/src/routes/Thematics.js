@@ -40,6 +40,12 @@ export const thematics = [
   }
 ];
 
+export const thematics_alt = [
+  'enviroment',
+  'employment',
+  'refugee-immigration-crisis'
+]
+
 export default function Thematics(){
   const [activeKey, setActiveKey] = useState('None');
   

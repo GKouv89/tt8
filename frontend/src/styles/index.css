@@ -22,6 +22,14 @@ div#root{
   height: 100%;
 }
 
+a {
+  color: #152238;
+}
+
+a:hover {
+  color: #152238;
+}
+
 .nav-item:hover {
   background-color: #FDFB85;
   border-color: #FDFB85;
