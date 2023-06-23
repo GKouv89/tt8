@@ -1,11 +1,20 @@
 import { ToggleButton } from 'react-bootstrap';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
-export default function BiosignalToggle({biosignal, callback}){
+export default function BiosignalToggle({biosignal, prefix, callback}){
     const biosignals = [
-        {name: 'Heart Rate', value: 'HR'},
-        {name: 'Galvanic Skin Response', value: 'GSR'},
-        {name: 'Temperature', value: 'Temp'},
+        {
+            name: 'Heart Rate',
+            value: 'HR',
+        },
+        {
+            name: 'Galvanic Skin Response',
+            value: 'GSR',            
+        },
+        {
+            name: 'Temperature', 
+            value: 'Temp',
+        },
     ];
 
     return(
@@ -14,9 +23,9 @@ export default function BiosignalToggle({biosignal, callback}){
                 <ToggleButton
                     variant='dark'
                     key={idx}
-                    id={`radio-${idx}`}
+                    id={`${prefix}-radio-${idx}`}
                     type="radio"
-                    name="radio"
+                    name={`${prefix}-radio`}
                     value={signal.value}
                     checked={biosignal === signal.value}
                     onChange={(e) => {callback(e.currentTarget.value);}}

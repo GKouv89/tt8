@@ -16,6 +16,7 @@ import { DataContext } from '../../context/DataContext.js';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { thematics } from '../../routes/Thematics.js';
+import { BiosignalModal } from './BiosignalModal.js';
 
 function VisualizationRow({sketch, id, file, ...props}){
     const {thematicID, axisID, episodeID} = useParams();
@@ -95,18 +96,13 @@ function VisualizationRow({sketch, id, file, ...props}){
                                     <Button 
                                         variant='dark'
                                     >
-                                        <i class="bi bi-volume-up-fill"></i>
+                                        <i class="bi bi-volume-up-fill">&nbsp;Sonify</i>
                                     </Button>
                                 </Link>
                             </Col>
                         </Row>
                         <Row className='justify-content-center my-1'>
                             <Col xs={'auto'}>
-                                {/* <Button
-                                    variant='dark'
-                                >
-                                    <i class="bi bi-download">&nbsp;Raw</i>
-                                </Button> */}
                                 <Button
                                     variant='dark'
                                     onClick={() => {downloadFile();}}
@@ -142,38 +138,53 @@ function Content({sketch, biosignal}) {
 export default function Visualization(){
     const [biosignal, setBiosignal] = useState('HR');
     const [active, setActive] = useState('graph');
+    const [showModal, setShowModal] = useState(false);
 
     return(
-        <Tab.Container 
-            defaultActiveKey="graph"
-            activeKey={active}
-            onSelect={(k) => setActive(k)}
-        >
-            <Row>
-                <Col>
-                    <Nav variant="tabs">
-                        <Nav.Item>
-                            <Nav.Link eventKey="graph">Graph</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link eventKey="color">Color</Nav.Link>
-                        </Nav.Item>
-                    </Nav>
-                </Col>
-                <Col xs={'auto'}>
-                    <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
-                </Col>
-             </Row>
-             <Row>
-                <Tab.Content>
-                    <Tab.Pane eventKey="graph">
-                        <Content sketch={"graph"} biosignal={biosignal} active={active}/>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="color">
-                        <Content sketch={"color"} biosignal={biosignal} active={active}/>
-                    </Tab.Pane>
-                </Tab.Content>
-            </Row>
-        </Tab.Container>
+        <>
+            <BiosignalModal 
+                    show={showModal}
+                    onHide={() => setShowModal(false)}
+                />
+            <Tab.Container 
+                defaultActiveKey="graph"
+                activeKey={active}
+                onSelect={(k) => setActive(k)}
+            >
+                <Row>
+                    <Col>
+                        <Nav variant="tabs">
+                            <Nav.Item>
+                                <Nav.Link eventKey="graph">Graph</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="color">Color</Nav.Link>
+                            </Nav.Item>
+                        </Nav>
+                    </Col>
+                    <Col xs={'auto'}>
+                        <BiosignalToggle biosignal={biosignal} prefix='visualization' callback={setBiosignal}/>
+                    </Col>
+                    <Col xs={'auto'}>
+                        <Button
+                            variant="dark"
+                            onClick={() => setShowModal(true)}
+                        >
+                            <i class="bi bi-info-circle" />&nbsp; Learn More
+                        </Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <Tab.Content>
+                        <Tab.Pane eventKey="graph">
+                            <Content sketch={"graph"} biosignal={biosignal} active={active}/>
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="color">
+                            <Content sketch={"color"} biosignal={biosignal} active={active}/>
+                        </Tab.Pane>
+                    </Tab.Content>
+                </Row>
+            </Tab.Container>
+        </>
     );
 }
