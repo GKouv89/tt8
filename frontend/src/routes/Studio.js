@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Outlet, useParams, useSearchParams } from 'react-router-dom'
 
 import { fetchSceneMaterial } from '../api/calls';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { DataContext } from '../context/DataContext';
 
 export default function Studio(){
-    let {thematicID, axisID} = useParams();
+    let {thematicID, axisID, episodeID} = useParams();
     const [params] = useSearchParams();
-    const episodeID = params.get('epid');
+    const epid = params.get('epid');
     const sessionID = params.get('sessid');
 
     // The data for sonification and visualization are loaded here
@@ -20,7 +20,7 @@ export default function Studio(){
     
     // This runs just once, when the component renders
     useEffect(() => {
-        fetchSceneMaterial(thematicID, sessionID, episodeID, axisID)
+        fetchSceneMaterial(thematicID, sessionID, epid, axisID)
             .then((ret) => {
                 setColor(ret.color);
                 setData(ret.material);
@@ -30,6 +30,13 @@ export default function Studio(){
 
     return(
         <Container fluid>
+            <Row>
+                <Col xs={'auto'}>
+                    <h1 class="h2">
+                       Episode {episodeID}
+                    </h1>
+                </Col>
+            </Row>
             <DataContext.Provider value={{color, data}}>
                 {data && <Outlet />}
             </DataContext.Provider>

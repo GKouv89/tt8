@@ -9,8 +9,9 @@ const biosignalDescriptions = {
     HR: {
             name: "Heart Rate",
             description: {
-                general: ``,
-                average: ``
+                general: `Heart Rate is the frequency of a person's heart beat, measured in beats per minute (BPM). 
+                While a person's heart rate can increase for many reasons, a faster heart rate is often an indicator of anxiety and stress.`,
+                average: `The normal resting (that is, not during or after exercise) heart rate for adults is between 60 and 100 (BPM).`
             }
         },
     GSR: {
@@ -28,16 +29,26 @@ const biosignalDescriptions = {
         {
             name: 'Temperature',
             description: {
-                general: ``,
-                average: ``
+                general: `Corresponds to the measurement returned by any body thermometer.
+                While many non-psychological factors can affect a person's temperature,
+                studies have shown that stress can also increase body temperature, and may even 
+                induce fever in some individuals. `,
+                average: `A healthy adult's average body temperature ranges between 36.5 and 
+                37.1 degrees Celcius (C). Note that the measurements here are from a sensor worn on the wrist. 
+                Therefore, the measured values are lower than usual thermometer measurements. `
             }
         }
 }
 
-export function BiosignalModal(props)
+export function BiosignalInfoModal(props)
 {
-    const [biosignal, setBiosignal] = useState('GSR');
+    const [biosignal, setBiosignal] = useState('HR');
     const [info, setInfo] = useState('general');
+
+    const biosignalCallback = (val) => {
+        setBiosignal(val);
+        setInfo('general');
+    }
 
     return(
         <Modal
@@ -55,7 +66,7 @@ export function BiosignalModal(props)
                 >
                     <Row className='pb-2'>
                         <Col xs={'auto'}>
-                            <BiosignalToggle biosignal={biosignal} prefix='information' callback={setBiosignal}/>
+                            <BiosignalToggle biosignal={biosignal} prefix='information' callback={biosignalCallback}/>
                         </Col>
                     </Row>
                     <Row className='pb-1'>

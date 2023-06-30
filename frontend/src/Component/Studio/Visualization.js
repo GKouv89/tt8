@@ -16,7 +16,7 @@ import { DataContext } from '../../context/DataContext.js';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { thematics } from '../../routes/Thematics.js';
-import { BiosignalModal } from './BiosignalModal.js';
+import { BiosignalInfoModal } from './BiosignalInfoModal.js';
 
 function VisualizationRow({sketch, id, file, ...props}){
     const {thematicID, axisID, episodeID} = useParams();
@@ -142,11 +142,26 @@ export default function Visualization(){
 
     return(
         <>
-            <BiosignalModal 
-                    show={showModal}
-                    onHide={() => setShowModal(false)}
-                />
+            <BiosignalInfoModal 
+                show={showModal}
+                onHide={() => setShowModal(false)}
+            />
+            <Row className="justify-content-start">
+                <Col xs={'auto'}>
+                    <h2 class="h3">
+                        Visualizations
+                    </h2>
+                </Col>
+                <Col xs={'auto'}>
+                    <Button 
+                        variant='outline-dark'
+                    >
+                        <i class="bi bi-info-circle" /> What am I seeing?
+                    </Button>
+                </Col>
+            </Row>
             <Tab.Container 
+                className='m-0 p-0'
                 defaultActiveKey="graph"
                 activeKey={active}
                 onSelect={(k) => setActive(k)}

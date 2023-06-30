@@ -18,6 +18,7 @@ import { ReactP5Wrapper } from 'react-p5-wrapper';
 import * as son from '../../sketches/newSketches/sonificationSketch.js';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { thematics } from '../../routes/Thematics.js';
+import { BiosignalInfoModal } from './BiosignalInfoModal';
 
 const variant = "dark";
 
@@ -95,6 +96,8 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
     const thematicName = thematics[thematicID-1].name;
     const fileName = `${thematicName}_Axis${axisID}_Episode${episodeID}_Participant${participantID}.csv`;
 
+    const [showBioModal, setShowBioModal] = useState(false);
+
     const downloadFile = () => {
         const a = document.createElement('a');
         a.download = fileName;
@@ -121,88 +124,102 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
     }
 
     return(
-        <Col xs={6}>
-            <Container>
-                <Row>
-                    <Col xs={'auto'}>
-                        <h2 class='h3'>Choose Biosignal</h2>
-                    </Col>
-                </Row>
-                <Row className='pb-2'>
-                    <Col xs={'auto'}>
-                        <BiosignalToggle biosignal={biosignal} callback={callback}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={'auto'}>
-                        <h2 class='h3'>Choose your sound</h2>
-                    </Col>
-                </Row>
-                {biosignal === 'HR' ? <HeartRateGUI sound={sound} setSound={setSound}/> : <GSRTempGUI sound={sound} setSound={setSound}/>}
-                <hr></hr>
-                <Stack gap={3}>
+        <>
+            <BiosignalInfoModal 
+                show={showBioModal}
+                onHide={() => setShowBioModal(false)}
+            />
+            <Col xs={6}>
+                <Container>
                     <Row>
                         <Col xs={'auto'}>
+                            <h2 class='h3'>Choose Biosignal</h2>
+                        </Col>
+                    </Row>
+                    <Row className='pb-2'>
+                        <Col xs={'auto'}>
+                            <BiosignalToggle biosignal={biosignal} callback={callback}/>
+                        </Col>
+                        <Col xs={'auto'}>
                             <Button
-                                variant={variant}
-                                onClick={() => {
-                                    if(!playing){
-                                        setCanStop(true);
-                                    }
-                                    setPlaying(!playing);
-                                }}
-                                // disabled when toReset is true makes sure there won't be a race condition
-                                // when the sketch is cleaning up after itself.
-                                disabled={toReset}
+                                variant="dark"
+                                onClick={() => setShowBioModal(true)}
                             >
-                                {!playing ? <i class="bi bi-play-fill"></i> : <i class="bi bi-pause-fill"></i>}
-                            </Button>
-                        </Col>
-                        <Col xs={'auto'}>
-                            <Button 
-                                variant={variant}
-                                disabled={!canStop}
-                                onClick={() => {
-                                    // If the sonification is stopped from the click of this button,
-                                    // then the sketch must be 'notified' to clean up the sonification.
-                                    // (stop the sound)
-                                    // If the sonification were to naturally end, the reset state variable
-                                    // need not be modified.
-                                    setToReset(true);
-                                }}
-                            >
-                                <i class="bi bi-stop-fill"></i>
-                            </Button>
-                        </Col>
-                        <Col xs={'auto'}>
-                            <Button 
-                                variant={variant}
-                                onClick={() => setDownloadRequested(true)}
-                            >
-                                <i class="bi bi-download"></i>  
-                                {/* &nbsp;{sound.charAt(0).toUpperCase() + sound.slice(1)} sound (WAV) */}
-                                &nbsp; Current sonification (WAV)
-                            </Button>
-                        </Col>
-                        <Col xs={'auto'}>
-                            {/* <Button
-                                variant={variant}
-                                onClick={() => downloadFile()}
-                            >
-                                <i class="bi bi-download"></i>
-                                &nbsp;Raw
-                            </Button> */}
-                            <Button
-                                variant={variant}
-                                onClick={() => downloadFile()}
-                            >
-                                <i class="bi bi-filetype-csv">&nbsp;Data</i>
+                                <i class="bi bi-info-circle" />&nbsp; Learn More
                             </Button>
                         </Col>
                     </Row>
-                </Stack>
-            </Container>
-        </Col>
+                    <Row>
+                        <Col xs={'auto'}>
+                            <h2 class='h3'>Choose your sound</h2>
+                        </Col>
+                    </Row>
+                    {biosignal === 'HR' ? <HeartRateGUI sound={sound} setSound={setSound}/> : <GSRTempGUI sound={sound} setSound={setSound}/>}
+                    <hr></hr>
+                    <Stack gap={3}>
+                        <Row>
+                            <Col xs={'auto'}>
+                                <Button
+                                    variant={variant}
+                                    onClick={() => {
+                                        if(!playing){
+                                            setCanStop(true);
+                                        }
+                                        setPlaying(!playing);
+                                    }}
+                                    // disabled when toReset is true makes sure there won't be a race condition
+                                    // when the sketch is cleaning up after itself.
+                                    disabled={toReset}
+                                >
+                                    {!playing ? <i class="bi bi-play-fill"></i> : <i class="bi bi-pause-fill"></i>}
+                                </Button>
+                            </Col>
+                            <Col xs={'auto'}>
+                                <Button 
+                                    variant={variant}
+                                    disabled={!canStop}
+                                    onClick={() => {
+                                        // If the sonification is stopped from the click of this button,
+                                        // then the sketch must be 'notified' to clean up the sonification.
+                                        // (stop the sound)
+                                        // If the sonification were to naturally end, the reset state variable
+                                        // need not be modified.
+                                        setToReset(true);
+                                    }}
+                                >
+                                    <i class="bi bi-stop-fill"></i>
+                                </Button>
+                            </Col>
+                            <Col xs={'auto'}>
+                                <Button 
+                                    variant={variant}
+                                    onClick={() => setDownloadRequested(true)}
+                                >
+                                    <i class="bi bi-download"></i>  
+                                    {/* &nbsp;{sound.charAt(0).toUpperCase() + sound.slice(1)} sound (WAV) */}
+                                    &nbsp; Current sonification (WAV)
+                                </Button>
+                            </Col>
+                            <Col xs={'auto'}>
+                                {/* <Button
+                                    variant={variant}
+                                    onClick={() => downloadFile()}
+                                >
+                                    <i class="bi bi-download"></i>
+                                    &nbsp;Raw
+                                </Button> */}
+                                <Button
+                                    variant={variant}
+                                    onClick={() => downloadFile()}
+                                >
+                                    <i class="bi bi-filetype-csv">&nbsp;Data</i>
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Stack>
+                </Container>
+            </Col>
+        </>
     );
 }
 
@@ -235,7 +252,17 @@ function Sketch({playing, setPlaying, ...props}){
 
     return(
         <>
-            <h2>Participant {participantID}</h2>
+            <Row className='pt-1 align-items-center'>
+                <Col xs={'auto'}>
+                    <h2>Participant {participantID}</h2>
+                </Col>
+                {/* <Col xs={'auto'}>
+                    <h3 class="h5">Change Participant: </h3>
+                </Col>
+                <Col xs={'auto'}>
+                    
+                </Col> */}
+            </Row>
             {file && <ReactP5Wrapper 
                 {...props}
                 sketch={son.sketch} 
@@ -344,21 +371,40 @@ export default function Sonification(){
     const [searchParams] = useSearchParams();
     
     return (
-        <Container fluid>
-            <Row style={{'justify-content': 'space-between'}}>
+        <>
+            <Row className="justify-content-start">
                 <Col xs={'auto'}>
-                    <Button 
-                        variant={variant}
-                        onClick={() => {
-                            setCleanUpPath(`../visualizations?${searchParams}`);
-                            setCleanUp(true);
-                        }}>
-                        <i class="bi bi-arrow-left"></i>
-                        &nbsp; Back to collective visualization
+                    <h2 class="h3">
+                        Sonification
+                    </h2>
+                </Col>
+                <Col xs={'auto'}>
+                    <Button
+                        variant="outline-dark"
+                    >
+                        <i class="bi bi-info-circle" /> What am I hearing?
                     </Button>
                 </Col>
             </Row>
-            <Player />
-        </Container>
+            <Row>
+                <hr/>
+            </Row>
+            <Container fluid className='m-0 p-0'>
+                <Row style={{'justify-content': 'space-between'}}>
+                    <Col xs={'auto'}>
+                        <Button 
+                            variant={variant}
+                            onClick={() => {
+                                setCleanUpPath(`../visualizations?${searchParams}`);
+                                setCleanUp(true);
+                            }}>
+                            <i class="bi bi-arrow-left"></i>
+                            &nbsp; Back to collective visualization
+                        </Button>
+                    </Col>
+                </Row>
+                <Player />
+            </Container>
+        </>
     );
 }
