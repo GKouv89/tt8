@@ -150,11 +150,8 @@ export function sketch(p){
 
     let heart, kick, kickLoop, pseudoOscillator, oscillator;
     p.preload = () => {
-        // heart = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/HEART-loop.mp3`);
-        heart = p.loadSound(`http://localhost/data/assets/HEART-loop.mp3`);
-        // kick = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/TR-909Kick.mp3`);
-        // kick = p.loadSound(`https://transitionto8.athenarc.gr/data/assets/TR-909Kick - Copy.mp3`);
-        kick = p.loadSound(`http://localhost/data/assets/TR-909Kick - Copy.mp3`);
+        heart = p.loadSound(`${process.env.REACT_APP_ASSETS_URL}HEART-loop.mp3`);
+        kick = p.loadSound(`${process.env.REACT_APP_ASSETS_URL}TR-909Kick - Copy.mp3`);
     }
 
     const frameRate = 30;

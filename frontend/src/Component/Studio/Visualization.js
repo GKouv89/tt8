@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import Container from 'react-bootstrap/Container';
@@ -15,22 +15,41 @@ import BiosignalToggle from './BiosignalToggle.js';
 import { DataContext } from '../../context/DataContext.js';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { thematics } from '../../routes/Thematics.js';
+import { BiosignalInfoModal } from './BiosignalInfoModal.js';
 
-function VisualizationRow({sketch, id, ...props}){
+function VisualizationRow({sketch, id, file, ...props}){
+    const {thematicID, axisID, episodeID} = useParams();
     const [searchParams] = useSearchParams();
     const {color} = useContext(DataContext);
+
+    const thematicName = thematics[thematicID-1].name;
+    const fileName = `${thematicName}_Axis${axisID}_Episode${episodeID}_Participant${id}.csv`;
+
+    const downloadFile = () => {
+        const a = document.createElement('a');
+        a.download = fileName;
+        a.href = file;
+        a.textContent = 'download the participant\'s raw data';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
 
     const sketchChoice = () => {
         const state = {
             id: id,
             color: color,
+            file: file,
             ...props            
         }
         switch(sketch){
             case 'graph':
                 return <ReactP5Wrapper {...state} sketch={graph.sketch}/>
             case 'color':
-                return <ReactP5Wrapper {...state} sketch={gradient.sketch}/>
+                return (
+                    <ReactP5Wrapper {...state} sketch={gradient.sketch}/>
+                )
             default:
                 console.log('whyyyyyy');
                 break;
@@ -38,22 +57,64 @@ function VisualizationRow({sketch, id, ...props}){
     }
 
     return(
-        <Row 
-            id={`myRow-${sketch}-${id}`} 
-            className="align-items-center m-0 px-0 py-2 ">
-            <Col xs={11} id={`visColumn-${sketch}-${id}`} className="m-0 p-0">
-                {sketchChoice()}
-            </Col>
-            <Col xs={1} id={`sonifyColumn-${sketch}-${id}`} className="m-0 p-0">
-                <Link to={`../sonifications/${id}?${searchParams}`}>
-                    <Button 
-                        variant='dark'
+        <Container
+            fluid
+            className='m-0 pt-1 pb-0 px-0'
+        >
+            {
+                sketch == 'color' ? 
+                        <Row>
+                            <Col xs={'auto'}>
+                                <h2 class="h5">Participant {id}</h2>
+                            </Col>
+                        </Row>
+                    :
+                        <></>
+            }
+            <Row 
+                id={`myRow-${sketch}-${id}`} 
+                className="align-items-center m-0 px-0 py-1">
+                <Col 
+                    xs={11} 
+                    id={`visColumn-${sketch}-${id}`} 
+                    className="m-0 p-0"
+                >
+                    {sketchChoice()}
+                </Col>
+                <Col 
+                    xs={1} 
+                    id={`sonifyColumn-${sketch}-${id}`} 
+                    className="m-0 p-0"
+                >
+                    <Container 
+                        fluid
+                        className="flex-direction-column"
                     >
-                        Sonify
-                    </Button>
-                </Link>
-            </Col>
-        </Row>
+                        <Row className='justify-content-center my-1'>
+                            <Col xs={'auto'}>
+                                <Link to={`../sonifications/${id}?${searchParams}`}>
+                                    <Button 
+                                        variant='dark'
+                                    >
+                                        <i class="bi bi-volume-up-fill">&nbsp;Sonify</i>
+                                    </Button>
+                                </Link>
+                            </Col>
+                        </Row>
+                        <Row className='justify-content-center my-1'>
+                            <Col xs={'auto'}>
+                                <Button
+                                    variant='dark'
+                                    onClick={() => {downloadFile();}}
+                                >
+                                    <i class="bi bi-filetype-csv">&nbsp;Data</i>
+                                </Button>
+                            </Col>
+                        </Row>                    
+                    </Container>
+                </Col>
+            </Row>
+        </Container>
     );
 }
 
@@ -77,38 +138,68 @@ function Content({sketch, biosignal}) {
 export default function Visualization(){
     const [biosignal, setBiosignal] = useState('HR');
     const [active, setActive] = useState('graph');
+    const [showModal, setShowModal] = useState(false);
 
     return(
-        <Tab.Container 
-            defaultActiveKey="graph"
-            activeKey={active}
-            onSelect={(k) => setActive(k)}
-        >
-            <Row>
-                <Col>
-                    <Nav variant="tabs">
-                        <Nav.Item>
-                            <Nav.Link eventKey="graph">Graph</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link eventKey="color">Color</Nav.Link>
-                        </Nav.Item>
-                    </Nav>
+        <>
+            <BiosignalInfoModal 
+                show={showModal}
+                onHide={() => setShowModal(false)}
+            />
+            <Row className="justify-content-start">
+                <Col xs={'auto'}>
+                    <h2 class="h3">
+                        Visualizations
+                    </h2>
                 </Col>
                 <Col xs={'auto'}>
-                    <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
+                    <Button 
+                        variant='outline-dark'
+                    >
+                        <i class="bi bi-info-circle" /> What am I seeing?
+                    </Button>
                 </Col>
-             </Row>
-             <Row>
-                <Tab.Content>
-                    <Tab.Pane eventKey="graph">
-                        <Content sketch={"graph"} biosignal={biosignal} active={active}/>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="color">
-                        <Content sketch={"color"} biosignal={biosignal} active={active}/>
-                    </Tab.Pane>
-                </Tab.Content>
             </Row>
-        </Tab.Container>
+            <Tab.Container 
+                className='m-0 p-0'
+                defaultActiveKey="graph"
+                activeKey={active}
+                onSelect={(k) => setActive(k)}
+            >
+                <Row>
+                    <Col>
+                        <Nav variant="tabs">
+                            <Nav.Item>
+                                <Nav.Link eventKey="graph">Graph</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="color">Color</Nav.Link>
+                            </Nav.Item>
+                        </Nav>
+                    </Col>
+                    <Col xs={'auto'}>
+                        <BiosignalToggle biosignal={biosignal} prefix='visualization' callback={setBiosignal}/>
+                    </Col>
+                    <Col xs={'auto'}>
+                        <Button
+                            variant="dark"
+                            onClick={() => setShowModal(true)}
+                        >
+                            <i class="bi bi-info-circle" />&nbsp; Learn More
+                        </Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <Tab.Content>
+                        <Tab.Pane eventKey="graph">
+                            <Content sketch={"graph"} biosignal={biosignal} active={active}/>
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="color">
+                            <Content sketch={"color"} biosignal={biosignal} active={active}/>
+                        </Tab.Pane>
+                    </Tab.Content>
+                </Row>
+            </Tab.Container>
+        </>
     );
 }

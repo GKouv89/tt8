@@ -22,6 +22,8 @@ div#root{
   height: 100%;
 }
 
+
+
 .nav-item:hover {
   background-color: #FDFB85;
   border-color: #FDFB85;
@@ -248,8 +250,9 @@ div#root{
 }
 
 .modal-content{
-  background-color: transparent;
-  border-color: transparent;
+  background-color: #333333;
+  color: #bec3c9;
+  border-color: #bec3c9;
 }
 
 .image-square{
@@ -266,9 +269,4 @@ div#root{
 
 .modal-image{
   color: white;
-}
-
-.modal-open .container-fluid, .modal-open .container {
-  filter: blur(2px);
-  -webkit-filter: blur(2px) grayscale(20%);
 }

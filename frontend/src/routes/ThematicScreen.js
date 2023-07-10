@@ -34,22 +34,6 @@ function EpisodeSquare({episode, axisID, axisColor}){
   );
 }
 
-function EmptySquare(){
-  return(
-    <>
-      <Col xxl={2} className="border border-light gridsquare m-0 p-0">
-        <Card className="gridsquare border-light empty">
-          <Card.Body 
-            className="empty"
-            as="button"
-            disabled={true}>
-          </Card.Body>
-        </Card>
-      </Col>
-    </>
-  );
-}
-
 function AxisRow({axis}){
   return(
     <Container fluid>
@@ -60,7 +44,7 @@ function AxisRow({axis}){
         {
           axis.episodes.map((episode, idx) => {
             return (
-              <Col key={idx} md={2} className="border border-light gridsquare mx-3 mb-3 p-0">
+              <Col key={idx} md={2} className="border border-light gridsquare mx-1 mb-3 p-0">
                 <EpisodeSquare episode={episode} axisID={axis.axis_id_in_thematic} axisColor={axis.color}/>
               </Col>
             )
