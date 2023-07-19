@@ -1,0 +1,156 @@
+- fields:
+    axis:
+    - - Employment
+      - 1
+    is_superepisode: true
+    scene_id_in_session: '75'
+    session:
+    - Employment
+    - 2
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '65097'
+    ending_time: '62.35'
+    scene:
+    - Employment
+    - 2
+    - '75'
+    starting_row: '48945'
+    starting_time: '60.25'
+    task:
+    - Employment
+    - 2
+    - Section 3
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 5
+    is_superepisode: true
+    scene_id_in_session: '68'
+    session:
+    - Employment
+    - 2
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '20728'
+    ending_time: '56.57'
+    scene:
+    - Employment
+    - 2
+    - '68'
+    starting_row: '9952'
+    starting_time: '55.16'
+    task:
+    - Employment
+    - 2
+    - Section 3
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 7
+    is_superepisode: true
+    scene_id_in_session: '125'
+    session:
+    - Employment
+    - 2
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '16379'
+    ending_time: '100.99'
+    scene:
+    - Employment
+    - 2
+    - '125'
+    starting_row: '10595'
+    starting_time: '100.23'
+    task:
+    - Employment
+    - 2
+    - Conclusion
+    - 1
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 1
+    is_superepisode: true
+    scene_id_in_session: '40'
+    session:
+    - Employment
+    - 2
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '26101'
+    ending_time: '35.12'
+    scene:
+    - Employment
+    - 2
+    - '40'
+    starting_row: '12640'
+    starting_time: '33.36'
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 8
+    is_superepisode: true
+    scene_id_in_session: '135'
+    session:
+    - Employment
+    - 2
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '111017'
+    ending_time: '113.32'
+    scene:
+    - Employment
+    - 2
+    - '135'
+    starting_row: '92848'
+    starting_time: '110.95'
+    task:
+    - Employment
+    - 2
+    - Conclusion
+    - 1
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 2
+    is_superepisode: true
+    scene_id_in_session: '48'
+    session:
+    - Employment
+    - 2
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '22009'
+    ending_time: '40.23'
+    scene:
+    - Employment
+    - 2
+    - '48'
+    starting_row: '20219'
+    starting_time: '40.0'
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - 3
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata

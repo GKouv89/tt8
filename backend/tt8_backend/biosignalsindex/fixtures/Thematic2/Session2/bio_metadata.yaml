@@ -1,0 +1,132 @@
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '41.73913043478261'
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '9.809702492629322'
+    min_value: '0.4815184815184815'
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '33.1972055338847'
+    min_value: '28.021069390722552'
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '55.25179856115109'
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '3'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '12.444001991040318'
+    min_value: '0.5210345210345211'
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '3'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '32.468644416244935'
+    min_value: '27.981638131500222'
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '3'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '41.9672131147541'
+    task:
+    - Employment
+    - 2
+    - Section 3
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '10.570381998953428'
+    min_value: '0.5778665778665778'
+    task:
+    - Employment
+    - 2
+    - Section 3
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '31.754857611749323'
+    min_value: '27.469033456617037'
+    task:
+    - Employment
+    - 2
+    - Section 3
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '48.60759493670887'
+    task:
+    - Employment
+    - 2
+    - Conclusion
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '10.810327883498614'
+    min_value: '0.5512265512265513'
+    task:
+    - Employment
+    - 2
+    - Conclusion
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '32.62124790633097'
+    min_value: '27.853486667666584'
+    task:
+    - Employment
+    - 2
+    - Conclusion
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask

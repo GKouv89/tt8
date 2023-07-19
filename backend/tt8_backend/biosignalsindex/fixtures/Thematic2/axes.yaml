@@ -1,50 +1,50 @@
 ---
 - model: biosignalsindex.Axis
   fields:
-    thematic: ['Environment']
+    thematic: ['Employment']
     axis_id_in_thematic: 1
-    title: Negative feelings about the city and its environment
+    title: Working conditions
     color: '#EE3124'
 - model: biosignalsindex.Axis
   fields:
-    thematic: ['Environment']
+    thematic: ['Employment']
     axis_id_in_thematic: 2
-    title: Positive feelings about the city and its environment
+    title: Safety and protection of workers
     color: '#F58220'
 - model: biosignalsindex.Axis
   fields:
-    thematic: ['Environment']
+    thematic: ['Employment']
     axis_id_in_thematic: 3
-    title: The citizen towards the city
+    title: Individual responsibility
     color: '#FFF203'
 - model: biosignalsindex.Axis
   fields:
-    thematic: ['Environment']
+    thematic: ['Employment']
     axis_id_in_thematic: 4
-    title: The city towards the citizen
+    title: Accountability of responsible entities
     color: '#0099DA'
 - model: biosignalsindex.Axis
   fields:
-    thematic: ['Environment']
+    thematic: ['Employment']
     axis_id_in_thematic: 5
-    title: The negative presence of industry in the city
+    title: Conflict
     color: '#6F2C91'
 - model: biosignalsindex.Axis
   fields:
-    thematic: ['Environment']
+    thematic: ['Employment']
     axis_id_in_thematic: 6
-    title: The positive presence of industry in the city
+    title: Participation/cooperation
     color: '#55B047'
 - model: biosignalsindex.Axis
   fields:
-    thematic: ['Environment']
+    thematic: ['Employment']
     axis_id_in_thematic: 7
-    title: The citizen as an individual
+    title: Negative emotions
     color: '#005BAA'
 - model: biosignalsindex.Axis
   fields:
-    thematic: ['Environment']
+    thematic: ['Employment']
     axis_id_in_thematic: 8
-    title: The citizen as a collective
+    title: Positive emotions
     color: '#FFFFFF'
 ...

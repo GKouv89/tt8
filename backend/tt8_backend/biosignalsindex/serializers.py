@@ -1,53 +1,70 @@
 from rest_framework import serializers
-from .models import Axis, ParticipantMaterial, Episode, SociodramaSession
+from .models import Axis, Scene, BioPeakMetadata, SceneInTaskMetadata, Task, File, BiometricMetadataForTask
 from tt8_backend.settings import DATASTORE
 
-class EpisodeBiometricsSerializer(serializers.ModelSerializer):
+class FileSerializer(serializers.ModelSerializer):
     participant = serializers.SlugRelatedField(
-        read_only = True,
-        slug_field = 'sensor_id_in_session'
+        read_only=True,
+        slug_field='sensor_id_in_session',
     )
 
     class Meta:
-        model = ParticipantMaterial
-        fields = ['participant', 'friendly_name', 'path']
+        model = File
+        fields = ['participant', 'path']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
         ret['path'] = '{}/{}'.format(DATASTORE, ret['path'])
-        ret['friendly_name'] = ret['friendly_name'].replace(' All Biometrics', '')
         return ret
 
-class CustomEpisodeSerializer(serializers.ListSerializer):
-    def to_representation(self, data):
-        new_data = []
-        for idx, item in enumerate(data.all()):
-            new_item = self.child.to_representation(item)
-            axes = item.axis.all()
-            if len(axes) != 1:
-                colors = [axis.color for axis in axes]
-                new_item['colors'] = colors
-            new_item['ep_id'] = idx + 1
-            new_data.append(new_item)
-        return new_data
-
-class EpisodeSerializer(serializers.ModelSerializer):
-    session = serializers.SlugRelatedField(
+class BioMetaSerializer(serializers.ModelSerializer):
+    biometric = serializers.SlugRelatedField(
         read_only=True,
-        slug_field='session_id_in_thematic'
+        slug_field='abbr'
     )
 
     class Meta:
-        model = Episode
-        fields = ['episode_id_in_session', 'session']
-        list_serializer_class = CustomEpisodeSerializer
+        model = BiometricMetadataForTask
+        exclude = ['id', 'task']
 
-class AxisSerializer(serializers.ModelSerializer):
-    episodes = EpisodeSerializer(many=True)
+class TaskSerializer(serializers.ModelSerializer):
+    files = FileSerializer(many=True, read_only=True)
+    section = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='name'
+    )
+    bio_meta = BioMetaSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Axis
-        fields = ['axis_id_in_thematic', 'color', 'title', 'episodes']
-        depth = 1
+        model = Task
+        fields = ['section', 'task_no_in_section', 'files', 'bio_meta']
 
+class SceneinTaskMetaSerializer(serializers.ModelSerializer):
+    task = TaskSerializer(read_only=True)
+
+    class Meta:
+        model = SceneInTaskMetadata
+        fields = ['task', 'task_order', 'starting_row', 'ending_row', 'starting_time', 'ending_time']
+
+class BioPeakMetaSerializer(serializers.ModelSerializer):
+    participant = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='sensor_id_in_session',
+    )
+    class Meta:
+        model = BioPeakMetadata
+        fields = ['participant']
+
+class SceneBiometricsSerializer(serializers.ModelSerializer):
+    meta = SceneinTaskMetaSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Scene
+        fields = ['meta']
+
+class AxisSerializer(serializers.ModelSerializer):
+    scene_count = serializers.IntegerField()
+    class Meta:
+        model = Axis
+        fields = ['axis_id_in_thematic', 'title', 'color', 'scene_count']
     

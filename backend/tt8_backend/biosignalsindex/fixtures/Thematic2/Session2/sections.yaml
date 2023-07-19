@@ -1,0 +1,18 @@
+- fields:
+    name: Section 2
+    session:
+    - Employment
+    - 2
+  model: biosignalsindex.Section
+- fields:
+    name: Section 3
+    session:
+    - Employment
+    - 2
+  model: biosignalsindex.Section
+- fields:
+    name: Conclusion
+    session:
+    - Employment
+    - 2
+  model: biosignalsindex.Section
