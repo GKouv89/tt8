@@ -4,7 +4,7 @@ from django.db.models import Count
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import SceneBiometricsSerializer, BioPeakMetaSerializer, AxisSerializer
+from .serializers import SceneinTaskMetaSerializer, BioPeakMetaSerializer, AxisSerializer
 
 # Create your views here.
         
@@ -25,7 +25,7 @@ class ThematicScenesView(generics.ListAPIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 class SceneBiometricsView(generics.RetrieveAPIView):
-    serializer_class = SceneBiometricsSerializer
+    serializer_class = SceneinTaskMetaSerializer
     def get_object(self, thematicName, axis_id, scene_in_axis):
         try:
             axis = Axis.objects.get_by_natural_key(thematic=thematicName, axis_id_in_thematic=axis_id)
@@ -33,24 +33,14 @@ class SceneBiometricsView(generics.RetrieveAPIView):
         except:
             return None
         
-    def get(self, request, thematicName, axis_id, scene_in_axis):
+    def get(self, _, thematicName, axis_id, scene_in_axis):
         scene = self.get_object(thematicName, axis_id, scene_in_axis)
+        tasks = scene.meta.all().order_by('task_order')
         if scene is not None:
-            serializer = self.serializer_class(scene)
-            response_enhanced = [serializer.data]
-            biometrics = Biometric.objects.all()
-            peaks_dict = {}
-            for biometric in biometrics:
-                peaks = scene.peak_meta.filter(biometric__abbr=biometric.abbr).prefetch_related()
-                peaks_serializer = BioPeakMetaSerializer(peaks, many=True)
-                peaks_dict[biometric.abbr] = peaks_serializer.data
-            response_enhanced.append({'peaks': peaks_dict})
-            if 'axis' in request.query_params.keys():
-                try:
-                    [color] = [axis.color for axis in scene.axis.all() if axis.axis_id_in_thematic == int(request.query_params['axis'])]
-                    response_enhanced.append({'color': color}) 
-                except ValueError:
-                   return Response(status=status.HTTP_404_NOT_FOUND)
+            serializer = self.serializer_class(tasks, many=True, context={'scene_pk':scene.pk})
+            response_enhanced = {'meta': serializer.data}
+            axis = scene.axis.get(axis_id_in_thematic=axis_id)
+            response_enhanced['color'] = axis.color
             return Response(response_enhanced)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)       
