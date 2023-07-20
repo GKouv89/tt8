@@ -4,7 +4,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 export default function BiosignalToggle({biosignal, callback}){
     const biosignals = [
         {name: 'Heart Rate', value: 'HR'},
-        {name: 'Galvanic Skin Response', value: 'GSR'},
+        {name: 'Galvanic Skin Response', value: 'SC'},
         {name: 'Temperature', value: 'Temp'},
     ];
 

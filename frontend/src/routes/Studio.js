@@ -6,24 +6,20 @@ import { Container } from 'react-bootstrap';
 import { DataContext } from '../context/DataContext';
 
 export default function Studio(){
-    let {thematicID, axisID} = useParams();
-    const [params] = useSearchParams();
-    const episodeID = params.get('epid');
-    const sessionID = params.get('sessid');
-
+    let {thematicName, axisID, episodeID} = useParams();
+    
     // The data for sonification and visualization are loaded here
     // So we can avoid reload every time we change the sonification/visualization given
     // Here we store the axes and the file paths/names for the sketch
     const [color, setColor] = useState(null);
     const [data, setData] = useState(null);
-    
-    
+
     // This runs just once, when the component renders
     useEffect(() => {
-        fetchSceneMaterial(thematicID, sessionID, episodeID, axisID)
+        fetchSceneMaterial(thematicName, axisID, episodeID)
             .then((ret) => {
                 setColor(ret.color);
-                setData(ret.material);
+                setData(ret.meta);
             })
             .catch((err) => console.error(err));
     }, []);

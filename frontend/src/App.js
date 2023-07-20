@@ -61,27 +61,27 @@ const router = createBrowserRouter(
         element={<Thematics/>} 
       />
       <Route 
-        path=":thematicID" 
+        path=":thematicName" 
         element={<ThematicGrid/>} 
         loader = {async ({ params }) => {
-          return fetchThematicEpisodes(params.thematicID);
+          return fetchThematicEpisodes(params.thematicName);
         }}
         handle ={{
           crumb: (params) => [
             <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
-            <MyCustomNavlink className='current' to={`/${params.thematicID}`}>{thematics[params.thematicID - 1].name}</MyCustomNavlink>
+            <MyCustomNavlink className='current' to={`/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>
           ],
         }}
       />
       <Route
-        path=":thematicID/axes/:axisID/episodes/:episodeID" 
+        path=":thematicName/axes/:axisID/episodes/:episodeID" 
         element={<Studio />}
         handle = {{
           crumb: (params) => 
             [
             <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
-            <MyCustomNavlink className='crumb' to={`/${params.thematicID}`}>{thematics[params.thematicID - 1].name}</MyCustomNavlink>,
-            <MyCustomNavlink className='current' to={`/${params.thematicID}/axes/${params.axisID}/episodes/${params.episodeID}/studio`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>]
+            <MyCustomNavlink className='crumb' to={`/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>,
+            <MyCustomNavlink className='current' to={`/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/studio`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>]
           ,
         }}
       >

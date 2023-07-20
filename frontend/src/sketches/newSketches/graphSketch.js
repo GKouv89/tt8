@@ -13,17 +13,22 @@ export function sketch(p){
     let dataLoaded = false;
     let noFluctuation = false;
 
+    let task_meta, bio_meta, peak_meta;
+    let view;
+
     p.updateWithProps = props => {
-        // These two are only initialized once, hence the two checks.
-        if(filepath === undefined && props.file){ 
-            filepath = props.file;
-            table = p.loadTable(props.file, 'csv', 'header', () => {
+        // The following are only initialized once, hence the second check.
+        if(props.immutable && filepath == undefined){
+            filepath = props.immutable.file;
+            table = p.loadTable(filepath, 'csv', 'header', () => {
                 findMinMax();
                 dataLoaded = true;
             })
-        }
-        if(axisChoice === undefined && props.color){
-            axisChoice = props.color;
+            axisChoice = props.immutable.color;
+            id = props.immutable.id;
+            task_meta = props.immutable.task_meta;    
+            bio_meta = props.immutable.bio_meta;
+            peak_meta = props.immutable.peak_meta;
         }
         // This one changes on the click of a button, so we must update it often
         if(biosignal === undefined){
@@ -38,8 +43,11 @@ export function sketch(p){
             dataLoaded = true;
         }
 
-        if(id === undefined){
-            id = props.id;
+        if(view === undefined && props.view){
+            view = props.view;
+        }else if(view !== undefined && props.view !== view){
+            view = props.view;
+            p.loop();
         }
     };
 
@@ -56,7 +64,7 @@ export function sketch(p){
         switch(biosignal){
             case 'HR':
                 return 0;
-            case 'GSR':
+            case 'SC':
                 return 1;
             case 'Temp':
                 return 2;
@@ -66,20 +74,26 @@ export function sketch(p){
         }
     }
 
-    const findMinMax = () => {
-        // Resetting min and max vars
-        min = 10000;
-        max = 0;
-        noFluctuation = false;
-        // Finding min and max from all tables
-        // for chosen biometric
-        const biosignalIdx = getBiosignalIdx();
-        let currval;
-        for (let row = 0; row < table.getRowCount(); row++){
-            currval = parseFloat(table.get(row, biosignalIdx));
-            min = (() => {return currval < min ? currval : min})();
-            max = (() => {return currval > max ? currval : max})();
+    const getBiosignalMU = () => {
+        switch(biosignal){
+            case 'HR':
+                return 'Beats Per Minute (BPM)';
+            case 'SC':
+                return 'Micro-Siemens (uS)';
+            case 'Temp':
+                return 'Celcius (C)';
+            default:
+                console.log('why?');
+                break;
         }
+    }
+
+    const findMinMax = () => {
+        noFluctuation = false;
+        let chosen_bio = bio_meta.find(element => element['biometric'] == biosignal);
+        min = chosen_bio['min_value'];
+        max = chosen_bio['max_value'];
+
         if(min === max){
             noFluctuation = true;
         }
@@ -91,16 +105,73 @@ export function sketch(p){
         p.createCanvas(first_col_width, canvas_height);
     }
 
-    const plotGraph = () => {
+    const drawVertex = (row, startRow, endRow, bioIdx, minX, maxX, minY, maxY) => {
+        const currval = table.get(row, bioIdx);
+        const x = p.map(row, startRow, endRow, minX, maxX);
+        const y = p.map(currval, min, max, minY, maxY);
+        p.vertex(x, y);
+    }
+
+    const plotGraph = (participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight) => {
         const biosignalIdx = getBiosignalIdx();
-        let x, y, currval;
+        peak_meta.find(element => element.biometric == biosignal) !== undefined ? p.stroke(p.color('red')) : p.stroke(p.color('magenta'));
+        if(noFluctuation){
+            p.line(participantMinWidth, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2, participantMaxWidth,participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
+        }else{
+            p.beginShape();
+            const starting_row = task_meta['starting_row'];
+            const ending_row = task_meta['ending_row']
+            for (let row = starting_row; row < ending_row; row++)
+            {
+                drawVertex(row, starting_row, ending_row, biosignalIdx, participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
+            }
+            p.endShape();
+        }
+    }
+
+    const plotTaskView = (participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight) => {
+        const biosignalIdx = getBiosignalIdx();
         const rowCount = table.getRowCount();
+
+        p.stroke(p.color('blue'));
+        if(noFluctuation){
+            // Perhaps some special handling necessary for this
+            p.line(participantMinWidth, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2, participantMaxWidth,participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
+        }else{
+            let row = 0;
+            p.beginShape();
+            let ending_row = task_meta['starting_row'];
+            for(; row < ending_row; row++){
+                drawVertex(row, 0, rowCount, biosignalIdx, participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
+            }
+            p.endShape();
+            peak_meta.find(element => element.biometric == biosignal) !== undefined ? p.stroke(p.color('red')) : p.stroke(p.color('magenta'));
+            p.beginShape();
+
+            ending_row = task_meta['ending_row']; 
+            for(; row < ending_row; row++){
+                drawVertex(row, 0, rowCount, biosignalIdx, participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
+            }
+            p.endShape();
+            p.stroke(p.color('blue'));
+            p.beginShape();
+
+            ending_row = rowCount; 
+            for(; row < ending_row; row++){
+                drawVertex(row, 0, rowCount, biosignalIdx, participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
+            }
+            p.endShape();
+        }
+    }
+
+    const plot = () => {
         const paddingTopBottomRight = 10; 
         const paddingLeft = 50;
         const titleHeight = 25;
+        const xAxisSpace = 25;
         const participantCanvasHeight = p.height;
         const participantLowerHeight = paddingTopBottomRight + titleHeight;
-        const participantHigherHeight = participantCanvasHeight - paddingTopBottomRight;
+        const participantHigherHeight = participantCanvasHeight - paddingTopBottomRight - xAxisSpace;
         const participantMinWidth = paddingLeft;
         const participantMaxWidth = p.width - paddingTopBottomRight;
         // Draw title
@@ -117,37 +188,51 @@ export function sketch(p){
         p.line(participantMinWidth, participantHigherHeight, participantMaxWidth, participantHigherHeight);
         // in case there is no fluctuation of the biosignal,
         // there is only one value on the y axis
-        p.textSize(11);
+        p.textSize(13);
         p.fill(p.color('black'));
         if(noFluctuation){
-            p.text(`${p.floor(min)}`, participantMinWidth - 20, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
+            p.text(`${min.toFixed(2)}`, participantMinWidth - 20, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
         }else{
-            p.text(`${p.floor(min)}`, participantMinWidth - 20, participantHigherHeight);
-            p.text(`${p.floor(max)}`, participantMinWidth - 20, participantLowerHeight);
+            p.text(`${min.toFixed(2)}`, participantMinWidth - 20, participantHigherHeight);
+            p.text(`${max.toFixed(2)}`, participantMinWidth - 20, participantLowerHeight);
         }        
+        // X axis values
+        p.text(`${task_meta['starting_time']}`, participantMinWidth + 5, participantCanvasHeight - xAxisSpace + 5);
+        // const numberOfReps = p.ceil(table.getRowCount()/128);
+        p.text(`${task_meta['ending_time']}`, participantMaxWidth - 5, participantCanvasHeight - xAxisSpace + 5);
+
+        // Draw measurement unit
+        p.push();
+        const angle = p.radians(270);
+        p.rotate(angle);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.translate(-170, -180);
+        p.stroke('black');
+        p.fill('black');
+        p.textSize(14);
+        p.text(getBiosignalMU(), participantMinWidth, participantHigherHeight - 20);
+        p.pop();
+
+        // Draw time unit
+        p.push();
+        p.textAlign(p.CENTER);
+        p.stroke('black');
+        p.fill('black');
+        p.textSize(14);
+        p.text('Time (min)', p.width /2, participantCanvasHeight - paddingTopBottomRight);
+        p.pop();
 
         p.fill(p.color('white'));
-        p.stroke(p.color('red'));
-        if(noFluctuation){
-            p.line(participantMinWidth, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2, participantMaxWidth,participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
-        }else{
-            p.beginShape();
-            for (let row = 0; row < rowCount; row++)
-            {
-                currval = table.get(row, biosignalIdx);
-                x = p.map(row, 0, rowCount, participantMinWidth, participantMaxWidth);
-                y = p.map(currval, min, max, participantHigherHeight, participantLowerHeight);
-                
-                p.vertex(x, y);
-            }
-            p.endShape();
-        }
+        if(view == 'task')
+            plotTaskView(participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
+        else
+            plotGraph(participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
     }
 
     p.draw = () => {
         if(dataLoaded){
             p.background('white');
-            plotGraph();
+            plot();
             p.noLoop();
         }
     }

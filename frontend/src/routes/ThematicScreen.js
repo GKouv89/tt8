@@ -9,17 +9,17 @@ import { thematics } from './Thematics'
 
 function EpisodeSquare({episode, axisID, axisColor}){
   const navigate = useNavigate();
-  const path = `axes/${axisID}/episodes/${episode.ep_id}/visualizations?epid=${episode.episode_id_in_session}&sessid=${episode.session}`
+  const path = `axes/${axisID}/episodes/${episode}/visualizations`
 
   let gradientString, isGradient = false;
-  if(episode.colors !== undefined){
-    isGradient = true;
-    const percent = 100/episode.colors.length;
-    gradientString = "linear-gradient(";
-    episode.colors.map((color, idx) => { gradientString += `${color} ${idx*percent}%, `; });
-    gradientString = gradientString.slice(0, -2);
-    gradientString += ")";
-  }
+  // if(episode.colors !== undefined){
+  //   isGradient = true;
+  //   const percent = 100/episode.colors.length;
+  //   gradientString = "linear-gradient(";
+  //   episode.colors.map((color, idx) => { gradientString += `${color} ${idx*percent}%, `; });
+  //   gradientString = gradientString.slice(0, -2);
+  //   gradientString += ")";
+  // }
 
   return(
     <Card className="gridsquare episode-tile-new border-light">
@@ -28,25 +28,9 @@ function EpisodeSquare({episode, axisID, axisColor}){
           as="button"
           onClick={() => {navigate(path)}}
         >
-          <Card.Title>Episode {episode.ep_id} </Card.Title>
+          <Card.Title>Episode {episode} </Card.Title>
         </Card.Body>
     </Card>
-  );
-}
-
-function EmptySquare(){
-  return(
-    <>
-      <Col xxl={2} className="border border-light gridsquare m-0 p-0">
-        <Card className="gridsquare border-light empty">
-          <Card.Body 
-            className="empty"
-            as="button"
-            disabled={true}>
-          </Card.Body>
-        </Card>
-      </Col>
-    </>
   );
 }
 
@@ -58,10 +42,10 @@ function AxisRow({axis}){
       </Row>
       <Row>
         {
-          axis.episodes.map((episode, idx) => {
+          Array(axis.scene_count).fill(0).map((_, idx) => {
             return (
               <Col key={idx} md={2} className="border border-light gridsquare mx-3 mb-3 p-0">
-                <EpisodeSquare episode={episode} axisID={axis.axis_id_in_thematic} axisColor={axis.color}/>
+                <EpisodeSquare episode={idx+1} axisID={axis.axis_id_in_thematic} axisColor={axis.color}/>
               </Col>
             )
           })
@@ -72,8 +56,6 @@ function AxisRow({axis}){
 }
 
 export default function ThematicGrid() {
-  let {thematicID} = useParams();
-
   const data = useLoaderData();
 
   return (
