@@ -19,7 +19,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import { fetchSceneMaterial } from '../api/calls.js';
 
-function VisualizationRow({sketch, id, biosignal, ...props}){
+function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
     
     const {view} = useContext(ViewContext);
 
@@ -47,19 +47,19 @@ function VisualizationRow({sketch, id, biosignal, ...props}){
                 {sketchChoice()}
             </Col>
             <Col xs={1} id={`sonifyColumn-${sketch}-${id}`} className="m-0 p-0">
-                {/* <Link to={`../sonifications/${id}?${searchParams}`}> */}
+                <Link to={sonification_link}>
                     <Button 
                         variant='dark'
                     >
                         Sonify
                     </Button>
-                {/* </Link> */}
+                </Link>
             </Col>
         </Row>
     );
 }
 
-function VisualizationLayout({response}){
+function VisualizationLayout({sonification_prefix, response}){
     const [biosignal, setBiosignal] = useState('HR');
     const [active, setActive] = useState('graph');
     const [view, setView] = useState('task');
@@ -135,7 +135,8 @@ function VisualizationLayout({response}){
                                         {
                                             data[0]['task']['files'] && data[0]['task']['files'].map((file, idx) => {
                                                 return <VisualizationRow 
-                                                    id={idx + 1} 
+                                                    id={idx + 1}
+                                                    sonification_link={`${sonification_prefix}/${file.participant.sensor_id_in_session}`}
                                                     key={idx + 1} 
                                                     file={file.path}
                                                     task_meta={task_meta}
@@ -172,5 +173,5 @@ export default function Visualization(){
             .catch((err) => console.error(err));
     }, []);
 
-    return(<>{response && <VisualizationLayout response={response}/>}</>);
+    return(<>{response && <VisualizationLayout sonification_prefix={`/${thematicName}/axes/${axisID}/episodes/${episodeID}/sonifications`} response={response}/>}</>);
 }

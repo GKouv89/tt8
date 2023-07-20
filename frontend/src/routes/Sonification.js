@@ -19,6 +19,7 @@ import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import * as son from '../sketches/newSketches/sonificationSketch.js';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { fetchParticipantInSceneMaterial } from '../api/calls.js';
 
 const variant = "dark";
 
@@ -178,9 +179,9 @@ function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlayin
 function Sketch({playing, setPlaying, ...props}){ 
     // the parameters are packed into an object
     // which the sketch uses to name the downloaded WAV files appropriately
-    const {thematicID, axisID, episodeID, participantID} = useParams();
+    const {thematicName, axisID, episodeID, participantID} = useParams();
     const namingData = {
-        'thematicID': thematicID,
+        'thematicID': thematicName,
         'axisID': axisID,
         'episodeID': episodeID,
         'participant': participantID
@@ -188,19 +189,24 @@ function Sketch({playing, setPlaying, ...props}){
 
     const navigate = useNavigate();
     
-    const {data} = useContext(DataContext);
-
-    // This state variable was used to avoid a possible race condition
-    // when the sketch wrapper directly accepted the data variable as a prop.
-    const [file, _] = useState(participantID ? data[participantID - 1].path : null);
-
     const {cleanUp, setCleanUp, cleanUpPath} = useContext(CleanupContext);
-
     function cleanUpCode(){
         setCleanUp(false);
         // once we're done cleaning up, navigate back to the proper component
         navigate(cleanUpPath);
     }
+
+    const [file, setFile] = useState(null);
+    // This runs just once, when the component renders
+    useEffect(() => {
+        console.log('in useEffect');
+        fetchParticipantInSceneMaterial(thematicName, axisID, episodeID, participantID)
+            .then((ret) => {
+                setFile(ret.path);
+            })
+            .catch((err) => console.error(err));
+    }, []);
+
 
     return(
         <>
@@ -309,8 +315,7 @@ function Player(){
 
 export default function Sonification(){
     const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
-
-    const [searchParams] = useSearchParams();
+    const {thematicName, axisID, episodeID} = useParams();
     
     return (
         <Container fluid>
@@ -319,7 +324,7 @@ export default function Sonification(){
                     <Button 
                         variant={variant}
                         onClick={() => {
-                            setCleanUpPath(`../visualizations?${searchParams}`);
+                            setCleanUpPath(`/${thematicName}/axes/${axisID}/episodes/${episodeID}/visualizations`);
                             setCleanUp(true);
                         }}>
                         <i class="bi bi-arrow-left"></i>
