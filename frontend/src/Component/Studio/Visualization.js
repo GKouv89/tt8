@@ -31,11 +31,11 @@ function VisualizationRow({sketch, id, biosignal, ...props}){
         switch(sketch){
             case 'graph':
                 return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={graph.sketch}/>
-            // case 'color':
-            //     return <ReactP5Wrapper {...state} sketch={gradient.sketch}/>
-            // default:
-            //     console.log('whyyyyyy');
-            //     break;
+            case 'color':
+                return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={gradient.sketch}/>
+            default:
+                console.log('whyyyyyy');
+                break;
         }
     }
 
@@ -105,9 +105,9 @@ export default function Visualization(){
                         <Nav.Item>
                             <Nav.Link eventKey="graph">Graph</Nav.Link>
                         </Nav.Item>
-                        {/* <Nav.Item>
+                        <Nav.Item>
                             <Nav.Link eventKey="color">Color</Nav.Link>
-                        </Nav.Item> */}
+                        </Nav.Item>
                     </Nav>
                 </Col>
                 <Col xs={'auto'}>
@@ -145,17 +145,19 @@ export default function Visualization(){
                     <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
                 </Col>
              </Row>
-             <Row>
-                <ViewContext.Provider value={{view}}>
+             <Row>        
                     <Tab.Content>
                         <Tab.Pane eventKey="graph">
-                            <Content sketch={"graph"} biosignal={biosignal} active={active}/>
+                            <ViewContext.Provider value={{view}}>
+                                <Content sketch={"graph"} biosignal={biosignal} active={active}/>
+                            </ViewContext.Provider>
                         </Tab.Pane>
-                        {/* <Tab.Pane eventKey="color">
-                            <Content sketch={"color"} biosignal={biosignal} active={active}/>
-                        </Tab.Pane> */}
+                        <Tab.Pane eventKey="color">
+                            <ViewContext.Provider value={{view}}>
+                                <Content sketch={"color"} biosignal={biosignal} active={active}/>
+                            </ViewContext.Provider>
+                        </Tab.Pane>
                     </Tab.Content>
-                </ViewContext.Provider>
             </Row>
         </Tab.Container>
     );
