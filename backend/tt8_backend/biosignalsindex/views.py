@@ -1,10 +1,10 @@
 # from django.shortcuts import render
-from .models import Biometric, Axis, Scene
+from .models import Participant, Axis, File
 from django.db.models import Count
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import SceneinTaskMetaSerializer, BioPeakMetaSerializer, AxisSerializer
+from .serializers import SceneinTaskMetaSerializer, FileSerializer, AxisSerializer
 
 # Create your views here.
         
@@ -44,6 +44,27 @@ class SceneBiometricsView(generics.RetrieveAPIView):
             return Response(response_enhanced)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)       
+        
+class SceneParticipantBiometricsView(generics.RetrieveAPIView):
+    serializer_class = FileSerializer
+    def get_object(self, thematicName, axis_id, scene_in_axis, participant_id):
+        try: 
+            scene = Axis.objects.get_by_natural_key(thematicName, axis_id).scenes.all()[scene_in_axis-1]
+            participant = Participant.objects.get(session=scene.session, sensor_id_in_session=participant_id)
+            file = File.objects.get(scene=scene, participant=participant)
+            return file
+        except:
+            return None
+
+    def get(self, _, thematicName, axis_id, scene_in_axis, participant_id):
+        file = self.get_object(thematicName, axis_id, scene_in_axis, participant_id)
+        if file is not None:
+            serializer = self.serializer_class(file, fields=["path"])
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)       
+
+
 
 
 

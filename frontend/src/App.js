@@ -20,8 +20,7 @@ import {
 
 import ThematicGrid from './routes/ThematicScreen.js';
 import Thematics, { thematics } from './routes/Thematics.js';
-import Studio from './routes/Studio';
-import Sonification from './Component/Studio/Sonification';
+import Sonification from './routes/Sonification';
 
 import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import Button from 'react-bootstrap/Button';
@@ -29,7 +28,7 @@ import Button from 'react-bootstrap/Button';
 import { fetchThematicEpisodes } from './api/calls';
 
 import { CleanupContext } from './context/CleanupContext';
-import Visualization from './Component/Studio/Visualization';
+import Visualization from './routes/Visualization';
 
 function MyCustomNavlink({className, to, children}){
   const navigate = useNavigate();
@@ -74,8 +73,8 @@ const router = createBrowserRouter(
         }}
       />
       <Route
-        path=":thematicName/axes/:axisID/episodes/:episodeID" 
-        element={<Studio />}
+        path=":thematicName/axes/:axisID/episodes/:episodeID/visualizations" 
+        element={<Visualization />}
         handle = {{
           crumb: (params) => 
             [
@@ -84,16 +83,20 @@ const router = createBrowserRouter(
             <MyCustomNavlink className='current' to={`/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/studio`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>]
           ,
         }}
-      >
-        <Route
-          path="visualizations"
-          element={<Visualization />}
-        />
-        <Route
-          path="sonifications/:participantID"
-          element={<Sonification />}
-        />
-      </Route>
+      />
+      <Route
+        path=":thematicName/axes/:axisID/episodes/:episodeID/sonifications/:participantID"
+        element={<Sonification />}
+        handle = {{
+          crumb: (params) => 
+            [
+            <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
+            <MyCustomNavlink className='crumb' to={`/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>,
+            <MyCustomNavlink className='crumb' to={`/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/visualizations`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>,
+            <MyCustomNavlink className='current' to={`/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/sonifications/${params.participantID}`}>Axis {params.axisID} - Episode {params.episodeID} - Participant {params.participantID}</MyCustomNavlink>]
+        }}
+      />
+
     </Route> 
   )
 );

@@ -10,22 +10,22 @@ import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import { ToggleButton } from 'react-bootstrap';
 import { ButtonGroup } from 'react-bootstrap';
-import BiosignalToggle from './BiosignalToggle.js';
+import BiosignalToggle from '../Component/BiosignalToggle.js';
 
-import * as graph from '../../sketches/newSketches/graphSketch.js';
-import * as gradient from '../../sketches/newSketches/colorVisSketch.js';
-import { DataContext } from '../../context/DataContext.js';
-import { ViewContext } from '../../context/ViewContext.js'
-import { Link } from 'react-router-dom';
+import * as graph from '../sketches/newSketches/graphSketch.js';
+import * as gradient from '../sketches/newSketches/colorVisSketch.js';
+import { ViewContext } from '../context/ViewContext.js'
+import { Link, useParams } from 'react-router-dom';
+
+import { fetchSceneMaterial } from '../api/calls.js';
 
 function VisualizationRow({sketch, id, biosignal, ...props}){
-    const {color} = useContext(DataContext);
+    
     const {view} = useContext(ViewContext);
 
     const sketchChoice = () => {
         const state = {
             id: id,
-            color: color,
             ...props            
         }
         switch(sketch){
@@ -59,39 +59,16 @@ function VisualizationRow({sketch, id, biosignal, ...props}){
     );
 }
 
-function Content({sketch, biosignal}) {
-    const {data} = useContext(DataContext);
-    const bio_meta = data[0]['task']['bio_meta'];
-    let task_meta = structuredClone(data[0]);
-    delete task_meta['task'];
-    // Handling for case when more than one task belongs to a file is NOT YET complete    
-    return(
-        <Container 
-            id={`rowContainer-${sketch}`}
-            fluid
-        >
-            {
-                data[0]['task']['files'] && data[0]['task']['files'].map((file, idx) => {
-                    return <VisualizationRow 
-                        id={idx + 1} 
-                        key={idx + 1} 
-                        biosignal={biosignal} 
-                        sketch={sketch} 
-                        file={file.path}
-                        task_meta={task_meta}
-                        bio_meta={bio_meta}
-                        peak_meta={file['participant']['scene_peaks_meta']}
-                    />
-                })
-            }
-        </Container>
-    );
-}
-
-export default function Visualization(){
+function VisualizationLayout({response}){
     const [biosignal, setBiosignal] = useState('HR');
     const [active, setActive] = useState('graph');
     const [view, setView] = useState('task');
+
+    const data = response.meta;
+    const color = response.color;
+    const bio_meta = data[0]['task']['bio_meta'];
+    let task_meta = structuredClone(data[0]);
+    delete task_meta['task'];
 
     return(
         <Tab.Container 
@@ -146,19 +123,54 @@ export default function Visualization(){
                 </Col>
              </Row>
              <Row>        
+                 <ViewContext.Provider value={{view}}>
                     <Tab.Content>
-                        <Tab.Pane eventKey="graph">
-                            <ViewContext.Provider value={{view}}>
-                                <Content sketch={"graph"} biosignal={biosignal} active={active}/>
-                            </ViewContext.Provider>
-                        </Tab.Pane>
-                        <Tab.Pane eventKey="color">
-                            <ViewContext.Provider value={{view}}>
-                                <Content sketch={"color"} biosignal={biosignal} active={active}/>
-                            </ViewContext.Provider>
-                        </Tab.Pane>
+                        {
+                            ["graph", "color"].map((sketch) => {
+                                return <Tab.Pane eventKey={sketch}>
+                                    <Container 
+                                        id={`rowContainer-${sketch}`}
+                                        fluid
+                                    >
+                                        {
+                                            data[0]['task']['files'] && data[0]['task']['files'].map((file, idx) => {
+                                                return <VisualizationRow 
+                                                    id={idx + 1} 
+                                                    key={idx + 1} 
+                                                    file={file.path}
+                                                    task_meta={task_meta}
+                                                    bio_meta={bio_meta}
+                                                    peak_meta={file['participant']['scene_peaks_meta']}
+                                                    color={color}
+                                                    biosignal={biosignal}
+                                                    sketch={sketch}
+                                                />
+                                            })
+                                        }
+                                    </Container>
+                                </Tab.Pane>
+                            })
+                        }
                     </Tab.Content>
+                </ViewContext.Provider>
             </Row>
         </Tab.Container>
     );
+}
+
+export default function Visualization(){
+    // This component is essentially a data fetching wrapper
+    let {thematicName, axisID, episodeID} = useParams();
+    const [response, setResponse] = useState(null);
+    // This runs just once, when the component renders
+    useEffect(() => {
+        console.log('in useEffect');
+        fetchSceneMaterial(thematicName, axisID, episodeID)
+            .then((ret) => {
+                setResponse(ret);
+            })
+            .catch((err) => console.error(err));
+    }, []);
+
+    return(<>{response && <VisualizationLayout response={response}/>}</>);
 }

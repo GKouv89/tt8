@@ -7,18 +7,17 @@ import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import BiosignalToggle from './BiosignalToggle';
+import BiosignalToggle from '../Component/BiosignalToggle.js';
 import { ButtonGroup, ToggleButton } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import Form from 'react-bootstrap/Form';
 
 import { useContext } from 'react';
-import { DataContext } from '../../context/DataContext';
-import { CleanupContext } from '../../context/CleanupContext';
+import { DataContext } from '../context/DataContext';
+import { CleanupContext } from '../context/CleanupContext';
 
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
-import * as son from '../../sketches/newSketches/sonificationSketch.js';
+import * as son from '../sketches/newSketches/sonificationSketch.js';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 const variant = "dark";
