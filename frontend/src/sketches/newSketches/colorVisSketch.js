@@ -13,7 +13,7 @@ export function sketch(p){
     let dataLoaded = false;
     let noFluctuation = false;
 
-    let task_meta, bio_meta, peak_meta;
+    let task_meta, bio_meta;
     let view;
 
     p.updateWithProps = props => {
@@ -28,7 +28,6 @@ export function sketch(p){
             id = props.immutable.id;
             task_meta = props.immutable.task_meta;    
             bio_meta = props.immutable.bio_meta;
-            peak_meta = props.immutable.peak_meta;
         }
         // This one changes on the click of a button, so we must update it often
         if(biosignal === undefined){

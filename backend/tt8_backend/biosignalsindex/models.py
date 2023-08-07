@@ -152,6 +152,8 @@ class Task(SessionPiece):
 		related_name = 'tasks',
 	)
 	task_no_in_section = models.IntegerField()
+	starting_time = models.FloatField()
+	ending_time = models.FloatField()
 
 	objects = TaskManager()
 
@@ -184,6 +186,8 @@ class Scene(SessionPiece):
 	axis = models.ManyToManyField('Axis', related_name = 'scenes')
 	is_superepisode = models.BooleanField(default=True)
 	scene_id_in_session = models.IntegerField()
+	starting_time = models.FloatField(null=True)
+	ending_time = models.FloatField(null=True)
 
 	objects = SceneManager()
 
@@ -217,8 +221,6 @@ class SceneInTaskMetadata(models.Model):
 	task_order = models.IntegerField()
 	starting_row = models.IntegerField()
 	ending_row = models.IntegerField()
-	starting_time = models.FloatField()
-	ending_time = models.FloatField()
 
 class File(models.Model):	
 	task = models.ForeignKey(

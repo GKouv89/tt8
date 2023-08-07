@@ -13,7 +13,7 @@ export function sketch(p){
     let dataLoaded = false;
     let noFluctuation = false;
 
-    let task_meta, bio_meta, peak_meta;
+    let task_meta, bio_meta, peak_meta, scene_meta;
     let view;
 
     p.updateWithProps = props => {
@@ -29,6 +29,7 @@ export function sketch(p){
             task_meta = props.immutable.task_meta;    
             bio_meta = props.immutable.bio_meta;
             peak_meta = props.immutable.peak_meta;
+            scene_meta = props.immutable.scene_meta;
         }
         // This one changes on the click of a button, so we must update it often
         if(biosignal === undefined){
@@ -195,11 +196,13 @@ export function sketch(p){
         }else{
             p.text(`${min.toFixed(2)}`, participantMinWidth - 20, participantHigherHeight);
             p.text(`${max.toFixed(2)}`, participantMinWidth - 20, participantLowerHeight);
-        }        
+        }  
+        const starting_time = view == 'task' ? task_meta['task']['starting_time'] : scene_meta['starting_time'];
+        const ending_time = view == 'task' ? task_meta['task']['ending_time'] : scene_meta['ending_time'];;
         // X axis values
-        p.text(`${task_meta['starting_time']}`, participantMinWidth + 5, participantCanvasHeight - xAxisSpace + 5);
+        p.text(`${starting_time}`, participantMinWidth + 5, participantCanvasHeight - xAxisSpace + 5);
         // const numberOfReps = p.ceil(table.getRowCount()/128);
-        p.text(`${task_meta['ending_time']}`, participantMaxWidth - 5, participantCanvasHeight - xAxisSpace + 5);
+        p.text(`${ending_time}`, participantMaxWidth - 5, participantCanvasHeight - xAxisSpace + 5);
 
         // Draw measurement unit
         p.push();

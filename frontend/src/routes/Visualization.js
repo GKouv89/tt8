@@ -64,11 +64,13 @@ function VisualizationLayout({sonification_prefix, response}){
     const [active, setActive] = useState('graph');
     const [view, setView] = useState('task');
 
-    const data = response.meta;
     const color = response.color;
-    const bio_meta = data[0]['task']['bio_meta'];
-    let task_meta = structuredClone(data[0]);
-    delete task_meta['task'];
+    const {meta, ...scene_meta}  = response.scene;
+    console.log('scene_meta: ', scene_meta);
+    const bio_meta = meta[0]['task']['bio_meta'];
+    let task_meta = structuredClone(meta[0]);
+    delete task_meta['task']['files'];
+    delete task_meta['task']['bio_meta'];
 
     return(
         <Tab.Container 
@@ -133,12 +135,13 @@ function VisualizationLayout({sonification_prefix, response}){
                                         fluid
                                     >
                                         {
-                                            data[0]['task']['files'] && data[0]['task']['files'].map((file, idx) => {
+                                            meta[0]['task']['files'] && meta[0]['task']['files'].map((file, idx) => {
                                                 return <VisualizationRow 
                                                     id={idx + 1}
                                                     sonification_link={`${sonification_prefix}/${file.participant.sensor_id_in_session}`}
                                                     key={idx + 1} 
                                                     file={file.path}
+                                                    scene_meta={scene_meta}
                                                     task_meta={task_meta}
                                                     bio_meta={bio_meta}
                                                     peak_meta={file['participant']['scene_peaks_meta']}
@@ -157,6 +160,8 @@ function VisualizationLayout({sonification_prefix, response}){
             </Row>
         </Tab.Container>
     );
+
+    return(<></>);
 }
 
 export default function Visualization(){

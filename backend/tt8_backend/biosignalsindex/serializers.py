@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Axis, Participant, BioPeakMetadata, SceneInTaskMetadata, Task, File, BiometricMetadataForTask
+from .models import Scene, Axis, Participant, BioPeakMetadata, SceneInTaskMetadata, Task, File, BiometricMetadataForTask
 from tt8_backend.settings import DATASTORE
 
 class BioPeakMetaSerializer(serializers.ModelSerializer):
@@ -30,17 +30,25 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         # Don't pass the 'fields' arg up to the superclass
-        fields = kwargs.pop('fields', None)
+        # fields = kwargs.pop('fields', None)
+        exclude = kwargs.pop('exclude', None)
 
         # Instantiate the superclass normally
         super().__init__(*args, **kwargs)
 
-        if fields is not None:
-            # Drop any fields that are not specified in the `fields` argument.
-            allowed = set(fields)
-            existing = set(self.fields)
-            for field_name in existing - allowed:
+        if exclude is not None:
+            # Drop any fields that are specified in the `exclude` argument.
+            # existing = set(self.fields)
+            redundant = set(exclude)
+            for field_name in redundant:
                 self.fields.pop(field_name)
+
+        # if fields is not None:
+        #     # Drop any fields that are not specified in the `fields` argument.
+        #     allowed = set(fields)
+        #     existing = set(self.fields)
+        #     for field_name in existing - allowed:
+        #         self.fields.pop(field_name)
 
 class FileSerializer(DynamicFieldsModelSerializer):
     participant = ParticipantSerializer(read_only=True)
@@ -71,7 +79,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ['files', 'bio_meta']
+        fields = ['files', 'bio_meta', 'starting_time', 'ending_time']
 
     def get_files(self, instance):
         files = instance.files.all().order_by('participant__sensor_id_in_session')
@@ -82,7 +90,20 @@ class SceneinTaskMetaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SceneInTaskMetadata
-        fields = ['task', 'task_order', 'starting_row', 'ending_row', 'starting_time', 'ending_time']
+        fields = ['task', 'task_order', 'starting_row', 'ending_row']
+
+class SceneInTaskSerializer(DynamicFieldsModelSerializer):
+    meta = serializers.SerializerMethodField()
+    files = FileSerializer(read_only=True)
+
+    class Meta:
+        model = Scene
+        fields = ['scene_id_in_session', 'is_superepisode', 'starting_time', 'ending_time', 'meta', 'files']
+
+    def get_meta(self, instance):
+        meta = instance.meta.all().order_by('task_order')
+        return SceneinTaskMetaSerializer(meta, many=True, context=self.context).data
+
 
 class AxisSerializer(serializers.ModelSerializer):
     scene_count = serializers.IntegerField()
