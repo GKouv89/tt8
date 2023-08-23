@@ -1,0 +1,26 @@
+- fields:
+    axis:
+    - - Environment
+      - 4
+    ending_time: '40.5'
+    is_superepisode: true
+    scene_id_in_session: '20'
+    session:
+    - Environment
+    - 2
+    starting_time: '39.93'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '49107'
+    scene:
+    - Environment
+    - 2
+    - '20'
+    starting_row: '44757'
+    task:
+    - Environment
+    - 2
+    - Section 2
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata

@@ -1,0 +1,60 @@
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Immigration
+    - 1
+    - '4'
+    scene:
+    - Immigration
+    - 1
+    - '19'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Immigration
+    - 1
+    - '6'
+    scene:
+    - Immigration
+    - 1
+    - '27'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Immigration
+    - 1
+    - '2'
+    scene:
+    - Immigration
+    - 1
+    - '65'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Immigration
+    - 1
+    - '6'
+    scene:
+    - Immigration
+    - 1
+    - '19'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Immigration
+    - 1
+    - '5'
+    scene:
+    - Immigration
+    - 1
+    - '23'
+  model: biosignalsindex.BioPeakMetadata

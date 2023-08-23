@@ -1,0 +1,33 @@
+- fields:
+    biometric:
+    - HR
+    max_value: '174.54545454545453'
+    min_value: '46.54545454545456'
+    task:
+    - Environment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '4.729997064491838'
+    min_value: '0.7168387168387169'
+    task:
+    - Environment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '30.9734219515929'
+    min_value: '27.56401230358169'
+    task:
+    - Environment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask

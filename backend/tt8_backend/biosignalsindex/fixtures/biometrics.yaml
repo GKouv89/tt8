@@ -1,0 +1,13 @@
+- model: biosignalsindex.Biometric
+  fields:
+    name: 'Heart Rate'
+    abbr: 'HR'
+- model: biosignalsindex.Biometric
+  fields:
+    name: 'Skin Conductance'
+    abbr: 'SC'
+- model: biosignalsindex.Biometric
+  fields:
+    name: 'Temperature'
+    abbr: 'Temp'
+

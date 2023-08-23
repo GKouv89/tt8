@@ -1,0 +1,24 @@
+- fields:
+    ending_time: '26.2'
+    section:
+    - Immigration
+    - 1
+    - Section 2
+    session:
+    - Immigration
+    - 1
+    starting_time: '13.3'
+    task_no_in_section: '2'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '48.57'
+    section:
+    - Immigration
+    - 1
+    - Section 2
+    session:
+    - Immigration
+    - 1
+    starting_time: '37.77'
+    task_no_in_section: '5'
+  model: biosignalsindex.Task

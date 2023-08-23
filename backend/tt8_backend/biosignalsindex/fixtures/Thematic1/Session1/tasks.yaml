@@ -1,0 +1,108 @@
+- fields:
+    ending_time: '28.83'
+    section:
+    - Environment
+    - 1
+    - Introduction
+    session:
+    - Environment
+    - 1
+    starting_time: '23.35'
+    task_no_in_section: '2'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '91.68'
+    section:
+    - Environment
+    - 1
+    - Section 4
+    session:
+    - Environment
+    - 1
+    starting_time: '75.13'
+    task_no_in_section: '2'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '108.83'
+    section:
+    - Environment
+    - 1
+    - Conclusion
+    session:
+    - Environment
+    - 1
+    starting_time: '91.68'
+    task_no_in_section: '1'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '67.62'
+    section:
+    - Environment
+    - 1
+    - Section 3
+    session:
+    - Environment
+    - 1
+    starting_time: '59.5'
+    task_no_in_section: '1'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '48.73'
+    section:
+    - Environment
+    - 1
+    - Section 2
+    session:
+    - Environment
+    - 1
+    starting_time: '46.12'
+    task_no_in_section: '3'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '46.12'
+    section:
+    - Environment
+    - 1
+    - Section 2
+    session:
+    - Environment
+    - 1
+    starting_time: '29.27'
+    task_no_in_section: '2'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '29.27'
+    section:
+    - Environment
+    - 1
+    - Section 2
+    session:
+    - Environment
+    - 1
+    starting_time: '28.83'
+    task_no_in_section: '1'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '59.5'
+    section:
+    - Environment
+    - 1
+    - Section 2
+    session:
+    - Environment
+    - 1
+    starting_time: '52.72'
+    task_no_in_section: '5'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '52.72'
+    section:
+    - Environment
+    - 1
+    - Section 2
+    session:
+    - Environment
+    - 1
+    starting_time: '48.73'
+    task_no_in_section: '4'
+  model: biosignalsindex.Task

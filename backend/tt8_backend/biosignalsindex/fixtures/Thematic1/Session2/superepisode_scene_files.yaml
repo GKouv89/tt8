@@ -1,0 +1,72 @@
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 2
+    - '1'
+    path: Thematic1/Session2/Sonifications/Scene20/Scene20AllSensor1.csv
+    scene:
+    - Environment
+    - 2
+    - '20'
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 2
+    - '2'
+    path: Thematic1/Session2/Sonifications/Scene20/Scene20AllSensor2.csv
+    scene:
+    - Environment
+    - 2
+    - '20'
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 2
+    - '5'
+    path: Thematic1/Session2/Sonifications/Scene20/Scene20AllSensor5.csv
+    scene:
+    - Environment
+    - 2
+    - '20'
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 2
+    - '4'
+    path: Thematic1/Session2/Sonifications/Scene20/Scene20AllSensor4.csv
+    scene:
+    - Environment
+    - 2
+    - '20'
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 2
+    - '6'
+    path: Thematic1/Session2/Sonifications/Scene20/Scene20AllSensor6.csv
+    scene:
+    - Environment
+    - 2
+    - '20'
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 2
+    - '3'
+    path: Thematic1/Session2/Sonifications/Scene20/Scene20AllSensor3.csv
+    scene:
+    - Environment
+    - 2
+    - '20'
+  model: biosignalsindex.File

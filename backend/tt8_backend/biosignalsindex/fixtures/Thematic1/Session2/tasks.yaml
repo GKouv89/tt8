@@ -1,0 +1,12 @@
+- fields:
+    ending_time: '44.6'
+    section:
+    - Environment
+    - 2
+    - Section 2
+    session:
+    - Environment
+    - 2
+    starting_time: '34.1'
+    task_no_in_section: '2'
+  model: biosignalsindex.Task

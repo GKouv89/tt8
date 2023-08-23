@@ -20,7 +20,14 @@ class ParticipantSerializer(serializers.ModelSerializer):
         fields = ['sensor_id_in_session', 'scene_peaks_meta']
 
     def get_scene_peaks_meta(self, instance):
-        return BioPeakMetaSerializer(instance.scene_peaks_meta.filter(scene=self.context['scene_pk']), many=True).data
+        print('scene pk: ', self.context['scene_pk'])
+        print('participant id: ', instance.id)
+        print('participant natural key: ', instance.natural_key())
+        peaks = instance.scene_peaks_meta.filter(scene=self.context['scene_pk'])
+        print('count: ', peaks.count())
+        for peak in peaks:
+            print(peak.biometric.abbr)
+        return BioPeakMetaSerializer(peaks, many=True).data
     
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
@@ -82,8 +89,11 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = ['files', 'bio_meta', 'starting_time', 'ending_time']
 
     def get_files(self, instance):
+        print(self.context['scene_pk'])
         files = instance.files.all().order_by('participant__sensor_id_in_session')
-        return FileSerializer(files, many=True, context=self.context).data
+        for file in files:
+            print(file.participant.natural_key())
+        return FileSerializer(files, many=True, context=self.context, exclude=[]).data
 
 class SceneinTaskMetaSerializer(serializers.ModelSerializer):
     task = TaskSerializer(read_only=True)

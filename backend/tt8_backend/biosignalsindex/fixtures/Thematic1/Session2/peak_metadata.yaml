@@ -1,0 +1,12 @@
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 2
+    - '1'
+    scene:
+    - Environment
+    - 2
+    - '20'
+  model: biosignalsindex.BioPeakMetadata

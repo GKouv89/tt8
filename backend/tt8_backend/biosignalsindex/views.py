@@ -37,11 +37,10 @@ class SceneBiometricsView(generics.RetrieveAPIView):
     def get(self, _, thematicName, axis_id, scene_in_axis):
         scene = self.get_object(thematicName, axis_id, scene_in_axis)
         if scene is not None:
-            serializer = self.serializer_class(scene, context={'scene_pk': scene.pk}, exclude=["files"])
+            serializer = self.serializer_class(scene, context={'scene_pk': scene.id}, exclude=["files"])
             response_enhanced = {'scene': serializer.data}
             axis = scene.axis.get(axis_id_in_thematic=axis_id)
             response_enhanced['color'] = axis.color
-            print(response_enhanced)
             return Response(response_enhanced)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)       

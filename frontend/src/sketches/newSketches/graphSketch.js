@@ -109,7 +109,8 @@ export function sketch(p){
     const drawVertex = (row, startRow, endRow, bioIdx, minX, maxX, minY, maxY) => {
         const currval = table.get(row, bioIdx);
         const x = p.map(row, startRow, endRow, minX, maxX);
-        const y = p.map(currval, min, max, minY, maxY);
+        const y = p.map(currval, min, max, maxY, minY);
+        // const y = p.map(currval, min, max, minY, maxY);
         p.vertex(x, y);
     }
 

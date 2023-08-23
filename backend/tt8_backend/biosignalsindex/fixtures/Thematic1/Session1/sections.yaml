@@ -1,0 +1,30 @@
+- fields:
+    name: Introduction
+    session:
+    - Environment
+    - 1
+  model: biosignalsindex.Section
+- fields:
+    name: Section 4
+    session:
+    - Environment
+    - 1
+  model: biosignalsindex.Section
+- fields:
+    name: Conclusion
+    session:
+    - Environment
+    - 1
+  model: biosignalsindex.Section
+- fields:
+    name: Section 3
+    session:
+    - Environment
+    - 1
+  model: biosignalsindex.Section
+- fields:
+    name: Section 2
+    session:
+    - Environment
+    - 1
+  model: biosignalsindex.Section

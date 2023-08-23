@@ -68,6 +68,7 @@ function VisualizationLayout({sonification_prefix, response}){
     const {meta, ...scene_meta}  = response.scene;
     console.log('scene_meta: ', scene_meta);
     const bio_meta = meta[0]['task']['bio_meta'];
+    console.log('bio_meta: ', bio_meta);
     let task_meta = structuredClone(meta[0]);
     delete task_meta['task']['files'];
     delete task_meta['task']['bio_meta'];

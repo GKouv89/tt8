@@ -1,0 +1,66 @@
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '64.53781512605042'
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '9.84033388214573'
+    min_value: '0.7008547008547008'
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '32.925118789449336'
+    min_value: '29.90426919220481'
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '60.0'
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '10.784801725568276'
+    min_value: '0.73992673992674'
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '33.54432138922275'
+    min_value: '30.13509092109744'
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.BiometricMetadataForTask
