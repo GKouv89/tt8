@@ -4,7 +4,7 @@ from django.db.models import Count
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import SceneInTaskSerializer, SceneinTaskMetaSerializer, FileSerializer, AxisSerializer
+from .serializers import SceneInTaskSerializer, FileSerializer, AxisSerializer
 
 # Create your views here.
         
@@ -37,7 +37,7 @@ class SceneBiometricsView(generics.RetrieveAPIView):
     def get(self, _, thematicName, axis_id, scene_in_axis):
         scene = self.get_object(thematicName, axis_id, scene_in_axis)
         if scene is not None:
-            serializer = self.serializer_class(scene, context={'scene_pk': scene.id}, exclude=["files"])
+            serializer = self.serializer_class(scene)
             response_enhanced = {'scene': serializer.data}
             axis = scene.axis.get(axis_id_in_thematic=axis_id)
             response_enhanced['color'] = axis.color

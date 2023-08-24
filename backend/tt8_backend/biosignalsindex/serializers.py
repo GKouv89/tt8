@@ -1,33 +1,6 @@
 from rest_framework import serializers
-from .models import Scene, Axis, Participant, BioPeakMetadata, SceneInTaskMetadata, Task, File, BiometricMetadataForTask
+from .models import Scene, Axis, SceneInTaskMetadata, Task, File, BiometricMetadataForTask
 from tt8_backend.settings import DATASTORE
-
-class BioPeakMetaSerializer(serializers.ModelSerializer):
-    biometric = serializers.SlugRelatedField(
-        read_only = True,
-        slug_field = 'abbr'
-    )
-
-    class Meta:
-        model = BioPeakMetadata
-        fields = ['biometric']
-
-class ParticipantSerializer(serializers.ModelSerializer):
-    scene_peaks_meta = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Participant
-        fields = ['sensor_id_in_session', 'scene_peaks_meta']
-
-    def get_scene_peaks_meta(self, instance):
-        print('scene pk: ', self.context['scene_pk'])
-        print('participant id: ', instance.id)
-        print('participant natural key: ', instance.natural_key())
-        peaks = instance.scene_peaks_meta.filter(scene=self.context['scene_pk'])
-        print('count: ', peaks.count())
-        for peak in peaks:
-            print(peak.biometric.abbr)
-        return BioPeakMetaSerializer(peaks, many=True).data
     
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
@@ -45,20 +18,15 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
 
         if exclude is not None:
             # Drop any fields that are specified in the `exclude` argument.
-            # existing = set(self.fields)
             redundant = set(exclude)
             for field_name in redundant:
                 self.fields.pop(field_name)
 
-        # if fields is not None:
-        #     # Drop any fields that are not specified in the `fields` argument.
-        #     allowed = set(fields)
-        #     existing = set(self.fields)
-        #     for field_name in existing - allowed:
-        #         self.fields.pop(field_name)
-
 class FileSerializer(DynamicFieldsModelSerializer):
-    participant = ParticipantSerializer(read_only=True)
+    participant = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='sensor_id_in_session',
+    )
 
     class Meta:
         model = File
@@ -72,7 +40,7 @@ class FileSerializer(DynamicFieldsModelSerializer):
 class BioMetaSerializer(serializers.ModelSerializer):
     biometric = serializers.SlugRelatedField(
         read_only=True,
-        slug_field='abbr'
+        slug_field='abbr',
     )
 
     class Meta:
@@ -89,11 +57,8 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = ['files', 'bio_meta', 'starting_time', 'ending_time']
 
     def get_files(self, instance):
-        print(self.context['scene_pk'])
         files = instance.files.all().order_by('participant__sensor_id_in_session')
-        for file in files:
-            print(file.participant.natural_key())
-        return FileSerializer(files, many=True, context=self.context, exclude=[]).data
+        return FileSerializer(files, many=True, exclude=[]).data
 
 class SceneinTaskMetaSerializer(serializers.ModelSerializer):
     task = TaskSerializer(read_only=True)
@@ -102,17 +67,28 @@ class SceneinTaskMetaSerializer(serializers.ModelSerializer):
         model = SceneInTaskMetadata
         fields = ['task', 'task_order', 'starting_row', 'ending_row']
 
-class SceneInTaskSerializer(DynamicFieldsModelSerializer):
+class SceneInTaskSerializer(serializers.ModelSerializer):
     meta = serializers.SerializerMethodField()
-    files = FileSerializer(read_only=True)
+    peak_meta = serializers.SerializerMethodField()
 
     class Meta:
         model = Scene
-        fields = ['scene_id_in_session', 'is_superepisode', 'starting_time', 'ending_time', 'meta', 'files']
+        fields = ['scene_id_in_session', 'is_superepisode', 'starting_time', 'ending_time', 'meta', 'peak_meta']
 
     def get_meta(self, instance):
         meta = instance.meta.all().order_by('task_order')
-        return SceneinTaskMetaSerializer(meta, many=True, context=self.context).data
+        return SceneinTaskMetaSerializer(meta, many=True).data
+
+    def get_peak_meta(self, instance):
+        peaks = instance.peak_meta.order_by('participant__sensor_id_in_session').values('participant__sensor_id_in_session', 'biometric__abbr').distinct()
+        res = []
+        for peak in peaks:
+            if len(res) == 0 or peak['participant__sensor_id_in_session'] != res[-1]['participant']:
+                pass
+                res.append({'participant': peak['participant__sensor_id_in_session'], 'peaks': [peak['biometric__abbr']]})
+            else:
+                res[-1]['peaks'].append(peak['biometric__abbr'])
+        return res
 
 
 class AxisSerializer(serializers.ModelSerializer):
