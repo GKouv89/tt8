@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Q, Value
+from django.db.models.query import QuerySet
 # Create your models here.
 
 class ThematicManager(models.Manager):
@@ -205,6 +207,50 @@ class Scene(SessionPiece):
 
 	def natural_key(self):
 		return self.session.natural_key() + (self.scene_id_in_session,)
+	
+	@property
+	def task_start(self):
+		first_task = self.meta.order_by('task_order').first()
+		return first_task.task.starting_time
+	
+	@property
+	def task_end(self):
+		last_task = self.meta.order_by('-task_order').first()
+		return last_task.task.ending_time
+	
+	def get_vis_files(self):
+		tasks =  self.meta.order_by('task_order')
+		if tasks.count() == 1:
+			return tasks.first().task.files.order_by('participant__sensor_id_in_session')
+
+		qs_list = []
+		for t in tasks:
+			qs_list.append(File.objects.filter(task=t.task).annotate(task_order=Value(t.task_order)))
+		return qs_list[0].union(qs_list[1]).order_by('task_order') 
+
+	def get_peak_meta(self):
+		return self.peak_meta.order_by('participant__sensor_id_in_session').values('participant__sensor_id_in_session', 'biometric__abbr').distinct()
+
+	def biometric_minimum(self, abbr):
+		meta = [task.bio_meta.get(biometric__abbr=abbr) for task in self.task.prefetch_related('bio_meta')]
+		mini = [m.min_value for m in meta]
+		return min(mini)
+	
+	def biometric_maximum(self, abbr):
+		meta = [task.bio_meta.get(biometric__abbr=abbr) for task in self.task.prefetch_related('bio_meta')]
+		maxi = [m.max_value for m in meta]
+		return max(maxi)
+	
+	@property
+	def starting_row(self):
+		first_task_meta = self.meta.order_by('task_order').first()
+		return first_task_meta.starting_row
+	
+	@property
+	def ending_row(self):
+		# This takes for granted the task is split between the end of the first task and the start of the second
+		# That is, there are only 2 tasks in a scene at most.
+		return sum([meta.ending_row for meta in self.meta.order_by('task_order')])
 
 	natural_key.dependencies = ["biosignalsindex.SociodramaSession"]
 
@@ -289,6 +335,7 @@ class BiometricMetadataForTask(models.Model):
 
 	min_value = models.FloatField()
 	max_value = models.FloatField()
+
 
 class BioPeakMetadata(models.Model):
 	# If there is a superepisode in the task, then at least one participant

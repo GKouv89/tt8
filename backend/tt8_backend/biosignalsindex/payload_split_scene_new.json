@@ -1,0 +1,76 @@
+[{
+	"scene": {
+		"scene_id_in_session": 25,
+		"is_superepisode": true,
+		"starting_time": 45.51,
+		"ending_time": 46.33,
+		"starting_row": 124662,
+		"ending_row": 130931,
+		"task_start": 29.27,
+		"task_end": 48.73,
+		"peak_meta": [{
+			"participant": 3,
+			"peaks": ["SC"]
+		}, {
+			"participant": 4,
+			"peaks": ["Temp"]
+		}, {
+			"participant": 5,
+			"peaks": ["Temp"]
+		}, {
+			"participant": 6,
+			"peaks": ["Temp"]
+		}],
+		"files": [{
+			"participant": 2,
+			"paths": ["http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor2-Section 2.csv", "http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task3/Task3AllSensor2-Section 2.csv"]
+		}, {
+			"participant": 3,
+			"paths": ["http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor3-Section 2.csv", "http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task3/Task3AllSensor3-Section 2.csv"]
+		}, {
+			"participant": 4,
+			"paths": ["http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor4-Section 2.csv", "http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task3/Task3AllSensor4-Section 2.csv"]
+		}, {
+			"participant": 5,
+			"paths": ["http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor5-Section 2.csv", "http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task3/Task3AllSensor5-Section 2.csv"]
+		}, {
+			"participant": 6,
+			"paths": ["http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor6-Section 2.csv", "http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task3/Task3AllSensor6-Section 2.csv"]
+		}]
+	},
+	"color": "#EE3124"
+},
+{
+	"scene": {
+		"scene_id_in_session": 23,
+		"is_superepisode": true,
+		"starting_time": 43.83,
+		"ending_time": 44.67,
+		"starting_row": 111791,
+		"ending_row": 118186,
+		"task_start": 29.27,
+		"task_end": 46.12,
+		"peak_meta": [{
+			"participant": 3,
+			"peaks": ["SC"]
+		}],
+		"files": [{
+			"participant": 2,
+			"paths": ["http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor2-Section 2.csv"]
+		}, {
+			"participant": 3,
+			"paths": ["http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor3-Section 2.csv"]
+		}, {
+			"participant": 4,
+			"paths": ["http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor4-Section 2.csv"]
+		}, {
+			"participant": 5,
+			"paths": ["http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor5-Section 2.csv"]
+		}, {
+			"participant": 6,
+			"paths": ["http://localhost/data/Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor6-Section 2.csv"]
+		}]
+	},
+	"color": "#EE3124"
+}]
+

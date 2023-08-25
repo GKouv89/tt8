@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Scene, Axis, SceneInTaskMetadata, Task, File, BiometricMetadataForTask
+from .models import Scene, Axis, File, Biometric
 from tt8_backend.settings import DATASTORE
     
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -22,6 +22,28 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
             for field_name in redundant:
                 self.fields.pop(field_name)
 
+class CustomFileListSerializer(serializers.ListSerializer):
+    def to_representation(self, data):
+        new_data = {}
+
+        for file in data.all():
+            new_file = self.child.to_representation(file)
+            
+            if new_file['participant'] in new_data.keys():
+                new_data[new_file['participant']].append(new_file['path'])
+            else:
+                new_data[new_file['participant']] = [new_file['path']]
+
+        res = []
+        for d in new_data.keys():
+            res.append({'participant': d, 'paths': new_data[d]})
+        
+        def sortingFunc(e):
+            return e['participant']
+        
+        res.sort(key=sortingFunc)
+        return res
+
 class FileSerializer(DynamicFieldsModelSerializer):
     participant = serializers.SlugRelatedField(
         read_only=True,
@@ -31,66 +53,44 @@ class FileSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = File
         fields = ['participant', 'path']
+        list_serializer_class = CustomFileListSerializer
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
         ret['path'] = '{}/{}'.format(DATASTORE, ret['path'])
         return ret
 
-class BioMetaSerializer(serializers.ModelSerializer):
-    biometric = serializers.SlugRelatedField(
-        read_only=True,
-        slug_field='abbr',
-    )
-
-    class Meta:
-        model = BiometricMetadataForTask
-        exclude = ['id', 'task']
-
-class TaskSerializer(serializers.ModelSerializer):
-    files = serializers.SerializerMethodField()
-
-    bio_meta = BioMetaSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Task
-        fields = ['files', 'bio_meta', 'starting_time', 'ending_time']
-
-    def get_files(self, instance):
-        files = instance.files.all().order_by('participant__sensor_id_in_session')
-        return FileSerializer(files, many=True, exclude=[]).data
-
-class SceneinTaskMetaSerializer(serializers.ModelSerializer):
-    task = TaskSerializer(read_only=True)
-
-    class Meta:
-        model = SceneInTaskMetadata
-        fields = ['task', 'task_order', 'starting_row', 'ending_row']
-
 class SceneInTaskSerializer(serializers.ModelSerializer):
-    meta = serializers.SerializerMethodField()
     peak_meta = serializers.SerializerMethodField()
+    bio_meta = serializers.SerializerMethodField()
+    files = serializers.SerializerMethodField()
 
     class Meta:
         model = Scene
-        fields = ['scene_id_in_session', 'is_superepisode', 'starting_time', 'ending_time', 'meta', 'peak_meta']
-
-    def get_meta(self, instance):
-        meta = instance.meta.all().order_by('task_order')
-        return SceneinTaskMetaSerializer(meta, many=True).data
+        fields = ['scene_id_in_session', 'is_superepisode', 'starting_time', 'ending_time', 'starting_row', 'ending_row', 'task_start', 'task_end', 'peak_meta', 'files', 'bio_meta']
 
     def get_peak_meta(self, instance):
-        peaks = instance.peak_meta.order_by('participant__sensor_id_in_session').values('participant__sensor_id_in_session', 'biometric__abbr').distinct()
+        peaks = instance.get_peak_meta()
         res = []
         for peak in peaks:
             if len(res) == 0 or peak['participant__sensor_id_in_session'] != res[-1]['participant']:
-                pass
                 res.append({'participant': peak['participant__sensor_id_in_session'], 'peaks': [peak['biometric__abbr']]})
             else:
                 res[-1]['peaks'].append(peak['biometric__abbr'])
         return res
-
-
+    
+    def get_files(self, instance):
+        files = instance.get_vis_files()
+        serializer = FileSerializer(files, many=True, exclude=[])
+        return serializer.data
+    
+    def get_bio_meta(self, instance):
+        res = []
+        for bio in Biometric.objects.all():
+            abbr = bio.abbr
+            res.append({'biometric': abbr, 'minimum': instance.biometric_minimum(abbr), 'maximum': instance.biometric_maximum(abbr)})
+        return res
+    
 class AxisSerializer(serializers.ModelSerializer):
     scene_count = serializers.IntegerField()
     class Meta:
