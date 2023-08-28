@@ -4,7 +4,6 @@ import '../lib/p5.js'
 import * as P5Class from "p5"
 
 export function sketch(p){
-    let axisChoice;
     let filepaths;
     let table;
     let id; // Is the participant number displayed on the canvas
@@ -22,7 +21,6 @@ export function sketch(p){
         if(props.immutable && filepaths == undefined){
             console.log('immutable: ', props.immutable);
             filepaths = props.immutable.files;
-            axisChoice = props.immutable.color;
             id = props.immutable.id;
             bio_meta = props.immutable.bio_meta;
             peak_meta = props.immutable.peak_meta;

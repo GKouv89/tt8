@@ -31,8 +31,7 @@ function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
             case 'graph':
                 return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={graph.sketch}/>
             case 'color':
-                // return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={gradient.sketch}/>
-                return <></>
+                return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={gradient.sketch}/>
             default:
                 console.log('whyyyyyy');
                 break;
