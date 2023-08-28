@@ -1,10 +1,11 @@
 import '../lib/p5.sound.min.js'
 import '../lib/p5.dom.min.js'
 import '../lib/p5.js'
+import * as P5Class from "p5"
 
 export function sketch(p){
     let axisChoice;
-    let filepath;
+    let filepaths;
     let table;
     let id; // Is the participant number displayed on the canvas
     let biosignal;
@@ -13,35 +14,33 @@ export function sketch(p){
     let dataLoaded = false;
     let noFluctuation = false;
 
-    let task_meta, bio_meta, peak_meta, scene_meta;
+    let bio_meta, peak_meta, scene_meta;
     let view;
 
     p.updateWithProps = props => {
         // The following are only initialized once, hence the second check.
-        if(props.immutable && filepath == undefined){
-            filepath = props.immutable.file;
-            table = p.loadTable(filepath, 'csv', 'header', () => {
-                findMinMax();
-                dataLoaded = true;
-            })
+        if(props.immutable && filepaths == undefined){
+            console.log('immutable: ', props.immutable);
+            filepaths = props.immutable.files;
             axisChoice = props.immutable.color;
             id = props.immutable.id;
-            task_meta = props.immutable.task_meta;    
             bio_meta = props.immutable.bio_meta;
             peak_meta = props.immutable.peak_meta;
             scene_meta = props.immutable.scene_meta;
+            loadFiles(props.immutable.files);
         }
         // This one changes on the click of a button, so we must update it often
         if(biosignal === undefined){
             biosignal = props.biosignal;
+            findMinMax(props.biosignal);
         }else if(biosignal !== undefined && biosignal !== props.biosignal){
             biosignal = props.biosignal;
             // Draw needs to run again to plot the new graphs
             dataLoaded = false;
-            p.loop();
             // Update minimum and maximum values for new biometric
-            findMinMax();
+            findMinMax(props.biosignal);
             dataLoaded = true;
+            p.loop();
         }
 
         if(view === undefined && props.view){
@@ -51,6 +50,19 @@ export function sketch(p){
             p.loop();
         }
     };
+
+    // I know for a fact that there are at most two tables and this is why this code is not generalized
+    let table1, table2;
+    let table1Loaded = false, table2Loaded = false;
+   
+    const loadFiles = (files) => {
+        if(files.length != 1){
+            table1 = p.loadTable(files[0], 'csv', 'header', () => {table1Loaded = true});
+            table2 = p.loadTable(files[1], 'csv', 'header', () => {table2Loaded = true});
+            return;
+        }
+        table = p.loadTable(files[0], 'csv', 'header', () => {dataLoaded = true});
+    }
 
     const resizeObserver = new ResizeObserver((entries) => {
         entries.forEach(entry => {
@@ -89,11 +101,12 @@ export function sketch(p){
         }
     }
 
-    const findMinMax = () => {
+    const findMinMax = (biosignal) => {
         noFluctuation = false;
-        let chosen_bio = bio_meta.find(element => element['biometric'] == biosignal);
-        min = chosen_bio['min_value'];
-        max = chosen_bio['max_value'];
+
+        let chosen_bio = bio_meta.find(element => element.biometric == biosignal);
+        min = chosen_bio['minimum'];
+        max = chosen_bio['maximum'];
 
         if(min === max){
             noFluctuation = true;
@@ -110,19 +123,25 @@ export function sketch(p){
         const currval = table.get(row, bioIdx);
         const x = p.map(row, startRow, endRow, minX, maxX);
         const y = p.map(currval, min, max, maxY, minY);
-        // const y = p.map(currval, min, max, minY, maxY);
         p.vertex(x, y);
     }
 
     const plotGraph = (participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight) => {
         const biosignalIdx = getBiosignalIdx();
-        peak_meta.find(element => element.biometric == biosignal) !== undefined ? p.stroke(p.color('red')) : p.stroke(p.color('magenta'));
+        if(peak_meta === undefined){ 
+            p.stroke(p.color('magenta'));
+        }else{
+            function isPeak(biometric) {
+                return biometric === biosignal;
+            }
+            peak_meta.peaks.find(isPeak) !== undefined ? p.stroke(p.color('red')) : p.stroke(p.color('magenta'));
+        }
         if(noFluctuation){
             p.line(participantMinWidth, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2, participantMaxWidth,participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
         }else{
             p.beginShape();
-            const starting_row = task_meta['starting_row'];
-            const ending_row = task_meta['ending_row']
+            const starting_row = scene_meta['starting_row'];
+            const ending_row = scene_meta['ending_row']
             for (let row = starting_row; row < ending_row; row++)
             {
                 drawVertex(row, starting_row, ending_row, biosignalIdx, participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
@@ -134,7 +153,7 @@ export function sketch(p){
     const plotTaskView = (participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight) => {
         const biosignalIdx = getBiosignalIdx();
         const rowCount = table.getRowCount();
-
+        
         p.stroke(p.color('blue'));
         if(noFluctuation){
             // Perhaps some special handling necessary for this
@@ -142,15 +161,22 @@ export function sketch(p){
         }else{
             let row = 0;
             p.beginShape();
-            let ending_row = task_meta['starting_row'];
+            let ending_row = scene_meta['starting_row'];    
             for(; row < ending_row; row++){
                 drawVertex(row, 0, rowCount, biosignalIdx, participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
             }
             p.endShape();
-            peak_meta.find(element => element.biometric == biosignal) !== undefined ? p.stroke(p.color('red')) : p.stroke(p.color('magenta'));
+            if(peak_meta === undefined){
+                p.stroke(p.color('magenta'));
+            }else{
+                function isPeak(biometric) {
+                    return biometric === biosignal;
+                }
+                peak_meta.peaks.find(isPeak) !== undefined ? p.stroke(p.color('red')) : p.stroke(p.color('magenta'));
+            }
             p.beginShape();
 
-            ending_row = task_meta['ending_row']; 
+            ending_row = scene_meta['ending_row']; 
             for(; row < ending_row; row++){
                 drawVertex(row, 0, rowCount, biosignalIdx, participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
             }
@@ -198,11 +224,10 @@ export function sketch(p){
             p.text(`${min.toFixed(2)}`, participantMinWidth - 20, participantHigherHeight);
             p.text(`${max.toFixed(2)}`, participantMinWidth - 20, participantLowerHeight);
         }  
-        const starting_time = view == 'task' ? task_meta['task']['starting_time'] : scene_meta['starting_time'];
-        const ending_time = view == 'task' ? task_meta['task']['ending_time'] : scene_meta['ending_time'];;
+        const starting_time = view == 'task' ? scene_meta['task_start'] : scene_meta['starting_time'];
+        const ending_time = view == 'task' ? scene_meta['task_end'] : scene_meta['ending_time'];
         // X axis values
         p.text(`${starting_time}`, participantMinWidth + 5, participantCanvasHeight - xAxisSpace + 5);
-        // const numberOfReps = p.ceil(table.getRowCount()/128);
         p.text(`${ending_time}`, participantMaxWidth - 5, participantCanvasHeight - xAxisSpace + 5);
 
         // Draw measurement unit
@@ -234,7 +259,28 @@ export function sketch(p){
     }
 
     p.draw = () => {
-        if(dataLoaded){
+        if(dataLoaded || (table1Loaded && table2Loaded)){
+            if(table == undefined && table1Loaded && table2Loaded){
+                // in this case, there is a table concatenation waiting to happen
+                table = new P5Class.Table();
+                for(let j = 0; j < 3; j++){
+                    table.addColumn();
+                }
+                for(let i = 0; i < table1.getRowCount(); i++){
+                    let newRow = table.addRow();
+                    for(let j = 0; j < 3; j++){
+                        newRow.set(j, table1.get(i, j));
+                    }
+                }
+                for(let i = 0; i < table2.getRowCount(); i++){
+                    let newRow = table.addRow();
+                    for(let j = 0; j < 3; j++){
+                        newRow.set(j, table2.get(i, j));
+                    }
+                }
+                dataLoaded = true;
+            }
+            // either there was one table all along or there were two and they were concatenated. In any case, we're ready to begin.
             p.background('white');
             plot();
             p.noLoop();

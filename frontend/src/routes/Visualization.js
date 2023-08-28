@@ -20,7 +20,6 @@ import { Link, useParams } from 'react-router-dom';
 import { fetchSceneMaterial } from '../api/calls.js';
 
 function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
-    
     const {view} = useContext(ViewContext);
 
     const sketchChoice = () => {
@@ -32,7 +31,8 @@ function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
             case 'graph':
                 return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={graph.sketch}/>
             case 'color':
-                return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={gradient.sketch}/>
+                // return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={gradient.sketch}/>
+                return <></>
             default:
                 console.log('whyyyyyy');
                 break;
@@ -65,13 +65,7 @@ function VisualizationLayout({sonification_prefix, response}){
     const [view, setView] = useState('task');
 
     const color = response.color;
-    const {meta, ...scene_meta}  = response.scene;
-    console.log('scene_meta: ', scene_meta);
-    const bio_meta = meta[0]['task']['bio_meta'];
-    console.log('bio_meta: ', bio_meta);
-    let task_meta = structuredClone(meta[0]);
-    delete task_meta['task']['files'];
-    delete task_meta['task']['bio_meta'];
+    const {peak_meta, bio_meta, files, ...scene_meta} = response.scene;
 
     return(
         <Tab.Container 
@@ -136,16 +130,15 @@ function VisualizationLayout({sonification_prefix, response}){
                                         fluid
                                     >
                                         {
-                                            meta[0]['task']['files'] && meta[0]['task']['files'].map((file, idx) => {
+                                            files && files.map((file, idx) => {
                                                 return <VisualizationRow 
                                                     id={idx + 1}
-                                                    sonification_link={`${sonification_prefix}/${file.participant.sensor_id_in_session}`}
+                                                    sonification_link={`${sonification_prefix}/${file.participant}`}
                                                     key={idx + 1} 
-                                                    file={file.path}
+                                                    files={file.paths}
                                                     scene_meta={scene_meta}
-                                                    task_meta={task_meta}
                                                     bio_meta={bio_meta}
-                                                    peak_meta={file['participant']['scene_peaks_meta']}
+                                                    peak_meta={peak_meta.find((x) => x.participant == file.participant)}
                                                     color={color}
                                                     biosignal={biosignal}
                                                     sketch={sketch}
@@ -162,7 +155,7 @@ function VisualizationLayout({sonification_prefix, response}){
         </Tab.Container>
     );
 
-    return(<></>);
+    // return(<></>);
 }
 
 export default function Visualization(){
