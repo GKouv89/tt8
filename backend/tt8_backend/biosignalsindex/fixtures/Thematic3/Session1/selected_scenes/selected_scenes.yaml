@@ -1,0 +1,72 @@
+- fields:
+    axis:
+    - - Immigration
+      - 8
+    ending_time: '8.58'
+    is_superepisode: false
+    scene_id_in_session: 13
+    session:
+    - Immigration
+    - 1
+    starting_time: '8.42'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Immigration
+      - 7
+    ending_time: '18.43'
+    is_superepisode: false
+    scene_id_in_session: 21
+    session:
+    - Immigration
+    - 1
+    starting_time: '17.53'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Immigration
+      - 4
+    ending_time: '35.67'
+    is_superepisode: false
+    scene_id_in_session: 51
+    session:
+    - Immigration
+    - 1
+    starting_time: '35.57'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Immigration
+      - 2
+    ending_time: '47.5'
+    is_superepisode: false
+    scene_id_in_session: 80
+    session:
+    - Immigration
+    - 1
+    starting_time: '47.48'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Immigration
+      - 2
+    ending_time: '64.82'
+    is_superepisode: false
+    scene_id_in_session: 129
+    session:
+    - Immigration
+    - 1
+    starting_time: '64.75'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Immigration
+      - 4
+    ending_time: '78.53'
+    is_superepisode: false
+    scene_id_in_session: 160
+    session:
+    - Immigration
+    - 1
+    starting_time: '78.52'
+  model: biosignalsindex.Scene

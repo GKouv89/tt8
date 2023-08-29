@@ -1,0 +1,300 @@
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Sonifications/Scene11/Scene11AllSensor2.csv
+    scene:
+    - Environment
+    - 1
+    - 11
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Sonifications/Scene11/Scene11AllSensor6.csv
+    scene:
+    - Environment
+    - 1
+    - 11
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Sonifications/Scene11/Scene11AllSensor5.csv
+    scene:
+    - Environment
+    - 1
+    - 11
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Sonifications/Scene11/Scene11AllSensor4.csv
+    scene:
+    - Environment
+    - 1
+    - 11
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Sonifications/Scene11/Scene11AllSensor3.csv
+    scene:
+    - Environment
+    - 1
+    - 11
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Sonifications/Scene12/Scene12AllSensor2.csv
+    scene:
+    - Environment
+    - 1
+    - 12
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Sonifications/Scene12/Scene12AllSensor3.csv
+    scene:
+    - Environment
+    - 1
+    - 12
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Sonifications/Scene12/Scene12AllSensor4.csv
+    scene:
+    - Environment
+    - 1
+    - 12
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Sonifications/Scene12/Scene12AllSensor5.csv
+    scene:
+    - Environment
+    - 1
+    - 12
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Sonifications/Scene12/Scene12AllSensor6.csv
+    scene:
+    - Environment
+    - 1
+    - 12
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Sonifications/Scene24/Scene24AllSensor5.csv
+    scene:
+    - Environment
+    - 1
+    - 24
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Sonifications/Scene24/Scene24AllSensor6.csv
+    scene:
+    - Environment
+    - 1
+    - 24
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Sonifications/Scene24/Scene24AllSensor4.csv
+    scene:
+    - Environment
+    - 1
+    - 24
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Sonifications/Scene24/Scene24AllSensor3.csv
+    scene:
+    - Environment
+    - 1
+    - 24
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Sonifications/Scene24/Scene24AllSensor2.csv
+    scene:
+    - Environment
+    - 1
+    - 24
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Sonifications/Scene32/Scene32AllSensor6.csv
+    scene:
+    - Environment
+    - 1
+    - 32
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Sonifications/Scene32/Scene32AllSensor2.csv
+    scene:
+    - Environment
+    - 1
+    - 32
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Sonifications/Scene32/Scene32AllSensor4.csv
+    scene:
+    - Environment
+    - 1
+    - 32
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Sonifications/Scene32/Scene32AllSensor3.csv
+    scene:
+    - Environment
+    - 1
+    - 32
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Sonifications/Scene32/Scene32AllSensor5.csv
+    scene:
+    - Environment
+    - 1
+    - 32
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Sonifications/Scene70/Scene70AllSensor2.csv
+    scene:
+    - Environment
+    - 1
+    - 70
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Sonifications/Scene70/Scene70AllSensor3.csv
+    scene:
+    - Environment
+    - 1
+    - 70
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Sonifications/Scene70/Scene70AllSensor4.csv
+    scene:
+    - Environment
+    - 1
+    - 70
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Sonifications/Scene70/Scene70AllSensor5.csv
+    scene:
+    - Environment
+    - 1
+    - 70
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Sonifications/Scene70/Scene70AllSensor6.csv
+    scene:
+    - Environment
+    - 1
+    - 70
+  model: biosignalsindex.File

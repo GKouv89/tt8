@@ -1,0 +1,60 @@
+- fields:
+    axis:
+    - - Environment
+      - 6
+    ending_time: '32.92'
+    is_superepisode: false
+    scene_id_in_session: 11
+    session:
+    - Environment
+    - 1
+    starting_time: '32.13'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Environment
+      - 5
+    ending_time: '33.83'
+    is_superepisode: false
+    scene_id_in_session: 12
+    session:
+    - Environment
+    - 1
+    starting_time: '33.0'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Environment
+      - 7
+    ending_time: '45.48'
+    is_superepisode: false
+    scene_id_in_session: 24
+    session:
+    - Environment
+    - 1
+    starting_time: '45.0'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Environment
+      - 6
+    ending_time: '56.57'
+    is_superepisode: false
+    scene_id_in_session: 32
+    session:
+    - Environment
+    - 1
+    starting_time: '56.33'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Environment
+      - 8
+    ending_time: '107.62'
+    is_superepisode: false
+    scene_id_in_session: 70
+    session:
+    - Environment
+    - 1
+    starting_time: '106.83'
+  model: biosignalsindex.Scene

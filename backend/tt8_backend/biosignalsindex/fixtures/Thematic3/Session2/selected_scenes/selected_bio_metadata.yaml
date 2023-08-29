@@ -1,0 +1,150 @@
+- fields:
+    biometric:
+    - HR
+    max_value: '130.169491525424'
+    min_value: '65.6410256410256'
+    scene:
+    - Immigration
+    - 2
+    - 33
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - SC
+    max_value: '6.07777820321374'
+    min_value: '0.994782994782995'
+    scene:
+    - Immigration
+    - 2
+    - 33
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - Temp
+    max_value: '33.2768253082002'
+    min_value: '30.2422307618195'
+    scene:
+    - Immigration
+    - 2
+    - 33
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - HR
+    max_value: '125.901639344262'
+    min_value: '65.6410256410256'
+    scene:
+    - Immigration
+    - 2
+    - 49
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - SC
+    max_value: '5.52130796033235'
+    min_value: '0.913530913530914'
+    scene:
+    - Immigration
+    - 2
+    - 49
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - Temp
+    max_value: '32.8310003924242'
+    min_value: '29.9788194227556'
+    scene:
+    - Immigration
+    - 2
+    - 49
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - HR
+    max_value: '156.734693877551'
+    min_value: '63.4710743801653'
+    scene:
+    - Immigration
+    - 2
+    - 85
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - SC
+    max_value: '5.68467537108652'
+    min_value: '0.919302919302919'
+    scene:
+    - Immigration
+    - 2
+    - 85
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - Temp
+    max_value: '33.0588661659567'
+    min_value: '29.7452289192239'
+    scene:
+    - Immigration
+    - 2
+    - 85
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - HR
+    max_value: '142.222222222222'
+    min_value: '80'
+    scene:
+    - Immigration
+    - 2
+    - 89
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - SC
+    max_value: '5.33751962323391'
+    min_value: '1.01209901209901'
+    scene:
+    - Immigration
+    - 2
+    - 89
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - Temp
+    max_value: '32.8854899778962'
+    min_value: '29.7402589154954'
+    scene:
+    - Immigration
+    - 2
+    - 89
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - HR
+    max_value: '109.714285714286'
+    min_value: '57.7443609022556'
+    scene:
+    - Immigration
+    - 2
+    - 167
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - SC
+    max_value: '6.77719493050504'
+    min_value: '0.703962703962704'
+    scene:
+    - Immigration
+    - 2
+    - 167
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - Temp
+    max_value: '33.5839505104406'
+    min_value: '29.5663089683512'
+    scene:
+    - Immigration
+    - 2
+    - 167
+  model: biosignalsindex.BiometricMetadataForScene

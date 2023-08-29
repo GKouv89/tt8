@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Scene, Axis, File, Biometric
+from .models import Scene, Axis, File, Biometric, BiometricMetadataForScene
 from tt8_backend.settings import DATASTORE
     
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -90,6 +90,25 @@ class SceneInTaskSerializer(serializers.ModelSerializer):
             abbr = bio.abbr
             res.append({'biometric': abbr, 'minimum': instance.biometric_minimum(abbr), 'maximum': instance.biometric_maximum(abbr)})
         return res
+    
+class BioMetaSerializer(serializers.ModelSerializer):
+    biometric = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='abbr',
+    )
+
+    class Meta:
+        model = BiometricMetadataForScene
+        fields = ['biometric', 'min_value', 'max_value']
+    
+class SelectedSceneSerializer(serializers.ModelSerializer):
+#   - Add bio_meta: This is not a serializer method field, instead it's all the entities associated with the specific scene.
+    files = FileSerializer(many=True, read_only=True, exclude=[])
+    bio_meta = BioMetaSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Scene
+        fields = ['scene_id_in_session', 'is_superepisode', 'starting_time', 'ending_time', 'files', 'bio_meta']
     
 class AxisSerializer(serializers.ModelSerializer):
     scene_count = serializers.IntegerField()

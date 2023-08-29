@@ -1,0 +1,48 @@
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 1
+    - '1'
+    path: Thematic2/Session1/Sonifications/Scene82/Scene82AllSensor1.csv
+    scene:
+    - Employment
+    - 1
+    - 82
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 1
+    - '2'
+    path: Thematic2/Session1/Sonifications/Scene82/Scene82AllSensor2.csv
+    scene:
+    - Employment
+    - 1
+    - 82
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 1
+    - '4'
+    path: Thematic2/Session1/Sonifications/Scene82/Scene82AllSensor4.csv
+    scene:
+    - Employment
+    - 1
+    - 82
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 1
+    - '3'
+    path: Thematic2/Session1/Sonifications/Scene82/Scene82AllSensor3.csv
+    scene:
+    - Employment
+    - 1
+    - 82
+  model: biosignalsindex.File

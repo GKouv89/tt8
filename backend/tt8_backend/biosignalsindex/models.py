@@ -184,6 +184,7 @@ class Scene(SessionPiece):
 		'Task',
 		related_name = 'scenes',
 		through='SceneInTaskMetadata',
+		null=True,
 	)
 	axis = models.ManyToManyField('Axis', related_name = 'scenes')
 	is_superepisode = models.BooleanField(default=True)
@@ -336,6 +337,25 @@ class BiometricMetadataForTask(models.Model):
 	min_value = models.FloatField()
 	max_value = models.FloatField()
 
+class BiometricMetadataForScene(models.Model):
+	# This is the metadata per scene, for the selected scenes only
+	# During preprossesing phase, we find the min and max value
+	# per biometric, so we can plot the diagrams with the same values
+	# as reference points.
+	scene = models.ForeignKey(
+		'Scene',
+		on_delete=models.CASCADE,
+		related_name='bio_meta',
+	)
+
+	biometric = models.ForeignKey(
+		'Biometric',
+		on_delete=models.CASCADE,
+		related_name='scenes_meta',
+	)
+
+	min_value = models.FloatField()
+	max_value = models.FloatField()
 
 class BioPeakMetadata(models.Model):
 	# If there is a superepisode in the task, then at least one participant
