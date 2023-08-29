@@ -88,7 +88,7 @@ class SceneInTaskSerializer(serializers.ModelSerializer):
         res = []
         for bio in Biometric.objects.all():
             abbr = bio.abbr
-            res.append({'biometric': abbr, 'minimum': instance.biometric_minimum(abbr), 'maximum': instance.biometric_maximum(abbr)})
+            res.append({'biometric': abbr, 'min_value': instance.biometric_minimum(abbr), 'max_value': instance.biometric_maximum(abbr)})
         return res
     
 class BioMetaSerializer(serializers.ModelSerializer):

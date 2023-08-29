@@ -31,7 +31,8 @@ function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
             case 'graph':
                 return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={graph.sketch}/>
             case 'color':
-                return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={gradient.sketch}/>
+                // return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={gradient.sketch}/>
+                return <></>
             default:
                 console.log('whyyyyyy');
                 break;
@@ -56,16 +57,18 @@ function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
             </Col>
         </Row>
     );
+
+    // return(<></>);
 }
 
 function VisualizationLayout({sonification_prefix, response}){
     const [biosignal, setBiosignal] = useState('HR');
     const [active, setActive] = useState('graph');
-    const [view, setView] = useState('task');
+    const [view, setView] = useState(response.scene.is_superepisode ? 'task' : 'scene');
 
     const color = response.color;
     const {peak_meta, bio_meta, files, ...scene_meta} = response.scene;
-
+    
     return(
         <Tab.Container 
             defaultActiveKey="graph"
@@ -97,6 +100,7 @@ function VisualizationLayout({sonification_prefix, response}){
                             value='task'
                             checked={view === 'task'}
                             onChange={(e) => {setView(e.currentTarget.value);}}
+                            disabled={!scene_meta.is_superepisode}
                         >
                             Task
                         </ToggleButton>
@@ -137,7 +141,7 @@ function VisualizationLayout({sonification_prefix, response}){
                                                     files={file.paths}
                                                     scene_meta={scene_meta}
                                                     bio_meta={bio_meta}
-                                                    peak_meta={peak_meta.find((x) => x.participant == file.participant)}
+                                                    peak_meta={peak_meta===undefined ? undefined: peak_meta.find((x) => x.participant == file.participant)}
                                                     color={color}
                                                     biosignal={biosignal}
                                                     sketch={sketch}

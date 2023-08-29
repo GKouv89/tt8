@@ -41,11 +41,23 @@ export function sketch(p){
             p.loop();
         }
 
-        if(view === undefined && props.view){
-            view = props.view;
-        }else if(view !== undefined && props.view !== view){
-            view = props.view;
-            p.loop();
+        // if(view === undefined && props.view){
+        //     view = props.view;
+        // }else if(view !== undefined && props.view !== view){
+        //     view = props.view;
+        //     p.loop();
+        // }
+        if(view === undefined){
+            if(!props.immutable.scene_meta.is_superepisode){
+                view = 'scene';
+            }else{
+                view = props.view;
+            }
+        }else{
+            if(props.immutable.scene_meta.is_superepisode && props.view !== view){
+                view = props.view;
+                p.loop();
+            }
         }
     };
 
@@ -54,12 +66,12 @@ export function sketch(p){
     let table1Loaded = false, table2Loaded = false;
    
     const loadFiles = (files) => {
-        if(files.length != 1){
+        if(!scene_meta.is_superepisode || files.length == 1){
+            table = p.loadTable(files[0], 'csv', 'header', () => {dataLoaded = true});
+        }else{
             table1 = p.loadTable(files[0], 'csv', 'header', () => {table1Loaded = true});
             table2 = p.loadTable(files[1], 'csv', 'header', () => {table2Loaded = true});
-            return;
         }
-        table = p.loadTable(files[0], 'csv', 'header', () => {dataLoaded = true});
     }
 
     const resizeObserver = new ResizeObserver((entries) => {
@@ -103,8 +115,8 @@ export function sketch(p){
         noFluctuation = false;
 
         let chosen_bio = bio_meta.find(element => element.biometric == biosignal);
-        min = chosen_bio['minimum'];
-        max = chosen_bio['maximum'];
+        min = chosen_bio['min_value'];
+        max = chosen_bio['max_value'];
 
         if(min === max){
             noFluctuation = true;
@@ -138,8 +150,8 @@ export function sketch(p){
             p.line(participantMinWidth, participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2, participantMaxWidth,participantLowerHeight + (participantHigherHeight - participantLowerHeight) / 2);
         }else{
             p.beginShape();
-            const starting_row = scene_meta['starting_row'];
-            const ending_row = scene_meta['ending_row']
+            const starting_row = scene_meta.is_superepisode ? scene_meta['starting_row'] : 0;
+            const ending_row = scene_meta.is_superepisode ? scene_meta['ending_row'] : table.getRowCount();
             for (let row = starting_row; row < ending_row; row++)
             {
                 drawVertex(row, starting_row, ending_row, biosignalIdx, participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
@@ -250,7 +262,7 @@ export function sketch(p){
         p.pop();
 
         p.fill(p.color('white'));
-        if(view == 'task')
+        if(scene_meta.is_superepisode && view == 'task')
             plotTaskView(participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
         else
             plotGraph(participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
@@ -258,7 +270,7 @@ export function sketch(p){
 
     p.draw = () => {
         if(dataLoaded || (table1Loaded && table2Loaded)){
-            if(table == undefined && table1Loaded && table2Loaded){
+            if(scene_meta.is_superepisode && table == undefined && table1Loaded && table2Loaded){
                 // in this case, there is a table concatenation waiting to happen
                 table = new P5Class.Table();
                 for(let j = 0; j < 3; j++){
