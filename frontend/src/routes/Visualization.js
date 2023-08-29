@@ -31,8 +31,7 @@ function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
             case 'graph':
                 return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={graph.sketch}/>
             case 'color':
-                // return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={gradient.sketch}/>
-                return <></>
+                return <ReactP5Wrapper immutable={state} biosignal={biosignal} view={view} sketch={gradient.sketch}/>
             default:
                 console.log('whyyyyyy');
                 break;
@@ -57,8 +56,6 @@ function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
             </Col>
         </Row>
     );
-
-    // return(<></>);
 }
 
 function VisualizationLayout({sonification_prefix, response}){
@@ -92,7 +89,7 @@ function VisualizationLayout({sonification_prefix, response}){
                 <Col xs={'auto'}>
                     <ButtonGroup>
                         <ToggleButton
-                            variant='dark'
+                            variant='outline-dark'
                             key={0}
                             id={`view-radio-0`}
                             type="radio"
@@ -105,7 +102,7 @@ function VisualizationLayout({sonification_prefix, response}){
                             Task
                         </ToggleButton>
                         <ToggleButton
-                            variant='dark'
+                            variant='outline-dark'
                             key={1}
                             id={`view-radio-1`}
                             type="radio"

@@ -42,9 +42,13 @@ export function sketch(p){
             p.loop();
         }
 
-        if(view === undefined && props.view){
-            view = props.view;
-        }else if(view !== undefined && props.view !== view){
+        if(view === undefined){
+            if(!props.immutable.scene_meta.is_superepisode){
+                view = 'scene';
+            }else{
+                view = props.view;
+            }
+        }else if(props.immutable.scene_meta.is_superepisode && props.view !== view){
             view = props.view;
             p.loop();
         }
@@ -55,12 +59,12 @@ export function sketch(p){
     let table1Loaded = false, table2Loaded = false;
     
     const loadFiles = (files) => {
-        if(files.length != 1){
+        if(!scene_meta.is_superepisode || files.length == 1){
+            table = p.loadTable(files[0], 'csv', 'header', () => {dataLoaded = true});
+        }else{
             table1 = p.loadTable(files[0], 'csv', 'header', () => {table1Loaded = true});
             table2 = p.loadTable(files[1], 'csv', 'header', () => {table2Loaded = true});
-            return;
         }
-        table = p.loadTable(files[0], 'csv', 'header', () => {dataLoaded = true});
     }
 
     const resizeObserver = new ResizeObserver((entries) => {
@@ -90,8 +94,8 @@ export function sketch(p){
     const findMinMax = (biosignal) => {
         noFluctuation = false;
         let chosen_bio = bio_meta.find(element => element['biometric'] == biosignal);
-        min = chosen_bio['minimum'];
-        max = chosen_bio['maximum'];
+        min = chosen_bio['min_value'];
+        max = chosen_bio['max_value'];
 
         if(min === max){
             noFluctuation = true;
@@ -108,7 +112,7 @@ export function sketch(p){
 
     p.draw = () => {
         if(dataLoaded || (table1Loaded && table2Loaded)){
-            if(table == undefined && table1Loaded && table2Loaded){
+            if(scene_meta.is_superepisode && table == undefined && table1Loaded && table2Loaded){
                 // in this case, there is a table concatenation waiting to happen
                 table = new P5Class.Table();
                 for(let j = 0; j < 3; j++){
@@ -154,13 +158,8 @@ export function sketch(p){
         }else{
             let currval, prevval = -1;
             let starting_row, ending_row;
-            if(view === 'task'){
-                starting_row = 0;
-                ending_row = rowCount;
-            }else{
-                starting_row = scene_meta['starting_row'];
-                ending_row = scene_meta['ending_row'];
-            }
+            starting_row = view === 'scene' && scene_meta.is_superepisode ? scene_meta['starting_row'] : 0;
+            ending_row = view === 'scene' && scene_meta.is_superepisode ? scene_meta['ending_row'] : rowCount;
             const min_fixed = min.toFixed(2);
             const max_fixed = max.toFixed(2);
             for(let i = starting_row; i < ending_row; i+=20){

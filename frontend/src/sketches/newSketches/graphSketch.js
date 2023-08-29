@@ -41,23 +41,15 @@ export function sketch(p){
             p.loop();
         }
 
-        // if(view === undefined && props.view){
-        //     view = props.view;
-        // }else if(view !== undefined && props.view !== view){
-        //     view = props.view;
-        //     p.loop();
-        // }
         if(view === undefined){
             if(!props.immutable.scene_meta.is_superepisode){
                 view = 'scene';
             }else{
                 view = props.view;
             }
-        }else{
-            if(props.immutable.scene_meta.is_superepisode && props.view !== view){
-                view = props.view;
-                p.loop();
-            }
+        }else if(props.immutable.scene_meta.is_superepisode && props.view !== view){
+            view = props.view;
+            p.loop();
         }
     };
 
