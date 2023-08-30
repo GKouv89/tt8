@@ -12,7 +12,7 @@ class ThematicScenesView(generics.ListAPIView):
     serializer_class = AxisSerializer
     def get_queryset(self, thematicName):
         try:
-            return Axis.objects.filter(thematic__name=thematicName).order_by('axis_id_in_thematic').annotate(scene_count=Count("scenes"))
+            return Axis.objects.filter(thematic__name=thematicName).order_by('axis_id_in_thematic')
         except:
             return None
 

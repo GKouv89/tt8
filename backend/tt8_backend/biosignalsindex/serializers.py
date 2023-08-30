@@ -111,8 +111,22 @@ class SelectedSceneSerializer(serializers.ModelSerializer):
         fields = ['scene_id_in_session', 'is_superepisode', 'starting_time', 'ending_time', 'files', 'bio_meta']
     
 class AxisSerializer(serializers.ModelSerializer):
-    scene_count = serializers.IntegerField()
+    sharedScenes = serializers.SerializerMethodField()
+
     class Meta:
         model = Axis
-        fields = ['axis_id_in_thematic', 'title', 'color', 'scene_count']
+        fields = ['axis_id_in_thematic', 'title', 'color', 'scene_count', 'sharedScenes']
+
+    def get_sharedScenes(self, instance):
+        res = []
+        for scene in instance.sharedScenes:
+            other_axes = scene.axis.exclude(id=instance.id)
+            print(other_axes)
+            axes = []
+            for axis in other_axes:
+                axes.append(axis.color)
+            res.append({'order': scene.order, 'colors': axes})
+        print(res)
+        return res
+
     

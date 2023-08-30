@@ -1,6 +1,8 @@
 from django.db import models
-from django.db.models import Q, Value
-from django.db.models.query import QuerySet
+from django.db.models import Count, Value
+from django.db.models import Window, F
+from django.db.models.functions import DenseRank
+from django_cte import CTEManager, With
 # Create your models here.
 
 class ThematicManager(models.Manager):
@@ -69,6 +71,19 @@ class Axis(models.Model):
 	def natural_key(self):
 		return self.thematic.natural_key() + (self.axis_id_in_thematic, )
 	
+	@property
+	def sharedScenes(self):
+		scenes = Scene.objects.prefetch_related('axis').annotate(Count('axis')).filter(axis=self)
+		cte = With(
+			scenes.annotate(order=Window(DenseRank(), order_by=["session__session_id_in_thematic", "scene_id_in_session"]))
+		)
+		shared_scenes = cte.queryset().with_cte(cte).exclude(axis__count=1)
+		return shared_scenes
+
+	@property
+	def scene_count(self):
+		return self.scenes.count()
+
 	natural_key.dependencies = ["biosignalsindex.ThematicUnit"]
 
 class ParticipantManager(models.Manager):
@@ -138,7 +153,6 @@ class SessionPiece(models.Model):
 	class Meta:
 		abstract=True
 
-
 class TaskManager(models.Manager):
 	def get_by_natural_key(self, thematic, session_id, section_name, task_no):
 		return self.get(
@@ -172,7 +186,7 @@ class Task(SessionPiece):
 
 	natural_key.dependencies = ["biosignalsindex.Section"]
 
-class SceneManager(models.Manager):
+class SceneManager(CTEManager):
 	def get_by_natural_key(self, thematic, session_id, scene_no):
 		return self.get(
 			scene_id_in_session=scene_no,  
