@@ -101,10 +101,10 @@ const visualizations = {
             Here, you can see how the biosignals of a participant in a certain episode changed during an episode. 
         </p>
         <p>
-        Each scene is part of a greater task that the sociodramatists assigned to the participants. A scene is a part of a
+            Each episode is part of a greater task that the sociodramatists assigned to the participants. An episode is a part of a
             task where intense biometric activity occured for one or more participants, in one or more biometrics. You can either choose to view
-            the scene's data in the context of the task they're a part of (in which case, the scene's data is highlighted),
-            or you can choose to zoom in on the scene's data.
+            the episode's data in the context of the task they're a part of (in which case, the episode's data is highlighted),
+            or you can choose to zoom in on the episode's data.
         </p>
         <p>
             Two distinct ways of visualizing these changes are offered. Click on the buttons below to learn more.
@@ -116,14 +116,14 @@ const visualizations = {
             title: 'Graphs', 
             description: 
                 <p>
-                    A standard mathematical plot that shows how each participant's biometrics changed during a task or scene.
+                    A standard mathematical plot that shows how each participant's biometrics changed during a task or episode.
                     The colors of the lines have the following meaning:
                     <ul>
                         <li>
-                            A blue line denotes data from the task that does not belong in the scene.
+                            A blue line denotes data from the task that does not belong in the episode.
                         </li>
-                        <li>A pink line denotes data from the scene, for a participant that does not have intense biometric activity.</li>
-                        <li>A red line denotes data from the scene, for a participant that <em>does have</em> intense biometric activity.</li>
+                        <li>A pink line denotes data from the episode, for a participant that does not have intense biometric activity.</li>
+                        <li>A red line denotes data from the episode, for a participant that <em>does have</em> intense biometric activity.</li>
                     </ul>
                 </p>}
         ,
@@ -139,7 +139,7 @@ const visualizations = {
                         the darker the color, the lower the value.                    
                     </p>
                     <p>
-                        When viewing the entire task's data, the part of the visualization that corresponds to the scene is surrounded
+                        When viewing the entire task's data, the part of the visualization that corresponds to the episode is surrounded
                         by two white lines.
                     </p>
                 </>
@@ -148,6 +148,7 @@ const visualizations = {
 }
 
 function VisualizationLayout({sonification_prefix, response}){
+    const {thematicName, axisID, episodeID} = useParams();
     const [biosignal, setBiosignal] = useState('HR');
     const [active, setActive] = useState('graph');
     const [view, setView] = useState(response.scene.is_superepisode ? 'task' : 'scene');
@@ -190,7 +191,7 @@ function VisualizationLayout({sonification_prefix, response}){
             <Row className="justify-content-start">
                 <Col xs={'auto'}>
                     <h2 class="h3">
-                        Visualizations
+                        Axis {axisID} - Episode {episodeID}: Biosignals' Visualizations
                     </h2>
                 </Col>
                 <Col xs={'auto'}>
@@ -254,7 +255,7 @@ function VisualizationLayout({sonification_prefix, response}){
                                 checked={view === 'scene'}
                                 onChange={(e) => {setView(e.currentTarget.value);}}
                             >
-                                Scene
+                                Episode
                             </ToggleButton>                           
                         </ButtonGroup>
                     </Col>

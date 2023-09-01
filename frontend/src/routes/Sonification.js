@@ -436,6 +436,13 @@ export default function Sonification(){
             <Row className="justify-content-start">
                 <Col xs={'auto'}>
                     <h2 class="h3">
+                        Axis {axisID} - Episode {episodeID}:
+                    </h2>
+                </Col>
+            </Row>
+            <Row className="justify-content-start">
+                <Col xs={'auto'}>
+                    <h2 class="h3">
                         Participant {participantID} Biosignals' Sonification
                     </h2>
                 </Col>
