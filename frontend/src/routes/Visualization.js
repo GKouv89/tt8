@@ -19,6 +19,7 @@ import { ViewContext } from '../context/ViewContext.js'
 import { Link, useParams } from 'react-router-dom';
 
 import { fetchSceneMaterial } from '../api/calls.js';
+import { GeneralInfoModal } from '../Component/GeneralInfoModal.js';
 
 function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
     const {thematicName, axisID, episodeID} = useParams();
@@ -92,21 +93,100 @@ function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
     );
 }
 
+const visualizations = {
+    title: 'What am I seeing?', 
+    size: 'lg',
+    general: <>
+        <p>
+            Here, you can see how the biosignals of a participant in a certain episode changed during an episode. 
+        </p>
+        <p>
+        Each scene is part of a greater task that the sociodramatists assigned to the participants. A scene is a part of a
+            task where intense biometric activity occured for one or more participants, in one or more biometrics. You can either choose to view
+            the scene's data in the context of the task they're a part of (in which case, the scene's data is highlighted),
+            or you can choose to zoom in on the scene's data.
+        </p>
+        <p>
+            Two distinct ways of visualizing these changes are offered. Click on the buttons below to learn more.
+        </p>
+    </>,
+    options: [
+        {
+            name: 'graph', 
+            title: 'Graphs', 
+            description: 
+                <p>
+                    A standard mathematical plot that shows how each participant's biometrics changed during a task or scene.
+                    The colors of the lines have the following meaning:
+                    <ul>
+                        <li>
+                            A blue line denotes data from the task that does not belong in the scene.
+                        </li>
+                        <li>A pink line denotes data from the scene, for a participant that does not have intense biometric activity.</li>
+                        <li>A red line denotes data from the scene, for a participant that <em>does have</em> intense biometric activity.</li>
+                    </ul>
+                </p>}
+        ,
+        {
+            name: 'color', 
+            title: 'Color gradients',
+            description: 
+                <>
+                    <p>
+                        This more artistic representation is equivalent to the graph.
+                        The length of each image from left to right represents time. The changes in the color's brightness
+                        represent a change in the biosignal's measurement. A lighter shade represents a higher value, while
+                        the darker the color, the lower the value.                    
+                    </p>
+                    <p>
+                        When viewing the entire task's data, the part of the visualization that corresponds to the scene is surrounded
+                        by two white lines.
+                    </p>
+                </>
+        }
+    ]
+}
+
 function VisualizationLayout({sonification_prefix, response}){
     const [biosignal, setBiosignal] = useState('HR');
     const [active, setActive] = useState('graph');
     const [view, setView] = useState(response.scene.is_superepisode ? 'task' : 'scene');
-    const [showModal, setShowModal] = useState(false);
+    // BiosignalInfoModal is the first of the array
+    // VisualizationInfo is the second
+    const [showModal, setShowModal] = useState([false, false]);
 
     const color = response.color;
     const {peak_meta, bio_meta, files, ...scene_meta} = response.scene;
-    
+
+    const content=[
+        null,
+        visualizations
+    ]    
+
+    const components = {
+        BiosignalInfoModal,
+        GeneralInfoModal
+    };
+
+
     return(
         <Container fluid>
-            <BiosignalInfoModal 
-                show={showModal}
-                onHide={() => setShowModal(false)}
-            />
+            {[...Array(2).keys()].map((a) => {
+                const MyComponent = a === 0 ? components.BiosignalInfoModal : components.GeneralInfoModal;
+                return (<MyComponent 
+                    show={showModal[a]}
+                    onHide={() => {
+                        const newShowModal = showModal.map((modal, idx) => {
+                            if(idx === a)
+                                return false;
+                            else
+                                return modal;
+                        });
+                        setShowModal(newShowModal);
+                    }}
+                    content={content[a]}
+                />);
+            })}
             <Row className="justify-content-start">
                 <Col xs={'auto'}>
                     <h2 class="h3">
@@ -116,6 +196,15 @@ function VisualizationLayout({sonification_prefix, response}){
                 <Col xs={'auto'}>
                     <Button 
                         variant='outline-dark'
+                        onClick={() => {
+                            const newShowModal = showModal.map((modal, idx) => {
+                                if(idx === 1)
+                                    return true;
+                                else
+                                    return modal;
+                            });
+                            setShowModal(newShowModal);
+                        }}
                     >
                         <i class="bi bi-info-circle" /> What am I seeing?
                     </Button>
@@ -170,7 +259,26 @@ function VisualizationLayout({sonification_prefix, response}){
                         </ButtonGroup>
                     </Col>
                     <Col xs={'auto'}>
+                        <div class='vr'></div>
+                    </Col>
+                    <Col xs={'auto'}>
                         <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
+                    </Col>
+                    <Col xs={'auto'}>
+                        <Button
+                            variant="dark"
+                            onClick={() => {
+                                const newShowModal = showModal.map((modal, idx) => {
+                                    if(idx === 0)
+                                        return true;
+                                    else
+                                        return modal;
+                                });
+                                setShowModal(newShowModal);
+                            }}
+                        >
+                            <i class="bi bi-info-circle" />&nbsp; Learn More
+                        </Button>
                     </Col>
                 </Row>
                 <Row>        

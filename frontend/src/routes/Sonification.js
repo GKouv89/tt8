@@ -17,6 +17,7 @@ import { ReactP5Wrapper } from 'react-p5-wrapper';
 import * as son from '../sketches/newSketches/sonificationSketch.js';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BiosignalInfoModal } from '../Component/BiosignalInfoModal.js';
+import { GeneralInfoModal } from '../Component/GeneralInfoModal.js';
 import { fetchParticipantInSceneMaterial } from '../api/calls.js';
 
 const variant = "dark";
@@ -86,13 +87,11 @@ function GSRTempGUI({sound, setSound}){
     );
 }
 
-function PlayerGUI({file, biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, toReset, setToReset, setDownloadRequested}){
+function PlayerGUI({modalCallback, file, biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, toReset, setToReset, setDownloadRequested}){
     const {thematicName, axisID, episodeID, participantID} = useParams();
 
     const fileName = `${thematicName}_Axis${axisID}_Episode${episodeID}_Participant${participantID}.csv`;
-
-    const [showBioModal, setShowBioModal] = useState(false);
-
+    
     const downloadFile = () => {
         const a = document.createElement('a');
         a.download = fileName;
@@ -120,10 +119,6 @@ function PlayerGUI({file, biosignal, setBiosignal, sound, setSound, playing, set
 
     return(
         <>
-            <BiosignalInfoModal 
-                show={showBioModal}
-                onHide={() => setShowBioModal(false)}
-            />
             <Col xs={6}>
                 <Container>
                     <Row>
@@ -138,7 +133,7 @@ function PlayerGUI({file, biosignal, setBiosignal, sound, setSound, playing, set
                         <Col xs={'auto'}>
                             <Button
                                 variant="dark"
-                                onClick={() => setShowBioModal(true)}
+                                onClick={modalCallback}
                             >
                                 <i class="bi bi-info-circle" />&nbsp; Learn More
                             </Button>
@@ -274,7 +269,7 @@ function SketchAndProgress(props){
 }
 
 
-function Player(){
+function Player({modalCallback}){
     const {thematicName, axisID, episodeID, participantID} = useParams();
     
     // These props are related to the toggle button groups and
@@ -354,18 +349,77 @@ function Player(){
                     toReset={toReset}
                     setToReset={setToReset}
                     setDownloadRequested={setDownloadRequested}
+                    modalCallback={modalCallback}
                 />
             }
         </Row>
     )
 }
 
+const sonifications = {
+    title: 'What am I hearing?', 
+    general: `The measured data are used to produce changes in the sound you're hearing. The duration of the 
+    sonification is roughly equivalent to the duration of the sociodrama episode, and the changes
+    you're hearing happen at the same intervals they did during the episode.`,
+    options: [
+        {
+            name: 'heart',
+            title: 'Heart Sound',
+            description: `The heart sound is playing on a loop, and becomes faster or slower according to the changes
+                        in the participant's heart rate.`
+        },
+        {
+            name: 'kick',
+            title: 'Drum kick',
+            description: `The kick produces the exact beats per minute of the heart rate's participant. It is an accurate
+            representation of their heart rate.` 
+        },
+        {
+            name: 'osc',
+            title: 'GSR and Temperature',
+            description: `These sounds change according to the measured signal to match a specific note. The higher the note,
+            the higher the measured value, and vice versa. The notes are in C Major scale, so the result sounds more harmonic.` 
+        }
+    ]
+    
+}
+
+const content=[
+    null,
+    sonifications
+]
+
 export default function Sonification(){
     const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
     const {thematicName, axisID, episodeID, participantID} = useParams();
-    
+    // BiosignalInfoModal is the first of the array
+    // SonificationInfo is the second
+    const [showModal, setShowModal] = useState([false, false]);
+
+    const components = {
+        BiosignalInfoModal,
+        GeneralInfoModal
+    };
+
     return (
         <Container fluid>
+            {[...Array(2).keys()].map((a) => {
+                const MyComponent = a === 0 ? components.BiosignalInfoModal : components.GeneralInfoModal;
+                console.log('MyComponent: ', MyComponent);
+                return (<MyComponent 
+                    show={showModal[a]}
+                    onHide={() => {
+                        const newShowModal = showModal.map((modal, idx) => {
+                            if(idx === a)
+                                return false;
+                            else
+                                return modal;
+                        });
+                        setShowModal(newShowModal);
+                    }}
+                    content={content[a]}
+                />);
+            })}
             <Row className="pb-2">
                 <Col xs={'auto'}>
                     <Button 
@@ -388,12 +442,29 @@ export default function Sonification(){
                 <Col xs={'auto'}>
                     <Button
                         variant="outline-dark"
+                        onClick={() => {
+                            const newShowModal = showModal.map((modal, idx) => {
+                                if(idx === 1)
+                                    return true;
+                                else
+                                    return modal;
+                            });
+                            setShowModal(newShowModal);
+                        }}
                     >
                         <i class="bi bi-info-circle" /> What am I hearing?
                     </Button>
                 </Col>
             </Row>
-            <Player />
+            <Player modalCallback={() => {
+                const newShowModal = showModal.map((modal, idx) => {
+                    if(idx === 0)
+                        return true;
+                    else
+                        return modal;
+                });
+                setShowModal(newShowModal);
+            }}/>
         </Container>
     );
 }

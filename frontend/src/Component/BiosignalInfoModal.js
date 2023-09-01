@@ -40,7 +40,7 @@ const biosignalDescriptions = {
         }
 }
 
-export function BiosignalInfoModal(props)
+export function BiosignalInfoModal({...props})
 {
     const [biosignal, setBiosignal] = useState('HR');
     const [info, setInfo] = useState('general');
@@ -76,8 +76,8 @@ export function BiosignalInfoModal(props)
                                     value={'general'}
                                     variant={'dark'}
                                     type='radio'
-                                    id={'info-type-radio-1'}
-                                    name={'info-type-radio'}
+                                    id={'bio-info-type-radio-1'}
+                                    name={'bio-info-type-radio'}
                                     checked={info === 'general'}
                                     onChange={(e) => setInfo(e.currentTarget.value)}
                                 >
@@ -87,8 +87,8 @@ export function BiosignalInfoModal(props)
                                     value={'average'}
                                     variant={'dark'}
                                     type='radio'
-                                    id={'info-type-radio-2'}
-                                    name={'info-type-radio'}
+                                    id={'bio-type-radio-2'}
+                                    name={'bio-type-radio'}
                                     checked={info === 'average'}
                                     onChange={(e) => setInfo(e.currentTarget.value)}
                                 >
