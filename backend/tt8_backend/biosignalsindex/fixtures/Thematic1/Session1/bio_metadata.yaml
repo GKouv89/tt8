@@ -1,0 +1,297 @@
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '60.95238095238095'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '4'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '17.87764474331638'
+    min_value: '0.0130980130980131'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '4'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '31.65205253051245'
+    min_value: '28.955527796229585'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '4'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '59.07692307692308'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '17.7683013503909'
+    min_value: '0.0082140082140081'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '31.36970191805158'
+    min_value: '28.84696901762509'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '156.73469387755102'
+    min_value: '65.08474576271186'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '18.205674922092832'
+    min_value: '1.3397713397713398'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '30.99818939492689'
+    min_value: '29.221990850014844'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '51.891891891891895'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '20.82991635230441'
+    min_value: '0.932178932178932'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '31.518307385686786'
+    min_value: '28.763082785182636'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '54.468085106382986'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '3'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '13.16383964467588'
+    min_value: '0.9796869796869796'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '3'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '31.60251726694987'
+    min_value: '29.044348719861592'
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '3'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '47.70186335403727'
+    task:
+    - Environment
+    - 1
+    - Section 3
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '19.809378018333245'
+    min_value: '0.9832389832389832'
+    task:
+    - Environment
+    - 1
+    - Section 3
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '31.42208558358252'
+    min_value: '28.555834806803613'
+    task:
+    - Environment
+    - 1
+    - Section 3
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '53.33333333333334'
+    task:
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '14.705619583668364'
+    min_value: '0.0002220002220002'
+    task:
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '34.292324194405225'
+    min_value: '28.40286639016704'
+    task:
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '49.87012987012988'
+    task:
+    - Environment
+    - 1
+    - Section 4
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '23.417709984874165'
+    min_value: '0.881118881118881'
+    task:
+    - Environment
+    - 1
+    - Section 4
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '31.51573871439905'
+    min_value: '27.50973379947245'
+    task:
+    - Environment
+    - 1
+    - Section 4
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '58.18181818181819'
+    task:
+    - Environment
+    - 1
+    - Introduction
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '18.460809505585623'
+    min_value: '0.0122100122100122'
+    task:
+    - Environment
+    - 1
+    - Introduction
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '31.71644841665402'
+    min_value: '29.19238380212919'
+    task:
+    - Environment
+    - 1
+    - Introduction
+    - '2'
+  model: biosignalsindex.BiometricMetadataForTask

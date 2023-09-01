@@ -1,0 +1,130 @@
+- fields:
+    participant:
+    - Immigration
+    - 1
+    - '3'
+    path: Thematic3/Session1/Visualizations/Section 2/Task2/Task2AllSensor3-Section
+      2.csv
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Immigration
+    - 1
+    - '2'
+    path: Thematic3/Session1/Visualizations/Section 2/Task2/Task2AllSensor2-Section
+      2.csv
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Immigration
+    - 1
+    - '6'
+    path: Thematic3/Session1/Visualizations/Section 2/Task2/Task2AllSensor6-Section
+      2.csv
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Immigration
+    - 1
+    - '5'
+    path: Thematic3/Session1/Visualizations/Section 2/Task2/Task2AllSensor5-Section
+      2.csv
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Immigration
+    - 1
+    - '4'
+    path: Thematic3/Session1/Visualizations/Section 2/Task2/Task2AllSensor4-Section
+      2.csv
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Immigration
+    - 1
+    - '2'
+    path: Thematic3/Session1/Visualizations/Section 2/Task5/Task5AllSensor2-Section
+      2.csv
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Immigration
+    - 1
+    - '5'
+    path: Thematic3/Session1/Visualizations/Section 2/Task5/Task5AllSensor5-Section
+      2.csv
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Immigration
+    - 1
+    - '4'
+    path: Thematic3/Session1/Visualizations/Section 2/Task5/Task5AllSensor4-Section
+      2.csv
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Immigration
+    - 1
+    - '3'
+    path: Thematic3/Session1/Visualizations/Section 2/Task5/Task5AllSensor3-Section
+      2.csv
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Immigration
+    - 1
+    - '6'
+    path: Thematic3/Session1/Visualizations/Section 2/Task5/Task5AllSensor6-Section
+      2.csv
+    task:
+    - Immigration
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.File

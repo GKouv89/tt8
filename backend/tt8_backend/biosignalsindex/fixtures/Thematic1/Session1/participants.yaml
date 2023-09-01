@@ -1,0 +1,26 @@
+---
+- model: biosignalsindex.Participant
+  fields:
+    sensor_id_in_session: 1
+    session: ['Environment', 1]
+- model: biosignalsindex.Participant
+  fields:
+    sensor_id_in_session: 2
+    session: ['Environment', 1]
+- model: biosignalsindex.Participant
+  fields:
+    sensor_id_in_session: 3
+    session: ['Environment', 1]
+- model: biosignalsindex.Participant
+  fields:
+    sensor_id_in_session: 4
+    session: ['Environment', 1]
+- model: biosignalsindex.Participant
+  fields:
+    sensor_id_in_session: 5
+    session: ['Environment', 1]
+- model: biosignalsindex.Participant
+  fields:
+    sensor_id_in_session: 6
+    session: ['Environment', 1]
+...

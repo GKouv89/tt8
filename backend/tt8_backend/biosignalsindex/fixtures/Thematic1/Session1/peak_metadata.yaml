@@ -1,0 +1,480 @@
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '3'
+    scene:
+    - Environment
+    - 1
+    - '23'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '9'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 1
+    - '6'
+    scene:
+    - Environment
+    - 1
+    - '25'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '2'
+    scene:
+    - Environment
+    - 1
+    - '9'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Environment
+    - 1
+    - '6'
+    scene:
+    - Environment
+    - 1
+    - '26'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '2'
+    scene:
+    - Environment
+    - 1
+    - '9'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '2'
+    scene:
+    - Environment
+    - 1
+    - '26'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 1
+    - '6'
+    scene:
+    - Environment
+    - 1
+    - '9'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '13'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '3'
+    scene:
+    - Environment
+    - 1
+    - '25'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '25'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '3'
+    scene:
+    - Environment
+    - 1
+    - '36'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '6'
+    scene:
+    - Environment
+    - 1
+    - '3'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '9'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '9'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Environment
+    - 1
+    - '2'
+    scene:
+    - Environment
+    - 1
+    - '29'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 1
+    - '3'
+    scene:
+    - Environment
+    - 1
+    - '9'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '63'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Environment
+    - 1
+    - '6'
+    scene:
+    - Environment
+    - 1
+    - '30'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '26'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 1
+    - '2'
+    scene:
+    - Environment
+    - 1
+    - '9'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 1
+    - '3'
+    scene:
+    - Environment
+    - 1
+    - '26'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '6'
+    scene:
+    - Environment
+    - 1
+    - '26'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '34'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '4'
+    scene:
+    - Environment
+    - 1
+    - '21'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 1
+    - '6'
+    scene:
+    - Environment
+    - 1
+    - '47'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '13'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '4'
+    scene:
+    - Environment
+    - 1
+    - '9'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '2'
+    scene:
+    - Environment
+    - 1
+    - '48'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '26'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '2'
+    scene:
+    - Environment
+    - 1
+    - '36'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '7'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '2'
+    scene:
+    - Environment
+    - 1
+    - '30'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Environment
+    - 1
+    - '2'
+    scene:
+    - Environment
+    - 1
+    - '26'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Environment
+    - 1
+    - '3'
+    scene:
+    - Environment
+    - 1
+    - '30'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Environment
+    - 1
+    - '3'
+    scene:
+    - Environment
+    - 1
+    - '36'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 1
+    - '4'
+    scene:
+    - Environment
+    - 1
+    - '25'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Environment
+    - 1
+    - '5'
+    scene:
+    - Environment
+    - 1
+    - '2'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Environment
+    - 1
+    - '3'
+    scene:
+    - Environment
+    - 1
+    - '9'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Environment
+    - 1
+    - '2'
+    scene:
+    - Environment
+    - 1
+    - '47'
+  model: biosignalsindex.BioPeakMetadata

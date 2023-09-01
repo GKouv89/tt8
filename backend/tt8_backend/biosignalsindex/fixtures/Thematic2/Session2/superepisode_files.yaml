@@ -1,0 +1,255 @@
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '1'
+    path: Thematic2/Session2/Visualizations/Section 2/Task2/Task2AllSensor1-Section
+      2.csv
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '2'
+    path: Thematic2/Session2/Visualizations/Section 2/Task2/Task2AllSensor2-Section
+      2.csv
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '3'
+    path: Thematic2/Session2/Visualizations/Section 2/Task2/Task2AllSensor3-Section
+      2.csv
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '5'
+    path: Thematic2/Session2/Visualizations/Section 2/Task2/Task2AllSensor5-Section
+      2.csv
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '6'
+    path: Thematic2/Session2/Visualizations/Section 2/Task2/Task2AllSensor6-Section
+      2.csv
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '1'
+    path: Thematic2/Session2/Visualizations/Section 2/Task3/Task3AllSensor1-Section
+      2.csv
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '2'
+    path: Thematic2/Session2/Visualizations/Section 2/Task3/Task3AllSensor2-Section
+      2.csv
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '3'
+    path: Thematic2/Session2/Visualizations/Section 2/Task3/Task3AllSensor3-Section
+      2.csv
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '5'
+    path: Thematic2/Session2/Visualizations/Section 2/Task3/Task3AllSensor5-Section
+      2.csv
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '6'
+    path: Thematic2/Session2/Visualizations/Section 2/Task3/Task3AllSensor6-Section
+      2.csv
+    task:
+    - Employment
+    - 2
+    - Section 2
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '1'
+    path: Thematic2/Session2/Visualizations/Section 3/Task2/Task2AllSensor1-Section
+      3.csv
+    task:
+    - Employment
+    - 2
+    - Section 3
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '2'
+    path: Thematic2/Session2/Visualizations/Section 3/Task2/Task2AllSensor2-Section
+      3.csv
+    task:
+    - Employment
+    - 2
+    - Section 3
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '3'
+    path: Thematic2/Session2/Visualizations/Section 3/Task2/Task2AllSensor3-Section
+      3.csv
+    task:
+    - Employment
+    - 2
+    - Section 3
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '5'
+    path: Thematic2/Session2/Visualizations/Section 3/Task2/Task2AllSensor5-Section
+      3.csv
+    task:
+    - Employment
+    - 2
+    - Section 3
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '6'
+    path: Thematic2/Session2/Visualizations/Section 3/Task2/Task2AllSensor6-Section
+      3.csv
+    task:
+    - Employment
+    - 2
+    - Section 3
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '1'
+    path: Thematic2/Session2/Visualizations/Conclusion/Task1/Task1AllSensor1-Conclusion.csv
+    task:
+    - Employment
+    - 2
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '2'
+    path: Thematic2/Session2/Visualizations/Conclusion/Task1/Task1AllSensor2-Conclusion.csv
+    task:
+    - Employment
+    - 2
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '3'
+    path: Thematic2/Session2/Visualizations/Conclusion/Task1/Task1AllSensor3-Conclusion.csv
+    task:
+    - Employment
+    - 2
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '5'
+    path: Thematic2/Session2/Visualizations/Conclusion/Task1/Task1AllSensor5-Conclusion.csv
+    task:
+    - Employment
+    - 2
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Employment
+    - 2
+    - '6'
+    path: Thematic2/Session2/Visualizations/Conclusion/Task1/Task1AllSensor6-Conclusion.csv
+    task:
+    - Employment
+    - 2
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File

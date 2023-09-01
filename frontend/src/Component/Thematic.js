@@ -49,7 +49,7 @@ export default function Thematic(props){
                     {props.thematic.desc}
                   </Col>
                   <Col xxl={12} className="align-self-center">
-                    <LinkContainer to={`${props.thematic._id}`}>
+                    <LinkContainer to={`${props.thematic.name}`}>
                       <Button size="lg" variant="dark">More</Button>
                     </LinkContainer>
                   </Col>

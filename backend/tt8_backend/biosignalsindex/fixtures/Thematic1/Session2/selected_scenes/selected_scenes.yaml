@@ -1,0 +1,36 @@
+- fields:
+    axis:
+    - - Environment
+      - 4
+    ending_time: '41.93'
+    is_superepisode: false
+    scene_id_in_session: 22
+    session:
+    - Environment
+    - 2
+    starting_time: '41.4'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Environment
+      - 7
+    ending_time: '73.95'
+    is_superepisode: false
+    scene_id_in_session: 55
+    session:
+    - Environment
+    - 2
+    starting_time: '73.93'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Environment
+      - 8
+    ending_time: '80.47'
+    is_superepisode: false
+    scene_id_in_session: 66
+    session:
+    - Environment
+    - 2
+    starting_time: '80.3'
+  model: biosignalsindex.Scene

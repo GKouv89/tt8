@@ -1,0 +1,48 @@
+- fields:
+    axis:
+    - - Employment
+      - 4
+    ending_time: '57.92'
+    is_superepisode: false
+    scene_id_in_session: 70
+    session:
+    - Employment
+    - 2
+    starting_time: '57.1'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Employment
+      - 6
+    ending_time: '65.53'
+    is_superepisode: false
+    scene_id_in_session: 81
+    session:
+    - Employment
+    - 2
+    starting_time: '64.83'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Employment
+      - 6
+    ending_time: '78.07'
+    is_superepisode: false
+    scene_id_in_session: 93
+    session:
+    - Employment
+    - 2
+    starting_time: '77.83'
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Employment
+      - 5
+    ending_time: '102.23'
+    is_superepisode: false
+    scene_id_in_session: 127
+    session:
+    - Employment
+    - 2
+    starting_time: '101.63'
+  model: biosignalsindex.Scene

@@ -1,0 +1,78 @@
+- fields:
+    participant:
+    - Environment
+    - 2
+    - '1'
+    path: Thematic1/Session2/Visualizations/Section 2/Task2/Task2AllSensor1-Section
+      2.csv
+    task:
+    - Environment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 2
+    - '2'
+    path: Thematic1/Session2/Visualizations/Section 2/Task2/Task2AllSensor2-Section
+      2.csv
+    task:
+    - Environment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 2
+    - '3'
+    path: Thematic1/Session2/Visualizations/Section 2/Task2/Task2AllSensor3-Section
+      2.csv
+    task:
+    - Environment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 2
+    - '4'
+    path: Thematic1/Session2/Visualizations/Section 2/Task2/Task2AllSensor4-Section
+      2.csv
+    task:
+    - Environment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 2
+    - '5'
+    path: Thematic1/Session2/Visualizations/Section 2/Task2/Task2AllSensor5-Section
+      2.csv
+    task:
+    - Environment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 2
+    - '6'
+    path: Thematic1/Session2/Visualizations/Section 2/Task2/Task2AllSensor6-Section
+      2.csv
+    task:
+    - Environment
+    - 2
+    - Section 2
+    - '2'
+  model: biosignalsindex.File

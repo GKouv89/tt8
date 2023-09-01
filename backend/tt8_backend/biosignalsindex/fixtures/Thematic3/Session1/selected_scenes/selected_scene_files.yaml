@@ -1,0 +1,360 @@
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '5'
+    path: Thematic3/Session1/Sonifications/Scene13/Scene13AllSensor5.csv
+    scene:
+    - Immigration
+    - 1
+    - 13
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '4'
+    path: Thematic3/Session1/Sonifications/Scene13/Scene13AllSensor4.csv
+    scene:
+    - Immigration
+    - 1
+    - 13
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '6'
+    path: Thematic3/Session1/Sonifications/Scene13/Scene13AllSensor6.csv
+    scene:
+    - Immigration
+    - 1
+    - 13
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '3'
+    path: Thematic3/Session1/Sonifications/Scene13/Scene13AllSensor3.csv
+    scene:
+    - Immigration
+    - 1
+    - 13
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '2'
+    path: Thematic3/Session1/Sonifications/Scene13/Scene13AllSensor2.csv
+    scene:
+    - Immigration
+    - 1
+    - 13
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '2'
+    path: Thematic3/Session1/Sonifications/Scene21/Scene21AllSensor2.csv
+    scene:
+    - Immigration
+    - 1
+    - 21
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '4'
+    path: Thematic3/Session1/Sonifications/Scene21/Scene21AllSensor4.csv
+    scene:
+    - Immigration
+    - 1
+    - 21
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '3'
+    path: Thematic3/Session1/Sonifications/Scene21/Scene21AllSensor3.csv
+    scene:
+    - Immigration
+    - 1
+    - 21
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '6'
+    path: Thematic3/Session1/Sonifications/Scene21/Scene21AllSensor6.csv
+    scene:
+    - Immigration
+    - 1
+    - 21
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '5'
+    path: Thematic3/Session1/Sonifications/Scene21/Scene21AllSensor5.csv
+    scene:
+    - Immigration
+    - 1
+    - 21
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '6'
+    path: Thematic3/Session1/Sonifications/Scene51/Scene51AllSensor6.csv
+    scene:
+    - Immigration
+    - 1
+    - 51
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '3'
+    path: Thematic3/Session1/Sonifications/Scene51/Scene51AllSensor3.csv
+    scene:
+    - Immigration
+    - 1
+    - 51
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '4'
+    path: Thematic3/Session1/Sonifications/Scene51/Scene51AllSensor4.csv
+    scene:
+    - Immigration
+    - 1
+    - 51
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '5'
+    path: Thematic3/Session1/Sonifications/Scene51/Scene51AllSensor5.csv
+    scene:
+    - Immigration
+    - 1
+    - 51
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '2'
+    path: Thematic3/Session1/Sonifications/Scene51/Scene51AllSensor2.csv
+    scene:
+    - Immigration
+    - 1
+    - 51
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '5'
+    path: Thematic3/Session1/Sonifications/Scene80/Scene80AllSensor5.csv
+    scene:
+    - Immigration
+    - 1
+    - 80
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '2'
+    path: Thematic3/Session1/Sonifications/Scene80/Scene80AllSensor2.csv
+    scene:
+    - Immigration
+    - 1
+    - 80
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '6'
+    path: Thematic3/Session1/Sonifications/Scene80/Scene80AllSensor6.csv
+    scene:
+    - Immigration
+    - 1
+    - 80
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '3'
+    path: Thematic3/Session1/Sonifications/Scene80/Scene80AllSensor3.csv
+    scene:
+    - Immigration
+    - 1
+    - 80
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '4'
+    path: Thematic3/Session1/Sonifications/Scene80/Scene80AllSensor4.csv
+    scene:
+    - Immigration
+    - 1
+    - 80
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '6'
+    path: Thematic3/Session1/Sonifications/Scene129/Scene129AllSensor6.csv
+    scene:
+    - Immigration
+    - 1
+    - 129
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '4'
+    path: Thematic3/Session1/Sonifications/Scene129/Scene129AllSensor4.csv
+    scene:
+    - Immigration
+    - 1
+    - 129
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '2'
+    path: Thematic3/Session1/Sonifications/Scene129/Scene129AllSensor2.csv
+    scene:
+    - Immigration
+    - 1
+    - 129
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '3'
+    path: Thematic3/Session1/Sonifications/Scene129/Scene129AllSensor3.csv
+    scene:
+    - Immigration
+    - 1
+    - 129
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '5'
+    path: Thematic3/Session1/Sonifications/Scene129/Scene129AllSensor5.csv
+    scene:
+    - Immigration
+    - 1
+    - 129
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '3'
+    path: Thematic3/Session1/Sonifications/Scene160/Scene160AllSensor3.csv
+    scene:
+    - Immigration
+    - 1
+    - 160
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '4'
+    path: Thematic3/Session1/Sonifications/Scene160/Scene160AllSensor4.csv
+    scene:
+    - Immigration
+    - 1
+    - 160
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '2'
+    path: Thematic3/Session1/Sonifications/Scene160/Scene160AllSensor2.csv
+    scene:
+    - Immigration
+    - 1
+    - 160
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '5'
+    path: Thematic3/Session1/Sonifications/Scene160/Scene160AllSensor5.csv
+    scene:
+    - Immigration
+    - 1
+    - 160
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Immigration
+    - 1
+    - '6'
+    path: Thematic3/Session1/Sonifications/Scene160/Scene160AllSensor6.csv
+    scene:
+    - Immigration
+    - 1
+    - 160
+  model: biosignalsindex.File

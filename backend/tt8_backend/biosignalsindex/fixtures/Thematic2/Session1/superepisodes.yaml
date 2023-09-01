@@ -1,0 +1,286 @@
+- fields:
+    axis:
+    - - Employment
+      - 2
+    ending_time: '23.5'
+    is_superepisode: true
+    scene_id_in_session: '34'
+    session:
+    - Employment
+    - 1
+    starting_time: '22.5'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '24953'
+    scene:
+    - Employment
+    - 1
+    - '34'
+    starting_row: '17276'
+    task:
+    - Employment
+    - 1
+    - Section 2
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 2
+    ending_time: '24.25'
+    is_superepisode: true
+    scene_id_in_session: '35'
+    session:
+    - Employment
+    - 1
+    starting_time: '23.51'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '30712'
+    scene:
+    - Employment
+    - 1
+    - '35'
+    starting_row: '25061'
+    task:
+    - Employment
+    - 1
+    - Section 2
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 1
+    ending_time: '25.24'
+    is_superepisode: true
+    scene_id_in_session: '36'
+    session:
+    - Employment
+    - 1
+    starting_time: '24.27'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '38259'
+    scene:
+    - Employment
+    - 1
+    - '36'
+    starting_row: '30840'
+    task:
+    - Employment
+    - 1
+    - Section 2
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 2
+    ending_time: '27.52'
+    is_superepisode: true
+    scene_id_in_session: '38'
+    session:
+    - Employment
+    - 1
+    starting_time: '25.67'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '55792'
+    scene:
+    - Employment
+    - 1
+    - '38'
+    starting_row: '41588'
+    task:
+    - Employment
+    - 1
+    - Section 2
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 4
+    ending_time: '38.14'
+    is_superepisode: true
+    scene_id_in_session: '48'
+    session:
+    - Employment
+    - 1
+    starting_time: '35.31'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '60391'
+    scene:
+    - Employment
+    - 1
+    - '48'
+    starting_row: '38729'
+    task:
+    - Employment
+    - 1
+    - Section 2
+    - 3
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 3
+    ending_time: '39.09'
+    is_superepisode: true
+    scene_id_in_session: '49'
+    session:
+    - Employment
+    - 1
+    starting_time: '38.15'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '67667'
+    scene:
+    - Employment
+    - 1
+    - '49'
+    starting_row: '60504'
+    task:
+    - Employment
+    - 1
+    - Section 2
+    - 3
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 7
+    ending_time: '59.47'
+    is_superepisode: true
+    scene_id_in_session: '67'
+    session:
+    - Employment
+    - 1
+    starting_time: '57.83'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '46195'
+    scene:
+    - Employment
+    - 1
+    - '67'
+    starting_row: '33652'
+    task:
+    - Employment
+    - 1
+    - Section 3
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 7
+    ending_time: '76.62'
+    is_superepisode: true
+    scene_id_in_session: '81'
+    session:
+    - Employment
+    - 1
+    starting_time: '75.58'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '14565'
+    scene:
+    - Employment
+    - 1
+    - '81'
+    starting_row: '6631'
+    task:
+    - Employment
+    - 1
+    - Conclusion
+    - 1
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 8
+    ending_time: '79.17'
+    is_superepisode: true
+    scene_id_in_session: '83'
+    session:
+    - Employment
+    - 1
+    starting_time: '78.25'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '34037'
+    scene:
+    - Employment
+    - 1
+    - '83'
+    starting_row: '27130'
+    task:
+    - Employment
+    - 1
+    - Conclusion
+    - 1
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 6
+    ending_time: '91.11'
+    is_superepisode: true
+    scene_id_in_session: '89'
+    session:
+    - Employment
+    - 1
+    starting_time: '89.55'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '125709'
+    scene:
+    - Employment
+    - 1
+    - '89'
+    starting_row: '113812'
+    task:
+    - Employment
+    - 1
+    - Conclusion
+    - 1
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Employment
+      - 3
+    ending_time: '93.86'
+    is_superepisode: true
+    scene_id_in_session: '91'
+    session:
+    - Employment
+    - 1
+    starting_time: '92.83'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '146821'
+    scene:
+    - Employment
+    - 1
+    - '91'
+    starting_row: '139018'
+    task:
+    - Employment
+    - 1
+    - Conclusion
+    - 1
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata

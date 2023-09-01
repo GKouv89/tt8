@@ -1,0 +1,90 @@
+- fields:
+    biometric:
+    - HR
+    max_value: '128.0'
+    min_value: '53.3333333333333'
+    scene:
+    - Environment
+    - 2
+    - 22
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - SC
+    max_value: '3.7047619047619'
+    min_value: '1.22299922299922'
+    scene:
+    - Environment
+    - 2
+    - 22
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - Temp
+    max_value: '30.7059340272099'
+    min_value: '27.6133564287855'
+    scene:
+    - Environment
+    - 2
+    - 22
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - HR
+    max_value: '111.304347826087'
+    min_value: '57.3134328358209'
+    scene:
+    - Environment
+    - 2
+    - 55
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - SC
+    max_value: '5.07715281234445'
+    min_value: '1.18081918081918'
+    scene:
+    - Environment
+    - 2
+    - 55
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - Temp
+    max_value: '31.0607673459279'
+    min_value: '27.3863736938278'
+    scene:
+    - Environment
+    - 2
+    - 55
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - HR
+    max_value: '130.169491525424'
+    min_value: '47.7018633540373'
+    scene:
+    - Environment
+    - 2
+    - 66
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - SC
+    max_value: '4.96483771745096'
+    min_value: '1.0991230991231'
+    scene:
+    - Environment
+    - 2
+    - 66
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - Temp
+    max_value: '31.1001481990854'
+    min_value: '27.3962424955855'
+    scene:
+    - Environment
+    - 2
+    - 66
+  model: biosignalsindex.BiometricMetadataForScene

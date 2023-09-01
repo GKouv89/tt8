@@ -1,0 +1,288 @@
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Employment
+    - 2
+    - '1'
+    scene:
+    - Employment
+    - 2
+    - '68'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Employment
+    - 2
+    - '1'
+    scene:
+    - Employment
+    - 2
+    - '125'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Employment
+    - 2
+    - '1'
+    scene:
+    - Employment
+    - 2
+    - '75'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Employment
+    - 2
+    - '1'
+    scene:
+    - Employment
+    - 2
+    - '40'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Employment
+    - 2
+    - '2'
+    scene:
+    - Employment
+    - 2
+    - '40'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Employment
+    - 2
+    - '2'
+    scene:
+    - Employment
+    - 2
+    - '68'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Employment
+    - 2
+    - '2'
+    scene:
+    - Employment
+    - 2
+    - '125'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Employment
+    - 2
+    - '2'
+    scene:
+    - Employment
+    - 2
+    - '40'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Employment
+    - 2
+    - '2'
+    scene:
+    - Employment
+    - 2
+    - '68'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Employment
+    - 2
+    - '2'
+    scene:
+    - Employment
+    - 2
+    - '40'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Employment
+    - 2
+    - '3'
+    scene:
+    - Employment
+    - 2
+    - '68'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Employment
+    - 2
+    - '3'
+    scene:
+    - Employment
+    - 2
+    - '40'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Employment
+    - 2
+    - '3'
+    scene:
+    - Employment
+    - 2
+    - '135'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Employment
+    - 2
+    - '3'
+    scene:
+    - Employment
+    - 2
+    - '40'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Employment
+    - 2
+    - '5'
+    scene:
+    - Employment
+    - 2
+    - '40'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - HR
+    participant:
+    - Employment
+    - 2
+    - '5'
+    scene:
+    - Employment
+    - 2
+    - '75'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Employment
+    - 2
+    - '5'
+    scene:
+    - Employment
+    - 2
+    - '40'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Employment
+    - 2
+    - '5'
+    scene:
+    - Employment
+    - 2
+    - '75'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Employment
+    - 2
+    - '5'
+    scene:
+    - Employment
+    - 2
+    - '75'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Employment
+    - 2
+    - '6'
+    scene:
+    - Employment
+    - 2
+    - '40'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Employment
+    - 2
+    - '6'
+    scene:
+    - Employment
+    - 2
+    - '40'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Employment
+    - 2
+    - '6'
+    scene:
+    - Employment
+    - 2
+    - '48'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Employment
+    - 2
+    - '6'
+    scene:
+    - Employment
+    - 2
+    - '68'
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Employment
+    - 2
+    - '6'
+    scene:
+    - Employment
+    - 2
+    - '125'
+  model: biosignalsindex.BioPeakMetadata

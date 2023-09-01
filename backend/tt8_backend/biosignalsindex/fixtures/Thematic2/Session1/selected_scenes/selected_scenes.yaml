@@ -1,0 +1,12 @@
+- fields:
+    axis:
+    - - Employment
+      - 8
+    ending_time: '78.23'
+    is_superepisode: false
+    scene_id_in_session: 82
+    session:
+    - Employment
+    - 1
+    starting_time: '76.63'
+  model: biosignalsindex.Scene

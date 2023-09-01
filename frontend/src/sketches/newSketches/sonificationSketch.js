@@ -138,7 +138,7 @@ export function sketch(p){
         switch(biosignal){
             case 'HR':
                 return 0;
-            case 'GSR':
+            case 'SC':
                 return 1;
             case 'Temp':
                 return 2;

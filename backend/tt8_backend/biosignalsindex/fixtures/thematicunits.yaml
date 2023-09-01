@@ -1,11 +1,11 @@
 ---
 - model: biosignalsindex.ThematicUnit
   fields:
-    name: Περιβάλλον
+    name: Environment
 - model: biosignalsindex.ThematicUnit
   fields:
-    name: Εργασία
+    name: Employment
 - model: biosignalsindex.ThematicUnit
   fields:
-    name: Μεταναστευτικό
+    name: Immigration
 ...

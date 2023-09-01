@@ -1,26 +1,26 @@
 ---
 - model: biosignalsindex.SociodramaSession
   fields:
-    thematic: 1
+    thematic: ['Environment']
     session_id_in_thematic: 1
 - model: biosignalsindex.SociodramaSession
   fields:
-    thematic: 1
+    thematic: ['Environment']
     session_id_in_thematic: 2
 - model: biosignalsindex.SociodramaSession
   fields:
-    thematic: 2
+    thematic: ['Employment']
     session_id_in_thematic: 1
 - model: biosignalsindex.SociodramaSession
   fields:
-    thematic: 2
+    thematic: ['Employment']
     session_id_in_thematic: 2
 - model: biosignalsindex.SociodramaSession
   fields:
-    thematic: 3
+    thematic: ['Immigration']
     session_id_in_thematic: 1
 - model: biosignalsindex.SociodramaSession
   fields:
-    thematic: 3
+    thematic: ['Immigration']
     session_id_in_thematic: 2
 ...

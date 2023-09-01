@@ -1,0 +1,50 @@
+---
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Immigration']
+    axis_id_in_thematic: 1
+    title: Feelings of the foreigner
+    color: '#EE3124'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Immigration']
+    axis_id_in_thematic: 2
+    title: Foreigner's attitude towards the local
+    color: '#F58220'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Immigration']
+    axis_id_in_thematic: 3
+    title: Foreigner's relationship to their place of origin
+    color: '#FFF203'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Immigration']
+    axis_id_in_thematic: 4
+    title: Foreigner's needs/expectations
+    color: '#0099DA'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Immigration']
+    axis_id_in_thematic: 5
+    title: Local/native's feelings towards the foreigner
+    color: '#6F2C91'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Immigration']
+    axis_id_in_thematic: 6
+    title: Local/native's attitude towards the foreigner
+    color: '#55B047'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Immigration']
+    axis_id_in_thematic: 7
+    title: Relationship between local/native and place of origin
+    color: '#005BAA'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Immigration']
+    axis_id_in_thematic: 8
+    title: Local/native's needs/expectations
+    color: '#FFFFFF'
+...

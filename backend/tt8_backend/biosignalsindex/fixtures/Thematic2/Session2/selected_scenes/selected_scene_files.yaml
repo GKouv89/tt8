@@ -1,0 +1,240 @@
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '3'
+    path: Thematic2/Session2/Sonifications/Scene70/Scene70AllSensor3.csv
+    scene:
+    - Employment
+    - 2
+    - 70
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '5'
+    path: Thematic2/Session2/Sonifications/Scene70/Scene70AllSensor5.csv
+    scene:
+    - Employment
+    - 2
+    - 70
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '2'
+    path: Thematic2/Session2/Sonifications/Scene70/Scene70AllSensor2.csv
+    scene:
+    - Employment
+    - 2
+    - 70
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '6'
+    path: Thematic2/Session2/Sonifications/Scene70/Scene70AllSensor6.csv
+    scene:
+    - Employment
+    - 2
+    - 70
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '1'
+    path: Thematic2/Session2/Sonifications/Scene70/Scene70AllSensor1.csv
+    scene:
+    - Employment
+    - 2
+    - 70
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '2'
+    path: Thematic2/Session2/Sonifications/Scene81/Scene81AllSensor2.csv
+    scene:
+    - Employment
+    - 2
+    - 81
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '5'
+    path: Thematic2/Session2/Sonifications/Scene81/Scene81AllSensor5.csv
+    scene:
+    - Employment
+    - 2
+    - 81
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '1'
+    path: Thematic2/Session2/Sonifications/Scene81/Scene81AllSensor1.csv
+    scene:
+    - Employment
+    - 2
+    - 81
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '3'
+    path: Thematic2/Session2/Sonifications/Scene81/Scene81AllSensor3.csv
+    scene:
+    - Employment
+    - 2
+    - 81
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '6'
+    path: Thematic2/Session2/Sonifications/Scene81/Scene81AllSensor6.csv
+    scene:
+    - Employment
+    - 2
+    - 81
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '3'
+    path: Thematic2/Session2/Sonifications/Scene93/Scene93AllSensor3.csv
+    scene:
+    - Employment
+    - 2
+    - 93
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '2'
+    path: Thematic2/Session2/Sonifications/Scene93/Scene93AllSensor2.csv
+    scene:
+    - Employment
+    - 2
+    - 93
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '1'
+    path: Thematic2/Session2/Sonifications/Scene93/Scene93AllSensor1.csv
+    scene:
+    - Employment
+    - 2
+    - 93
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '6'
+    path: Thematic2/Session2/Sonifications/Scene93/Scene93AllSensor6.csv
+    scene:
+    - Employment
+    - 2
+    - 93
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '5'
+    path: Thematic2/Session2/Sonifications/Scene93/Scene93AllSensor5.csv
+    scene:
+    - Employment
+    - 2
+    - 93
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '3'
+    path: Thematic2/Session2/Sonifications/Scene127/Scene127AllSensor3.csv
+    scene:
+    - Employment
+    - 2
+    - 127
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '1'
+    path: Thematic2/Session2/Sonifications/Scene127/Scene127AllSensor1.csv
+    scene:
+    - Employment
+    - 2
+    - 127
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '6'
+    path: Thematic2/Session2/Sonifications/Scene127/Scene127AllSensor6.csv
+    scene:
+    - Employment
+    - 2
+    - 127
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '5'
+    path: Thematic2/Session2/Sonifications/Scene127/Scene127AllSensor5.csv
+    scene:
+    - Employment
+    - 2
+    - 127
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Employment
+    - 2
+    - '2'
+    path: Thematic2/Session2/Sonifications/Scene127/Scene127AllSensor2.csv
+    scene:
+    - Employment
+    - 2
+    - 127
+  model: biosignalsindex.File

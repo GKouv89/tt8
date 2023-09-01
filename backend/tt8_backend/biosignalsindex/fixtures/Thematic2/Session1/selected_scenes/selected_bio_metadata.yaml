@@ -1,0 +1,30 @@
+- fields:
+    biometric:
+    - HR
+    max_value: '174.545454545455'
+    min_value: '44.9122807017544'
+    scene:
+    - Employment
+    - 1
+    - 82
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - SC
+    max_value: '8.50786843818203'
+    min_value: '0.828282828282828'
+    scene:
+    - Employment
+    - 1
+    - 82
+  model: biosignalsindex.BiometricMetadataForScene
+- fields:
+    biometric:
+    - Temp
+    max_value: '30.5049729891645'
+    min_value: '27.4466123089427'
+    scene:
+    - Employment
+    - 1
+    - 82
+  model: biosignalsindex.BiometricMetadataForScene

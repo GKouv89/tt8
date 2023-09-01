@@ -1,6 +1,0 @@
-- fields:
-    axis: [16]
-    episode_id_in_session: '82'
-    is_superepisode: false
-    session: 3
-  model: biosignalsindex.Episode

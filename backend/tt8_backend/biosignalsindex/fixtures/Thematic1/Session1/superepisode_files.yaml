@@ -1,0 +1,575 @@
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Visualizations/Section 2/Task4/Task4AllSensor2-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Visualizations/Section 2/Task4/Task4AllSensor3-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Visualizations/Section 2/Task4/Task4AllSensor4-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Visualizations/Section 2/Task4/Task4AllSensor5-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Visualizations/Section 2/Task4/Task4AllSensor6-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Visualizations/Section 2/Task5/Task5AllSensor2-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Visualizations/Section 2/Task5/Task5AllSensor3-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Visualizations/Section 2/Task5/Task5AllSensor4-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Visualizations/Section 2/Task5/Task5AllSensor5-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Visualizations/Section 2/Task5/Task5AllSensor6-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Visualizations/Section 2/Task1/Task1AllSensor2-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Visualizations/Section 2/Task1/Task1AllSensor3-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Visualizations/Section 2/Task1/Task1AllSensor4-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Visualizations/Section 2/Task1/Task1AllSensor6-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Visualizations/Section 2/Task1/Task1AllSensor5-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor2-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor3-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor4-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor5-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Visualizations/Section 2/Task2/Task2AllSensor6-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Visualizations/Section 2/Task3/Task3AllSensor2-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Visualizations/Section 2/Task3/Task3AllSensor3-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Visualizations/Section 2/Task3/Task3AllSensor4-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Visualizations/Section 2/Task3/Task3AllSensor5-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Visualizations/Section 2/Task3/Task3AllSensor6-Section
+      2.csv
+    task:
+    - Environment
+    - 1
+    - Section 2
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Visualizations/Section 3/Task1/Task1AllSensor2-Section
+      3.csv
+    task:
+    - Environment
+    - 1
+    - Section 3
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Visualizations/Section 3/Task1/Task1AllSensor3-Section
+      3.csv
+    task:
+    - Environment
+    - 1
+    - Section 3
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Visualizations/Section 3/Task1/Task1AllSensor4-Section
+      3.csv
+    task:
+    - Environment
+    - 1
+    - Section 3
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Visualizations/Section 3/Task1/Task1AllSensor5-Section
+      3.csv
+    task:
+    - Environment
+    - 1
+    - Section 3
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Visualizations/Section 3/Task1/Task1AllSensor6-Section
+      3.csv
+    task:
+    - Environment
+    - 1
+    - Section 3
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Visualizations/Conclusion/Task1/Task1AllSensor2-Conclusion.csv
+    task:
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Visualizations/Conclusion/Task1/Task1AllSensor3-Conclusion.csv
+    task:
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Visualizations/Conclusion/Task1/Task1AllSensor4-Conclusion.csv
+    task:
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Visualizations/Conclusion/Task1/Task1AllSensor5-Conclusion.csv
+    task:
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Visualizations/Conclusion/Task1/Task1AllSensor6-Conclusion.csv
+    task:
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Visualizations/Section 4/Task2/Task2AllSensor2-Section
+      4.csv
+    task:
+    - Environment
+    - 1
+    - Section 4
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Visualizations/Section 4/Task2/Task2AllSensor3-Section
+      4.csv
+    task:
+    - Environment
+    - 1
+    - Section 4
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Visualizations/Section 4/Task2/Task2AllSensor4-Section
+      4.csv
+    task:
+    - Environment
+    - 1
+    - Section 4
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Visualizations/Section 4/Task2/Task2AllSensor5-Section
+      4.csv
+    task:
+    - Environment
+    - 1
+    - Section 4
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Visualizations/Section 4/Task2/Task2AllSensor6-Section
+      4.csv
+    task:
+    - Environment
+    - 1
+    - Section 4
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '2'
+    path: Thematic1/Session1/Visualizations/Introduction/Task2/Task2AllSensor2-Introduction.csv
+    task:
+    - Environment
+    - 1
+    - Introduction
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '3'
+    path: Thematic1/Session1/Visualizations/Introduction/Task2/Task2AllSensor3-Introduction.csv
+    task:
+    - Environment
+    - 1
+    - Introduction
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '4'
+    path: Thematic1/Session1/Visualizations/Introduction/Task2/Task2AllSensor4-Introduction.csv
+    task:
+    - Environment
+    - 1
+    - Introduction
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '5'
+    path: Thematic1/Session1/Visualizations/Introduction/Task2/Task2AllSensor5-Introduction.csv
+    task:
+    - Environment
+    - 1
+    - Introduction
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Environment
+    - 1
+    - '6'
+    path: Thematic1/Session1/Visualizations/Introduction/Task2/Task2AllSensor6-Introduction.csv
+    task:
+    - Environment
+    - 1
+    - Introduction
+    - '2'
+  model: biosignalsindex.File

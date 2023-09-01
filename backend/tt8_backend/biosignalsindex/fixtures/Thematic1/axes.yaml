@@ -1,50 +1,50 @@
 ---
 - model: biosignalsindex.Axis
   fields:
-    thematic: 1
+    thematic: ['Environment']
     axis_id_in_thematic: 1
-    title: Αρνητικά συναισθήματα για το αστικό περιβάλλον της πόλης
-    color: "#E99736"
+    title: Negative feelings about the city and its environment
+    color: '#EE3124'
 - model: biosignalsindex.Axis
   fields:
-    thematic: 1
+    thematic: ['Environment']
     axis_id_in_thematic: 2
-    title: Θετικά συναισθήματα για το αστικό περιβάλλον της πόλης
-    color: "#96382E"
+    title: Positive feelings about the city and its environment
+    color: '#F58220'
 - model: biosignalsindex.Axis
   fields:
-    thematic: 1
+    thematic: ['Environment']
     axis_id_in_thematic: 3
-    title: Ο πολίτης προς την πόλη
-    color: "#959642"
+    title: The citizen towards the city
+    color: '#FFF203'
 - model: biosignalsindex.Axis
   fields:
-    thematic: 1
+    thematic: ['Environment']
     axis_id_in_thematic: 4
-    title: Η πόλη προς τον πολίτη
-    color: "#EC827F"
+    title: The city towards the citizen
+    color: '#0099DA'
 - model: biosignalsindex.Axis
   fields:
-    thematic: 1
+    thematic: ['Environment']
     axis_id_in_thematic: 5
-    title: Η αρνητική παρουσία της βιομηχανίας στην πόλη
-    color: "#947256"
+    title: The negative presence of industry in the city
+    color: '#6F2C91'
 - model: biosignalsindex.Axis
   fields:
-    thematic: 1
+    thematic: ['Environment']
     axis_id_in_thematic: 6
-    title: Η θετική παρουσία της βιομηχανίας στην πόλη
-    color: "#5AB97A" 
+    title: The positive presence of industry in the city
+    color: '#55B047'
 - model: biosignalsindex.Axis
   fields:
-    thematic: 1
+    thematic: ['Environment']
     axis_id_in_thematic: 7
-    title: Ο πολίτης ως μονάδα
-    color: "#9CD851"
+    title: The citizen as an individual
+    color: '#005BAA'
 - model: biosignalsindex.Axis
   fields:
-    thematic: 1
+    thematic: ['Environment']
     axis_id_in_thematic: 8
-    title: Ο πολίτης ως συλλογικότητα
-    color: "#FFFFFF"
+    title: The citizen as a collective
+    color: '#FFFFFF'
 ...

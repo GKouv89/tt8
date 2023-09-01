@@ -1,0 +1,50 @@
+---
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Employment']
+    axis_id_in_thematic: 1
+    title: Working conditions
+    color: '#EE3124'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Employment']
+    axis_id_in_thematic: 2
+    title: Safety and protection of workers
+    color: '#F58220'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Employment']
+    axis_id_in_thematic: 3
+    title: Individual responsibility
+    color: '#FFF203'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Employment']
+    axis_id_in_thematic: 4
+    title: Accountability of responsible entities
+    color: '#0099DA'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Employment']
+    axis_id_in_thematic: 5
+    title: Conflict
+    color: '#6F2C91'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Employment']
+    axis_id_in_thematic: 6
+    title: Participation/cooperation
+    color: '#55B047'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Employment']
+    axis_id_in_thematic: 7
+    title: Negative emotions
+    color: '#005BAA'
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Employment']
+    axis_id_in_thematic: 8
+    title: Positive emotions
+    color: '#FFFFFF'
+...
