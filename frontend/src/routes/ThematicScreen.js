@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useLoaderData, Link, useParams, useNavigate } from 'react-router-dom'
+import React from 'react';
+import { useLoaderData, useParams, useNavigate } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
-
-import { thematics } from './Thematics'
 
 function EpisodeSquare({episode, axisID, axisColor, colors}){
   const navigate = useNavigate();
@@ -37,13 +35,18 @@ function EpisodeSquare({episode, axisID, axisColor, colors}){
 }
 
 function AxisRow({axis}){
-  console.log('axis: ', axis.axis_id_in_thematic);
-  console.log('sharedScenes: ', axis.sharedScenes);
+  const {thematicName} = useParams();
+
+  const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${thematicName.toLowerCase()}/axis-${axis.axis_id_in_thematic}/`;
 
   return(
     <Container fluid>
       <Row className="mb-1">
-        <Col xs={'auto'}><h1 className="h2">Axis {axis.axis_id_in_thematic}: {axis.title}</h1></Col>
+        <Col xs={'auto'}>
+          <h1 className="h2">
+            <a href={url} target="_blank">Axis {axis.axis_id_in_thematic}: {axis.title}</a>
+          </h1>
+        </Col>
       </Row>
       <Row>
         {
@@ -63,7 +66,6 @@ function AxisRow({axis}){
 
 export default function ThematicGrid() {
   const data = useLoaderData();
-  console.log('data: ', data);
   return (
     <Container fluid>
       <Container className="flex-column" fluid>

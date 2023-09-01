@@ -169,6 +169,7 @@ function VisualizationLayout({sonification_prefix, response}){
         GeneralInfoModal
     };
 
+    // const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${thematicName.toLowerCase()}/axis-${axisID}/episode-${episodeID}/`;
 
     return(
         <Container fluid>
@@ -191,6 +192,7 @@ function VisualizationLayout({sonification_prefix, response}){
             <Row className="justify-content-start">
                 <Col xs={'auto'}>
                     <h2 class="h3">
+                        {/* <a href={url} target="_blank">Axis {axisID} - Episode {episodeID}:</a> Biosignals' Visualizations */}
                         Axis {axisID} - Episode {episodeID}: Biosignals' Visualizations
                     </h2>
                 </Col>
