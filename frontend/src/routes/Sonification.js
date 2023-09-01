@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Stack from 'react-bootstrap/Stack';
@@ -10,15 +10,13 @@ import { ButtonGroup, ToggleButton } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
 import { useContext } from 'react';
-import { DataContext } from '../context/DataContext';
 import { CleanupContext } from '../context/CleanupContext';
 
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
 import * as son from '../sketches/newSketches/sonificationSketch.js';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { thematics } from '../../routes/Thematics.js';
-import { BiosignalInfoModal } from './BiosignalInfoModal';
+import { useNavigate, useParams } from 'react-router-dom';
+import { BiosignalInfoModal } from '../Component/BiosignalInfoModal.js';
 import { fetchParticipantInSceneMaterial } from '../api/calls.js';
 
 const variant = "dark";
@@ -88,13 +86,9 @@ function GSRTempGUI({sound, setSound}){
     );
 }
 
-function PlayerGUI({biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, toReset, setToReset, setDownloadRequested}){
-    const {the, axisID, episodeID, participantID} = useParams();
+function PlayerGUI({file, biosignal, setBiosignal, sound, setSound, playing, setPlaying, canStop, setCanStop, toReset, setToReset, setDownloadRequested}){
+    const {thematicName, axisID, episodeID, participantID} = useParams();
 
-    const {data} = useContext(DataContext);
-    const file = participantID ? data[participantID - 1].path : null;
-
-    const thematicName = thematics[thematicID-1].name;
     const fileName = `${thematicName}_Axis${axisID}_Episode${episodeID}_Participant${participantID}.csv`;
 
     const [showBioModal, setShowBioModal] = useState(false);
@@ -244,18 +238,6 @@ function Sketch({playing, setPlaying, ...props}){
         navigate(cleanUpPath);
     }
 
-    const [file, setFile] = useState(null);
-    // This runs just once, when the component renders
-    useEffect(() => {
-        console.log('in useEffect');
-        fetchParticipantInSceneMaterial(thematicName, axisID, episodeID, participantID)
-            .then((ret) => {
-                setFile(ret.path);
-            })
-            .catch((err) => console.error(err));
-    }, []);
-
-
     return(
         <>
             <Row className='pt-1 align-items-center'>
@@ -269,16 +251,15 @@ function Sketch({playing, setPlaying, ...props}){
                     
                 </Col> */}
             </Row>
-            {file && <ReactP5Wrapper 
+            <ReactP5Wrapper 
                 {...props}
                 sketch={son.sketch} 
-                file={file} 
                 toPlay={playing}
                 setToPlay={setPlaying}
                 cleanUp={cleanUp} 
                 cleanUpCode={cleanUpCode}
                 namingData = {namingData}
-            />}
+            />
         </>
     );
 }
@@ -307,6 +288,8 @@ function SketchAndProgress(props){
 
 
 function Player(){
+    const {thematicName, axisID, episodeID, participantID} = useParams();
+    
     // These props are related to the toggle button groups and
     // are also passed as props to the sketch, so it changes its sound appropriately.
     const [biosignal, setBiosignal] = useState('HR');
@@ -337,36 +320,55 @@ function Player(){
         setCanStop(false);
     }
 
+    const [file, setFile] = useState(null);
+    // This runs just once, when the component renders
+    useEffect(() => {
+        console.log('in useEffect');
+        fetchParticipantInSceneMaterial(thematicName, axisID, episodeID, participantID)
+            .then((ret) => {
+                setFile(ret.path);
+            })
+            .catch((err) => console.error(err));
+    }, []);
+
+
+
     return(
         <Row>
             <Col xs={6} id='playerContainer'>
                 <Stack gap={3}>
-                    <SketchAndProgress 
-                        biosignal={biosignal}
-                        sound={sound}
-                        playing={playing}
-                        setPlaying={setPlaying}
-                        toReset={toReset}
-                        setToReset={setToReset}
-                        stopSonificationCallback={stopSonificationCallback}
-                        downloadRequested={downloadRequested}
-                        setDownloadRequested={setDownloadRequested}
-                    />
+                    {
+                        file && <SketchAndProgress 
+                            biosignal={biosignal}
+                            sound={sound}
+                            playing={playing}
+                            setPlaying={setPlaying}
+                            toReset={toReset}
+                            setToReset={setToReset}
+                            stopSonificationCallback={stopSonificationCallback}
+                            downloadRequested={downloadRequested}
+                            setDownloadRequested={setDownloadRequested}
+                            file={file}
+                        />
+                    }
                 </Stack>
             </Col>
-            <PlayerGUI 
-                biosignal={biosignal}
-                setBiosignal={setBiosignal}
-                sound={sound}
-                setSound={setSound}
-                playing={playing}
-                setPlaying={setPlaying}
-                canStop={canStop}
-                setCanStop={setCanStop}
-                toReset={toReset}
-                setToReset={setToReset}
-                setDownloadRequested={setDownloadRequested}
-            />
+            {
+                file && <PlayerGUI 
+                    file={file}
+                    biosignal={biosignal}
+                    setBiosignal={setBiosignal}
+                    sound={sound}
+                    setSound={setSound}
+                    playing={playing}
+                    setPlaying={setPlaying}
+                    canStop={canStop}
+                    setCanStop={setCanStop}
+                    toReset={toReset}
+                    setToReset={setToReset}
+                    setDownloadRequested={setDownloadRequested}
+                />
+            }
         </Row>
     )
 }
@@ -400,10 +402,11 @@ export default function Sonification(){
                     </Button>
                 </Col>
             </Row>
-            <Row>
+            <Player />
+            {/* <Row>
                 <hr/>
-            </Row>
-            <Container fluid className='m-0 p-0'>
+            </Row> */}
+            {/* <Container fluid className='m-0 p-0'>
                 <Row style={{'justify-content': 'space-between'}}>
                     <Col xs={'auto'}>
                         <Button 
@@ -417,8 +420,7 @@ export default function Sonification(){
                         </Button>
                     </Col>
                 </Row>
-                <Player />
-            </Container>
+            </Container> */}
         </>
     );
 }

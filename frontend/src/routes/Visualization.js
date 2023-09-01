@@ -11,7 +11,7 @@ import Nav from 'react-bootstrap/Nav';
 import { ToggleButton } from 'react-bootstrap';
 import { ButtonGroup } from 'react-bootstrap';
 import BiosignalToggle from '../Component/BiosignalToggle.js';
-import BiosignalInfoModal from '../Component/Studio/BiosignalInfoModal.js';
+import { BiosignalInfoModal } from '../Component/BiosignalInfoModal.js';
 
 import * as graph from '../sketches/newSketches/graphSketch.js';
 import * as gradient from '../sketches/newSketches/colorVisSketch.js';
@@ -87,13 +87,6 @@ function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
                         </Col>
                     </Row>                    
                 </Container>
-                {/* <Link to={sonification_link}>
-                    <Button 
-                        variant='dark'
-                    >
-                        Sonify
-                    </Button>
-                </Link> */}
             </Col>
         </Row>
     );

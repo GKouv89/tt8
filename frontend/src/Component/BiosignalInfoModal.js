@@ -14,7 +14,7 @@ const biosignalDescriptions = {
                 average: `The normal resting (that is, not during or after exercise) heart rate for adults is between 60 and 100 (BPM).`
             }
         },
-    GSR: {
+    SC: {
             name: "Galvanic Skin Response",
             description: {
                 general: `Galvanic Skin Response (GSR) describes changes in the skin electrical properties. 
