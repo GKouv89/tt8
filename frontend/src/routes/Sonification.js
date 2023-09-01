@@ -239,28 +239,15 @@ function Sketch({playing, setPlaying, ...props}){
     }
 
     return(
-        <>
-            <Row className='pt-1 align-items-center'>
-                <Col xs={'auto'}>
-                    <h2>Participant {participantID}</h2>
-                </Col>
-                {/* <Col xs={'auto'}>
-                    <h3 class="h5">Change Participant: </h3>
-                </Col>
-                <Col xs={'auto'}>
-                    
-                </Col> */}
-            </Row>
-            <ReactP5Wrapper 
-                {...props}
-                sketch={son.sketch} 
-                toPlay={playing}
-                setToPlay={setPlaying}
-                cleanUp={cleanUp} 
-                cleanUpCode={cleanUpCode}
-                namingData = {namingData}
-            />
-        </>
+        <ReactP5Wrapper 
+            {...props}
+            sketch={son.sketch} 
+            toPlay={playing}
+            setToPlay={setPlaying}
+            cleanUp={cleanUp} 
+            cleanUpCode={cleanUpCode}
+            namingData = {namingData}
+        />
     );
 }
 
@@ -375,22 +362,12 @@ function Player(){
 
 export default function Sonification(){
     const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
-    const {thematicName, axisID, episodeID} = useParams();
+    const {thematicName, axisID, episodeID, participantID} = useParams();
     
     return (
-        <>
-            <Row className="justify-content-start">
+        <Container fluid>
+            <Row className="pb-2">
                 <Col xs={'auto'}>
-                    <h2 class="h3">
-                        Sonification
-                    </h2>
-                </Col>
-                <Col xs={'auto'}>
-                    <Button
-                        variant="outline-dark"
-                    >
-                        <i class="bi bi-info-circle" /> What am I hearing?
-                    </Button>
                     <Button 
                         variant={variant}
                         onClick={() => {
@@ -402,25 +379,21 @@ export default function Sonification(){
                     </Button>
                 </Col>
             </Row>
+            <Row className="justify-content-start">
+                <Col xs={'auto'}>
+                    <h2 class="h3">
+                        Participant {participantID} Biosignals' Sonification
+                    </h2>
+                </Col>
+                <Col xs={'auto'}>
+                    <Button
+                        variant="outline-dark"
+                    >
+                        <i class="bi bi-info-circle" /> What am I hearing?
+                    </Button>
+                </Col>
+            </Row>
             <Player />
-            {/* <Row>
-                <hr/>
-            </Row> */}
-            {/* <Container fluid className='m-0 p-0'>
-                <Row style={{'justify-content': 'space-between'}}>
-                    <Col xs={'auto'}>
-                        <Button 
-                            variant={variant}
-                            onClick={() => {
-                                setCleanUpPath(`../visualizations?${searchParams}`);
-                                setCleanUp(true);
-                            }}>
-                            <i class="bi bi-arrow-left"></i>
-                            &nbsp; Back to collective visualization
-                        </Button>
-                    </Col>
-                </Row>
-            </Container> */}
-        </>
+        </Container>
     );
 }

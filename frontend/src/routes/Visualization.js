@@ -102,7 +102,7 @@ function VisualizationLayout({sonification_prefix, response}){
     const {peak_meta, bio_meta, files, ...scene_meta} = response.scene;
     
     return(
-        <>
+        <Container fluid>
             <BiosignalInfoModal 
                 show={showModal}
                 onHide={() => setShowModal(false)}
@@ -207,7 +207,7 @@ function VisualizationLayout({sonification_prefix, response}){
                     </ViewContext.Provider>
                 </Row>
             </Tab.Container>
-        </>
+        </Container>
     );
 }
 
