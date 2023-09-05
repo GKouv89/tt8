@@ -4,81 +4,108 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Button from 'react-bootstrap/Button'
 
-function EpisodeSquare({episode, axisID, axisColor, colors}){
+function Episode({axisID, axisColor, id, colors}){
   const navigate = useNavigate();
-  const path = `axes/${axisID}/episodes/${episode}/visualizations`
-
   let gradientString, isGradient = false;
-  
-  if(colors !== undefined){
+  if(colors){
     isGradient = true;
     const percent = 100/(colors.length + 1);
-    gradientString = `linear-gradient(${axisColor} 0%, `;
+    gradientString = `linear-gradient(to right, ${axisColor} 0%, `;
     colors.map((color, idx) => { gradientString += `${color} ${(idx+1)*percent}%, `; });
     gradientString = gradientString.slice(0, -2);
-    gradientString += ")";
+    gradientString += `, ${axisColor} 100%)`;
     console.log('gradientString: ', gradientString);
   }
 
+  const style = {
+    color: 'black',
+    ...(isGradient ? {backgroundImage: gradientString} : {backgroundColor: axisColor}),
+    ...(isGradient ? {borderColor: 'transparent'}: {borderColor: axisColor}),
+  }
+
+  return (
+      <Button                    
+        style={style}
+        onClick={() => navigate(`axes/${axisID}/episodes/${id}/visualizations`)}
+      >
+        Episode {id}
+      </Button>
+  )
+
+}
+
+function Axis({axis})
+{
+  const {thematicName} = useParams();
+  const axisID = axis.axis_id_in_thematic;
+  const axisColor = axis.color;
+  const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${thematicName.toLowerCase()}/axis-${axisID}/`;
+
   return(
-    <Card className="gridsquare episode-tile-new border-light">
-        <Card.Body style={isGradient ? {backgroundImage: gradientString} : {backgroundColor: axisColor}}
-          className="episode-tile-new"
-          as="button"
-          onClick={() => {navigate(path)}}
-        >
-          <Card.Title>Episode {episode} </Card.Title>
-        </Card.Body>
+    <Card 
+      style={{
+        backgroundColor: axisColor, 
+        borderColor: axisColor
+      }} 
+      className='shadow'
+    >
+      <Card.Body>
+        <Card.Title>
+          <a href={url} className='h4'>Axis {axisID}: {axis.title}</a>
+        </Card.Title>
+        <Container fluid className='p-0'>
+          <Row className='justify-content-center align-items-center'>
+            <ButtonGroup 
+              size='lg'
+              className='shadow'
+            >
+              {
+                Array(axis.scene_count).fill(0).map((_, idx) => {
+                  const episodeID = idx + 1;
+                  const scene = axis.sharedScenes.find((x) => x.order == episodeID);
+                  const colors = scene !== undefined ? scene.colors: undefined;
+                  return <Episode id={episodeID} colors={colors} axisColor={axisColor} axisID={axisID}/>
+                })
+              }
+            </ButtonGroup>
+          </Row> 
+        </Container>
+      </Card.Body>
     </Card>
   );
 }
 
-function AxisRow({axis}){
+export default function ThematicGrid() {
   const {thematicName} = useParams();
-
-  const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${thematicName.toLowerCase()}/axis-${axis.axis_id_in_thematic}/`;
-
-  return(
+  
+  const data = useLoaderData();
+  const leftHandColumns = data.slice(0, 4);
+  const rightHandColumns = data.slice(4);
+  let orderedColumns = [];
+  for(let i = 0; i < leftHandColumns.length; i++){
+    orderedColumns.push(leftHandColumns[i]);
+    orderedColumns.push(rightHandColumns[i]);
+  }
+  
+  return (
     <Container fluid>
-      <Row className="mb-1">
+      <Row key={0} className="mb-0 p-0 justify-content-center">
         <Col xs={'auto'}>
-          <h1 className="h2">
-            <a href={url} target="_blank">Axis {axis.axis_id_in_thematic}: {axis.title}</a>
+          <h1 className='h3'>
+            {thematicName}
           </h1>
         </Col>
       </Row>
-      <Row>
+      <Row key={1}>
         {
-          Array(axis.scene_count).fill(0).map((_, idx) => {
-            const scene = axis.sharedScenes.find((x) => x.order == idx+1);
-            return (
-              <Col key={idx} md={2} className="border border-light gridsquare mx-1 mb-3 p-0">
-                <EpisodeSquare episode={idx+1} axisID={axis.axis_id_in_thematic} axisColor={axis.color} colors={scene ? scene.colors : undefined}/>
-              </Col>
-            )
+          orderedColumns.map((axis, idx ) => {
+            return <Col md={6} key={idx} className='pb-1'><Axis axis={axis}/></Col>
           })
         }
       </Row>
-    </Container>
-  ); 
-}
-
-export default function ThematicGrid() {
-  const data = useLoaderData();
-  return (
-    <Container fluid>
-      <Container className="flex-column" fluid>
-        {
-          data.map(((d, idx) => {
-            return (
-              <Row key={idx}>
-                <AxisRow axis={d}/>
-              </Row>
-            )
-          }))
-        }
-      </Container>
     </Container>
   );  
 }

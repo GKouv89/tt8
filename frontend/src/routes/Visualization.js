@@ -102,7 +102,7 @@ const sociodramaInfo = [
         name: 'Task',
         value: 'task',
         text: `Sociodrama sessions were split up in tasks. The person coordinating the participants assigned them these tasks, 
-        where participants had to reenact certain things.`
+        where participants had to recount personal experiences or act as characters assigned by the sociodramatists.`
     },
     {
         name: 'Episode',
