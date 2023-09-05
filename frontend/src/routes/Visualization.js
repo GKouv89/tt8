@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 import { useContext } from 'react';
 
@@ -8,18 +9,21 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
-import { ToggleButton } from 'react-bootstrap';
-import { ButtonGroup } from 'react-bootstrap';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import BiosignalToggle from '../Component/BiosignalToggle.js';
+import Badge from 'react-bootstrap/Badge';
+
+import { fetchSceneMaterial } from '../api/calls.js';
+
+import { ViewContext } from '../context/ViewContext.js'
+
 import { BiosignalInfoModal } from '../Component/BiosignalInfoModal.js';
+import { GeneralInfoModal } from '../Component/GeneralInfoModal.js';
 
 import * as graph from '../sketches/newSketches/graphSketch.js';
 import * as gradient from '../sketches/newSketches/colorVisSketch.js';
-import { ViewContext } from '../context/ViewContext.js'
-import { Link, useParams } from 'react-router-dom';
 
-import { fetchSceneMaterial } from '../api/calls.js';
-import { GeneralInfoModal } from '../Component/GeneralInfoModal.js';
 
 function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
     const {thematicName, axisID, episodeID} = useParams();
@@ -93,6 +97,57 @@ function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
     );
 }
 
+const sociodramaInfo = [
+    {
+        name: 'Task',
+        value: 'task',
+        text: `Sociodrama sessions were split up in tasks. The person coordinating the participants assigned them these tasks, 
+        where participants had to reenact certain things.`
+    },
+    {
+        name: 'Episode',
+        value: 'episode',
+        text: `Episodes are part of tasks where intense biometric activity occured for one or more participants, for one or more biometrics.`
+    }
+]
+
+function SociodramaInfoToggle({content}){
+    const [info, setInfo] = useState(0);
+
+    return(
+        <>
+            <Container fluid>
+                <Row>
+                    <Col xs={'auto'}>
+                        <ButtonGroup>
+                            {content.map((c, idx) => (
+                                <ToggleButton
+                                    value={c.value}
+                                    variant={'dark'}
+                                    type='radio'
+                                    id={`sociodrama-type-radio-${idx}`}
+                                    name={`sociodrama-type-radio`}
+                                    checked={info === idx}
+                                    onChange={(e) => setInfo(idx)}
+                                >
+                                    {c.name}
+                                </ToggleButton>
+                            ))}
+                        </ButtonGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={'auto'}>
+                        <p>
+                            {content[info].text}
+                        </p>
+                    </Col>
+                </Row>
+            </Container>
+        </>
+    );
+}
+
 const visualizations = {
     title: 'What am I seeing?', 
     size: 'lg',
@@ -100,15 +155,13 @@ const visualizations = {
         <p>
             Here, you can see how the biosignals of a participant in a certain episode changed during an episode. 
         </p>
+        <SociodramaInfoToggle content={sociodramaInfo}/>
+        <hr/>
         <p>
-            Each episode is part of a greater task that the sociodramatists assigned to the participants. An episode is a part of a
-            task where intense biometric activity occured for one or more participants, in one or more biometrics. You can either choose to view
-            the episode's data in the context of the task they're a part of (in which case, the episode's data is highlighted),
-            or you can choose to zoom in on the episode's data.
-        </p>
-        <p>
+            You can either choose to view the episode's data in the context of the task they're a part of (in which case, the episode's data is highlighted),
+            or you can choose to zoom in on the episode's data. 
             Two distinct ways of visualizing these changes are offered. Click on the buttons below to learn more.
-        </p>
+        </p>    
     </>,
     options: [
         {
@@ -116,7 +169,7 @@ const visualizations = {
             title: 'Graphs', 
             description: 
                 <p>
-                    A standard mathematical plot that shows how each participant's biometrics changed during a task or episode.
+                    A standard mathematical plot.
                     The colors of the lines have the following meaning:
                     <ul>
                         <li>
