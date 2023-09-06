@@ -1,7 +1,6 @@
 from django.db import models
-from django.db.models import Count, Value
-from django.db.models import Window, F
-from django.db.models.functions import DenseRank
+from django.db.models import Count, Value, Window, F, Q
+from django.db.models.functions import DenseRank, Rank, RowNumber
 from django_cte import CTEManager, With
 # Create your models here.
 
@@ -86,7 +85,7 @@ class Axis(models.Model):
 
 	natural_key.dependencies = ["biosignalsindex.ThematicUnit"]
 
-class ParticipantManager(models.Manager):
+class ParticipantManager(CTEManager):
 	def get_by_natural_key(self, thematic, session_id, sensor_id_in_session):
 		return self.get(session__session_id_in_thematic=session_id, session__thematic__name=thematic, sensor_id_in_session=sensor_id_in_session)
 
@@ -110,8 +109,28 @@ class Participant(models.Model):
 
 	def natural_key(self):
 		return self.session.natural_key() + (self.sensor_id_in_session,)
-	
+
+	@property
+	def order(self):
+		cte = With(
+			Participant.objects.filter(session=self.session).alias(fileCount = Count('files')).filter(fileCount__gte=1)
+		)
+		everyone = cte.queryset().with_cte(cte)
+		ranked = everyone.annotate(rank=Window(RowNumber(), order_by='sensor_id_in_session'))
+		return ranked.get(id=self.id).rank
+
+	def get_ordered_participant(session, participant_rank):
+		pass
+		cte = With(
+			Participant.objects.filter(session=session).alias(fileCount = Count('files')).filter(fileCount__gte=1)
+		)
+		everyone = cte.queryset().with_cte(cte)
+		ranked = everyone.annotate(rank=Window(RowNumber(), order_by='sensor_id_in_session'))
+		return ranked.get(rank=participant_rank)
+		
+
 	natural_key.dependencies = ["biosignalsindex.SociodramaSession"]
+
 
 class SectionManager(models.Manager):
 	def get_by_natural_key(self, thematic, session_id, section_name):
@@ -234,14 +253,18 @@ class Scene(SessionPiece):
 		return last_task.task.ending_time
 	
 	def get_vis_files(self):
-		tasks =  self.meta.order_by('task_order')
-		if tasks.count() == 1:
-			return tasks.first().task.files.order_by('participant__sensor_id_in_session')
+		if(self.is_superepisode):
+			tasks =  self.meta.order_by('task_order')
+			if tasks.count() == 1:
+				return tasks.first().task.files.order_by('participant__sensor_id_in_session').annotate(order=Window(DenseRank(), order_by='participant__sensor_id_in_session'))
 
-		qs_list = []
-		for t in tasks:
-			qs_list.append(File.objects.filter(task=t.task).annotate(task_order=Value(t.task_order)))
-		return qs_list[0].union(qs_list[1]).order_by('task_order') 
+			qs_list = []
+			for t in tasks:
+				files = File.objects.filter(task=t.task).annotate(task_order=Value(t.task_order)).annotate(order=Window(DenseRank(), order_by='participant__sensor_id_in_session'))
+				qs_list.append(files)
+			return qs_list[0].union(qs_list[1]).order_by('task_order')
+		else:
+			return self.files.order_by('participant__sensor_id_in_session').annotate(order=Window(DenseRank(), order_by='participant__sensor_id_in_session'))
 
 	def get_peak_meta(self):
 		return self.peak_meta.order_by('participant__sensor_id_in_session').values('participant__sensor_id_in_session', 'biometric__abbr').distinct()

@@ -20,7 +20,6 @@ export function sketch(p){
     p.updateWithProps = props => {
         // The following are only initialized once, hence the second check.
         if(props.immutable && filepaths == undefined){
-            console.log('immutable: ', props.immutable);
             filepaths = props.immutable.files;
             axisChoice = props.immutable.color;
             id = props.immutable.id;

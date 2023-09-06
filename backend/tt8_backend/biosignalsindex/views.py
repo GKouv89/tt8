@@ -50,7 +50,7 @@ class SceneParticipantBiometricsView(generics.RetrieveAPIView):
     def get_object(self, thematicName, axis_id, scene_in_axis, participant_id):
         try: 
             scene = Axis.objects.get_by_natural_key(thematicName, axis_id).scenes.all()[scene_in_axis-1]
-            participant = Participant.objects.get(session=scene.session, sensor_id_in_session=participant_id)
+            participant = Participant.get_ordered_participant(scene.session, participant_id)
             file = File.objects.get(scene=scene, participant=participant)
             return file
         except:

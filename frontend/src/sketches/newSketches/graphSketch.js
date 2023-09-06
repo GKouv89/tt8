@@ -19,7 +19,6 @@ export function sketch(p){
     p.updateWithProps = props => {
         // The following are only initialized once, hence the second check.
         if(props.immutable && filepaths == undefined){
-            console.log('immutable: ', props.immutable);
             filepaths = props.immutable.files;
             id = props.immutable.id;
             bio_meta = props.immutable.bio_meta;

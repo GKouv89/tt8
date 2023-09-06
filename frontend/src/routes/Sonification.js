@@ -463,15 +463,17 @@ export default function Sonification(){
                     </Button>
                 </Col>
             </Row>
-            <Player modalCallback={() => {
-                const newShowModal = showModal.map((modal, idx) => {
-                    if(idx === 0)
-                        return true;
-                    else
-                        return modal;
-                });
-                setShowModal(newShowModal);
-            }}/>
+            <Player
+                modalCallback={() => {
+                    const newShowModal = showModal.map((modal, idx) => {
+                        if(idx === 0)
+                            return true;
+                        else
+                            return modal;
+                    });
+                    setShowModal(newShowModal);
+                }}
+            />
         </Container>
     );
 }

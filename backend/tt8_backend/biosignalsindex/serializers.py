@@ -10,7 +10,6 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         # Don't pass the 'fields' arg up to the superclass
-        # fields = kwargs.pop('fields', None)
         exclude = kwargs.pop('exclude', None)
 
         # Instantiate the superclass normally
@@ -45,9 +44,9 @@ class CustomFileListSerializer(serializers.ListSerializer):
         return res
 
 class FileSerializer(DynamicFieldsModelSerializer):
-    participant = serializers.SlugRelatedField(
+    participant = serializers.IntegerField(
         read_only=True,
-        slug_field='sensor_id_in_session',
+        source='order',
     )
 
     class Meta:
@@ -102,13 +101,19 @@ class BioMetaSerializer(serializers.ModelSerializer):
         fields = ['biometric', 'min_value', 'max_value']
     
 class SelectedSceneSerializer(serializers.ModelSerializer):
-#   - Add bio_meta: This is not a serializer method field, instead it's all the entities associated with the specific scene.
-    files = FileSerializer(many=True, read_only=True, exclude=[])
+    # files = FileSerializer(many=True, read_only=True, exclude=[])
+    files = serializers.SerializerMethodField()
+
     bio_meta = BioMetaSerializer(many=True, read_only=True)
 
     class Meta:
         model = Scene
         fields = ['scene_id_in_session', 'is_superepisode', 'starting_time', 'ending_time', 'files', 'bio_meta']
+
+    def get_files(self, instance):
+        files = instance.get_vis_files()
+        serializer = FileSerializer(files, many=True, exclude=[])
+        return serializer.data
     
 class AxisSerializer(serializers.ModelSerializer):
     sharedScenes = serializers.SerializerMethodField()
