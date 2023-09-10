@@ -3,6 +3,9 @@ import { Link, useParams } from 'react-router-dom';
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 import { useContext } from 'react';
 
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,35 +14,69 @@ import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import BiosignalToggle from '../Component/BiosignalToggle.js';
-import Badge from 'react-bootstrap/Badge';
+import { OverlayTrigger } from 'react-bootstrap';
+import { Tooltip } from 'react-bootstrap';
 
-import { fetchSceneMaterial } from '../api/calls.js';
+import { fetchSceneMaterial, fetchParticipantInSceneMaterial } from '../api/calls.js';
 
 import { ViewContext } from '../context/ViewContext.js'
 
+import BiosignalToggle from '../Component/BiosignalToggle.js';
 import { BiosignalInfoModal } from '../Component/BiosignalInfoModal.js';
 import { GeneralInfoModal } from '../Component/GeneralInfoModal.js';
 
 import * as graph from '../sketches/newSketches/graphSketch.js';
 import * as gradient from '../sketches/newSketches/colorVisSketch.js';
 
-
 function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
     const {thematicName, axisID, episodeID} = useParams();
     const {view} = useContext(ViewContext);
-    const fileName = `${thematicName}_Axis${axisID}_Episode${episodeID}_Participant${id}.csv`;
 
-    // TO DO: EDIT so it can work with TWO FILES
-    // OR DISCUSS WITH GIRLS ON WHAT TO DO
-    const downloadFile = () => {
+    async function downloadFile(){
         const a = document.createElement('a');
-        a.download = fileName;
-        a.href = props.files;
-        a.textContent = 'download the participant\'s raw data';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        let fileName;
+        if(view == 'task' && props.files.length == 1){
+            fileName = `${thematicName}_Axis${axisID}_Episode${episodeID}_Participant${id}_Task.csv`;
+            a.download = fileName;
+            a.href = props.files[0];
+            a.textContent = 'download the participant\'s raw data';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            return;
+        }else if(view == 'scene'){
+            // ask through API which file must be downloaded
+            let file;
+            await fetchParticipantInSceneMaterial(thematicName, axisID, episodeID, id)
+                .then((ret) => {
+                    file = ret.path;
+                });
+
+            fileName = `${thematicName}_Axis${axisID}_Episode${episodeID}_Participant${id}_Episode.csv`;
+            a.download = fileName;
+            a.href = file;
+            a.textContent = 'download the participant\'s raw data';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            return;
+        }
+
+        let zip = new JSZip();
+
+        const remoteZips = props.files.map(async (file, idx) => {
+            const response = await fetch(file);
+            const data = await response.blob();
+            fileName = `${thematicName}_Axis${axisID}_Episode${episodeID}_Participant${id}_Task_${idx+1}.csv`;
+            zip.file(fileName, data);
+            return data;
+        });
+
+        Promise.all(remoteZips).then(() => {
+            zip.generateAsync({ type: "blob" }).then((content) => {
+                saveAs(content, `files.zip`);
+            })
+        });
     }
 
     const sketchChoice = () => {
@@ -58,6 +95,12 @@ function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
         }
     }
 
+    const renderTooltip = (props) => (
+        <Tooltip id="button-tooltip" {...props}>
+          Downloads {view === 'task' ? 'task' : 'episode'} data
+        </Tooltip>
+      );
+    
     return(
         <Row 
             id={`myRow-${sketch}-${id}`} 
@@ -83,12 +126,17 @@ function VisualizationRow({sketch, id, sonification_link, biosignal, ...props}){
                     </Row>
                     <Row className='justify-content-center my-1'>
                         <Col xs={'auto'}>
-                            <Button
-                                variant='dark'
-                                onClick={() => {downloadFile();}}
+                            <OverlayTrigger
+                                placement="left"
+                                overlay={renderTooltip}
                             >
-                                <i class="bi bi-filetype-csv">&nbsp;Data</i>
-                            </Button>
+                                <Button
+                                    variant='dark'
+                                    onClick={() => {downloadFile();}}
+                                >
+                                    <i class="bi bi-filetype-csv">  Data</i>
+                                </Button>
+                            </OverlayTrigger>
                         </Col>
                     </Row>                    
                 </Container>

@@ -6,6 +6,8 @@
     "audiobuffer-to-wav": "^1.0.0",
     "bootstrap": "^5.3.0",
     "bootstrap-icons": "^1.10.5",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
     "midi-writer-js": "^2.1.4",
     "rc-slider": "^10.2.1",
     "react": "^18.2.0",

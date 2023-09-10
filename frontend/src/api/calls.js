@@ -18,5 +18,6 @@ export async function fetchParticipantInSceneMaterial(thematicName, axisID, scen
         .catch((err) => {throw Error(err)});
     const data = await response.json()
         .catch((err) => {throw Error(err)});
+    console.log('data: ', data);
     return data;
 }

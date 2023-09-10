@@ -313,8 +313,6 @@ function Player({modalCallback}){
             .catch((err) => console.error(err));
     }, []);
 
-
-
     return(
         <Row>
             <Col xs={6} id='playerContainer'>
