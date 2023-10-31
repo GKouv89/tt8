@@ -14,6 +14,8 @@ import { CleanupContext } from '../context/CleanupContext';
 
 import { ReactP5Wrapper } from 'react-p5-wrapper';
 
+import { thematics_alt } from './Thematics.js';
+
 import * as son from '../sketches/newSketches/sonificationSketch.js';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BiosignalInfoModal } from '../Component/BiosignalInfoModal.js';
@@ -399,6 +401,8 @@ export default function Sonification(){
         GeneralInfoModal
     };
 
+    const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${thematics_alt[thematicName]}/axis-${axisID}/episode-${episodeID}/`;
+
     return (
         <Container fluid>
             {[...Array(2).keys()].map((a) => {
@@ -434,7 +438,7 @@ export default function Sonification(){
             <Row className="justify-content-start">
                 <Col xs={'auto'}>
                     <h2 class="h3">
-                        Axis {axisID} - Episode {episodeID}:
+                        <a href={url} target="_blank">Axis {axisID} - Episode {episodeID}:</a>
                     </h2>
                 </Col>
             </Row>

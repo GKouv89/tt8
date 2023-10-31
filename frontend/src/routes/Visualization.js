@@ -25,6 +25,8 @@ import BiosignalToggle from '../Component/BiosignalToggle.js';
 import { BiosignalInfoModal } from '../Component/BiosignalInfoModal.js';
 import { GeneralInfoModal } from '../Component/GeneralInfoModal.js';
 
+import { thematics_alt } from './Thematics.js';
+
 import * as graph from '../sketches/newSketches/graphSketch.js';
 import * as gradient from '../sketches/newSketches/colorVisSketch.js';
 
@@ -270,7 +272,7 @@ function VisualizationLayout({sonification_prefix, response}){
         GeneralInfoModal
     };
 
-    // const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${thematicName.toLowerCase()}/axis-${axisID}/episode-${episodeID}/`;
+    const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${thematics_alt[thematicName]}/axis-${axisID}/episode-${episodeID}/`;
 
     return(
         <Container fluid>
@@ -293,8 +295,7 @@ function VisualizationLayout({sonification_prefix, response}){
             <Row className="justify-content-start">
                 <Col xs={'auto'}>
                     <h2 class="h3">
-                        {/* <a href={url} target="_blank">Axis {axisID} - Episode {episodeID}:</a> Biosignals' Visualizations */}
-                        Axis {axisID} - Episode {episodeID}: Biosignals' Visualizations
+                        <a href={url} target="_blank">Axis {axisID} - Episode {episodeID}:</a> Biosignals' Visualizations
                     </h2>
                 </Col>
                 <Col xs={'auto'}>
