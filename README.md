@@ -1,4 +1,4 @@
-# 🚀 My Awesome Project
+# 🚀 Transition to 8
 
 This is a **React Frontend** and **Django Backend** application.
 
@@ -16,7 +16,7 @@ You need the following tools installed:
 | :--- | :--- |
 | **Python** | 3.x |
 | **Node.js** | Use **nvm** to manage versions (LTS 16 or 18 recommended) |
-| **npm** or **Yarn** | Latest |
+| **npm** | Latest |
 | **Git** | Latest |
 
 ### Installation
@@ -24,8 +24,8 @@ You need the following tools installed:
 Clone the repository and move into the project directory:
 
 ```bash
-git clone [YOUR_REPO_URL]
-cd [YOUR_PROJECT_NAME]
+git clone [REPO_URL]
+cd [tt8]
 ```
 
 ## ⚙️ 1. Django Backend Setup
@@ -79,21 +79,9 @@ cd frontend/
 ```
 ## 📦 A. Install Node Modules
 
-If you faced the `pathToFileURL` error, it's best practice to delete and reinstall your modules to ensure compatibility with your Node.js version:
-
-1. **Clean up old modules:**
-```bash
-rm -rf node_modules
-rm package-lock.json # or rm yarn.lock
-```
-
-2. **Install Dependencies:**
 ```bash
 # Using npm
 npm install
-
-# OR using Yarn
-# yarn install
 ```
 
 ## 🚀 B. Development Commands
