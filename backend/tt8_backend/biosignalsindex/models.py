@@ -4,17 +4,40 @@ from django.db.models.functions import DenseRank, Rank, RowNumber
 from django_cte import CTEManager, With
 # Create your models here.
 
+class City(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField()
+
+    def natural_key(self):
+        return (self.name,)
+
 class ThematicManager(models.Manager):
 	def get_by_natural_key(self, name):
 		return self.get(name=name)
 
 class ThematicUnit(models.Model):
 	name = models.CharField(max_length=255, unique=True)
-	
+	city = models.ForeignKey(
+        'City',
+        on_delete=models.CASCADE,
+        related_name='thematics',
+    )
+    
 	objects = ThematicManager()
 
+	class Meta:
+		constraints = [
+			models.UniqueConstraint(
+				fields=["city", "name"],
+				name="unique_city_thematic", 
+			)
+		]
+
 	def natural_key(self):
-		return (self.name,)
+		return self.city.natural_key() + (self.name,)
+
+	# def natural_key(self):
+	# 	return (self.name,)
 
 class SociodramaSessionManager(models.Manager):
 	def get_by_natural_key(self, thematic_name, session_id_in_thematic):
@@ -25,6 +48,10 @@ class SociodramaSession(models.Model):
 		'ThematicUnit',
 		on_delete = models.CASCADE,
 		related_name = 'sessions',
+	)
+	city = models.ForeignKey('City', 
+		on_delete=models.CASCADE, 
+		related_name='sessions',
 	)
 	session_id_in_thematic = models.IntegerField()
 
@@ -53,6 +80,11 @@ class Axis(models.Model):
 		on_delete = models.CASCADE,
 		related_name = 'axes',
 	)
+	city = models.ForeignKey(
+        'City',
+        on_delete=models.CASCADE,
+        related_name='axes',
+    )
 	axis_id_in_thematic = models.IntegerField()
 	title = models.TextField()
 	color = models.CharField(max_length=7) # This is a hexadecimal color code. Something like this: "#FF0000"

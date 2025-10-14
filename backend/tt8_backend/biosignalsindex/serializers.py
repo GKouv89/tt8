@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Scene, Axis, File, Biometric, BiometricMetadataForScene
+from .models import ThematicUnit, City, Scene, Axis, File, Biometric, BiometricMetadataForScene
 from tt8_backend.settings import DATASTORE
     
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -134,4 +134,12 @@ class AxisSerializer(serializers.ModelSerializer):
         print(res)
         return res
 
-    
+class CitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = ['name', 'description']
+
+class ThematicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ThematicUnit
+        fields = ['name']

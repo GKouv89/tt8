@@ -28,7 +28,8 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "@types/bootstrap": "^5.2.6"
+    "@types/bootstrap": "^5.2.6",
+    "jsdoc": "^4.0.4"
   },
   "browserslist": {
     "production": [

@@ -1,23 +1,41 @@
 # from django.shortcuts import render
-from .models import Participant, Axis, File
+from .models import Participant, Axis, File, City
 from django.db.models import Count
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import SceneInTaskSerializer, FileSerializer, AxisSerializer, SelectedSceneSerializer
+from .serializers import ThematicSerializer, CitySerializer, SceneInTaskSerializer, FileSerializer, AxisSerializer, SelectedSceneSerializer
 
 # Create your views here.
+
+class CitiesView(generics.ListAPIView):
+    """Returns all available cities."""
+    serializer_class = CitySerializer
+    def get_queryset(self):
+        return City.objects.all()
+    
+class CityThematicsView(generics.ListAPIView):
+    """Returns thematics available in specified city."""
+    serializer_class = ThematicSerializer
+    def get_queryset(self, city):
+        try:
+            return ThematicSerializer.objects.filter(city__name=city).annotate(session_count=Count('sessions')).filter(session_count__gt=0)
+        except:
+            return None
         
 class ThematicScenesView(generics.ListAPIView):
     serializer_class = AxisSerializer
-    def get_queryset(self, thematicName):
+    def get_queryset(self, cityName, thematicName):
         try:
-            return Axis.objects.filter(thematic__name=thematicName).order_by('axis_id_in_thematic')
+            return Axis.objects.filter(
+                city=cityName, 
+                thematic=thematicName
+            ).order_by('axis_id_in_thematic')
         except:
             return None
 
-    def list(self, _, thematicName):
-        qs = self.get_queryset(thematicName)
+    def list(self, _, city, thematicName):
+        qs = self.get_queryset(city, thematicName)
         if qs is not None:
             serializer = AxisSerializer(qs, many=True)
             return Response(serializer.data)
