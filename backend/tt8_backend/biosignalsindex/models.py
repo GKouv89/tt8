@@ -16,12 +16,13 @@ class ThematicManager(models.Manager):
 		return self.get(name=name)
 
 class ThematicUnit(models.Model):
-	name = models.CharField(max_length=255, unique=True)
+	name = models.CharField(max_length=255)
 	city = models.ForeignKey(
         'City',
         on_delete=models.CASCADE,
         related_name='thematics',
     )
+	description = models.TextField(blank=True)  # This is the description to appear in the accordion in the frontend
     
 	objects = ThematicManager()
 
@@ -35,9 +36,6 @@ class ThematicUnit(models.Model):
 
 	def natural_key(self):
 		return self.city.natural_key() + (self.name,)
-
-	# def natural_key(self):
-	# 	return (self.name,)
 
 class SociodramaSessionManager(models.Manager):
 	def get_by_natural_key(self, thematic_name, session_id_in_thematic):
@@ -60,8 +58,8 @@ class SociodramaSession(models.Model):
 	class Meta:
 		constraints = [
             models.UniqueConstraint(
-                fields=["thematic", "session_id_in_thematic"],
-                name="unique_thematic_session",
+                fields=["city", "thematic", "session_id_in_thematic"],
+                name="unique_thematic_session_per_city",
             ),
         ]
 
@@ -71,8 +69,8 @@ class SociodramaSession(models.Model):
 	natural_key.dependencies = ["biosignalsindex.ThematicUnit"]
 
 class AxisManager(models.Manager):
-	def get_by_natural_key(self, thematic, axis_id_in_thematic):
-		return self.get(thematic__name=thematic, axis_id_in_thematic=axis_id_in_thematic)
+	def get_by_natural_key(self, city, thematic, axis_id_in_thematic):
+		return self.get(city__name=city, thematic__name=thematic, axis_id_in_thematic=axis_id_in_thematic)
 
 class Axis(models.Model):
 	thematic = models.ForeignKey(
@@ -80,6 +78,10 @@ class Axis(models.Model):
 		on_delete = models.CASCADE,
 		related_name = 'axes',
 	)
+	# The same axis technically exists in multiple cities, specifically, the 3 pilots from Creative Europe all focus on one shared axis.
+	# But with current implementation, if this were a ManyToManyField, a) we would not be able to enforce unique axis IDs per city+thematic, 
+	# and b) retrieving scenes per axis in the ThematicScenesView would mean an additional foreign key between scene and city, and filtering scenes by both axis and city. 
+	# Unnecessery filtering in each retrieval, and instead our compromise is to duplicate axis entries per city.
 	city = models.ForeignKey(
         'City',
         on_delete=models.CASCADE,
@@ -93,9 +95,10 @@ class Axis(models.Model):
 
 	class Meta:
 		constraints = [
+			# Example: In creative Europe, the three new pilots all have the same one Axis under 'Environment' (thematic), but it is three different cities. 
             models.UniqueConstraint(
-                fields=["thematic", "axis_id_in_thematic"],
-                name="unique_thematic_axis",
+                fields=["city", "thematic", "axis_id_in_thematic"],
+                name="unique_thematic_axis_per_city",
             ),
         ]
 
@@ -206,17 +209,28 @@ class SessionPiece(models.Model):
 
 class TaskManager(models.Manager):
 	def get_by_natural_key(self, thematic, session_id, section_name, task_no):
-		return self.get(
-			task_no_in_section=task_no, 
-			section__name=section_name, 
-			section__session__session_id_in_thematic=session_id,
-			section__session__thematic__name=thematic)
+		# Creative Europe pilots do not have sections
+		if section_name is None:
+			return self.get(
+				task_no_in_section=task_no, 
+				section__isnull=True,
+				session__session_id_in_thematic=session_id,
+				session__thematic__name=thematic)
+		# Original Project sessions do
+		else:
+			return self.get(
+				task_no_in_section=task_no, 
+				section__name=section_name, 
+				section__session__session_id_in_thematic=session_id,
+				section__session__thematic__name=thematic)
 	
 class Task(SessionPiece):
 	section = models.ForeignKey(
 		'Section',
 		on_delete = models.CASCADE,
 		related_name = 'tasks',
+		null=True, # new pilots in creative europe do not have sections
+		blank=True,
 	)
 	task_no_in_section = models.IntegerField()
 	starting_time = models.FloatField()
@@ -229,13 +243,23 @@ class Task(SessionPiece):
             models.UniqueConstraint(
                 fields=["section", "task_no_in_section"],
                 name="unique_section_task",
+				condition=Q(section__isnull=False),
             ),
+			models.UniqueConstraint(
+				# If the pilot does not have sections, we still want to ensure that task numbers are unique per session
+				fields=["session", "task_no_in_section"],
+				name="unique_session_task",
+				condition=Q(section__isnull=True),
+			),
         ]
 
 	def natural_key(self):
-		return self.section.natural_key() + (self.task_no_in_section,)
+		if self.section is None:
+			return self.session.natural_key() + (self.task_no_in_section)
+		else:
+			return self.section.natural_key() + (self.task_no_in_section,)
 
-	natural_key.dependencies = ["biosignalsindex.Section"]
+	natural_key.dependencies = ["biosignalsindex.Section", "biosignalsindex.SociodramaSession"]
 
 class SceneManager(CTEManager):
 	def get_by_natural_key(self, thematic, session_id, scene_no):
