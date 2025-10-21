@@ -106,3 +106,14 @@ When you are done working on the backend, you can deactivate the virtual environ
 ```bash
 deactivate
 ```
+# Documentation
+
+Backend documentation uses the pdoc package. It is a bit iffy with Django, but I went with it instead of sphinx that requires the autocode and django extensions (and maybe a third one, django-autocode? I lost count).
+
+Anyway... to set it up, in the backend\tt8_backend folder, where the **manage.py** file is, there is a small helper file. This one does the necessary actions (namely, specifying settings as well as calling django.setup()), and calls pdoc programmatically. This generates the HTML docs. 
+
+```bash
+python pdocs_helper.py
+```
+
+The output will be in the 
