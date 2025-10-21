@@ -30,13 +30,17 @@ class ThematicScenesView(generics.ListAPIView):
     def get_queryset(self, cityName, thematicName):
         try:
             return Axis.objects.filter(
-                city=cityName, 
-                thematic=thematicName
+                city__name=cityName, 
+                thematic__name=thematicName
             ).order_by('axis_id_in_thematic')
         except:
             return None
 
-    def list(self, _, city, thematicName):
+    # def list(self, city, thematicName):
+    def list(self, _, *args, **kwargs):
+        city = self.kwargs['city']
+        thematicName = self.kwargs['thematicName']
+        print(f"Fetching axes for city: {city}, thematic: {thematicName}")
         qs = self.get_queryset(city, thematicName)
         if qs is not None:
             serializer = AxisSerializer(qs, many=True)
@@ -92,7 +96,12 @@ class SceneParticipantBiometricsView(generics.RetrieveAPIView):
         except:
             return None
 
-    def get(self, _, cityName, thematicName, axis_id, scene_in_axis, participant_id):
+    def get(self, request, *args, **kwargs):
+        cityName = self.kwargs['city']
+        thematicName = self.kwargs['thematicName']
+        axis_id = self.kwargs['axis_id']
+        scene_in_axis = self.kwargs['scene_in_axis']
+        participant_id = self.kwargs['participant_id']
         file = self.get_object(cityName, thematicName, axis_id, scene_in_axis, participant_id)
         if file is not None:
             serializer = self.serializer_class(file, exclude=["participant"])

@@ -87,6 +87,9 @@ class SceneBiometricsTests(APITestCase):
         )
 
     def test_scene_retrieval(self):
+        """Tests the endpoint called from the visualization page, where for a specific scene we get
+        pretty much everything about it (superepisode info, biometric metadata per participant, etc.)
+        Not as thorough as I would like it to be BUT ensures that this view at least responds."""
         url = reverse('SceneBiometrics', kwargs={
             'city': self.city.name,
             'thematicName': self.thematic.name,
