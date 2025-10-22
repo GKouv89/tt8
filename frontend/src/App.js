@@ -21,11 +21,12 @@ import {
 import ThematicGrid from './routes/ThematicScreen.js';
 import Thematics, { thematics } from './routes/Thematics.js';
 import Sonification from './routes/Sonification';
+import LandingPage from './routes/LandingPage';
 
 import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import Button from 'react-bootstrap/Button';
 
-import { fetchThematicEpisodes } from './api/calls';
+import { fetchAllCities, fetchThematicEpisodes } from './api/calls';
 
 import { CleanupContext } from './context/CleanupContext';
 import Visualization from './routes/Visualization';
@@ -57,12 +58,15 @@ const router = createBrowserRouter(
     <Route path="/" element={<Header />}>
       <Route 
         index
-        element={<Thematics/>} 
+        element={<LandingPage/>}
+        loader={async () => {
+          return fetchAllCities();
+        }}
       />
       <Route 
         path=":thematicName" 
         element={<ThematicGrid/>} 
-        loader = {async ({ params }) => {
+        loader={async ({ params }) => {
           return fetchThematicEpisodes(params.thematicName);
         }}
         handle ={{
