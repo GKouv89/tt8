@@ -17,13 +17,30 @@ class CitiesView(generics.ListAPIView):
 class CityThematicsView(generics.ListAPIView):
     """Returns thematics available in specified city."""
     serializer_class = ThematicSerializer
+    
     def get_queryset(self):
         try:
             cityName = self.kwargs['city']
             return ThematicUnit.objects.filter(city__name=cityName)
         except:
             return None
-        
+    
+    def list(self, request, *args, **kwargs):
+        try:
+            cityName = self.kwargs['city']
+            city = City.objects.get(name=cityName)
+            thematics = self.get_queryset()
+            
+            if thematics is not None:
+                response_data = {
+                    'city': CitySerializer(city).data,
+                    'thematics': ThematicSerializer(thematics, many=True).data
+                }
+                return Response(response_data)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except City.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 class ThematicScenesView(generics.ListAPIView):
     """Returns axes and their scenes for a specified thematic in a specified city."""
     serializer_class = AxisSerializer
@@ -107,17 +124,17 @@ class SceneParticipantBiometricsView(generics.RetrieveAPIView):
             serializer = self.serializer_class(file, exclude=["participant"])
             return Response(serializer.data)
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND)       
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 
 
 
-        
-    
 
-    
-    
-    
+
+
+
+
+
 
 

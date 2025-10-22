@@ -33,8 +33,8 @@ export async function fetchAllCities(){
 
 export async function fetchThematicsPerCity(cityName) {
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}cities/${cityName}/thematics/`)
-        .catch((err) => { throw Error(err) });
+        .catch((err) => {throw Error(err)});
     const data = await response.json()
-        .catch((err) => { throw Error(err) });
-    return data;
+        .catch((err) => {throw Error(err)});
+    return data;  // Returns the whole object with city and thematics
 }
