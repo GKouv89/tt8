@@ -26,7 +26,7 @@ import LandingPage from './routes/LandingPage';
 import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import Button from 'react-bootstrap/Button';
 
-import { fetchAllCities, fetchThematicEpisodes } from './api/calls';
+import { fetchAllCities, fetchThematicEpisodes, fetchThematicsPerCity } from './api/calls';
 
 import { CleanupContext } from './context/CleanupContext';
 import Visualization from './routes/Visualization';
@@ -63,16 +63,30 @@ const router = createBrowserRouter(
           return fetchAllCities();
         }}
       />
-      <Route 
-        path=":thematicName" 
-        element={<ThematicGrid/>} 
+      <Route
+        path=":cityName/thematics"
+        element={<Thematics/>}
         loader={async ({ params }) => {
-          return fetchThematicEpisodes(params.thematicName);
+          return fetchThematicsPerCity(params.cityName);
         }}
         handle ={{
           crumb: (params) => [
             <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
-            <MyCustomNavlink className='current' to={`/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>
+            <MyCustomNavlink className='current' to={`/${params.cityName}`}>{params.cityName}</MyCustomNavlink>
+          ],
+        }}
+      />
+      <Route 
+        path=":cityName/thematics/:thematicName" 
+        element={<ThematicGrid/>} 
+        loader={async ({ params }) => {
+          return fetchThematicEpisodes(params.cityName, params.thematicName);
+        }}
+        handle={{
+          crumb: (params) => [
+            <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
+            <MyCustomNavlink className='crumb' to={`/${params.cityName}/thematics`}>{params.cityName}</MyCustomNavlink>,
+            <MyCustomNavlink className='current' to={`/${params.cityName}/thematics/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>
           ],
         }}
       />
@@ -83,6 +97,7 @@ const router = createBrowserRouter(
           crumb: (params) => 
             [
             <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
+            <MyCustomNavlink className='current' to={`/${params.cityName}`}>{params.cityName}</MyCustomNavlink>,
             <MyCustomNavlink className='crumb' to={`/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>,
             <MyCustomNavlink className='current' to={`/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/studio`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>]
           ,
@@ -95,6 +110,7 @@ const router = createBrowserRouter(
           crumb: (params) => 
             [
             <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
+            <MyCustomNavlink className='current' to={`/${params.cityName}`}>{params.cityName}</MyCustomNavlink>,
             <MyCustomNavlink className='crumb' to={`/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>,
             <MyCustomNavlink className='crumb' to={`/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/visualizations`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>,
             <MyCustomNavlink className='current' to={`/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/sonifications/${params.participantID}`}>Axis {params.axisID} - Episode {params.episodeID} - Participant {params.participantID}</MyCustomNavlink>]

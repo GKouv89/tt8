@@ -39,10 +39,11 @@ function Episode({axisID, axisColor, id, colors}){
 
 function Axis({axis})
 {
-  const {thematicName} = useParams();
+  const {cityName, thematicName} = useParams();
   const axisID = axis.axis_id_in_thematic;
   const axisColor = axis.color;
-  const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${thematicName.toLowerCase()}/axis-${axisID}/`;
+  const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${cityName.toLowerCase()}/${thematicName.toLowerCase()}/axis-${axisID}/`;
+  console.log('Axis URL:', url);
 
   return(
     <Card 
