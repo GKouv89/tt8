@@ -24,8 +24,7 @@ import { ViewContext } from '../context/ViewContext.js'
 import BiosignalToggle from '../Component/BiosignalToggle.js';
 import { BiosignalInfoModal } from '../Component/BiosignalInfoModal.js';
 import { GeneralInfoModal } from '../Component/GeneralInfoModal.js';
-
-import { thematics_alt } from './Thematics.js';
+import Footer from '../Component/Footer';  // Add footer import
 
 import * as graph from '../sketches/newSketches/graphSketch.js';
 import * as gradient from '../sketches/newSketches/colorVisSketch.js';
@@ -251,7 +250,7 @@ const visualizations = {
 }
 
 function VisualizationLayout({sonification_prefix, response}){
-    const {thematicName, axisID, episodeID} = useParams();
+    const {cityName, thematicName, axisID, episodeID} = useParams();
     const [biosignal, setBiosignal] = useState('HR');
     const [active, setActive] = useState('graph');
     const [view, setView] = useState(response.scene.is_superepisode ? 'task' : 'scene');
@@ -272,109 +271,39 @@ function VisualizationLayout({sonification_prefix, response}){
         GeneralInfoModal
     };
 
-    const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${thematics_alt[thematicName]}/axis-${axisID}/episode-${episodeID}/`;
+    const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${cityName.toLowerCase()}/${thematicName}/axis-${axisID}/episode-${episodeID}/`;
 
     return(
-        <Container fluid>
-            {[...Array(2).keys()].map((a) => {
-                const MyComponent = a === 0 ? components.BiosignalInfoModal : components.GeneralInfoModal;
-                return (<MyComponent 
-                    show={showModal[a]}
-                    onHide={() => {
-                        const newShowModal = showModal.map((modal, idx) => {
-                            if(idx === a)
-                                return false;
-                            else
-                                return modal;
-                        });
-                        setShowModal(newShowModal);
-                    }}
-                    content={content[a]}
-                />);
-            })}
-            <Row className="justify-content-start">
-                <Col xs={'auto'}>
-                    <h2 class="h3">
-                        <a href={url} target="_blank">Axis {axisID} - Episode {episodeID}:</a> Biosignals' Visualizations
-                    </h2>
-                </Col>
-                <Col xs={'auto'}>
-                    <Button 
-                        variant='outline-dark'
-                        onClick={() => {
+        <>
+            <Container fluid className="py-2">  {/* Add wrapper with padding */}
+                {[...Array(2).keys()].map((a) => {
+                    const MyComponent = a === 0 ? components.BiosignalInfoModal : components.GeneralInfoModal;
+                    return (<MyComponent 
+                        show={showModal[a]}
+                        onHide={() => {
                             const newShowModal = showModal.map((modal, idx) => {
-                                if(idx === 1)
-                                    return true;
+                                if(idx === a)
+                                    return false;
                                 else
                                     return modal;
                             });
                             setShowModal(newShowModal);
                         }}
-                    >
-                        <i class="bi bi-info-circle" /> What am I seeing?
-                    </Button>
-                </Col>
-            </Row>
-            <Tab.Container 
-                defaultActiveKey="graph"
-                activeKey={active}
-                onSelect={(k) => setActive(k)}
-            >
-                <Row style={{'align-items': 'center'}}>
-                    <Col>
-                        <Nav variant="tabs">
-                            <Nav.Item>
-                                <Nav.Link eventKey="graph">Graph</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link eventKey="color">Color</Nav.Link>
-                            </Nav.Item>
-                        </Nav>
+                        content={content[a]}
+                    />);
+                })}
+                <Row className="justify-content-start">
+                    <Col xs={'auto'}>
+                        <h2 class="h3">
+                            <a href={url} target="_blank">Axis {axisID} - Episode {episodeID}:</a> Biosignals' Visualizations
+                        </h2>
                     </Col>
                     <Col xs={'auto'}>
-                        Choose view:
-                    </Col>
-                    <Col xs={'auto'}>
-                        <ButtonGroup>
-                            <ToggleButton
-                                variant='outline-dark'
-                                key={0}
-                                id={`view-radio-0`}
-                                type="radio"
-                                name="view-radio"
-                                value='task'
-                                checked={view === 'task'}
-                                onChange={(e) => {setView(e.currentTarget.value);}}
-                                disabled={!scene_meta.is_superepisode}
-                            >
-                                Task
-                            </ToggleButton>
-                            <ToggleButton
-                                variant='outline-dark'
-                                key={1}
-                                id={`view-radio-1`}
-                                type="radio"
-                                name="view-radio"
-                                value='scene'
-                                checked={view === 'scene'}
-                                onChange={(e) => {setView(e.currentTarget.value);}}
-                            >
-                                Episode
-                            </ToggleButton>                           
-                        </ButtonGroup>
-                    </Col>
-                    <Col xs={'auto'}>
-                        <div class='vr'></div>
-                    </Col>
-                    <Col xs={'auto'}>
-                        <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
-                    </Col>
-                    <Col xs={'auto'}>
-                        <Button
-                            variant="dark"
+                        <Button 
+                            variant='outline-dark'
                             onClick={() => {
                                 const newShowModal = showModal.map((modal, idx) => {
-                                    if(idx === 0)
+                                    if(idx === 1)
                                         return true;
                                     else
                                         return modal;
@@ -382,61 +311,134 @@ function VisualizationLayout({sonification_prefix, response}){
                                 setShowModal(newShowModal);
                             }}
                         >
-                            <i class="bi bi-info-circle" />&nbsp; Learn More
+                            <i class="bi bi-info-circle" /> What am I seeing?
                         </Button>
                     </Col>
                 </Row>
-                <Row>        
-                    <ViewContext.Provider value={{view}}>
-                        <Tab.Content>
-                            {
-                                ["graph", "color"].map((sketch) => {
-                                    return <Tab.Pane eventKey={sketch}>
-                                        <Container 
-                                            id={`rowContainer-${sketch}`}
-                                            fluid
-                                        >
-                                            {
-                                                files && files.map((file, idx) => {
-                                                    return <VisualizationRow 
-                                                        id={idx + 1}
-                                                        sonification_link={`${sonification_prefix}/${file.participant}`}
-                                                        key={idx + 1} 
-                                                        files={file.paths}
-                                                        scene_meta={scene_meta}
-                                                        bio_meta={bio_meta}
-                                                        peak_meta={peak_meta===undefined ? undefined: peak_meta.find((x) => x.participant == file.participant)}
-                                                        color={color}
-                                                        biosignal={biosignal}
-                                                        sketch={sketch}
-                                                    />
-                                                })
-                                            }
-                                        </Container>
-                                    </Tab.Pane>
-                                })
-                            }
-                        </Tab.Content>
-                    </ViewContext.Provider>
-                </Row>
-            </Tab.Container>
-        </Container>
+                <Tab.Container 
+                    defaultActiveKey="graph"
+                    activeKey={active}
+                    onSelect={(k) => setActive(k)}
+                >
+                    <Row style={{'align-items': 'center'}}>
+                        <Col>
+                            <Nav variant="tabs">
+                                <Nav.Item>
+                                    <Nav.Link eventKey="graph">Graph</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="color">Color</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
+                        </Col>
+                        <Col xs={'auto'}>
+                            Choose view:
+                        </Col>
+                        <Col xs={'auto'}>
+                            <ButtonGroup>
+                                <ToggleButton
+                                    variant='outline-dark'
+                                    key={0}
+                                    id={`view-radio-0`}
+                                    type="radio"
+                                    name="view-radio"
+                                    value='task'
+                                    checked={view === 'task'}
+                                    onChange={(e) => {setView(e.currentTarget.value);}}
+                                    disabled={!scene_meta.is_superepisode}
+                                >
+                                    Task
+                                </ToggleButton>
+                                <ToggleButton
+                                    variant='outline-dark'
+                                    key={1}
+                                    id={`view-radio-1`}
+                                    type="radio"
+                                    name="view-radio"
+                                    value='scene'
+                                    checked={view === 'scene'}
+                                    onChange={(e) => {setView(e.currentTarget.value);}}
+                                >
+                                    Episode
+                                </ToggleButton>                           
+                            </ButtonGroup>
+                        </Col>
+                        <Col xs={'auto'}>
+                            <div class='vr'></div>
+                        </Col>
+                        <Col xs={'auto'}>
+                            <BiosignalToggle biosignal={biosignal} callback={setBiosignal}/>
+                        </Col>
+                        <Col xs={'auto'}>
+                            <Button
+                                variant="dark"
+                                onClick={() => {
+                                    const newShowModal = showModal.map((modal, idx) => {
+                                        if(idx === 0)
+                                            return true;
+                                        else
+                                            return modal;
+                                    });
+                                    setShowModal(newShowModal);
+                                }}
+                            >
+                                <i class="bi bi-info-circle" />&nbsp; Learn More
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Row>        
+                        <ViewContext.Provider value={{view}}>
+                            <Tab.Content>
+                                {
+                                    ["graph", "color"].map((sketch) => {
+                                        return <Tab.Pane eventKey={sketch}>
+                                            <Container 
+                                                id={`rowContainer-${sketch}`}
+                                                fluid
+                                            >
+                                                {
+                                                    files && files.map((file, idx) => {
+                                                        return <VisualizationRow 
+                                                            id={idx + 1}
+                                                            sonification_link={`${sonification_prefix}/${file.participant}`}
+                                                            key={idx + 1} 
+                                                            files={file.paths}
+                                                            scene_meta={scene_meta}
+                                                            bio_meta={bio_meta}
+                                                            peak_meta={peak_meta===undefined ? undefined: peak_meta.find((x) => x.participant == file.participant)}
+                                                            color={color}
+                                                            biosignal={biosignal}
+                                                            sketch={sketch}
+                                                        />
+                                                    })
+                                                }
+                                            </Container>
+                                        </Tab.Pane>
+                                    })
+                                }
+                            </Tab.Content>
+                        </ViewContext.Provider>
+                    </Row>
+                </Tab.Container>
+            </Container>
+            <Footer />  {/* Add footer outside container */}
+        </>
     );
 }
 
 export default function Visualization(){
     // This component is essentially a data fetching wrapper
-    let {thematicName, axisID, episodeID} = useParams();
+    let {cityName, thematicName, axisID, episodeID} = useParams();
     const [response, setResponse] = useState(null);
     // This runs just once, when the component renders
     useEffect(() => {
         console.log('in useEffect');
-        fetchSceneMaterial(thematicName, axisID, episodeID)
+        fetchSceneMaterial(cityName, thematicName, axisID, episodeID)
             .then((ret) => {
                 setResponse(ret);
             })
             .catch((err) => console.error(err));
     }, []);
 
-    return(<>{response && <VisualizationLayout sonification_prefix={`/${thematicName}/axes/${axisID}/episodes/${episodeID}/sonifications`} response={response}/>}</>);
+    return(<>{response && <VisualizationLayout sonification_prefix={`/${cityName}/thematics/${thematicName}/axes/${axisID}/episodes/${episodeID}/sonifications`} response={response}/>}</>);
 }

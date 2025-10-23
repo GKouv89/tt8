@@ -71,7 +71,7 @@ const router = createBrowserRouter(
         }}
         handle ={{
           crumb: (params) => [
-            <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
+            <MyCustomNavlink className='crumb' to="/">Home</MyCustomNavlink>,
             <MyCustomNavlink className='current' to={`/${params.cityName}`}>{params.cityName}</MyCustomNavlink>
           ],
         }}
@@ -84,36 +84,36 @@ const router = createBrowserRouter(
         }}
         handle={{
           crumb: (params) => [
-            <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
+            <MyCustomNavlink className='crumb' to="/">Home</MyCustomNavlink>,
             <MyCustomNavlink className='crumb' to={`/${params.cityName}/thematics`}>{params.cityName}</MyCustomNavlink>,
             <MyCustomNavlink className='current' to={`/${params.cityName}/thematics/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>
           ],
         }}
       />
       <Route
-        path=":thematicName/axes/:axisID/episodes/:episodeID/visualizations" 
+        path=":cityName/thematics/:thematicName/axes/:axisID/episodes/:episodeID/visualizations" 
         element={<Visualization />}
         handle = {{
           crumb: (params) => 
             [
-            <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
-            <MyCustomNavlink className='current' to={`/${params.cityName}`}>{params.cityName}</MyCustomNavlink>,
-            <MyCustomNavlink className='crumb' to={`/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>,
-            <MyCustomNavlink className='current' to={`/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/studio`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>]
+            <MyCustomNavlink className='crumb' to="/">Home</MyCustomNavlink>,
+            <MyCustomNavlink className='crumb' to={`/${params.cityName}/thematics`}>{params.cityName}</MyCustomNavlink>,
+            <MyCustomNavlink className='crumb' to={`/${params.cityName}/thematics/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>,
+            <MyCustomNavlink className='current' to={`/${params.cityName}/thematics/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/visualizations`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>]
           ,
         }}
       />
       <Route
-        path=":thematicName/axes/:axisID/episodes/:episodeID/sonifications/:participantID"
+        path=":cityName/thematics/:thematicName/axes/:axisID/episodes/:episodeID/sonifications/:participantID"
         element={<Sonification />}
         handle = {{
           crumb: (params) => 
             [
-            <MyCustomNavlink className='crumb' to="/">Index</MyCustomNavlink>,
-            <MyCustomNavlink className='current' to={`/${params.cityName}`}>{params.cityName}</MyCustomNavlink>,
-            <MyCustomNavlink className='crumb' to={`/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>,
-            <MyCustomNavlink className='crumb' to={`/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/visualizations`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>,
-            <MyCustomNavlink className='current' to={`/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/sonifications/${params.participantID}`}>Axis {params.axisID} - Episode {params.episodeID} - Participant {params.participantID}</MyCustomNavlink>]
+            <MyCustomNavlink className='crumb' to="/">Home</MyCustomNavlink>,
+            <MyCustomNavlink className='crumb' to={`/${params.cityName}/thematics`}>{params.cityName}</MyCustomNavlink>,
+            <MyCustomNavlink className='crumb' to={`/${params.cityName}/thematics/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>,
+            <MyCustomNavlink className='crumb' to={`/${params.cityName}/thematics/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/visualizations`}>Axis {params.axisID} - Episode {params.episodeID}</MyCustomNavlink>,
+            <MyCustomNavlink className='current' to={`/${params.cityName}/thematics/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/sonifications/${params.participantID}`}>Axis {params.axisID} - Episode {params.episodeID} - Participant {params.participantID}</MyCustomNavlink>]
         }}
       />
 

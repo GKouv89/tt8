@@ -21,6 +21,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { BiosignalInfoModal } from '../Component/BiosignalInfoModal.js';
 import { GeneralInfoModal } from '../Component/GeneralInfoModal.js';
 import { fetchParticipantInSceneMaterial } from '../api/calls.js';
+import Footer from '../Component/Footer.js';
 
 const variant = "dark";
 
@@ -272,7 +273,7 @@ function SketchAndProgress(props){
 
 
 function Player({modalCallback}){
-    const {thematicName, axisID, episodeID, participantID} = useParams();
+    const {cityName, thematicName, axisID, episodeID, participantID} = useParams();
     
     // These props are related to the toggle button groups and
     // are also passed as props to the sketch, so it changes its sound appropriately.
@@ -308,7 +309,7 @@ function Player({modalCallback}){
     // This runs just once, when the component renders
     useEffect(() => {
         console.log('in useEffect');
-        fetchParticipantInSceneMaterial(thematicName, axisID, episodeID, participantID)
+        fetchParticipantInSceneMaterial(cityName, thematicName, axisID, episodeID, participantID)
             .then((ret) => {
                 setFile(ret.path);
             })
@@ -391,7 +392,7 @@ const content=[
 
 export default function Sonification(){
     const {setCleanUp, setCleanUpPath} = useContext(CleanupContext);
-    const {thematicName, axisID, episodeID, participantID} = useParams();
+    const {cityName, thematicName, axisID, episodeID, participantID} = useParams();
     // BiosignalInfoModal is the first of the array
     // SonificationInfo is the second
     const [showModal, setShowModal] = useState([false, false]);
@@ -401,81 +402,85 @@ export default function Sonification(){
         GeneralInfoModal
     };
 
-    const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${thematics_alt[thematicName]}/axis-${axisID}/episode-${episodeID}/`;
+    const url = `${process.env.REACT_APP_MENTOR_BASE_URL}${cityName.toLowerCase()}/${thematicName}/axis-${axisID}/episode-${episodeID}/`;
 
     return (
-        <Container fluid>
-            {[...Array(2).keys()].map((a) => {
-                const MyComponent = a === 0 ? components.BiosignalInfoModal : components.GeneralInfoModal;
-                console.log('MyComponent: ', MyComponent);
-                return (<MyComponent 
-                    show={showModal[a]}
-                    onHide={() => {
-                        const newShowModal = showModal.map((modal, idx) => {
-                            if(idx === a)
-                                return false;
-                            else
-                                return modal;
-                        });
-                        setShowModal(newShowModal);
-                    }}
-                    content={content[a]}
-                />);
-            })}
-            <Row className="pb-2">
-                <Col xs={'auto'}>
-                    <Button 
-                        variant={variant}
-                        onClick={() => {
-                            setCleanUpPath(`/${thematicName}/axes/${axisID}/episodes/${episodeID}/visualizations`);
-                            setCleanUp(true);
-                        }}>
-                        <i class="bi bi-arrow-left"></i>
-                        &nbsp; Back to collective visualization
-                    </Button>
-                </Col>
-            </Row>
-            <Row className="justify-content-start">
-                <Col xs={'auto'}>
-                    <h2 class="h3">
-                        <a href={url} target="_blank">Axis {axisID} - Episode {episodeID}:</a>
-                    </h2>
-                </Col>
-            </Row>
-            <Row className="justify-content-start">
-                <Col xs={'auto'}>
-                    <h2 class="h3">
-                        Participant {participantID} Biosignals' Sonification
-                    </h2>
-                </Col>
-                <Col xs={'auto'}>
-                    <Button
-                        variant="outline-dark"
-                        onClick={() => {
+        <>
+            <Container fluid>
+                {[...Array(2).keys()].map((a) => {
+                    const MyComponent = a === 0 ? components.BiosignalInfoModal : components.GeneralInfoModal;
+                    console.log('MyComponent: ', MyComponent);
+                    return (<MyComponent
+                        show={showModal[a]}
+                        onHide={() => {
                             const newShowModal = showModal.map((modal, idx) => {
-                                if(idx === 1)
-                                    return true;
+                                if (idx === a)
+                                    return false;
+
                                 else
                                     return modal;
                             });
                             setShowModal(newShowModal);
-                        }}
-                    >
-                        <i class="bi bi-info-circle" /> What am I hearing?
-                    </Button>
-                </Col>
-            </Row>
-            <Player
-                modalCallback={() => {
-                    const newShowModal = showModal.map((modal, idx) => {
-                        if(idx === 0)
-                            return true;
-                        else
-                            return modal;
-                    });
-                    setShowModal(newShowModal);
-                }}
-            />
-        </Container>
+                        } }
+                        content={content[a]} />);
+                })}
+                <Row className="pb-2">
+                    <Col xs={'auto'}>
+                        <Button
+                            variant={variant}
+                            onClick={() => {
+                                setCleanUpPath(`/${cityName}/thematics/${thematicName}/axes/${axisID}/episodes/${episodeID}/visualizations`);
+                                setCleanUp(true);
+                            } }>
+                            <i class="bi bi-arrow-left"></i>
+                            &nbsp; Back to collective visualization
+                        </Button>
+                    </Col>
+                </Row>
+                <Row className="justify-content-start">
+                    <Col xs={'auto'}>
+                        <h2 class="h3">
+                            <a href={url} target="_blank">Axis {axisID} - Episode {episodeID}:</a>
+                        </h2>
+                    </Col>
+                </Row>
+                <Row className="justify-content-start">
+                    <Col xs={'auto'}>
+                        <h2 class="h3">
+                            Participant {participantID} Biosignals' Sonification
+                        </h2>
+                    </Col>
+                    <Col xs={'auto'}>
+                        <Button
+                            variant="outline-dark"
+                            onClick={() => {
+                                const newShowModal = showModal.map((modal, idx) => {
+                                    if (idx === 1)
+                                        return true;
+
+                                    else
+                                        return modal;
+                                });
+                                setShowModal(newShowModal);
+                            } }
+                        >
+                            <i class="bi bi-info-circle" /> What am I hearing?
+                        </Button>
+                    </Col>
+                </Row>
+                <Player
+                    modalCallback={() => {
+                        const newShowModal = showModal.map((modal, idx) => {
+                            if (idx === 0)
+                                return true;
+
+                            else
+                                return modal;
+                        });
+                        setShowModal(newShowModal);
+                    } } />
+            </Container>
+            <Footer />
+        </>
     );
 }
