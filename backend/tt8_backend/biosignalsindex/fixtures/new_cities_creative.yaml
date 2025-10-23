@@ -1,0 +1,23 @@
+- model: biosignalsindex.city
+  pk: 1
+  fields:
+    name: "Eleusis"
+    description: "Eleusis is an industrial city located 23km from Athens, Greece. Despite being a natural harbor and a cultural center, the city's image is negatively overshadowed by the severe environmental pollution it suffered in the 1960s and 1970s as it was the host of heavy industry like refineries, shipyards, and cement factories for decades. This persistent stereotype discourages visitors and masks the city's modern reality and cultural significance."
+
+- model: biosignalsindex.city
+  pk: 2
+  fields:
+    name: "Rennes"
+    description: "Rennes, the historic administrative capital of Brittany in northwestern France, is a major university, economic, and cultural hub. While known for its vibrant cultural life and historic architecture, the city is actively tackling contemporary urban challenges like air pollution by expanding its automated metro and cycling networks. This fast-changing metropolis embodies the tensions accompanying social and environmental transformations in modern European cities."
+
+- model: biosignalsindex.city
+  pk: 3
+  fields:
+    name: "Ljubljana"
+    description: "Ljubljana is the multifaceted political, cultural, and commercial heart of Slovenia, serving as a major European center for business, transport, and education. Despite its comprehensive offerings as a metropolis, its central European location and friendly atmosphere allow it to retain a pleasant small-town feel."
+
+- model: biosignalsindex.city
+  pk: 4
+  fields:
+    name: "Eleusis 2.0"
+    description: ""

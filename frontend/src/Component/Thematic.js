@@ -46,8 +46,8 @@ export default function Thematic(props){
       <Accordion.Collapse eventKey={props.eventKey}>
         <Card.Body className='p-4'>
           <Container fluid>            
-            <Row className="g-4 align-items-center">
-              <Col lg={8}>
+            <Row className="align-items-center">
+              <Col xs={8} sm={8} md={8} lg={8} xl={8}>
                 <p className="mb-0 text-muted">
                   {props.thematic.description != null ? props.thematic.description : 'Oops! Descriptions will be available shortly'}
                 </p>
@@ -57,7 +57,7 @@ export default function Thematic(props){
                   </small>
                 </div>
               </Col>
-              <Col lg={4} className="text-end">
+              <Col xs={4} sm={4} md={4} lg={4} xl={4} className="text-end">
                 <LinkContainer to={`${props.thematic.name}`}>
                   <Button variant="outline-dark" className="px-4 border-2">
                     Browse Scenes by Axis

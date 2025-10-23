@@ -1,0 +1,38 @@
+- model: biosignalsindex.thematicunit
+  pk: 1
+  fields:
+    name: "Environment"
+    city: 1  # Eleusis
+    description: "Eleusis became an industrial city in the late 19th century, which led to significant pollution (air, water, and seabed oil) and health risks for residents. The city's current emotional landscape is marked by a tension between pride in its working-class character and sadness/anger over environmental harm, coupled with a desire for collective action towards a sustainable future."  # Add your updated description here
+
+- model: biosignalsindex.thematicunit
+  pk: 2
+  fields:
+    name: "Employment"
+    city: 1  # Eleusis
+    description: "Eleusis was historically a major industrial center that fostered a strong working-class identity and labor movement, despite facing dangerous working conditions, high accident rates, and periods of union suppression. The city's industrial era concluded with factory closures and a transition to the service sector, leaving behind a legacy of economic upheaval and persistent concerns among residents about workplace safety and environmental pollution."
+
+- model: biosignalsindex.thematicunit
+  pk: 3
+  fields:
+    name: "Immigration"
+    city: 1  # Eleusis
+    description: "Eleusis's modern human geography is a product of successive waves of population movements, including refugees, economic migrants, and victims of political persecution from different global origins, starting with an agricultural village and rapidly growing due to industrialization and the arrival of Dodecanesians and Asia Minor refugees in the early 20th century."
+
+- model: biosignalsindex.thematicunit
+  fields:
+    name: "Environment"
+    city: 2  # Rennes
+    description: "Rapid urbanization and heavy road traffic have made air pollution and urban sprawl central environmental challenges in the Rennes metropolitan area. The city is addressing these issues through sustainable mobility projects, reinforced air quality monitoring (like \"Ambassad'Air\"), and developing Atmosphere Protection Plans to mitigate these impacts."
+
+- model: biosignalsindex.thematicunit
+  fields:
+    name: "Environment"
+    city: 3  # Ljubljana
+    description: "Ljubljana grapples with several environmental challenges like air pollution, traffic congestion, and urbanization effects, but it also boasts a high quality of living due to its extensive green spaces and strong commitment to sustainable development and environmental protection."
+
+- model: biosignalsindex.thematicunit
+  fields:
+    name: "Environment"
+    city: 4  # Eleusis 2.0
+    description: ""

@@ -142,4 +142,4 @@ class CitySerializer(serializers.ModelSerializer):
 class ThematicSerializer(serializers.ModelSerializer):
     class Meta:
         model = ThematicUnit
-        fields = ['name']
+        fields = ['name', 'description']

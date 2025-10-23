@@ -12,8 +12,8 @@ class City(models.Model):
         return (self.name,)
 
 class ThematicManager(models.Manager):
-	def get_by_natural_key(self, name):
-		return self.get(name=name)
+	def get_by_natural_key(self, city_name, name):
+		return self.get(name=name, city__name=city_name)
 
 class ThematicUnit(models.Model):
 	name = models.CharField(max_length=255)
