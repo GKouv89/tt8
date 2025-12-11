@@ -1,0 +1,11 @@
+- model: biosignalsindex.SociodramaSession
+  fields:
+    thematic: ['Ljubljana', 'Environment']
+    city: ["Ljubljana"]
+    session_id_in_thematic: 1
+
+- model: biosignalsindex.SociodramaSession
+  fields:
+    thematic: ['Ljubljana', 'Environment']
+    city: ["Ljubljana"]
+    session_id_in_thematic: 2

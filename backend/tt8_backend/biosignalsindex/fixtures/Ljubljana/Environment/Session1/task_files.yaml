@@ -1,0 +1,260 @@
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 1
+    path: Ljubljana/Environment/Session1/Visualizations/Task1/Task1AllSensor1.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 2
+    path: Ljubljana/Environment/Session1/Visualizations/Task1/Task1AllSensor2.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 3
+    path: Ljubljana/Environment/Session1/Visualizations/Task1/Task1AllSensor3.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 4
+    path: Ljubljana/Environment/Session1/Visualizations/Task1/Task1AllSensor4.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 1
+    path: Ljubljana/Environment/Session1/Visualizations/Task2/Task2AllSensor1.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 2
+    path: Ljubljana/Environment/Session1/Visualizations/Task2/Task2AllSensor2.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 3
+    path: Ljubljana/Environment/Session1/Visualizations/Task2/Task2AllSensor3.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 4
+    path: Ljubljana/Environment/Session1/Visualizations/Task2/Task2AllSensor4.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 2
+    path: Ljubljana/Environment/Session1/Visualizations/Task3/Task3AllSensor2.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 1
+    path: Ljubljana/Environment/Session1/Visualizations/Task3/Task3AllSensor1.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 4
+    path: Ljubljana/Environment/Session1/Visualizations/Task3/Task3AllSensor4.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 3
+    path: Ljubljana/Environment/Session1/Visualizations/Task3/Task3AllSensor3.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 1
+    path: Ljubljana/Environment/Session1/Visualizations/Task5/Task5AllSensor1.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 3
+    path: Ljubljana/Environment/Session1/Visualizations/Task5/Task5AllSensor3.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 4
+    path: Ljubljana/Environment/Session1/Visualizations/Task5/Task5AllSensor4.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 2
+    path: Ljubljana/Environment/Session1/Visualizations/Task5/Task5AllSensor2.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 2
+    path: Ljubljana/Environment/Session1/Visualizations/Task7/Task7AllSensor2.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '7'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 3
+    path: Ljubljana/Environment/Session1/Visualizations/Task7/Task7AllSensor3.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '7'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 1
+    path: Ljubljana/Environment/Session1/Visualizations/Task7/Task7AllSensor1.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '7'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Ljubljana
+    - Environment
+    - 1
+    - 4
+    path: Ljubljana/Environment/Session1/Visualizations/Task7/Task7AllSensor4.csv
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - '7'
+  model: biosignalsindex.File

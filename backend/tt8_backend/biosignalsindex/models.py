@@ -4,9 +4,15 @@ from django.db.models.functions import DenseRank, Rank, RowNumber
 from django_cte import CTEManager, With
 # Create your models here.
 
+class CityManager(models.Manager):
+	def get_by_natural_key(self, name):
+		return self.get(name=name)
+
 class City(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
+
+    objects = CityManager()
 
     def natural_key(self):
         return (self.name,)
@@ -38,8 +44,12 @@ class ThematicUnit(models.Model):
 		return self.city.natural_key() + (self.name,)
 
 class SociodramaSessionManager(models.Manager):
-	def get_by_natural_key(self, thematic_name, session_id_in_thematic):
-		return self.get(thematic__name=thematic_name, session_id_in_thematic=session_id_in_thematic)
+	def get_by_natural_key(self, city_name, thematic_name, session_id_in_thematic):
+		return self.get(
+			thematic__name=thematic_name, 
+			thematic__city__name=city_name,
+			session_id_in_thematic=session_id_in_thematic
+		)
 
 class SociodramaSession(models.Model):
 	thematic = models.ForeignKey(
@@ -121,8 +131,8 @@ class Axis(models.Model):
 	natural_key.dependencies = ["biosignalsindex.ThematicUnit"]
 
 class ParticipantManager(CTEManager):
-	def get_by_natural_key(self, thematic, session_id, sensor_id_in_session):
-		return self.get(session__session_id_in_thematic=session_id, session__thematic__name=thematic, sensor_id_in_session=sensor_id_in_session)
+	def get_by_natural_key(self, city_name, thematic, session_id, sensor_id_in_session):
+		return self.get(session__session_id_in_thematic=session_id, session__thematic__name=thematic, session__thematic__city__name=city_name, sensor_id_in_session=sensor_id_in_session)
 
 class Participant(models.Model):
 	session = models.ForeignKey(
@@ -208,21 +218,29 @@ class SessionPiece(models.Model):
 		abstract=True
 
 class TaskManager(models.Manager):
-	def get_by_natural_key(self, thematic, session_id, section_name, task_no):
+	# def get_by_natural_key(self, thematic, session_id, section_name, task_no):
+	def get_by_natural_key(self, *args):
 		# Creative Europe pilots do not have sections
-		if section_name is None:
+		if len(args) == 4:
+			# No section case
+			city, thematic, session_id, task_no = args
 			return self.get(
 				task_no_in_section=task_no, 
 				section__isnull=True,
 				session__session_id_in_thematic=session_id,
-				session__thematic__name=thematic)
-		# Original Project sessions do
+				session__thematic__name=thematic,
+				session__thematic__city__name=city
+			)
 		else:
+			# Original Project sessions do
+			city, thematic, session_id, section_name, task_no = args
 			return self.get(
 				task_no_in_section=task_no, 
 				section__name=section_name, 
 				section__session__session_id_in_thematic=session_id,
-				section__session__thematic__name=thematic)
+				section__session__thematic__name=thematic,
+				section__session__thematic__city__name=city
+			)
 	
 class Task(SessionPiece):
 	section = models.ForeignKey(
@@ -255,25 +273,26 @@ class Task(SessionPiece):
 
 	def natural_key(self):
 		if self.section is None:
-			return self.session.natural_key() + (self.task_no_in_section)
+			return self.session.natural_key() + (self.task_no_in_section,)
 		else:
 			return self.section.natural_key() + (self.task_no_in_section,)
 
 	natural_key.dependencies = ["biosignalsindex.Section", "biosignalsindex.SociodramaSession"]
 
 class SceneManager(CTEManager):
-	def get_by_natural_key(self, thematic, session_id, scene_no):
+	def get_by_natural_key(self, city_name, thematic, session_id, scene_no):
 		return self.get(
 			scene_id_in_session=scene_no,  
 			session__session_id_in_thematic=session_id,
-			session__thematic__name=thematic)
+			session__thematic__name=thematic,
+			session__thematic__city__name=city_name
+		)
 
 class Scene(SessionPiece):
 	task = models.ManyToManyField(
 		'Task',
 		related_name = 'scenes',
 		through='SceneInTaskMetadata',
-		null=True,
 	)
 	axis = models.ManyToManyField('Axis', related_name = 'scenes')
 	is_superepisode = models.BooleanField(default=True)

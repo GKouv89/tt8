@@ -1,0 +1,7 @@
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Ljubljana', 'Environment']
+    city: ["Ljubljana"]
+    axis_id_in_thematic: 1
+    title: Air pollution
+    color: '#EE3124'

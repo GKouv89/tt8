@@ -1,0 +1,165 @@
+- fields:
+    biometric:
+    - HR
+    max_value: 213.3333333
+    min_value: 52.96551724
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 1
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: 4.9566693468
+    min_value: 0.8937284938
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 1
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: 32.23046344
+    min_value: 29.967105
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 1
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: 213.3333333
+    min_value: 52.96551724
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 2
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: 7.971819122
+    min_value: 0.953046953
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 2
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: 32.17624273
+    min_value: 30.17929104
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 2
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: 213.3333333
+    min_value: 52.96409041
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 3
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: 5.893989866
+    min_value: 1.324053724
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 3
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: 31.8213444
+    min_value: 30.48576273
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 3
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: 207.5675676
+    min_value: 48.91719745
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 5
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: 6.567880435
+    min_value: 0.9026085024
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 5
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: 31.83120266
+    min_value: 30.29193111
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 5
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: 207.5675676
+    min_value: 49.23076923
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 7
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: 8.6845094512
+    min_value: 0.8832500829999999
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 7
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: 32.45720497
+    min_value: 31.14153681
+    task:
+    - Ljubljana
+    - Environment
+    - 1
+    - 7
+  model: biosignalsindex.BiometricMetadataForTask
