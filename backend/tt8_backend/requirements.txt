@@ -24,7 +24,7 @@ packaging==25.0
 pdoc==15.0.4
 Pygments==2.19.2
 pytz==2022.7.1
-PyYAML==6.0
+PyYAML
 requests==2.32.5
 snowballstemmer==3.0.1
 sphinxcontrib-applehelp==2.0.0

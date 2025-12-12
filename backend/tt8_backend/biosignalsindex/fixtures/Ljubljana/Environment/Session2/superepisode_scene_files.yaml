@@ -1,0 +1,336 @@
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 3
+    path: Ljubljana/Environment/Session2/Sonifications/Scene1/Scene1AllSensor3.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+    path: Ljubljana/Environment/Session2/Sonifications/Scene1/Scene1AllSensor2.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+    path: Ljubljana/Environment/Session2/Sonifications/Scene1/Scene1AllSensor1.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+    path: Ljubljana/Environment/Session2/Sonifications/Scene1/Scene1AllSensor4.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+    path: Ljubljana/Environment/Session2/Sonifications/Scene2/Scene2AllSensor2.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+    path: Ljubljana/Environment/Session2/Sonifications/Scene2/Scene2AllSensor1.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 3
+    path: Ljubljana/Environment/Session2/Sonifications/Scene2/Scene2AllSensor3.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+    path: Ljubljana/Environment/Session2/Sonifications/Scene2/Scene2AllSensor4.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 3
+    path: Ljubljana/Environment/Session2/Sonifications/Scene3/Scene3AllSensor3.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 3
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+    path: Ljubljana/Environment/Session2/Sonifications/Scene3/Scene3AllSensor4.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 3
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+    path: Ljubljana/Environment/Session2/Sonifications/Scene3/Scene3AllSensor2.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 3
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+    path: Ljubljana/Environment/Session2/Sonifications/Scene3/Scene3AllSensor1.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 3
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+    path: Ljubljana/Environment/Session2/Sonifications/Scene4/Scene4AllSensor1.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+    path: Ljubljana/Environment/Session2/Sonifications/Scene4/Scene4AllSensor2.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 3
+    path: Ljubljana/Environment/Session2/Sonifications/Scene4/Scene4AllSensor3.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+    path: Ljubljana/Environment/Session2/Sonifications/Scene4/Scene4AllSensor4.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+    path: Ljubljana/Environment/Session2/Sonifications/Scene5/Scene5AllSensor2.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 5
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+    path: Ljubljana/Environment/Session2/Sonifications/Scene5/Scene5AllSensor1.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 5
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 3
+    path: Ljubljana/Environment/Session2/Sonifications/Scene5/Scene5AllSensor3.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 5
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+    path: Ljubljana/Environment/Session2/Sonifications/Scene5/Scene5AllSensor4.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 5
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+    path: Ljubljana/Environment/Session2/Sonifications/Scene6/Scene6AllSensor1.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 6
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+    path: Ljubljana/Environment/Session2/Sonifications/Scene6/Scene6AllSensor4.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 6
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 3
+    path: Ljubljana/Environment/Session2/Sonifications/Scene6/Scene6AllSensor3.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 6
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+    path: Ljubljana/Environment/Session2/Sonifications/Scene6/Scene6AllSensor2.csv
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 6
+  model: biosignalsindex.File

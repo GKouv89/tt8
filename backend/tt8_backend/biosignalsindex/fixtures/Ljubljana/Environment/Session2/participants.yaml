@@ -1,0 +1,17 @@
+---
+- model: biosignalsindex.Participant
+  fields:
+    sensor_id_in_session: 1
+    session: ['Ljubljana', 'Environment', 2]
+- model: biosignalsindex.Participant
+  fields:
+    sensor_id_in_session: 2
+    session: ['Ljubljana', 'Environment', 2]
+- model: biosignalsindex.Participant
+  fields:
+    sensor_id_in_session: 3
+    session: ['Ljubljana', 'Environment', 2]
+- model: biosignalsindex.Participant
+  fields:
+    sensor_id_in_session: 4
+    session: ['Ljubljana', 'Environment', 2]

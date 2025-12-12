@@ -62,6 +62,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000',
      'http://localhost',
+     'https://transitionto8.athenarc.gr'
 ]
 
 ROOT_URLCONF = 'tt8_backend.urls'

@@ -1,0 +1,90 @@
+- fields:
+    ending_row: 22016
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 6
+    starting_row: 21504
+    task:
+    - Ljubljana
+    - Environment
+    - 2
+    - 6
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    ending_row: 14975
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+    starting_row: 128
+    task:
+    - Ljubljana
+    - Environment
+    - 2
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    ending_row: 39142
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+    starting_row: 1408
+    task:
+    - Ljubljana
+    - Environment
+    - 2
+    - 5
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    ending_row: 13311
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+    starting_row: 8959
+    task:
+    - Ljubljana
+    - Environment
+    - 2
+    - 1
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    ending_row: 25343
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 3
+    starting_row: 22655
+    task:
+    - Ljubljana
+    - Environment
+    - 2
+    - 4
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    ending_row: 13312
+    scene:
+    - Ljubljana
+    - Environment
+    - 2
+    - 5
+    starting_row: 4608
+    task:
+    - Ljubljana
+    - Environment
+    - 2
+    - 6
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata

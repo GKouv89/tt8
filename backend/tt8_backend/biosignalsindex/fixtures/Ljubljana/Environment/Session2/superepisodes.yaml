@@ -1,0 +1,84 @@
+- fields:
+    axis:
+    - - Ljubljana
+      - Environment
+      - 1
+    ending_time: 41.93
+    is_superepisode: true
+    scene_id_in_session: '6'
+    session:
+    - Ljubljana
+    - Environment
+    - 2
+    starting_time: 41.85
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Ljubljana
+      - Environment
+      - 1
+    ending_time: 19.72
+    is_superepisode: true
+    scene_id_in_session: '2'
+    session:
+    - Ljubljana
+    - Environment
+    - 2
+    starting_time: 17.77
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Ljubljana
+      - Environment
+      - 1
+    ending_time: 33.17
+    is_superepisode: true
+    scene_id_in_session: '4'
+    session:
+    - Ljubljana
+    - Environment
+    - 2
+    starting_time: 28.23
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Ljubljana
+      - Environment
+      - 1
+    ending_time: 17.75
+    is_superepisode: true
+    scene_id_in_session: '1'
+    session:
+    - Ljubljana
+    - Environment
+    - 2
+    starting_time: 17.17
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Ljubljana
+      - Environment
+      - 1
+    ending_time: 28.05
+    is_superepisode: true
+    scene_id_in_session: '3'
+    session:
+    - Ljubljana
+    - Environment
+    - 2
+    starting_time: 27.68
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Ljubljana
+      - Environment
+      - 1
+    ending_time: 40.8
+    is_superepisode: true
+    scene_id_in_session: '5'
+    session:
+    - Ljubljana
+    - Environment
+    - 2
+    starting_time: 39.65
+  model: biosignalsindex.Scene

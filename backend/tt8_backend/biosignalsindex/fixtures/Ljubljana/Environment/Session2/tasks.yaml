@@ -1,0 +1,45 @@
+- fields:
+    ending_time: '46.85'
+    session:
+    - Ljubljana
+    - Environment
+    - 2
+    starting_time: '39.05'
+    task_no_in_section: '6'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '17.73'
+    session:
+    - Ljubljana
+    - Environment
+    - 2
+    starting_time: '16.0'
+    task_no_in_section: '1'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '28.03'
+    session:
+    - Ljubljana
+    - Environment
+    - 2
+    starting_time: '24.73'
+    task_no_in_section: '4'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '39.03'
+    session:
+    - Ljubljana
+    - Environment
+    - 2
+    starting_time: '28.05'
+    task_no_in_section: '5'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '20.48'
+    session:
+    - Ljubljana
+    - Environment
+    - 2
+    starting_time: '17.75'
+    task_no_in_section: '2'
+  model: biosignalsindex.Task
