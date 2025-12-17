@@ -1,0 +1,11 @@
+- model: biosignalsindex.SociodramaSession
+  fields:
+    thematic: ['Rennes', 'Environment']
+    city: ["Rennes"]
+    session_id_in_thematic: 1
+
+- model: biosignalsindex.SociodramaSession
+  fields:
+    thematic: ['Rennes', 'Environment']
+    city: ["Rennes"]
+    session_id_in_thematic: 2

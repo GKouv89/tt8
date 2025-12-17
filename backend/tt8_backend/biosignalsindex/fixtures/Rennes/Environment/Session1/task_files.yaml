@@ -1,0 +1,78 @@
+- fields:
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+    path: Rennes/Environment/Session1/Visualizations/Task12/Task12AllSensor5.csv
+    task:
+    - Rennes
+    - Environment
+    - 1
+    - 12
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 2
+    path: Rennes/Environment/Session1/Visualizations/Task12/Task12AllSensor2.csv
+    task:
+    - Rennes
+    - Environment
+    - 1
+    - 12
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+    path: Rennes/Environment/Session1/Visualizations/Task11/Task11AllSensor5.csv
+    task:
+    - Rennes
+    - Environment
+    - 1
+    - 11
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 2
+    path: Rennes/Environment/Session1/Visualizations/Task11/Task11AllSensor2.csv
+    task:
+    - Rennes
+    - Environment
+    - 1
+    - 11
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 2
+    path: Rennes/Environment/Session1/Visualizations/Task5/Task5AllSensor2.csv
+    task:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+    path: Rennes/Environment/Session1/Visualizations/Task5/Task5AllSensor5.csv
+    task:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+  model: biosignalsindex.File

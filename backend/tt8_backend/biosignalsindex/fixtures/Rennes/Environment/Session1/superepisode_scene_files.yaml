@@ -1,0 +1,168 @@
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+    path: Rennes/Environment/Session1/Sonifications/Scene1/Scene1AllSensor5.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 1
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 2
+    path: Rennes/Environment/Session1/Sonifications/Scene1/Scene1AllSensor2.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 1
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 2
+    path: Rennes/Environment/Session1/Sonifications/Scene2/Scene2AllSensor2.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 2
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+    path: Rennes/Environment/Session1/Sonifications/Scene2/Scene2AllSensor5.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 2
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+    path: Rennes/Environment/Session1/Sonifications/Scene3/Scene3AllSensor5.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 3
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 2
+    path: Rennes/Environment/Session1/Sonifications/Scene3/Scene3AllSensor2.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 3
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 2
+    path: Rennes/Environment/Session1/Sonifications/Scene4/Scene4AllSensor2.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 4
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+    path: Rennes/Environment/Session1/Sonifications/Scene4/Scene4AllSensor5.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 4
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 2
+    path: Rennes/Environment/Session1/Sonifications/Scene5/Scene5AllSensor2.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+    path: Rennes/Environment/Session1/Sonifications/Scene5/Scene5AllSensor5.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 5
+    path: Rennes/Environment/Session1/Sonifications/Scene6/Scene6AllSensor5.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 6
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Rennes
+    - Environment
+    - 1
+    - 2
+    path: Rennes/Environment/Session1/Sonifications/Scene6/Scene6AllSensor2.csv
+    scene:
+    - Rennes
+    - Environment
+    - 1
+    - 6
+  model: biosignalsindex.File

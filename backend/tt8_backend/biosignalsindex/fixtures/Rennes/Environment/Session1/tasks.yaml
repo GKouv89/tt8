@@ -1,0 +1,27 @@
+- fields:
+    ending_time: '35.58'
+    session:
+    - Rennes
+    - Environment
+    - 1
+    starting_time: '30.35'
+    task_no_in_section: '5'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '76.26'
+    session:
+    - Rennes
+    - Environment
+    - 1
+    starting_time: '75.25'
+    task_no_in_section: '12'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '75.17'
+    session:
+    - Rennes
+    - Environment
+    - 1
+    starting_time: '52.5'
+    task_no_in_section: '11'
+  model: biosignalsindex.Task

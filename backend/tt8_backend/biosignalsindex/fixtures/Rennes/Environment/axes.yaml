@@ -1,0 +1,7 @@
+- model: biosignalsindex.Axis
+  fields:
+    thematic: ['Rennes', 'Environment']
+    city: ["Rennes"]
+    axis_id_in_thematic: 1
+    title: Air pollution
+    color: '#EE3124'
