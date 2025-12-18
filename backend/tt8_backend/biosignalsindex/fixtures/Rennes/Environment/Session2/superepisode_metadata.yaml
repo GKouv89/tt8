@@ -1,0 +1,90 @@
+- fields:
+    ending_row: 71386
+    scene:
+    - Rennes
+    - Environment
+    - 2
+    - 3
+    starting_row: 66779
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 7
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    ending_row: 51803
+    scene:
+    - Rennes
+    - Environment
+    - 2
+    - 2
+    starting_row: 47067
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 7
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    ending_row: 64097
+    scene:
+    - Rennes
+    - Environment
+    - 2
+    - 5
+    starting_row: 59618
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 8
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    ending_row: 8959
+    scene:
+    - Rennes
+    - Environment
+    - 2
+    - 1
+    starting_row: 4607
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 6
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    ending_row: 59490
+    scene:
+    - Rennes
+    - Environment
+    - 2
+    - 4
+    starting_row: 57826
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 8
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    ending_row: 81373
+    scene:
+    - Rennes
+    - Environment
+    - 2
+    - 6
+    starting_row: 71647
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 8
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata

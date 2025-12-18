@@ -80,9 +80,9 @@ class SceneInTaskSerializer(serializers.ModelSerializer):
         
         # Replace participant sensor ids with ordered participant ids
         for r in res:
-            r['participant'] = res.index(r) + 1
-            # sensor_id = r['participant']
-            # participant = instance.session.participants.filter(sensors__sensor_id_in_session=sensor_id).first()
+            sensor_id = r['participant']
+            participants_ordered = instance.session.participants.order_by('sensor_id_in_session').values_list('sensor_id_in_session', flat=True)
+            r['participant'] = list(participants_ordered).index(r['participant']) + 1
             # r['participant'] = Participant.get_ordered_participant(instance.session, participant.id).order
             # r['participant'] = 
         return res

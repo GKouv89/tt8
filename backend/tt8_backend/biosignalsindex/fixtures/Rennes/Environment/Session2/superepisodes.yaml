@@ -1,0 +1,84 @@
+- fields:
+    axis:
+    - - Rennes
+      - Environment
+      - 1
+    ending_time: 78233.33
+    is_superepisode: true
+    scene_id_in_session: '3'
+    session:
+    - Rennes
+    - Environment
+    - 2
+    starting_time: 77633.33
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Rennes
+      - Environment
+      - 1
+    ending_time: 75683.33
+    is_superepisode: true
+    scene_id_in_session: '2'
+    session:
+    - Rennes
+    - Environment
+    - 2
+    starting_time: 75066.67
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Rennes
+      - Environment
+      - 1
+    ending_time: 92016.67
+    is_superepisode: true
+    scene_id_in_session: '5'
+    session:
+    - Rennes
+    - Environment
+    - 2
+    starting_time: 91433.33
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Rennes
+      - Environment
+      - 1
+    ending_time: 52483.33
+    is_superepisode: true
+    scene_id_in_session: '1'
+    session:
+    - Rennes
+    - Environment
+    - 2
+    starting_time: 51916.67
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Rennes
+      - Environment
+      - 1
+    ending_time: 91416.67
+    is_superepisode: true
+    scene_id_in_session: '4'
+    session:
+    - Rennes
+    - Environment
+    - 2
+    starting_time: 91200.0
+  model: biosignalsindex.Scene
+- fields:
+    axis:
+    - - Rennes
+      - Environment
+      - 1
+    ending_time: 94266.67
+    is_superepisode: true
+    scene_id_in_session: '6'
+    session:
+    - Rennes
+    - Environment
+    - 2
+    starting_time: 93000.0
+  model: biosignalsindex.Scene

@@ -1,0 +1,42 @@
+- fields:
+    biometric:
+    - Temp
+    participant:
+    - Rennes
+    - Environment
+    - 2
+    - 6
+    scene:
+    - Rennes
+    - Environment
+    - 2
+    - 5
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Rennes
+    - Environment
+    - 2
+    - 3
+    scene:
+    - Rennes
+    - Environment
+    - 2
+    - 3
+  model: biosignalsindex.BioPeakMetadata
+- fields:
+    biometric:
+    - SC
+    participant:
+    - Rennes
+    - Environment
+    - 2
+    - 3
+    scene:
+    - Rennes
+    - Environment
+    - 2
+    - 1
+  model: biosignalsindex.BioPeakMetadata

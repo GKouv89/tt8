@@ -1,0 +1,99 @@
+- fields:
+    biometric:
+    - HR
+    max_value: 188.8106312292359
+    min_value: 20.72425491935906
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 6
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: 21.12149873343903
+    min_value: 1.927472527472527
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 6
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: 32.32904663681984
+    min_value: 30.32365508675575
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 6
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: 186.9842979541879
+    min_value: 39.31234305582385
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 7
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: 24.4018005212035
+    min_value: 0.0246420246420246
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 7
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: 32.46883474218193
+    min_value: 30.40801287587383
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 7
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - HR
+    max_value: 188.2387444151679
+    min_value: 41.22081949058695
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 8
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: 23.08967980609771
+    min_value: 0.0122100122100122
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 8
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: 32.51635503845755
+    min_value: 30.10531767020002
+    task:
+    - Rennes
+    - Environment
+    - 2
+    - 8
+  model: biosignalsindex.BiometricMetadataForTask
