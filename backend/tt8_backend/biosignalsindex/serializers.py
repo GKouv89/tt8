@@ -71,11 +71,20 @@ class SceneInTaskSerializer(serializers.ModelSerializer):
     def get_peak_meta(self, instance):
         peaks = instance.get_peak_meta()
         res = []
+
         for peak in peaks:
             if len(res) == 0 or peak['participant__sensor_id_in_session'] != res[-1]['participant']:
                 res.append({'participant': peak['participant__sensor_id_in_session'], 'peaks': [peak['biometric__abbr']]})
             else:
                 res[-1]['peaks'].append(peak['biometric__abbr'])
+        
+        # Replace participant sensor ids with ordered participant ids
+        for r in res:
+            r['participant'] = res.index(r) + 1
+            # sensor_id = r['participant']
+            # participant = instance.session.participants.filter(sensors__sensor_id_in_session=sensor_id).first()
+            # r['participant'] = Participant.get_ordered_participant(instance.session, participant.id).order
+            # r['participant'] = 
         return res
     
     def get_files(self, instance):

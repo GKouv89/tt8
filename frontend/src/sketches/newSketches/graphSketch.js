@@ -155,7 +155,6 @@ export function sketch(p){
     const plotTaskView = (participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight) => {
         const biosignalIdx = getBiosignalIdx();
         const rowCount = table.getRowCount();
-        
         p.stroke(p.color('blue'));
         if(noFluctuation){
             // Perhaps some special handling necessary for this
@@ -171,10 +170,9 @@ export function sketch(p){
             if(peak_meta === undefined){
                 p.stroke(p.color('magenta'));
             }else{
-                function isPeak(biometric) {
-                    return biometric === biosignal;
-                }
-                peak_meta.peaks.find(isPeak) !== undefined ? p.stroke(p.color('red')) : p.stroke(p.color('magenta'));
+                console.log('Plotting task view, peak_meta:', peak_meta);
+                console.log('Biosignal:', biosignal);
+                peak_meta.peaks.includes(biosignal) ? p.stroke(p.color('red')) : p.stroke(p.color('magenta'));
             }
             p.beginShape();
 
@@ -254,10 +252,15 @@ export function sketch(p){
         p.pop();
 
         p.fill(p.color('white'));
-        if(scene_meta.is_superepisode && view == 'task')
+        console.log('About to plot graph, is_superepisode:', scene_meta.is_superepisode, ' view:', view, ' biosignal:', biosignal, 'peak_meta:', peak_meta);
+        if(scene_meta.is_superepisode && view == 'task'){
             plotTaskView(participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
+        }
         else
+        {
             plotGraph(participantMinWidth, participantMaxWidth, participantLowerHeight, participantHigherHeight);
+        }
+
     }
 
     p.draw = () => {
