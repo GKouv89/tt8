@@ -1,0 +1,840 @@
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene15/Scene15AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 15
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene15/Scene15AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 15
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene15/Scene15AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 15
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene15/Scene15AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 15
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene15/Scene15AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 15
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene18/Scene18AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 18
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene18/Scene18AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 18
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene18/Scene18AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 18
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene18/Scene18AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 18
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene18/Scene18AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 18
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene25/Scene25AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 25
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene25/Scene25AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 25
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene25/Scene25AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 25
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene25/Scene25AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 25
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene25/Scene25AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 25
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene36/Scene36AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 36
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene36/Scene36AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 36
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene36/Scene36AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 36
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene36/Scene36AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 36
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene36/Scene36AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 36
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene41/Scene41AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 41
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene41/Scene41AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 41
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene41/Scene41AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 41
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene41/Scene41AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 41
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene41/Scene41AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 41
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene50/Scene50AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 50
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene50/Scene50AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 50
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene50/Scene50AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 50
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene50/Scene50AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 50
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene50/Scene50AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 50
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene54/Scene54AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 54
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene54/Scene54AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 54
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene54/Scene54AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 54
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene54/Scene54AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 54
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene54/Scene54AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 54
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene81/Scene81AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 81
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene81/Scene81AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 81
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene81/Scene81AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 81
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene81/Scene81AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 81
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene81/Scene81AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 81
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene117/Scene117AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 117
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene117/Scene117AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 117
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene117/Scene117AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 117
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene117/Scene117AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 117
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene117/Scene117AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 117
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene119/Scene119AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 119
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene119/Scene119AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 119
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene119/Scene119AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 119
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene119/Scene119AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 119
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene119/Scene119AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 119
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene123/Scene123AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 123
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene123/Scene123AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 123
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene123/Scene123AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 123
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene123/Scene123AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 123
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene123/Scene123AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 123
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene161/Scene161AllSensor4.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 161
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene161/Scene161AllSensor5.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 161
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene161/Scene161AllSensor2.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 161
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene161/Scene161AllSensor6.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 161
+  model: biosignalsindex.File
+- fields:
+    id: null
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Sonifications/Scene161/Scene161AllSensor3.csv
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 161
+  model: biosignalsindex.File

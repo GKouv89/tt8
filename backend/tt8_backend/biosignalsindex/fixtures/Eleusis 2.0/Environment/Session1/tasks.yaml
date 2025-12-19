@@ -1,0 +1,112 @@
+- fields:
+    ending_time: '59.98'
+    section:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '43.08'
+    task_no_in_section: '2'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '43.08'
+    section:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '31.98'
+    task_no_in_section: '1'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '84.38'
+    section:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '82.8'
+    task_no_in_section: '5'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '71.67'
+    section:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '59.98'
+    task_no_in_section: '3'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '82.8'
+    section:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '71.67'
+    task_no_in_section: '4'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '31.98'
+    section:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '26.92'
+    task_no_in_section: '5'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '26.92'
+    section:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '19.62'
+    task_no_in_section: '4'
+  model: biosignalsindex.Task
+- fields:
+    ending_time: '111.9'
+    section:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Conclusion
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '84.38'
+    task_no_in_section: '1'
+  model: biosignalsindex.Task

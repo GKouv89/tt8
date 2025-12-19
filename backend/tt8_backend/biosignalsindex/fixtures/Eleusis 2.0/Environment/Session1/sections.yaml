@@ -1,0 +1,21 @@
+- fields:
+    name: Main
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+  model: biosignalsindex.Section
+- fields:
+    name: Introduction
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+  model: biosignalsindex.Section
+- fields:
+    name: Conclusion
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+  model: biosignalsindex.Section

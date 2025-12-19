@@ -178,10 +178,11 @@ class Participant(models.Model):
 
 
 class SectionManager(models.Manager):
-	def get_by_natural_key(self, thematic, session_id, section_name):
+	def get_by_natural_key(self, city, thematic, session_id, section_name):
 		return self.get(
 			session__session_id_in_thematic=session_id, 
 			session__thematic__name=thematic, 
+			session__thematic__city__name=city,
 			name=section_name)
 
 class Section(models.Model):

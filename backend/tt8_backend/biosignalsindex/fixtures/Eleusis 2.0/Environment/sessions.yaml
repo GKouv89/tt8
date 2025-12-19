@@ -1,0 +1,5 @@
+- model: biosignalsindex.SociodramaSession
+  fields:
+    thematic: ['Eleusis 2.0', 'Environment']
+    city: ["Eleusis 2.0"]
+    session_id_in_thematic: 1

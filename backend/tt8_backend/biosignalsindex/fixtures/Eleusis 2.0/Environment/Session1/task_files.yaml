@@ -1,0 +1,560 @@
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task2/Task2AllSensor4-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task2/Task2AllSensor2-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task2/Task2AllSensor3-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task2/Task2AllSensor6-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task2/Task2AllSensor5-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '2'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task1/Task1AllSensor6-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task1/Task1AllSensor4-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task1/Task1AllSensor5-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task1/Task1AllSensor2-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task1/Task1AllSensor3-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task5/Task5AllSensor2-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task5/Task5AllSensor6-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task5/Task5AllSensor3-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task5/Task5AllSensor4-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task5/Task5AllSensor5-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task3/Task3AllSensor6-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task3/Task3AllSensor3-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task3/Task3AllSensor2-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task3/Task3AllSensor4-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task3/Task3AllSensor5-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '3'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task4/Task4AllSensor2-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task4/Task4AllSensor6-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task4/Task4AllSensor3-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task4/Task4AllSensor5-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Main/Task4/Task4AllSensor4-Main.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Introduction/Task5/Task5AllSensor3-Introduction.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Introduction/Task5/Task5AllSensor2-Introduction.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Introduction/Task5/Task5AllSensor6-Introduction.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Introduction/Task5/Task5AllSensor5-Introduction.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Introduction/Task5/Task5AllSensor4-Introduction.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - '5'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Introduction/Task4/Task4AllSensor4-Introduction.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Introduction/Task4/Task4AllSensor5-Introduction.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Introduction/Task4/Task4AllSensor3-Introduction.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Introduction/Task4/Task4AllSensor6-Introduction.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Introduction/Task4/Task4AllSensor2-Introduction.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - '4'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '4'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Conclusion/Task1/Task1AllSensor4-Conclusion.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '6'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Conclusion/Task1/Task1AllSensor6-Conclusion.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '5'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Conclusion/Task1/Task1AllSensor5-Conclusion.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '2'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Conclusion/Task1/Task1AllSensor2-Conclusion.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File
+- fields:
+    participant:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - '3'
+    path: Eleusis 2.0/Environment/Session1/Visualizations/Conclusion/Task1/Task1AllSensor3-Conclusion.csv
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Conclusion
+    - '1'
+  model: biosignalsindex.File

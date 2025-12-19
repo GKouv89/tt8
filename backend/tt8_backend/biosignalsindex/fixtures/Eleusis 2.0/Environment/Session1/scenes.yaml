@@ -1,0 +1,360 @@
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '24.1'
+    is_superepisode: true
+    scene_id_in_session: 15
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '23.67'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '34428'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 15
+    starting_row: '31101'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - 4
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '25.67'
+    is_superepisode: true
+    scene_id_in_session: 18
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '25.5'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '46436'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 18
+    starting_row: '45157'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - 4
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '29.88'
+    is_superepisode: true
+    scene_id_in_session: 25
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '29.83'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '22763'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 25
+    starting_row: '22370'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Introduction
+    - 5
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '41.35'
+    is_superepisode: true
+    scene_id_in_session: 36
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '40.52'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '71877'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 36
+    starting_row: '65478'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - 1
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '42.3'
+    is_superepisode: true
+    scene_id_in_session: 41
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '42.15'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '79164'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 41
+    starting_row: '78013'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - 1
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '54.87'
+    is_superepisode: true
+    scene_id_in_session: 50
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '50.91'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '90444'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 50
+    starting_row: '60105'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '55.77'
+    is_superepisode: true
+    scene_id_in_session: 54
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '55.46'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '97324'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 54
+    starting_row: '95021'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - 2
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '77.02'
+    is_superepisode: true
+    scene_id_in_session: 81
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '73.83'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '41076'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 81
+    starting_row: '16603'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - 4
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '83.55'
+    is_superepisode: true
+    scene_id_in_session: 117
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '83.5'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '5760'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 117
+    starting_row: '5359'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - 5
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '83.75'
+    is_superepisode: true
+    scene_id_in_session: 119
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '83.7'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '7296'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 119
+    starting_row: '6913'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - 5
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '84.18'
+    is_superepisode: true
+    scene_id_in_session: 123
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '84.03'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '10605'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 123
+    starting_row: '9454'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - 5
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '111.0'
+    is_superepisode: true
+    scene_id_in_session: 161
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '110.92'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '204245'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 161
+    starting_row: '203606'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Conclusion
+    - 1
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata
