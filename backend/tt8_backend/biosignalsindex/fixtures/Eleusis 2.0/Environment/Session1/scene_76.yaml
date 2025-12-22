@@ -1,0 +1,30 @@
+- fields:
+    axis:
+    - - Eleusis 2.0
+      - Environment
+      - 1
+    ending_time: '71.67'
+    is_superepisode: true
+    scene_id_in_session: 76
+    session:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    starting_time: '70.66'
+  model: biosignalsindex.Scene
+- fields:
+    ending_row: '89635'
+    scene:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - 76
+    starting_row: '81987'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - 3
+    task_order: 1
+  model: biosignalsindex.SceneInTaskMetadata

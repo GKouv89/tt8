@@ -1,0 +1,36 @@
+- fields:
+    biometric:
+    - HR
+    max_value: '178.6046511627907'
+    min_value: '54.468085106382986'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '3'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - SC
+    max_value: '12.505264770073133'
+    min_value: '0.6386946386946387'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '3'
+  model: biosignalsindex.BiometricMetadataForTask
+- fields:
+    biometric:
+    - Temp
+    max_value: '32.88111471086741'
+    min_value: '29.84959906475269'
+    task:
+    - Eleusis 2.0
+    - Environment
+    - 1
+    - Main
+    - '3'
+  model: biosignalsindex.BiometricMetadataForTask

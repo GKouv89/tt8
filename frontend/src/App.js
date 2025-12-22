@@ -15,7 +15,8 @@ import {
   NavLink,
   useLocation,
   useNavigate,
-  matchPath
+  matchPath,
+  redirect // <--- added
 } from 'react-router-dom';
 
 import ThematicGrid from './routes/ThematicScreen.js';
@@ -53,6 +54,8 @@ function MyCustomNavlink({className, to, children}){
   );
 }
 
+const DEFAULT_CITY_NAME = 'Eleusis';
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Header />}>
@@ -89,6 +92,13 @@ const router = createBrowserRouter(
             <MyCustomNavlink className='current' to={`/${params.cityName}/thematics/${params.thematicName}`}>{params.thematicName}</MyCustomNavlink>
           ],
         }}
+      />
+      {/* legacy route: redirect old links that start with :thematicName to the new path with a default city */}
+      <Route
+        path=":thematicName/axes/:axisID/episodes/:episodeID/visualizations"
+        loader={({ params }) =>
+          redirect(`/${DEFAULT_CITY_NAME}/thematics/${params.thematicName}/axes/${params.axisID}/episodes/${params.episodeID}/visualizations`)
+        }
       />
       <Route
         path=":cityName/thematics/:thematicName/axes/:axisID/episodes/:episodeID/visualizations" 
